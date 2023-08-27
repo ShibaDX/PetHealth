@@ -1,1 +1,1 @@
-Esse é o meu sistema!
+Sistema em desenvolvimento para o TC do curso de Informática do IFPR
