@@ -60,7 +60,7 @@ $resultado = mysqli_query($conexao, $sql);
                     <?php } ?>
                     <div class="card mt-3 mb-3">
                         <div class="card-body">
-                            <h2><i class="fa-solid fa-calendar-days"></i> Listagem de Agenda <a href="cadastroAgenda.php" class="btn btn-primary btn-sn"><i class="fa-solid fa-plus" style="color: #ffffff;"></i></a></h2>
+                            <h2><i class="fa-solid fa-calendar-days"></i> Listagem de Agenda <a href="cadastroAgenda.php" class="btn btn-success btn-sn"><i class="fa-solid fa-plus" style="color: #ffffff;"></i> Marcar Procedimento</a>   <a href="cadastroProcedimento.php" class="btn btn-info btn-sn"><i class="fa-solid fa-plus" style="color: #ffffff;"></i> Cadastrar Procedimento</a></h2>
                         </div>
                     </div>
                     <table class="table table-striped table-hover">
