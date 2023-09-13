@@ -26,7 +26,7 @@
     <!-- Page Wrapper -->
     <div id="wrapper">
 
-<?php require_once("sidebar.php");?>
+<?php require_once("sidebarAdmin.php");?>
 
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
