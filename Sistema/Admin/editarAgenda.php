@@ -1,5 +1,6 @@
 <?php
         //1. Conectar no BD (IP, usuario, senha, nome do banco)
+        require_once("verificaAutenticacao.php");
         require_once("conexao.php");
         if (isset($_POST['salvar'])) {
 
@@ -35,7 +36,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Cadastro de Agenda</title>
+    <title>Editar Agenda</title>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">

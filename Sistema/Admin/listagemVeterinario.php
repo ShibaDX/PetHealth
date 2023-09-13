@@ -1,4 +1,5 @@
 <?php
+require_once("verificaAutenticacao.php");
 require_once("conexao.php");
 //Exclusão
 if (isset($_GET['id'])) {
@@ -17,14 +18,13 @@ $resultado = mysqli_query($conexao, $sql);
 <html lang="pt-br">
 
 <head>
-
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Página Principal</title>
+    <title>Lista de Veterinário</title>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -155,7 +155,7 @@ $resultado = mysqli_query($conexao, $sql);
                 <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="login.php">Logout</a>
+                    <a class="btn btn-primary" href="logout.php">Logout</a>
                 </div>
             </div>
         </div>
