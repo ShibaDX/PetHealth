@@ -43,7 +43,7 @@
 
                     <!-- Page Heading -->
                     <div class="container">
-        <h1 class="mb-4"><i class="fa-solid fa-calendar-days"></i> Cadastro de Agenda</h1>
+        <h1 class="mb-4"><i class="fa-solid fa-calendar-days"></i> Agendamento</h1>
         <form method="post">
             <div class="mb-1">
                 <label for="formGroupExampleInput" class="form-label">Data</label>

@@ -67,8 +67,8 @@ $resultado = mysqli_query($conexao, $sql);
                     <div class="card mt-3 mb-3">
                         <div class="card-body">
                             <h2><i class="fa-solid fa-user-doctor"></i> Listagem de Veterinário <a
-                                    href="cadastroVeterinario.php" class="btn btn-primary btn-sn"><i
-                                        class="fa-solid fa-plus" style="color: #ffffff;"></i></a></h2>
+                                    href="cadastroVeterinario.php" class="btn btn-success btn-sn"><i
+                                        class="fa-solid fa-plus" style="color: #ffffff;"></i> Novo Veterinário</a></h2>
                         </div>
                     </div>
                     <table class="table table-striped table-hover">
