@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 01/09/2023 às 17:12
+-- Tempo de geração: 15/09/2023 às 15:41
 -- Versão do servidor: 10.4.28-MariaDB
 -- Versão do PHP: 8.2.4
 
@@ -72,7 +72,11 @@ CREATE TABLE `cliente` (
 --
 
 INSERT INTO `cliente` (`id`, `status`, `nome`, `telefone`, `endereco`, `cidade`, `UF`, `sexo`, `dataNascimento`, `CPF`, `email`, `senha`, `dataCadastro`) VALUES
-(1, 0, 'Juan', '1313', '11', 'fsdfsd', 'sf', 'd', '2013-02-28', '131231', 'cremilton.fernandes@ifpr.edu.br', '1313', '2023-06-14');
+(2, 0, 'Ana Silva Oliveira', '(11) 98765-4321', 'Rua das Flores, 123', 'São Paulo', 'SP', 'F', '1980-05-11', '123.456.789-00', 'ana.silva@email.com', 'ana123', '2023-09-15'),
+(3, 0, 'Marcos Santos Pereira', '(21) 99999-8888', 'Avenida Principal, 456', 'Rio de Janeiro', 'RJ', 'M', '1982-08-20', '987.654.321-00', 'marcos.santos@email.com', 'marcos123', '2023-09-15'),
+(4, 0, 'Camila Alves Souza', '(31) 5555-1234', 'Rua das Palmeiras, 789', 'Belo Horizonte', 'MG', 'F', '1985-11-15', '456.789.123-00', 'camila.alves@email.com', 'camila123', '2023-09-15'),
+(5, 0, 'Luiz Costa Lima', '(41) 7777-5555', 'Travessa das Pedras, 321', 'Curitiba', 'PR', 'M', '1977-04-03', '234.567.890-00', 'luiz.lima@email.com', 'luiz123', '2023-09-15'),
+(6, 0, 'Marina Gonçalves Ribeiro', '(51) 3333-2222', 'Rua das Árvores, 987', 'Porto Alegre', 'RS', 'F', '1990-02-25', '345.678.901-00', 'marina.ribeiro@email.com', 'marina123', '2023-09-15');
 
 -- --------------------------------------------------------
 
@@ -108,7 +112,12 @@ CREATE TABLE `pet` (
 --
 
 INSERT INTO `pet` (`id`, `status`, `nome`, `anoNascimento`, `sexo`, `cor`, `obs`) VALUES
-(1, '', 'Juan', 2019, 'macho', 'caramelo', '');
+(1, '', 'Juan', 2019, 'macho', 'caramelo', ''),
+(2, '', 'Bella', 2018, 'Fêmea', 'Marrom e branco', ''),
+(3, '', 'Max', 2016, 'Macho', 'Preto', ''),
+(4, '', 'Luna', 2019, 'Fêmea', 'Cinza e rajado', ''),
+(5, '', 'Rocky', 2015, 'Macho', 'Dourado', ''),
+(6, '', 'Sophie', 2020, 'Fêmea', 'Creme', '');
 
 -- --------------------------------------------------------
 
@@ -176,10 +185,12 @@ CREATE TABLE `veterinario` (
 --
 
 INSERT INTO `veterinario` (`id`, `status`, `nome`, `telefone`, `email`, `dataNascimento`, `dataAdmissao`, `senha`, `CRMV`, `dataDemissao`) VALUES
-(1, '', 'Juan', '1313', 'cremilton.fernandes@ifpr.edu.br', '2023-06-13', '0000-00-00', '123123', '', NULL),
-(2, '', 'Juan', '1313', 'cremilton.fernandes@ifpr.edu.br', '2023-06-13', '0000-00-00', '123123', '123131', NULL),
-(3, '', 'Juan', '1313', 'cremilton.fernandes@ifpr.edu.br', '2023-06-13', '2023-06-14', '123123', '123131', NULL),
-(5, '', 'Admin', '', 'admin@adm.com', '0000-00-00', '2023-09-01', 'admin123', '', NULL);
+(1, '', 'Admin', '', 'admin@adm.com', '0000-00-00', '2023-09-01', '1234', '', NULL),
+(6, '', 'Maria da Silva', '(11) 98765-4321', 'maria.silva@email.com', '1985-03-15', '2023-09-15', 'maria123', '12345-SP', NULL),
+(7, '', 'João dos Santos', '(21) 99999-8888', 'joao.santos@email.com', '1990-07-10', '2023-09-15', 'joao123', '67890-RJ', NULL),
+(8, '', 'Ana Oliveira', '(31) 5555-1234', 'ana.oliveira@email.com', '1982-09-25', '2023-09-15', 'ana123', '54321-MG', NULL),
+(9, '', 'Pedro Pereira', '(41) 7777-5555', 'pedro.pereira@email.com', '1978-12-05', '2023-09-15', 'pedro123', '98765-PR', NULL),
+(10, '', 'Laura Gonçalves', '(51) 3333-2222', 'laura.goncalves@email.com', '1995-01-20', '2023-09-15', 'laura123', '22222-RS', NULL);
 
 --
 -- Índices para tabelas despejadas
@@ -247,7 +258,7 @@ ALTER TABLE `agenda`
 -- AUTO_INCREMENT de tabela `cliente`
 --
 ALTER TABLE `cliente`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de tabela `especie`
@@ -259,7 +270,7 @@ ALTER TABLE `especie`
 -- AUTO_INCREMENT de tabela `pet`
 --
 ALTER TABLE `pet`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de tabela `procedimento`
@@ -283,7 +294,7 @@ ALTER TABLE `recebimento`
 -- AUTO_INCREMENT de tabela `veterinario`
 --
 ALTER TABLE `veterinario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
