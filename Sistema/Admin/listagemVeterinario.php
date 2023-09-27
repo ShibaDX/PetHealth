@@ -24,7 +24,7 @@ $resultado = mysqli_query($conexao, $sql);
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Lista de Veterinário</title>
+    <title>Lista de Veterinários</title>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -66,7 +66,7 @@ $resultado = mysqli_query($conexao, $sql);
                     <?php } ?>
                     <div class="card mt-3 mb-3">
                         <div class="card-body">
-                            <h2><i class="fa-solid fa-user-doctor"></i> Listagem de Veterinário <a
+                            <h2><i class="fa-solid fa-user-doctor"></i> Listagem de Veterinários <a
                                     href="cadastroVeterinario.php" class="btn btn-success btn-sn"><i
                                         class="fa-solid fa-plus" style="color: #ffffff;"></i> Novo Veterinário</a></h2>
                         </div>

@@ -25,7 +25,7 @@ $resultado = mysqli_query($conexao, $sql);
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Lista de Pet
+    <title>Lista de Pets
         
     </title>
 
@@ -68,7 +68,7 @@ $resultado = mysqli_query($conexao, $sql);
                     <?php } ?>
                     <div class="card mt-3 mb-3">
                         <div class="card-body">
-                            <h2><i class="fa-solid fa-dog"></i> Listagem de Pet <a
+                            <h2><i class="fa-solid fa-dog"></i> Listagem de Pets <a
                                     href="cadastroPet.php" class="btn btn-info btn-sn"><i class="fa-solid fa-plus"
                                         style="color: #ffffff;"></i> Novo Pet</a></h2>
                         </div>

@@ -25,7 +25,7 @@ $resultado = mysqli_query($conexao, $sql);
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Lista de Cliente</title>
+    <title>Lista de Clientes</title>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -66,7 +66,7 @@ $resultado = mysqli_query($conexao, $sql);
                     <?php } ?>
                     <div class="card mt-3 mb-3">
                         <div class="card-body">
-                            <h2><i class="fa-regular fa-user"></i> Listagem de Cliente <a
+                            <h2><i class="fa-regular fa-user"></i> Listagem de Clientes <a
                                     href="cadastroCliente.php" class="btn btn-info btn-sn"><i class="fa-solid fa-plus"
                                         style="color: #ffffff;"></i> Novo Cliente</a></h2>
                         </div>

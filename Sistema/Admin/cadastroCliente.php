@@ -87,7 +87,7 @@
             </div>
 
             <button name="salvar" type="submit" class="btn btn-primary"><i class="fa-solid fa-check"></i> Salvar</button>
-            <a href="usuarioListar.php" class="btn btn-warning"><i class="fa-solid fa-rotate-left"></i> Voltar</a>
+            <a href="listagemCliente.php" class="btn btn-warning"><i class="fa-solid fa-rotate-left"></i> Voltar</a>
         </form><br>
         <?php
         require_once("conexao.php");
