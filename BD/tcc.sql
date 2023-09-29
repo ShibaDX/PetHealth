@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 15/09/2023 às 15:41
+-- Tempo de geração: 29/09/2023 às 16:29
 -- Versão do servidor: 10.4.28-MariaDB
 -- Versão do PHP: 8.2.4
 
@@ -35,15 +35,18 @@ CREATE TABLE `agenda` (
   `data` varchar(50) NOT NULL,
   `hora` varchar(50) NOT NULL,
   `obs` varchar(500) DEFAULT NULL,
-  `resultado` varchar(200) DEFAULT NULL
+  `resultado` varchar(200) DEFAULT NULL,
+  `pet_id` int(11) DEFAULT NULL,
+  `veterinario_id` int(11) DEFAULT NULL,
+  `procedimento_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Despejando dados para a tabela `agenda`
 --
 
-INSERT INTO `agenda` (`id`, `status`, `data`, `hora`, `obs`, `resultado`) VALUES
-(1, '', '2023-06-07', '12:29', '', '');
+INSERT INTO `agenda` (`id`, `status`, `data`, `hora`, `obs`, `resultado`, `pet_id`, `veterinario_id`, `procedimento_id`) VALUES
+(1, '', '2023-06-07', '12:29', '', '', NULL, NULL, NULL);
 
 -- --------------------------------------------------------
 
@@ -91,6 +94,14 @@ CREATE TABLE `especie` (
   `descricao` varchar(100) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Despejando dados para a tabela `especie`
+--
+
+INSERT INTO `especie` (`id`, `status`, `nome`, `descricao`) VALUES
+(1, '', 'Cachorro', NULL),
+(2, '', 'Gato', NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -104,20 +115,23 @@ CREATE TABLE `pet` (
   `anoNascimento` int(11) NOT NULL,
   `sexo` varchar(15) NOT NULL,
   `cor` varchar(50) NOT NULL,
-  `obs` varchar(300) DEFAULT NULL
+  `obs` varchar(300) DEFAULT NULL,
+  `cliente_id` int(11) DEFAULT NULL,
+  `raca_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Despejando dados para a tabela `pet`
 --
 
-INSERT INTO `pet` (`id`, `status`, `nome`, `anoNascimento`, `sexo`, `cor`, `obs`) VALUES
-(1, '', 'Juan', 2019, 'macho', 'caramelo', ''),
-(2, '', 'Bella', 2018, 'Fêmea', 'Marrom e branco', ''),
-(3, '', 'Max', 2016, 'Macho', 'Preto', ''),
-(4, '', 'Luna', 2019, 'Fêmea', 'Cinza e rajado', ''),
-(5, '', 'Rocky', 2015, 'Macho', 'Dourado', ''),
-(6, '', 'Sophie', 2020, 'Fêmea', 'Creme', '');
+INSERT INTO `pet` (`id`, `status`, `nome`, `anoNascimento`, `sexo`, `cor`, `obs`, `cliente_id`, `raca_id`) VALUES
+(1, '', 'Juan', 2019, 'Macho', 'Caramelo', '', 5, NULL),
+(2, '', 'Bella', 2018, 'Fêmea', 'Marrom e branco', '', NULL, NULL),
+(3, '', 'Max', 2016, 'Macho', 'Preto', '', NULL, NULL),
+(4, '', 'Luna', 2019, 'Fêmea', 'Cinza e rajado', '', NULL, NULL),
+(5, '', 'Rocky', 2015, 'Macho', 'Dourado', '', NULL, NULL),
+(6, '', 'Sophie', 2020, 'Fêmea', 'Creme', '', NULL, NULL),
+(7, '', 'Mel', 2018, 'Fêmea', 'Caramelo', '', 5, NULL);
 
 -- --------------------------------------------------------
 
@@ -143,8 +157,18 @@ CREATE TABLE `raca` (
   `id` int(11) NOT NULL,
   `status` varchar(15) NOT NULL,
   `nome` varchar(100) NOT NULL,
-  `descricao` varchar(100) DEFAULT NULL
+  `descricao` varchar(100) DEFAULT NULL,
+  `especie_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `raca`
+--
+
+INSERT INTO `raca` (`id`, `status`, `nome`, `descricao`, `especie_id`) VALUES
+(1, '', 'Pastor Alemão', '', 1),
+(2, '', 'Pastor Alemão', '', 1),
+(3, '', 'Vira-lata (Cachorro)', '', 1);
 
 -- --------------------------------------------------------
 
@@ -200,7 +224,10 @@ INSERT INTO `veterinario` (`id`, `status`, `nome`, `telefone`, `email`, `dataNas
 -- Índices de tabela `agenda`
 --
 ALTER TABLE `agenda`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_pet_agenda` (`pet_id`),
+  ADD KEY `fk_procedimento_agenda` (`procedimento_id`),
+  ADD KEY `fk_veterinario_agenda` (`veterinario_id`);
 
 --
 -- Índices de tabela `cliente`
@@ -218,7 +245,9 @@ ALTER TABLE `especie`
 -- Índices de tabela `pet`
 --
 ALTER TABLE `pet`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_cliente_pet` (`cliente_id`),
+  ADD KEY `fk_raca_pet` (`raca_id`);
 
 --
 -- Índices de tabela `procedimento`
@@ -230,7 +259,8 @@ ALTER TABLE `procedimento`
 -- Índices de tabela `raca`
 --
 ALTER TABLE `raca`
-  ADD PRIMARY KEY (`id`);
+  ADD PRIMARY KEY (`id`),
+  ADD KEY `fk_especie_raca` (`especie_id`);
 
 --
 -- Índices de tabela `recebimento`
@@ -264,13 +294,13 @@ ALTER TABLE `cliente`
 -- AUTO_INCREMENT de tabela `especie`
 --
 ALTER TABLE `especie`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de tabela `pet`
 --
 ALTER TABLE `pet`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de tabela `procedimento`
@@ -282,7 +312,7 @@ ALTER TABLE `procedimento`
 -- AUTO_INCREMENT de tabela `raca`
 --
 ALTER TABLE `raca`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de tabela `recebimento`
@@ -295,6 +325,31 @@ ALTER TABLE `recebimento`
 --
 ALTER TABLE `veterinario`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+
+--
+-- Restrições para tabelas despejadas
+--
+
+--
+-- Restrições para tabelas `agenda`
+--
+ALTER TABLE `agenda`
+  ADD CONSTRAINT `fk_pet_agenda` FOREIGN KEY (`pet_id`) REFERENCES `pet` (`id`),
+  ADD CONSTRAINT `fk_procedimento_agenda` FOREIGN KEY (`procedimento_id`) REFERENCES `procedimento` (`id`),
+  ADD CONSTRAINT `fk_veterinario_agenda` FOREIGN KEY (`veterinario_id`) REFERENCES `veterinario` (`id`);
+
+--
+-- Restrições para tabelas `pet`
+--
+ALTER TABLE `pet`
+  ADD CONSTRAINT `fk_cliente_pet` FOREIGN KEY (`cliente_id`) REFERENCES `cliente` (`id`),
+  ADD CONSTRAINT `fk_raca_pet` FOREIGN KEY (`raca_id`) REFERENCES `raca` (`id`);
+
+--
+-- Restrições para tabelas `raca`
+--
+ALTER TABLE `raca`
+  ADD CONSTRAINT `fk_especie_raca` FOREIGN KEY (`especie_id`) REFERENCES `especie` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
