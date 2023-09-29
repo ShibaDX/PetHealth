@@ -79,6 +79,22 @@ require_once("conexao.php"); ?>
                                 </select>
                             </div>
                             <div class="mb-1">
+                                <label for="raca_id" class="form-label">Raça</label>
+                                <select name="raca_id" class="form-select">
+                                    <?php
+                                    $sql = "select * from raca order by nome";
+                                    $resultado = mysqli_query($conexao, $sql);
+
+                                    while ($linha = mysqli_fetch_array($resultado)) {
+                                        $id = $linha['id'];
+                                        $nome = $linha['nome'];
+
+                                        echo "<option value='{$id}'>{$nome}</option>";
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                            <div class="mb-1">
                                 <label for="formGroupExampleInput" class="form-label">OBS</label>
                                 <input name="obs" type="text" class="form-control"><br>
 
@@ -100,10 +116,11 @@ require_once("conexao.php"); ?>
                         $sexo = $_POST['sexo'];
                         $cor = $_POST['cor'];
                         $obs = $_POST['obs'];
-                        $cliente_fk = $_POST['cliente_id'];
+                        $cliente_id = $_POST['cliente_id'];
+                        $raca_id = $_POST['raca_id'];
 
                         //3. Preparar a SQL
-                        $sql = "insert into pet (nome, anoNascimento, sexo, cor, obs, cliente_id) values ('$nome', '$anoNascimento', '$sexo', '$cor', '$obs', '$cliente_fk')";
+                        $sql = "insert into pet (nome, anoNascimento, sexo, cor, obs, cliente_id, raca_id) values ('$nome', '$anoNascimento', '$sexo', '$cor', '$obs', '$cliente_id', '$raca_id')";
 
                         //4. Executar a SQL
                         mysqli_query($conexao, $sql);

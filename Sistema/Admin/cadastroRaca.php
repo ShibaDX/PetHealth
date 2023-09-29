@@ -1,5 +1,6 @@
 <!-- Requisita a verificação de autenticação -->
-<?php require_once("verificaAutenticacao.php"); ?>
+<?php require_once("verificaAutenticacao.php");
+require_once("conexao.php"); ?>
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -15,10 +16,8 @@
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
-        <script src="https://kit.fontawesome.com/0215a38eba.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/0215a38eba.js" crossorigin="anonymous"></script>
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
 
@@ -29,7 +28,7 @@
     <!-- Page Wrapper -->
     <div id="wrapper">
 
-<?php require_once("sidebarAdmin.php");?>
+        <?php require_once("sidebarAdmin.php"); ?>
 
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
@@ -37,7 +36,7 @@
             <!-- Main Content -->
             <div id="content">
 
-<?php require_once("topbarAdmin.php");?>
+                <?php require_once("topbarAdmin.php"); ?>
 
                 <!-- Begin Page Content -->
                 <div class="container-fluid">
@@ -45,59 +44,75 @@
                     <!-- Page Heading -->
                     <!-- Cadastrar Raça -->
                     <div class="container">
-        <h1 class="mb-4"><i class="fa-solid fa-dog"></i> Cadastro de Raça</h1>
-        <form method="post">
-            <div class="mb-1">
-                <label for="formGroupExampleInput" class="form-label">Nome</label>
-                <input name="nome" type="text" class="form-control"><br>
-            </div>
-            <div class="mb-1">
-                <label for="formGroupExampleInput" class="form-label">Descrição</label>
-                <input name="descricao" type="text" class="form-control"><br>
-                <button name="salvar" type="submit" class="btn btn-primary"><i class="fa-solid fa-check"></i> Salvar</button>
-            <a href="usuarioListar.php" class="btn btn-warning"><i class="fa-solid fa-rotate-left"></i> Voltar</a>
-            </div>
-            </div>
+                        <h1 class="mb-4"><i class="fa-solid fa-dog"></i> Cadastro de Raça</h1>
+                        <form method="post">
+                            <div class="mb-1">
+                                <label for="formGroupExampleInput" class="form-label">Nome</label>
+                                <input name="nome" type="text" class="form-control"><br>
+                            </div>
+                            <div class="mb-1">
+                                <label for="especie_id" class="form-label">Espécie</label>
+                                <select name="especie_id" class="form-select">
+                                    <?php
+                                    $sql = "select * from especie order by nome";
+                                    $resultado = mysqli_query($conexao, $sql);
+
+                                    while ($linha = mysqli_fetch_array($resultado)) {
+                                        $id = $linha['id'];
+                                        $nome = $linha['nome'];
+
+                                        echo "<option value='{$id}'>{$nome}</option>";
+                                    }
+                                    ?>
+                                </select>
+                            </div>
+                            <div class="mb-1">
+                                <label for="formGroupExampleInput" class="form-label">Descrição</label>
+                                <input name="descricao" type="text" class="form-control"><br>
+                                <button name="salvar" type="submit" class="btn btn-primary"><i class="fa-solid fa-check"></i> Salvar</button>
+                                <a href="listagemPet.php" class="btn btn-warning"><i class="fa-solid fa-rotate-left"></i> Voltar</a>
+                            </div>
+                    </div>
 
 
-        </form><br>
-        <!-- Requisitar a Conexão -->
-        <?php
-        require_once("conexao.php");
-        if (isset($_POST['salvar'])) {
+                    </form><br>
+                    <!-- Requisitar a Conexão -->
+                    <?php
+                    if (isset($_POST['salvar'])) {
 
-            //2. Receber os dados para inserir no BD
-            $nome = $_POST['nome'];
-            $descricao = $_POST['descricao'];
+                        //2. Receber os dados para inserir no BD
+                        $nome = $_POST['nome'];
+                        $descricao = $_POST['descricao'];
+                        $especie_id = $_POST['especie_id'];
 
-            //3. Preparar a SQL
-            $sql = "insert into raca (nome, descricao) values ('$nome', '$descricao')";
+                        //3. Preparar a SQL
+                        $sql = "insert into raca (nome, descricao, especie_id) values ('$nome', '$descricao', '$especie_id')";
 
-            //4. Executar a SQL
-            mysqli_query($conexao, $sql);
+                        //4. Executar a SQL
+                        mysqli_query($conexao, $sql);
 
-            //5. Mostrar mensagem ao usuário
-            $mensagem = "Inserido com Sucesso";
-        }
-        ?>
-        <?php if (isset($mensagem)) { ?>
-            <div class="alert alert-success mb-2" role="alert">
-                <i class="fa-solid fa-check" style="color: #12972c;"></i>
-                <?= $mensagem ?>
-            </div>
-        <?php } 
-        require_once("footer.php");
-        ?>
+                        //5. Mostrar mensagem ao usuário
+                        $mensagem = "Inserido com Sucesso";
+                    }
+                    ?>
+                    <?php if (isset($mensagem)) { ?>
+                        <div class="alert alert-success mb-2" role="alert">
+                            <i class="fa-solid fa-check" style="color: #12972c;"></i>
+                            <?= $mensagem ?>
+                        </div>
+                    <?php }
+                    require_once("footer.php");
+                    ?>
 
-    <!-- Bootstrap core JavaScript-->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+                    <!-- Bootstrap core JavaScript-->
+                    <script src="vendor/jquery/jquery.min.js"></script>
+                    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Core plugin JavaScript-->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+                    <!-- Core plugin JavaScript-->
+                    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
 
-    <!-- Custom scripts for all pages-->
-    <script src="js/sb-admin-2.min.js"></script>
+                    <!-- Custom scripts for all pages-->
+                    <script src="js/sb-admin-2.min.js"></script>
 
 </body>
 

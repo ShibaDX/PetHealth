@@ -71,10 +71,13 @@ $resultado = mysqli_query($conexao, $sql);
                     <div class="card mt-3 mb-3">
                         <div class="card-body">
                             <h2><i class="fa-solid fa-dog"></i> Listagem de Pets <a
-                                    href="cadastroPet.php" class="btn btn-info btn-sn"><i class="fa-solid fa-plus"
-                                        style="color: #ffffff;"></i> Novo Pet</a></h2>
+                                        href="cadastroPet.php" class="btn btn-info btn-sn"><i class="fa-solid fa-plus"
+                                        style="color: #ffffff;"></i> Novo Pet</a>
+                                        <a href="cadastroRaca.php" class="btn btn-success btn-sn"><i class="fa-solid fa-plus"
+                                        style="color: #ffffff;"></i> Nova Raça</a>
+                                    </h2>
                         </div>
-                    </div>
+                        </div>
                     <table class="table table-striped table-hover">
                         <thead>
                             <tr>
