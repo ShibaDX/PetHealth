@@ -93,7 +93,7 @@
             </div>
             <div class="mb-3">
                 <label for="cliente_id" class="form-label">Dono(a)</label>
-                <select name="cliente_id" class="form-select">
+                <select name="cliente_id" class="custom-select">
                     <option value="">-- Selecione --</option>
                     <?php
                     $sql = "select * from cliente order by nome";
@@ -108,7 +108,7 @@
                         echo "<option value='{$id}' {$selected}>{$nome}</option>";
                     } ?>
                 </select>
-            </div>
+            </div> <br>
             <div class="mb-1">
                 <label for="formGroupExampleInput" class="form-label">OBS</label>
                 <input name="obs" type="text" class="form-control" value="<?=$linha['obs'] ?>"><br>

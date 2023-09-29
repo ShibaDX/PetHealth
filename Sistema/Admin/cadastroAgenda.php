@@ -20,6 +20,7 @@ require_once("conexao.php"); ?>
     <script src="https://kit.fontawesome.com/0215a38eba.js" crossorigin="anonymous"></script>
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
+    
 
 </head>
 
@@ -57,7 +58,7 @@ require_once("conexao.php"); ?>
                             </div>
                             <div class="mb-1">
                                 <label for="pet_id" class="form-label">Pet</label>
-                                <select name="pet_id" class="form-select">
+                                <select name="pet_id" class="custom-select" aria-label="Large select example">
                                     <?php
                                     $sql = "select * from pet order by nome";
                                     $resultado = mysqli_query($conexao, $sql);
@@ -70,10 +71,10 @@ require_once("conexao.php"); ?>
                                     }
                                     ?>
                                 </select>
-                            </div>
+                            </div> <br>
                             <div class="mb-1">
                                 <label for="procedimento_id" class="form-label">Procedimento</label>
-                                <select name="procedimento_id" class="form-select">
+                                <select name="procedimento_id" class="custom-select ">
                                     <?php
                                     $sql = "select * from procedimento order by nome";
                                     $resultado = mysqli_query($conexao, $sql);
@@ -85,11 +86,11 @@ require_once("conexao.php"); ?>
                                         echo "<option value='{$id}'>{$nome}</option>";
                                     }
                                     ?>
-                                </select>
-                            </div>
+                                </select> 
+                            </div> <br>
                             <div class="mb-1">
                                 <label for="raca_id" class="form-label">Veterinário</label>
-                                <select name="raca_id" class="form-select">
+                                <select name="raca_id" class="custom-select ">
                                     <?php
                                     $sql = "select * from veterinario order by nome";
                                     $resultado = mysqli_query($conexao, $sql);
@@ -102,7 +103,7 @@ require_once("conexao.php"); ?>
                                     }
                                     ?>
                                 </select>
-                            </div>
+                            </div> <br>
                             <div class="mb-1">
                                 <label for="formGroupExampleInput" class="form-label">Resultado</label>
                                 <input name="resultado" type="text" class="form-control"><br>

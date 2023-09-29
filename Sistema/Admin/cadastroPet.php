@@ -64,7 +64,7 @@ require_once("conexao.php"); ?>
                             </div>
                             <div class="mb-1">
                                 <label for="cliente_id" class="form-label">Dono(a)</label>
-                                <select name="cliente_id" class="form-select">
+                                <select name="cliente_id" class="custom-select">
                                     <?php
                                     $sql = "select * from cliente order by nome";
                                     $resultado = mysqli_query($conexao, $sql);
@@ -77,10 +77,10 @@ require_once("conexao.php"); ?>
                                     }
                                     ?>
                                 </select>
-                            </div>
+                            </div> <br>
                             <div class="mb-1">
                                 <label for="raca_id" class="form-label">Raça</label>
-                                <select name="raca_id" class="form-select">
+                                <select name="raca_id" class="custom-select">
                                     <?php
                                     $sql = "select * from raca order by nome";
                                     $resultado = mysqli_query($conexao, $sql);
@@ -93,7 +93,7 @@ require_once("conexao.php"); ?>
                                     }
                                     ?>
                                 </select>
-                            </div>
+                            </div> <br>
                             <div class="mb-1">
                                 <label for="formGroupExampleInput" class="form-label">OBS</label>
                                 <input name="obs" type="text" class="form-control"><br>
