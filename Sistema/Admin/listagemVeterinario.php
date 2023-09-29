@@ -1,3 +1,4 @@
+<!-- Requisita conexão e a verificação de autenticação -->
 <?php
 require_once("verificaAutenticacao.php");
 require_once("conexao.php");
@@ -64,6 +65,7 @@ $resultado = mysqli_query($conexao, $sql);
                             <?= $mensagem ?>
                         </div>
                     <?php } ?>
+                    <!-- Tabela de listagem de veerinários -->
                     <div class="card mt-3 mb-3">
                         <div class="card-body">
                             <h2><i class="fa-solid fa-user-doctor"></i> Listagem de Veterinários <a

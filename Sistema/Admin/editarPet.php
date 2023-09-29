@@ -11,9 +11,10 @@
             $sexo = $_POST['sexo'];
             $cor = $_POST['cor'];
             $obs = $_POST['obs'];
+            $cliente_id = $_POST['cliente_id'];
 
             //3. Preparar a SQL
-        $sql = "update pet set nome = '$nome', anoNascimento = '$anoNascimento', sexo = '$sexo', cor = '$cor', obs = '$obs' where id = $id";
+        $sql = "update pet set nome = '$nome', anoNascimento = '$anoNascimento', sexo = '$sexo', cor = '$cor', obs = '$obs', cliente_id = '$cliente_id' where id = $id";
 
             //4. Executar a SQL
             mysqli_query($conexao, $sql);
@@ -69,6 +70,7 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
+                    <!-- Editar o Pet -->
                     <div class="container">
         <h1 class="mb-4"><i class="fa-solid fa-calendar-days"></i> Editar Pet</h1>
         <form method="post">
@@ -89,6 +91,24 @@
                 <label for="formGroupExampleInput" class="form-label">Cor</label>
                 <input name="cor" type="text" class="form-control" value="<?=$linha['cor'] ?>"><br>
             </div>
+            <div class="mb-3">
+                <label for="cliente_id" class="form-label">Dono(a)</label>
+                <select name="cliente_id" class="form-select">
+                    <option value="">-- Selecione --</option>
+                    <?php
+                    $sql = "select * from cliente order by nome";
+                    $resultado = mysqli_query($conexao, $sql);
+
+                    while ($linhaTU = mysqli_fetch_array($resultado)) {
+                        $id = $linhaTU['id'];
+                        $nome = $linhaTU['nome'];
+
+                        $selected = ($id == $linha['cliente_id']) ? 'selected' : '';
+
+                        echo "<option value='{$id}' {$selected}>{$nome}</option>";
+                    } ?>
+                </select>
+            </div>
             <div class="mb-1">
                 <label for="formGroupExampleInput" class="form-label">OBS</label>
                 <input name="obs" type="text" class="form-control" value="<?=$linha['obs'] ?>"><br>
@@ -99,6 +119,7 @@
 
 
         </form><br>
+        <!-- Mostrar mensagem ao usuário -->
         <?php if (isset($mensagem)) { ?>
             <div class="alert alert-success mb-2" role="alert">
                 <i class="fa-solid fa-check" style="color: #12972c;"></i>

@@ -1,3 +1,4 @@
+<!-- Requisita a verificação de autenticação -->
 <?php require_once("verificaAutenticacao.php"); ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -42,6 +43,7 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
+                    <!-- Cadastro do Cliente -->
                     <div class="container">
         <h1 class="mb-4"><i class="fa-regular fa-user"></i> Cadastro de Cliente</h1>
         <form method="post">
@@ -120,6 +122,7 @@
                 <i class="fa-solid fa-check" style="color: #12972c;"></i>
                 <?= $mensagem ?>
             </div>
+            <!-- Requisitar a Conexão -->
         <?php } 
         require_once("footer.php");
         ?>

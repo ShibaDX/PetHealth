@@ -1,3 +1,4 @@
+<!-- Requisita a verificação de autenticação -->
 <?php require_once("verificaAutenticacao.php"); ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -48,6 +49,7 @@
 
 
         </form><br>
+        <!-- Requisita conexão -->
         <?php
         require_once("conexao.php");
         if (isset($_POST['salvar'])) {

@@ -68,6 +68,7 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
+                    <!-- Editar a Agenda -->
                     <div class="container">
         <h1 class="mb-4"><i class="fa-solid fa-calendar-days"></i> Editar Agenda</h1>
         <form method="post">
@@ -94,6 +95,7 @@
 
 
         </form><br>
+        <!-- Mostrar mensagem ao usuário -->
         <?php if (isset($mensagem)) { ?>
             <div class="alert alert-success mb-2" role="alert">
                 <i class="fa-solid fa-check" style="color: #12972c;"></i>

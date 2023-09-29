@@ -1,3 +1,4 @@
+<!-- Requisita a verificação de autenticação -->
 <?php require_once("verificaAutenticacao.php"); ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -40,6 +41,7 @@
                 <div class="container-fluid">
 
                     <!-- Page Heading -->
+                    <!-- Cadastrar Médico Veterinário -->
                     <div class="container">
                         <h1 class="mb-4"><i class="fa-solid fa-user-doctor"></i> Cadastro de Veterinário</h1>
                         <form method="post">
@@ -74,8 +76,8 @@
 
 
                 </form><br>
+                <!-- Requisitar a Conexão -->
                 <?php
-                 
                 require_once("conexao.php");
                 if (isset($_POST['salvar'])) {
 
