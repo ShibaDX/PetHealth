@@ -211,7 +211,7 @@
             <div class="icon-box">
               <div class="icon"><i class="fas fa-dna"></i></div>
               <h4><a href="">Cuidados Preventivos</a></h4>
-              <p>Tratamentos contra pulgas, carrapatos e vermes.</p>
+              <p>Tratamentos preventivos contra pulgas, carrapatos e vermes.</p>
             </div>
           </div>
 
