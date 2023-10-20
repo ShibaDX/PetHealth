@@ -94,7 +94,7 @@
             <div class="content">
               <h3>Por que escolher nos escolher?</h3>
               <p style="font-size: 20px">
-              Na PetHealth, tornamos o cuidado de seu pet mais simples e conveniente do que nunca. Com nosso sistema de agendamento online fácil de usar, equipe experiente, atendimento personalizado, instalações modernas e compromisso com o bem-estar animal, estamos prontos para ser o parceiro de confiança na saúde de seu animal de estimação. Faça a escolha certa para a saúde e felicidade de seu pet - escolha a PetHealth hoje.
+                Na PetHealth, tornamos o cuidado de seu pet mais simples e conveniente do que nunca. Com nosso sistema de agendamento online fácil de usar, equipe experiente, atendimento personalizado, instalações modernas e compromisso com o bem-estar animal, estamos prontos para ser o parceiro de confiança na saúde de seu animal de estimação. Faça a escolha certa para a saúde e felicidade de seu pet - escolha a PetHealth hoje.
               </p>
             </div>
           </div>
@@ -103,21 +103,21 @@
               <div class="row">
                 <div class="col-xl-4 d-flex align-items-stretch">
                   <div class="icon-box mt-4 mt-xl-0">
-                  <i class="fa-solid fa-arrow-pointer"></i>
+                    <i class="fa-solid fa-arrow-pointer"></i>
                     <h4>Agendamento Online Simplificado</h4>
                     <p>Na PetHealth, colocamos o poder nas suas mãos. Nosso sistema de agendamento online intuitivo permite que você marque consultas para o seu pet com facilidade a qualquer hora. Esqueça as longas esperas ao telefone; agora, agendar uma consulta é tão simples quanto clicar em um botão.</p>
                   </div>
                 </div>
                 <div class="col-xl-4 d-flex align-items-stretch">
                   <div class="icon-box mt-4 mt-xl-0">
-                  <i class="fa-solid fa-globe"></i>
+                    <i class="fa-solid fa-globe"></i>
                     <h4>Atendimento Personalizado</h4>
                     <p>Sabemos que cada animal é único, e é por isso que oferecemos atendimento personalizado. Entendemos as necessidades individuais do seu pet e trabalhamos para criar um plano de cuidados de saúde adaptado a ele. Seu pet merece um tratamento que leve em consideração sua idade, histórico médico e estilo de vida, e é isso que oferecemos na PetHealth.</p>
                   </div>
                 </div>
                 <div class="col-xl-4 d-flex align-items-stretch">
                   <div class="icon-box mt-4 mt-xl-0">
-                  <i class="fa-solid fa-paw"></i>
+                    <i class="fa-solid fa-paw"></i>
                     <h4>Comprometimento com a Saúde do seu Pet</h4>
                     <p>Na PetHealth, acreditamos que a saúde e a felicidade do seu pet são fundamentais. Nossa equipe de veterinários altamente qualificados está empenhada em fornecer atendimento compassivo e especializado para garantir que seu animal de estimação tenha uma vida longa e saudável.</p>
                   </div>
@@ -129,50 +129,6 @@
 
       </div>
     </section><!-- End Why Us Section -->
-
-
-    <!-- ======= Counts Section 
-    <section id="counts" class="counts">
-      <div class="container">
-
-        <div class="row">
-
-          <div class="col-lg-3 col-md-6">
-            <div class="count-box">
-              <i class="fas fa-user-md"></i>
-              <span data-purecounter-start="0" data-purecounter-end="16" data-purecounter-duration="1" class="purecounter"></span>
-              <p>Veterinários</p>
-            </div>
-          </div>
-
-          <div class="col-lg-3 col-md-6 mt-5 mt-md-0">
-            <div class="count-box">
-              <i class="far fa-hospital"></i>
-              <span data-purecounter-start="0" data-purecounter-end="5" data-purecounter-duration="1" class="purecounter"></span>
-              <p>Departamentos</p>
-            </div>
-          </div>
-
-          <div class="col-lg-3 col-md-6 mt-5 mt-lg-0">
-            <div class="count-box">
-              <i class="fas fa-flask"></i>
-              <span data-purecounter-start="0" data-purecounter-end="12" data-purecounter-duration="1" class="purecounter"></span>
-              <p>Research Labs</p>
-            </div>
-          </div>
-
-          <div class="col-lg-3 col-md-6 mt-5 mt-lg-0">
-            <div class="count-box">
-              <i class="fas fa-award"></i>
-              <span data-purecounter-start="0" data-purecounter-end="20" data-purecounter-duration="1" class="purecounter"></span>
-              <p>Prêmios</p>
-            </div>
-          </div>
-
-        </div>
-
-      </div>
-    </section> End Counts Section -->
 
     <!-- ======= Services Section ======= -->
     <section id="services" class="services">
@@ -272,11 +228,11 @@
                 <div class="row gy-4">
                   <div class="col-lg-8 details order-2 order-lg-1">
                     <h3>Clínica Geral</h3>
-                  <ul>
-                    <li>Consultas de Rotina</li> <br>
-                    <li>Vacinações</li> <br>
-                    <li>Check-ups de saúde</li>
-                  </ul>
+                    <ul>
+                      <li>Consultas de Rotina</li> <br>
+                      <li>Vacinações</li> <br>
+                      <li>Check-ups de saúde</li>
+                    </ul>
                   </div>
                   <div class="col-lg-4 text-center order-1 order-lg-2">
                     <img src="assets/img/departments-1.jpg" alt="" class="img-fluid">
@@ -287,12 +243,12 @@
                 <div class="row gy-4">
                   <div class="col-lg-8 details order-2 order-lg-1">
                     <h3>Cirurgia</h3>
-                  <ul>
-                    <li>Cirurgias de rotina</li> <br>
-                    <li>Cirurgias de emergência</li> <br>
-                    <li>Esterilização</li> <br>
-                    <li>Cirurgias ortopédicas</li>
-                  </ul>
+                    <ul>
+                      <li>Cirurgias de rotina</li> <br>
+                      <li>Cirurgias de emergência</li> <br>
+                      <li>Esterilização</li> <br>
+                      <li>Cirurgias ortopédicas</li>
+                    </ul>
                   </div>
                   <div class="col-lg-4 text-center order-1 order-lg-2">
                     <img src="assets/img/departments-2.jpg" alt="" class="img-fluid">
@@ -356,7 +312,7 @@
       <div class="container">
 
         <div class="section-title">
-        <h2>Equipe de Veterinários Experientes</h2>
+          <h2>Equipe de Veterinários Experientes</h2>
           <p>Nossos veterinários são apaixonados por animais e altamente experientes. Eles estão dedicados a fornecer o mais alto padrão de cuidado e tratamento para os seus pets. Cada membro da nossa equipe compartilha um compromisso inabalável com o bem-estar dos animais de estimação.</p>
         </div>
 
@@ -411,7 +367,7 @@
       </div>
     </section><!-- End Doctors Section -->
 
-  
+
     <!-- ======= Gallery Section ======= -->
     <section id="gallery" class="gallery">
       <div class="container">
@@ -543,9 +499,9 @@
 
           <div class="col-lg-8 mt-5 mt-lg-0">
 
-          <h2>Formulário de Contato</h2>
+            <h2>Formulário de Contato</h2>
 
-          <br>
+            <br>
 
             <form action="forms/contact.php" method="post" role="form" class="php-email-form">
               <div class="row">

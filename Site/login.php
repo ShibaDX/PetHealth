@@ -27,22 +27,26 @@
                             <span class="fa fa-user-o"></span>
                         </div>
                         <h3 class="text-center mb-4">Login</h3>
-                        <form action="#" class="login-form">
+                        <form action="autenticacao.php" method="post" class="login-form">
                             <div class="form-group">
-                                <input type="text" class="form-control rounded-left" placeholder="E-mail" required>
+                                <input type="text" name="email" id="email" class="form-control rounded-left" placeholder="E-mail" required>
                             </div>
                             <div class="form-group d-flex">
-                                <input type="password" class="form-control rounded-left" placeholder="Senha" required>
+                                <input type="password" name="senha" id="senha" class="form-control rounded-left" placeholder="Senha" required>
                             </div>
                             <div class="form-group">
-                                <button type="submit" class="form-control btn btn-primary rounded submit px-3">Login</button>
+                                <button type="submit" name="entrar" class="form-control btn btn-primary rounded submit px-3">Login</button>
                             </div>
                             <div class="form-group d-md-flex">
                                 <div class=" text-md-right">
                                     <p>Não possui conta? <a href="cadastro.php">Registrar</a></p>
-                                    
                                 </div>
                             </div>
+                            <?php if (isset($_GET['mensagem'])) { ?>
+                                <div class="alert alert-danger mb-2" role="alert">
+                                    <?= $_GET['mensagem'] ?>
+                                </div>
+                            <?php } ?>
                         </form>
                     </div>
                 </div>

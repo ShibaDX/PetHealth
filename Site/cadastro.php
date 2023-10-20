@@ -39,7 +39,7 @@
                             </div>
                             <div class="form-group">
                                 <h6>Cidade</h6>
-                                <input name="cidade" type="text" class="form-control rounded-left" placeholder="Ex: Rua São Paulo" required>
+                                <input name="cidade" type="text" class="form-control rounded-left" placeholder="Ex: São Paulo" required>
                             </div>
                             <div class="form-group">
                                 <h6>UF</h6>
