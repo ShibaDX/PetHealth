@@ -40,6 +40,7 @@
 
 <body>
 
+
   <!-- ======= Top Bar ======= -->
   <div id="topbar" class="d-flex align-items-center fixed-top">
     <div class="container d-flex justify-content-between">
@@ -69,7 +70,7 @@
         <i class="bi bi-list mobile-nav-toggle"></i>
       </nav><!-- .navbar -->
 
-      <a href="#appointment" class="appointment-btn scrollto"><span class="d-none d-md-inline">Agendar</span></a>
+      <a href="login.php" class="appointment-btn scrollto"><span class="d-none d-md-inline">Agendar</span></a>
 
     </div>
   </header><!-- End Header -->
