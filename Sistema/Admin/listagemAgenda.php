@@ -9,10 +9,10 @@ if (isset($_GET['id'])) {
     $mensagem = "Exclusão realizada com sucesso.";
 }
 
-// preparar a SQL
+// Preparar a SQL
 $sql = "select * from agenda";
 
-// executar a SQL
+// Executar a SQL
 $resultado = mysqli_query($conexao, $sql);
 ?>
 <!DOCTYPE html>

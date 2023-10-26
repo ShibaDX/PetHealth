@@ -1,3 +1,4 @@
+
 <!DOCTYP<!DOCTYPE html>
   <html lang="pt-br">
 
@@ -77,8 +78,9 @@
 
         <h1>Meus Pets</h1>
 
+
       </div>
-      </div>
+      
     </main><!-- End #main -->
 
     <!-- ======= Footer ======= -->

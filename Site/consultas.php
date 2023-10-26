@@ -1,3 +1,11 @@
+<?php
+require_once("conexao.php");
+// Preparar a SQL
+$sql = "select * from agenda";
+
+// Executar a SQL
+$resultado = mysqli_query($conexao, $sql);
+?>
 <!DOCTYP<!DOCTYPE html>
   <html lang="pt-br">
 
@@ -74,15 +82,51 @@
 
       <br>
       <div class="container">
-
         <h1>Minhas Consultas</h1>
 
+        <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Data</th>
+                                <th scope="col">Hora</th>
+                                <th scope="col">Resultado</th>
+                                <th scope="col">Obs</th>
+                                <th scope="col">Ação</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php while ($linha = mysqli_fetch_array($resultado)) { ?>
+                                <tr>
+                                    <th scope="row">
+                                        <?= $linha['id'] ?>
+                                    </th>
+                                    <td>
+                                        <?= $linha['data'] ?>
+                                    </td>
+                                    <td>
+                                        <?= $linha['hora'] ?>
+                                    </td>
+                                    <td>
+                                        <?= $linha['resultado'] ?>
+                                    </td>
+                                    <td>
+                                        <?= $linha['obs'] ?>
+                                    </td>
+                                    <td>
+                                        <a href="visualizarAgenda.php?id=<?= $linha['id'] ?>" class="btn btn-primary"><i class="fa-solid fa-eye"></i></a>
+                                        <a href="editarAgenda.php?id=<?= $linha['id'] ?>" class="btn btn-warning"><i class="fa-solid fa-pen-to-square" style="color: #000000;"></i></a>
+                                        <a href="listagemAgenda.php?id=<?= $linha['id'] ?>" class="btn btn-danger" onclick="return confirm('Confirma exclusão?')"><i class="fa-solid fa-trash" style="color: #000000;"></i></a>
+                                    </td>
+                                </tr>
+                            <?php } ?>
+                        </tbody>
       </div>
       </div>
     </main><!-- End #main -->
 
     <!-- ======= Footer ======= -->
-    <footer id="footer">
+    <footer id=" ">
 
       <div class="footer-top">
         <div class="container">
