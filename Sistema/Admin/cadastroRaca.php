@@ -53,17 +53,10 @@ require_once("conexao.php"); ?>
                             <div class="mb-1">
                                 <label for="especie_id" class="form-label">Espécie</label>
                                 <select name="especie_id" class="form-select">
-                                    <?php
-                                    $sql = "select * from especie order by nome";
-                                    $resultado = mysqli_query($conexao, $sql);
-
-                                    while ($linha = mysqli_fetch_array($resultado)) {
-                                        $id = $linha['id'];
-                                        $nome = $linha['nome'];
-
-                                        echo "<option value='{$id}'>{$nome}</option>";
-                                    }
-                                    ?>
+                                    <option value="Cachorro">Cachorro</option>
+                                    <option value="Gato">Gato</option>
+                                    <option value="Roedor">Roedor</option>
+                                    <option value="Ave">Ave</option>
                                 </select>
                             </div>
                             <div class="mb-1">

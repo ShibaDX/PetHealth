@@ -55,9 +55,9 @@
         <nav id="navbar" class="navbar order-last order-lg-0">
           <ul>
             <li><a class="nav-link scrollto" href="index.php">Home</a></li>
-            <li><a class="nav-link scrollto active" href="perfil.php">Perfil</a></li>
+            <li><a class="nav-link scrollto" href="perfil.php">Perfil</a></li>
             <li><a class="nav-link scrollto" href="pet.php">Pets</a></li>
-            <li><a class="nav-link scrollto" href="consultas.php">Consultas</a></li>
+            <li><a class="nav-link scrollto active" href="consultas.php">Consultas</a></li>
           </ul>
           <i class="bi bi-list mobile-nav-toggle"></i>
         </nav><!-- .navbar -->
@@ -75,7 +75,7 @@
       <br>
       <div class="container">
 
-        <h1>Perfil</h1>
+        <h1>Minhas Consultas</h1>
 
       </div>
       </div>

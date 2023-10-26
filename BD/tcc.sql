@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 29/09/2023 às 16:29
+-- Tempo de geração: 25/10/2023 às 15:41
 -- Versão do servidor: 10.4.28-MariaDB
 -- Versão do PHP: 8.2.4
 
@@ -84,27 +84,6 @@ INSERT INTO `cliente` (`id`, `status`, `nome`, `telefone`, `endereco`, `cidade`,
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `especie`
---
-
-CREATE TABLE `especie` (
-  `id` int(11) NOT NULL,
-  `status` varchar(15) NOT NULL,
-  `nome` varchar(100) NOT NULL,
-  `descricao` varchar(100) DEFAULT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Despejando dados para a tabela `especie`
---
-
-INSERT INTO `especie` (`id`, `status`, `nome`, `descricao`) VALUES
-(1, '', 'Cachorro', NULL),
-(2, '', 'Gato', NULL);
-
--- --------------------------------------------------------
-
---
 -- Estrutura para tabela `pet`
 --
 
@@ -112,6 +91,7 @@ CREATE TABLE `pet` (
   `id` int(11) NOT NULL,
   `status` varchar(10) NOT NULL,
   `nome` varchar(100) NOT NULL,
+  `especie` varchar(50) NOT NULL,
   `anoNascimento` int(11) NOT NULL,
   `sexo` varchar(15) NOT NULL,
   `cor` varchar(50) NOT NULL,
@@ -124,14 +104,14 @@ CREATE TABLE `pet` (
 -- Despejando dados para a tabela `pet`
 --
 
-INSERT INTO `pet` (`id`, `status`, `nome`, `anoNascimento`, `sexo`, `cor`, `obs`, `cliente_id`, `raca_id`) VALUES
-(1, '', 'Juan', 2019, 'Macho', 'Caramelo', '', 5, NULL),
-(2, '', 'Bella', 2018, 'Fêmea', 'Marrom e branco', '', NULL, NULL),
-(3, '', 'Max', 2016, 'Macho', 'Preto', '', NULL, NULL),
-(4, '', 'Luna', 2019, 'Fêmea', 'Cinza e rajado', '', NULL, NULL),
-(5, '', 'Rocky', 2015, 'Macho', 'Dourado', '', NULL, NULL),
-(6, '', 'Sophie', 2020, 'Fêmea', 'Creme', '', NULL, NULL),
-(7, '', 'Mel', 2018, 'Fêmea', 'Caramelo', '', 5, NULL);
+INSERT INTO `pet` (`id`, `status`, `nome`, `especie`, `anoNascimento`, `sexo`, `cor`, `obs`, `cliente_id`, `raca_id`) VALUES
+(1, '', 'Juan', '', 2019, 'Macho', 'Caramelo', '', 5, NULL),
+(2, '', 'Bella', '', 2018, 'Fêmea', 'Marrom e branco', '', NULL, NULL),
+(3, '', 'Max', '', 2016, 'Macho', 'Preto', '', NULL, NULL),
+(4, '', 'Luna', '', 2019, 'Fêmea', 'Cinza e rajado', '', NULL, NULL),
+(5, '', 'Rocky', '', 2015, 'Macho', 'Dourado', '', NULL, NULL),
+(6, '', 'Sophie', '', 2020, 'Fêmea', 'Creme', '', NULL, NULL),
+(7, '', 'Mel', '', 2018, 'Fêmea', 'Caramelo', '', 5, NULL);
 
 -- --------------------------------------------------------
 
@@ -160,15 +140,6 @@ CREATE TABLE `raca` (
   `descricao` varchar(100) DEFAULT NULL,
   `especie_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Despejando dados para a tabela `raca`
---
-
-INSERT INTO `raca` (`id`, `status`, `nome`, `descricao`, `especie_id`) VALUES
-(1, '', 'Pastor Alemão', '', 1),
-(2, '', 'Pastor Alemão', '', 1),
-(3, '', 'Vira-lata (Cachorro)', '', 1);
 
 -- --------------------------------------------------------
 
@@ -236,12 +207,6 @@ ALTER TABLE `cliente`
   ADD PRIMARY KEY (`id`);
 
 --
--- Índices de tabela `especie`
---
-ALTER TABLE `especie`
-  ADD PRIMARY KEY (`id`);
-
---
 -- Índices de tabela `pet`
 --
 ALTER TABLE `pet`
@@ -289,12 +254,6 @@ ALTER TABLE `agenda`
 --
 ALTER TABLE `cliente`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
-
---
--- AUTO_INCREMENT de tabela `especie`
---
-ALTER TABLE `especie`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de tabela `pet`
