@@ -59,7 +59,7 @@
                 <label for="formGroupExampleInput" class="form-label">Categoria</label>
                 <input name="categoria" type="text" class="form-control"><br>
                 <button name="salvar" type="submit" class="btn btn-primary"><i class="fa-solid fa-check"></i> Salvar</button>
-            <a href="listagemPet.php" class="btn btn-warning"><i class="fa-solid fa-rotate-left"></i> Voltar</a>
+            <a href="listagemAgenda.php" class="btn btn-warning"><i class="fa-solid fa-rotate-left"></i> Voltar</a>
             </div>
             </div>
 

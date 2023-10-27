@@ -52,6 +52,16 @@ $resultado = mysqli_query($conexao, $sql);
 
                 <?php require_once("topbarAdmin.php"); ?>
 
+                <?php
+                                    $sql = "SELECT a.id, a.data, a.hora, p.nome as petNome, v.nome as vetNome, pr.nome as procNome  FROM agenda a 
+                                    INNER JOIN pet p on a.pet_id= p.id
+                                    inner JOIN veterinario v on a.veterinario_id = v.id
+                                    INNER join procedimento pr on a.procedimento_id = pr.id";
+                                    
+                                    $resultado = mysqli_query($conexao, $sql);
+
+                                    ?>
+
                     <!-- Bloco de mensagem -->
                     <?php if (isset($mensagem)) { ?>
                         <div class="alert alert-success" role="alert">
@@ -65,46 +75,25 @@ $resultado = mysqli_query($conexao, $sql);
                             <h2><i class="fa-solid fa-calendar-days"></i> Listagem de Agenda <a href="cadastroAgenda.php" class="btn btn-success btn-sn"><i class="fa-solid fa-calendar-days"></i> Novo Agendamento</a>   <a href="cadastroProcedimento.php" class="btn btn-info btn-sn"><i class="fa-solid fa-plus" style="color: #ffffff;"></i> Cadastrar Procedimento</a></h2>
                         </div>
                     </div>
-                    <table class="table table-striped table-hover">
-                        <thead>
-                            <tr>
-                                <th scope="col">ID</th>
-                                <th scope="col">Data</th>
-                                <th scope="col">Hora</th>
-                                <th scope="col">Resultado</th>
-                                <th scope="col">Obs</th>
-                                <th scope="col">Ação</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php while ($linha = mysqli_fetch_array($resultado)) { ?>
-                                <tr>
-                                    <th scope="row">
-                                        <?= $linha['id'] ?>
-                                    </th>
-                                    <td>
-                                        <?= $linha['data'] ?>
-                                    </td>
-                                    <td>
-                                        <?= $linha['hora'] ?>
-                                    </td>
-                                    <td>
-                                        <?= $linha['resultado'] ?>
-                                    </td>
-                                    <td>
-                                        <?= $linha['obs'] ?>
-                                    </td>
-                                    <td>
-                                        <a href="visualizarAgenda.php?id=<?= $linha['id'] ?>" class="btn btn-primary"><i class="fa-solid fa-eye"></i></a>
-                                        <a href="editarAgenda.php?id=<?= $linha['id'] ?>" class="btn btn-warning"><i class="fa-solid fa-pen-to-square" style="color: #000000;"></i></a>
-                                        <a href="listagemAgenda.php?id=<?= $linha['id'] ?>" class="btn btn-danger" onclick="return confirm('Confirma exclusão?')"><i class="fa-solid fa-trash" style="color: #000000;"></i></a>
-                                    </td>
-                                </tr>
-                            <?php } ?>
-                        </tbody>
-
-
+                  <?php  if ($resultado->num_rows > 0) {
+                                        // Exibir os dados em uma tabela
+                                        ?> <table class="table table-striped table-hover"> <?php
+                                        echo "<tr><th>Data do Agendamento</th><th>Nome do Pet</th><th>Nome do Veterinário</th><th>Procedimento</th><th>Ação</th></tr>";
+                                        
+                                        while ($row = $resultado->fetch_assoc()) {
+                                            echo "<tr><td>".$row["data"]."</td><td>".$row["petNome"]."</td><td>".$row["vetNome"]."</td><td>".$row["procNome"]."</td>" ?> <td> <a href="editarAgenda.php?id=<?= $row['id'] ?>" class="btn btn-warning"><i
+                                            class="fa-solid fa-pen-to-square" style="color: #000000;"></i></a>
+                                    <a href="listagemAgenda.php?id=<?= $row['id'] ?>" class="btn btn-danger"
+                                        onclick="return confirm('Confirma exclusão?')"><i class="fa-solid fa-trash"
+                                            style="color: #000000;"></i></a></td></tr> <?php
+                                        } ?>
+                                        
+                                         </table> <?php
+                                    } else {
+                                        echo "Nenhum resultado encontrado.";
+                                    } ?>
                 </div>
+                
                 <!-- End of Main Content -->
 
 
@@ -124,14 +113,14 @@ $resultado = mysqli_query($conexao, $sql);
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Pronto para sair?</h5>
                     <button class="close" type="button" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-body">Selecione "Logout" se você deseja encerrar sua sessão atual.</div>
                 <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancelar</button>
                     <a class="btn btn-primary" href=" logout.php">Logout</a>
                 </div>
             </div>

@@ -1,5 +1,5 @@
 <!-- Requisita a verificação de autenticação -->
-<?php require_once("verificaAutenticacao.php");
+<?php 
 require_once("conexao.php"); ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -89,8 +89,8 @@ require_once("conexao.php"); ?>
                                 </select> 
                             </div> <br>
                             <div class="mb-1">
-                                <label for="raca_id" class="form-label">Veterinário</label>
-                                <select name="raca_id" class="custom-select ">
+                                <label for="veterinario_id" class="form-label">Veterinário</label>
+                                <select name="veterinario_id" class="custom-select ">
                                     <?php
                                     $sql = "select * from veterinario order by nome";
                                     $resultado = mysqli_query($conexao, $sql);
@@ -132,7 +132,7 @@ require_once("conexao.php"); ?>
                         $veterinario_id = $_POST['veterinario_id'];
 
                         //3. Preparar a SQL
-                        $sql = "insert into agenda (data, hora, resultado, obs, pet_id, procedimento_id, veterinario_id) values ('$data', '$hora', '$resultado', '$obs', '$pet_id', '$procedimento_id', '$veterinario_id)";
+                        $sql = "insert into agenda (data, hora, resultado, obs, pet_id, procedimento_id, veterinario_id) values ('$data', '$hora', '$resultado', '$obs', '$pet_id', '$procedimento_id', '$veterinario_id')";
 
                         //4. Executar a SQL
                         mysqli_query($conexao, $sql);
