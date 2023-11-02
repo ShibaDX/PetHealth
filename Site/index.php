@@ -55,7 +55,8 @@
   <header id="header" class="fixed-top">
     <div class="container d-flex align-items-center">
 
-      <h1 class="logo me-auto"><a href="index.html">Medilab</a></h1>
+      <a href="index.php"><img src="assets/img/logoHeader.png" alt=""></a>
+      <h1 class="logo me-auto"><a href="index.php">  Clínica Veterinária<br>  São Francisco de Assis</a></h1>
       <!-- Uncomment below if you prefer to use an image logo -->
       <!-- <a href="index.html" class="logo me-auto"><img src="assets/img/logo.png" alt="" class="img-fluid"></a>-->
 
@@ -92,7 +93,7 @@
         <div class="row">
           <div class="col-lg-4 d-flex align-items-stretch">
             <div class="content">
-              <h3>Por que escolher nos escolher?</h3>
+              <h3>Por que nos escolher?</h3>
               <p style="font-size: 20px">
                 Na PetHealth, tornamos o cuidado de seu pet mais simples e conveniente do que nunca. Com nosso sistema de agendamento online fácil de usar, equipe experiente, atendimento personalizado, instalações modernas e compromisso com o bem-estar animal, estamos prontos para ser o parceiro de confiança na saúde de seu animal de estimação. Faça a escolha certa para a saúde e felicidade de seu pet - escolha a PetHealth hoje.
               </p>

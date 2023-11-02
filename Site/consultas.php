@@ -19,7 +19,6 @@ $resultado = mysqli_query($conexao, $sql);
 
     <!-- Favicons -->
     <link href="assets/img/favicon.png" rel="icon">
-    <link href="assets/img/apple-touch-icon.png" rel="apple-touch-icon">
 
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
@@ -87,7 +86,6 @@ $resultado = mysqli_query($conexao, $sql);
         <table class="table table-striped table-hover">
                         <thead>
                             <tr>
-                                <th scope="col">ID</th>
                                 <th scope="col">Data</th>
                                 <th scope="col">Hora</th>
                                 <th scope="col">Resultado</th>
@@ -97,10 +95,7 @@ $resultado = mysqli_query($conexao, $sql);
                         </thead>
                         <tbody>
                             <?php while ($linha = mysqli_fetch_array($resultado)) { ?>
-                                <tr>
-                                    <th scope="row">
-                                        <?= $linha['id'] ?>
-                                    </th>
+                                <tr> 
                                     <td>
                                         <?= $linha['data'] ?>
                                     </td>
@@ -121,6 +116,7 @@ $resultado = mysqli_query($conexao, $sql);
                                 </tr>
                             <?php } ?>
                         </tbody>
+        </table> <br><br><br>
       </div>
       </div>
     </main><!-- End #main -->
