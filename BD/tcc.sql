@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 25/10/2023 às 15:41
+-- Tempo de geração: 13/11/2023 às 16:21
 -- Versão do servidor: 10.4.28-MariaDB
 -- Versão do PHP: 8.2.4
 
@@ -46,7 +46,8 @@ CREATE TABLE `agenda` (
 --
 
 INSERT INTO `agenda` (`id`, `status`, `data`, `hora`, `obs`, `resultado`, `pet_id`, `veterinario_id`, `procedimento_id`) VALUES
-(1, '', '2023-06-07', '12:29', '', '', NULL, NULL, NULL);
+(1, '', '2023-06-07', '12:29', '', '', NULL, NULL, NULL),
+(2, '', '2023-11-13', '11:30', '312312', '', 2, 7, 1);
 
 -- --------------------------------------------------------
 
@@ -96,7 +97,7 @@ CREATE TABLE `pet` (
   `sexo` varchar(15) NOT NULL,
   `cor` varchar(50) NOT NULL,
   `obs` varchar(300) DEFAULT NULL,
-  `cliente_id` int(11) DEFAULT NULL,
+  `cliente_id` int(11) NOT NULL,
   `raca_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -106,11 +107,11 @@ CREATE TABLE `pet` (
 
 INSERT INTO `pet` (`id`, `status`, `nome`, `especie`, `anoNascimento`, `sexo`, `cor`, `obs`, `cliente_id`, `raca_id`) VALUES
 (1, '', 'Juan', '', 2019, 'Macho', 'Caramelo', '', 5, NULL),
-(2, '', 'Bella', '', 2018, 'Fêmea', 'Marrom e branco', '', NULL, NULL),
-(3, '', 'Max', '', 2016, 'Macho', 'Preto', '', NULL, NULL),
-(4, '', 'Luna', '', 2019, 'Fêmea', 'Cinza e rajado', '', NULL, NULL),
-(5, '', 'Rocky', '', 2015, 'Macho', 'Dourado', '', NULL, NULL),
-(6, '', 'Sophie', '', 2020, 'Fêmea', 'Creme', '', NULL, NULL),
+(2, '', 'Bella', '', 2018, 'Fêmea', 'Marrom e branco', '', 2, NULL),
+(3, '', 'Max', '', 2016, 'Macho', 'Preto', '', 3, NULL),
+(4, '', 'Luna', '', 2019, 'Fêmea', 'Cinza e rajado', '', 4, NULL),
+(5, '', 'Rocky', '', 2015, 'Macho', 'Dourado', '', 6, NULL),
+(6, '', 'Sophie', '', 2020, 'Fêmea', 'Creme', '', 6, NULL),
 (7, '', 'Mel', '', 2018, 'Fêmea', 'Caramelo', '', 5, NULL);
 
 -- --------------------------------------------------------
@@ -126,6 +127,13 @@ CREATE TABLE `procedimento` (
   `valor` double NOT NULL,
   `categoria` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `procedimento`
+--
+
+INSERT INTO `procedimento` (`id`, `status`, `nome`, `valor`, `categoria`) VALUES
+(1, '', 'qeqweqw', 0, 'cachorro');
 
 -- --------------------------------------------------------
 
@@ -247,7 +255,7 @@ ALTER TABLE `veterinario`
 -- AUTO_INCREMENT de tabela `agenda`
 --
 ALTER TABLE `agenda`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de tabela `cliente`
@@ -265,7 +273,7 @@ ALTER TABLE `pet`
 -- AUTO_INCREMENT de tabela `procedimento`
 --
 ALTER TABLE `procedimento`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de tabela `raca`
@@ -303,12 +311,6 @@ ALTER TABLE `agenda`
 ALTER TABLE `pet`
   ADD CONSTRAINT `fk_cliente_pet` FOREIGN KEY (`cliente_id`) REFERENCES `cliente` (`id`),
   ADD CONSTRAINT `fk_raca_pet` FOREIGN KEY (`raca_id`) REFERENCES `raca` (`id`);
-
---
--- Restrições para tabelas `raca`
---
-ALTER TABLE `raca`
-  ADD CONSTRAINT `fk_especie_raca` FOREIGN KEY (`especie_id`) REFERENCES `especie` (`id`);
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;

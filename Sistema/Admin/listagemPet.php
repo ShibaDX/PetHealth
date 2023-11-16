@@ -121,10 +121,11 @@ $resultado = mysqli_query($conexao, $sql);
                                 </tr>
                             <?php } ?>
 
-
+                            </table>
+                            
                 </div>
                 <!-- End of Main Content -->
-
+                <?php require_once("footer.php"); ?>
 
             </div>
 

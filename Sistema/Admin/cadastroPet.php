@@ -51,12 +51,30 @@ require_once("conexao.php"); ?>
                                 <input name="nome" type="text" class="form-control"><br>
                             </div>
                             <div class="mb-1">
+                                <label for="formGroupExampleInput" class="form-label">Espécie</label>
+                                <select name="especie">
+                                    <option value="cachorro">Cachorro</option>
+                                    <option value="gato">Gato</option>
+                                    <option value="roedor">Roedor</option>
+                                    <option value="ave">Ave</option>
+                                </select>
+                            </div>
+                            <div class="mb-1">
                                 <label for="formGroupExampleInput" class="form-label">Ano de Nascimento</label>
                                 <input name="anoNascimento" type="text" class="form-control"><br>
                             </div>
                             <div class="mb-1">
                                 <label for="formGroupExampleInput" class="form-label">Sexo</label>
                                 <input name="sexo" type="text" class="form-control"><br>
+                            </div>
+                            <div class="mb-1">
+                                <label for="formGroupExampleInput" class="form-label">Raça</label>
+                                <select name="especie">
+                                    <option value=""></option>
+                                    <option value=""></option>
+                                    <option value=""></option>
+                                    <option value=""></option>
+                                </select>
                             </div>
                             <div class="mb-1">
                                 <label for="formGroupExampleInput" class="form-label">Cor</label>

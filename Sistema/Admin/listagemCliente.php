@@ -135,11 +135,12 @@ $resultado = mysqli_query($conexao, $sql);
                                     </td>
                                 </tr>
                             <?php } ?>
-
-
+                            </table>
+                            
                 </div>
                 <!-- End of Main Content -->
 
+                <?php require_once("footer.php"); ?>
 
             </div>
 

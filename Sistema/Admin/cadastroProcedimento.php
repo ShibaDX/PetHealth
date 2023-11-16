@@ -56,11 +56,17 @@
                 <input name="valor" type="text" class="form-control"><br>
             </div>
             <div class="mb-1">
-                <label for="formGroupExampleInput" class="form-label">Categoria</label>
-                <input name="categoria" type="text" class="form-control"><br>
+                                <label for="formGroupExampleInput" class="form-label">Categoria</label>
+                                <select name="categoria">
+                                    <option value="cachorro">Consulta</option>
+                                    <option value="gato">Vacina</option>
+                                    <option value="roedor">Castração</option>
+                                    <option value="ave">Vermifugação</option>
+                                    <option value="ave">Procedimento Cirúrgico</option>
+                                </select>
+                            </div>
                 <button name="salvar" type="submit" class="btn btn-primary"><i class="fa-solid fa-check"></i> Salvar</button>
             <a href="listagemAgenda.php" class="btn btn-warning"><i class="fa-solid fa-rotate-left"></i> Voltar</a>
-            </div>
             </div>
 
 

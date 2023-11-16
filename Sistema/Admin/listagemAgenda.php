@@ -78,10 +78,10 @@ $resultado = mysqli_query($conexao, $sql);
                   <?php  if ($resultado->num_rows > 0) {
                                         // Exibir os dados em uma tabela
                                         ?> <table class="table table-striped table-hover"> <?php
-                                        echo "<tr><th>Data do Agendamento</th><th>Nome do Pet</th><th>Nome do Veterinário</th><th>Procedimento</th><th>Ação</th></tr>";
+                                        echo "<tr><th>Data</th><th>Hora</th><th>Nome do Pet</th><th>Nome do Veterinário</th><th>Procedimento</th><th>Ação</th></tr>";
                                         
                                         while ($row = $resultado->fetch_assoc()) {
-                                            echo "<tr><td>".$row["data"]."</td><td>".$row["petNome"]."</td><td>".$row["vetNome"]."</td><td>".$row["procNome"]."</td>" ?> <td> <a href="editarAgenda.php?id=<?= $row['id'] ?>" class="btn btn-warning"><i
+                                            echo "<tr><td>".$row["data"]."<td>".$row["hora"]."</td><td>".$row["petNome"]."</td><td>".$row["vetNome"]."</td><td>".$row["procNome"]."</td>" ?> <td> <a href="editarAgenda.php?id=<?= $row['id'] ?>" class="btn btn-warning"><i
                                             class="fa-solid fa-pen-to-square" style="color: #000000;"></i></a>
                                     <a href="listagemAgenda.php?id=<?= $row['id'] ?>" class="btn btn-danger"
                                         onclick="return confirm('Confirma exclusão?')"><i class="fa-solid fa-trash"

@@ -1,5 +1,5 @@
 <!-- Requisita a verificação de autenticação -->
-<?php 
+<?php
 require_once("conexao.php"); ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -20,7 +20,7 @@ require_once("conexao.php"); ?>
     <script src="https://kit.fontawesome.com/0215a38eba.js" crossorigin="anonymous"></script>
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
-    
+
 
 </head>
 
@@ -47,74 +47,138 @@ require_once("conexao.php"); ?>
                     <div class="container">
                         <h1 class="mb-4"><i class="fa-solid fa-calendar-days"></i> Agendamento</h1>
                         <form method="post">
+                            <div class="container text-center">
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="mb-1">
+                                            <label for="cliente_id" class="form-label">Cliente</label>
+                                            <select name="cliente_id" class="custom-select" aria-label="Large select example" onchange="this.form.submit()">
+                                                <option value="">Selecione</option>
+                                                <?php
+                                                $sql = "select * from cliente order by nome";
+                                                $resultado = mysqli_query($conexao, $sql);
 
-                            <div class="mb-1">
-                                <label for="formGroupExampleInput" class="form-label">Data</label>
-                                <input name="data" type="date" class="form-control"><br>
-                            </div>
-                            <div class="mb-1">
-                                <label for="formGroupExampleInput" class="form-label">Hora</label>
-                                <input name="hora" type="time" class="form-control"><br>
-                            </div>
-                            <div class="mb-1">
-                                <label for="pet_id" class="form-label">Pet</label>
-                                <select name="pet_id" class="custom-select" aria-label="Large select example">
-                                    <?php
-                                    $sql = "select * from pet order by nome";
-                                    $resultado = mysqli_query($conexao, $sql);
+                                                while ($linha = mysqli_fetch_array($resultado)) {
+                                                    $id = $linha['id'];
+                                                    $nome = $linha['nome'];
 
-                                    while ($linha = mysqli_fetch_array($resultado)) {
-                                        $id = $linha['id'];
-                                        $nome = $linha['nome'];
+                                                    $selecionado = ($_POST['cliente_id'] == $id) ? "selected" : "";
 
-                                        echo "<option value='{$id}'>{$nome}</option>";
-                                    }
-                                    ?>
-                                </select>
-                            </div> <br>
-                            <div class="mb-1">
-                                <label for="procedimento_id" class="form-label">Procedimento</label>
-                                <select name="procedimento_id" class="custom-select ">
-                                    <?php
-                                    $sql = "select * from procedimento order by nome";
-                                    $resultado = mysqli_query($conexao, $sql);
+                                                    echo "<option value='{$id}' {$selecionado}>{$nome}</option>";
+                                                }
+                                                ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col">
 
-                                    while ($linha = mysqli_fetch_array($resultado)) {
-                                        $id = $linha['id'];
-                                        $nome = $linha['nome'];
 
-                                        echo "<option value='{$id}'>{$nome}</option>";
-                                    }
-                                    ?>
-                                </select> 
-                            </div> <br>
-                            <div class="mb-1">
-                                <label for="veterinario_id" class="form-label">Veterinário</label>
-                                <select name="veterinario_id" class="custom-select ">
-                                    <?php
-                                    $sql = "select * from veterinario order by nome";
-                                    $resultado = mysqli_query($conexao, $sql);
+                                        <div class="mb-1">
+                                            <label for="pet_id" class="form-label">Pet</label>
+                                            <select name="pet_id" class="custom-select" aria-label="Large select example">
+                                                <option value="">Selecione</option>
+                                                <?php
+                                                $sql = "select pet.id, pet.nome
+                                              from pet 
+                                              where pet.cliente_id = {$_POST['cliente_id']}
+                                          order by pet.nome";
+                                                $resultado = mysqli_query($conexao, $sql);
 
-                                    while ($linha = mysqli_fetch_array($resultado)) {
-                                        $id = $linha['id'];
-                                        $nome = $linha['nome'];
+                                                while ($linha = mysqli_fetch_array($resultado)) {
+                                                    $id = $linha['id'];
+                                                    $nome = $linha['nome'];
 
-                                        echo "<option value='{$id}'>{$nome}</option>";
-                                    }
-                                    ?>
-                                </select>
-                            </div> <br>
-                            <div class="mb-1">
-                                <label for="formGroupExampleInput" class="form-label">Resultado</label>
-                                <input name="resultado" type="text" class="form-control"><br>
-                            </div>
-                            <div class="mb-1">
-                                <label for="formGroupExampleInput" class="form-label">OBS</label>
-                                <input name="obs" type="text" class="form-control"><br>
+                                                    echo "<option value='{$id}'>{$nome}</option>";
+                                                }
+                                                ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div> <br>
+                                <div class="row">
+                                    <div class="col-3">
+                                        <div class="mb-1">
+                                            <label for="formGroupExampleInput" class="form-label">Data</label>
+                                            <input name="data" type="date" class="form-control"><br>
+                                        </div>
+                                    </div>
+                                    <div class="col-3">
+                                        <div class="mb-1">
+                                            <label for="formGroupExampleInput" class="form-label">Hora</label>
+                                            <select name="hora" class="custom-select">
+                                                <option value="">Selecione</option>
+                                                <option value="08:00">08:00</option>
+                                                <option value="08:30">08:30</option>
+                                                <option value="09:00">09:00</option>
+                                                <option value="09:30">09:30</option>
+                                                <option value="10:00">10:00</option>
+                                                <option value="10:30">10:30</option>
+                                                <option value="11:00">11:00</option>
+                                                <option value="11:30">11:30</option>
+                                                <option value="14:00">14:00</option>
+                                                <option value="14:30">14:30</option>
+                                                <option value="15:00">15:00</option>
+                                                <option value="15:30">15:30</option>
+                                                <option value="16:00">16:00</option>
+                                                <option value="16:30">16:30</option>
+                                                <option value="17:00">17:00</option>
+                                                <option value="17:30">17:30</option>
+                                                <option value="18:00">18:00</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="mb-1">
+                                            <label for="procedimento_id" class="form-label">Procedimento</label>
+                                            <select name="procedimento_id" class="custom-select ">
+                                                <option value="">Selecione</option>
+                                                <?php
+                                                $sql = "select * from procedimento order by nome";
+                                                $resultado = mysqli_query($conexao, $sql);
+
+                                                while ($linha = mysqli_fetch_array($resultado)) {
+                                                    $id = $linha['id'];
+                                                    $nome = $linha['nome'];
+
+                                                    echo "<option value='{$id}'>{$nome}</option>";
+                                                }
+                                                ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="mb-1">
+                                            <label for="veterinario_id" class="form-label">Veterinário</label>
+                                            <select name="veterinario_id" class="custom-select ">
+                                                <option value="">Selecione</option>
+                                                <?php
+                                                $sql = "select * from veterinario order by nome";
+                                                $resultado = mysqli_query($conexao, $sql);
+
+                                                while ($linha = mysqli_fetch_array($resultado)) {
+                                                    $id = $linha['id'];
+                                                    $nome = $linha['nome'];
+
+                                                    echo "<option value='{$id}'>{$nome}</option>";
+                                                }
+                                                ?>
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="mb-1">
+                                            <label for="formGroupExampleInput" class="form-label">OBS</label>
+                                            <input name="obs" type="text" class="form-control"><br>
+                                        </div>
+                                    </div>
+                                </div>
                                 <button name="salvar" type="submit" class="btn btn-primary"><i class="fa-solid fa-check"></i> Salvar</button>
                                 <a href="listagemAgenda.php" class="btn btn-warning"><i class="fa-solid fa-rotate-left"></i> Voltar</a>
                             </div>
                     </div>
+
 
 
                     </form><br>
