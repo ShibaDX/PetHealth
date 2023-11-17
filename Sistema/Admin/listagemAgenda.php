@@ -10,10 +10,14 @@ if (isset($_GET['id'])) {
 }
 
 // Preparar a SQL
-$sql = "select * from agenda";
+//$sql = "select * from agenda";
 
-// Executar a SQL
+
+
+// Consulta SQL para obter as consultas marcadas para o dia atual
+$sql = "SELECT * FROM agenda";
 $resultado = mysqli_query($conexao, $sql);
+
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -53,54 +57,102 @@ $resultado = mysqli_query($conexao, $sql);
                 <?php require_once("topbarAdmin.php"); ?>
 
                 <?php
-                                    $sql = "SELECT a.id, a.data, a.hora, p.nome as petNome, v.nome as vetNome, pr.nome as procNome  FROM agenda a 
+                // Obter a data atual
+                $data_atual = date("Y-m-d");
+                $sql = "SELECT a.id, a.data, a.hora, p.nome as petNome, v.nome as vetNome, pr.nome as procNome FROM agenda a 
                                     INNER JOIN pet p on a.pet_id= p.id
                                     inner JOIN veterinario v on a.veterinario_id = v.id
-                                    INNER join procedimento pr on a.procedimento_id = pr.id";
-                                    
-                                    $resultado = mysqli_query($conexao, $sql);
+                                    INNER join procedimento pr on a.procedimento_id = pr.id
+                                    WHERE data = '$data_atual'
+                                    ORDER BY hora";
 
-                                    ?>
+                $resultado = mysqli_query($conexao, $sql);
+                ?>
 
-                    <!-- Bloco de mensagem -->
-                    <?php if (isset($mensagem)) { ?>
-                        <div class="alert alert-success" role="alert">
-                            <i class="fa-solid fa-check" style="color: #2eb413;"></i>
-                            <?= $mensagem ?>
-                        </div>
-                    <?php } ?>
-                    <!-- Tabela para a listagem da agenda -->
-                    <div class="card mt-3 mb-3">
-                        <div class="card-body">
-                            <h2><i class="fa-solid fa-calendar-days"></i> Listagem de Agenda <a href="cadastroAgenda.php" class="btn btn-success btn-sn"><i class="fa-solid fa-calendar-days"></i> Novo Agendamento</a>   <a href="cadastroProcedimento.php" class="btn btn-info btn-sn"><i class="fa-solid fa-plus" style="color: #ffffff;"></i> Cadastrar Procedimento</a></h2>
-                        </div>
+                <!-- Bloco de mensagem -->
+                <?php if (isset($mensagem)) { ?>
+                    <div class="alert alert-success" role="alert">
+                        <i class="fa-solid fa-check" style="color: #2eb413;"></i>
+                        <?= $mensagem ?>
                     </div>
-                  <?php  if ($resultado->num_rows > 0) {
-                                        // Exibir os dados em uma tabela
-                                        ?> <table class="table table-striped table-hover"> <?php
-                                        echo "<tr><th>Data</th><th>Hora</th><th>Nome do Pet</th><th>Nome do Veterinário</th><th>Procedimento</th><th>Ação</th></tr>";
-                                        
-                                        while ($row = $resultado->fetch_assoc()) {
-                                            echo "<tr><td>".$row["data"]."<td>".$row["hora"]."</td><td>".$row["petNome"]."</td><td>".$row["vetNome"]."</td><td>".$row["procNome"]."</td>" ?> <td> <a href="editarAgenda.php?id=<?= $row['id'] ?>" class="btn btn-warning"><i
-                                            class="fa-solid fa-pen-to-square" style="color: #000000;"></i></a>
-                                    <a href="listagemAgenda.php?id=<?= $row['id'] ?>" class="btn btn-danger"
-                                        onclick="return confirm('Confirma exclusão?')"><i class="fa-solid fa-trash"
-                                            style="color: #000000;"></i></a></td></tr> <?php
-                                        } ?>
-                                        
-                                         </table> <?php
-                                    } else {
-                                        echo "Nenhum resultado encontrado.";
-                                    } ?>
-                </div>
-                
-                <!-- End of Main Content -->
+                <?php } ?>
+                <!-- Tabela para a listagem da agenda -->
+                <div class="card mt-3 mb-3">
+                    <div class="card-body">
+                        <h2>
+                            <i class="fa-solid fa-calendar-days"></i> Listagem de Agenda <a href="cadastroAgenda.php" class="btn btn-success btn-sn"><i class="fa-solid fa-calendar-days"></i> Novo Agendamento</a> <a href="cadastroProcedimento.php" class="btn btn-info btn-sn"><i class="fa-solid fa-plus" style="color: #ffffff;"></i> Cadastrar Procedimento</a>
+                        </h2>
+                        <form method="POST">
+                            <div class="col-2">
+                                <!--<label for="formGroupExampleInput" class="form-label">Data</label> -->
+                                <input name="data" type="date" class="form-control" onchange="this.form.submit()"><br>
+                            </div>
+                        </form>
+                         <?php
+                        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                            $dataFiltrada = mysqli_real_escape_string($conexao, $_POST['data']);
 
+                            // Adicione a condição WHERE para filtrar os dados pela data
+                            $sql = "SELECT a.id, a.data, a.hora, p.nome as petNome, v.nome as vetNome, pr.nome as procNome FROM agenda a 
+                            INNER JOIN pet p on a.pet_id= p.id
+                            inner JOIN veterinario v on a.veterinario_id = v.id
+                            INNER join procedimento pr on a.procedimento_id = pr.id
+                            WHERE data = '$dataFiltrada'
+                            ORDER BY hora ";
+                            $resultado = mysqli_query($conexao, $sql);
+                        }
+                        ?>  
+                    </div>
+                </div>
+                <?php
+if ($resultado->num_rows > 0) {
+    // Exibir os dados em uma tabela
+    ?>
+    <table class="table table-striped table-hover">
+        <tr>
+            <th>Data</th>
+            <th>Hora</th>
+            <th>Nome do Pet</th>
+            <th>Nome do Veterinário</th>
+            <th>Procedimento</th>
+            <th>Ação</th>
+        </tr>
+        <?php
+        while ($row = $resultado->fetch_assoc()) {
+            echo "<tr><td>" . $row["data"] . "</td><td>" . $row["hora"];
+
+            // Verifique se os índices existem antes de acessá-los
+            $petNome = isset($row["petNome"]) ? $row["petNome"] : "";
+            $vetNome = isset($row["vetNome"]) ? $row["vetNome"] : "";
+            $procNome = isset($row["procNome"]) ? $row["procNome"] : "";
+
+            echo "</td><td>" . $petNome . "</td><td>" . $vetNome . "</td><td>" . $procNome . "</td>";
+            ?>
+            <td>
+                <a href="editarAgenda.php?id=<?= $row['id'] ?>" class="btn btn-warning"><i class="fa-solid fa-pen-to-square" style="color: #000000;"></i></a>
+                <a href="listagemAgenda.php?id=<?= $row['id'] ?>" class="btn btn-danger" onclick="return confirm('Confirma exclusão?')"><i class="fa-solid fa-trash" style="color: #000000;"></i></a>
+            </td>
+            </tr>
+        <?php
+        }
+        ?>
+    </table>
+    <br>
+    <?php
+} else {
+    echo "Nenhum resultado encontrado para a data selecionada.";
+}
+?>
 
             </div>
 
-            <!-- End of Content Wrapper -->
+            <!-- End of Main Content -->
+
+
         </div>
+
+        <!-- End of Content Wrapper -->
+    </div>
 
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
@@ -108,8 +160,7 @@ $resultado = mysqli_query($conexao, $sql);
     </a>
 
     <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">

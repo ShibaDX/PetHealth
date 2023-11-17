@@ -1,5 +1,14 @@
 <!-- Requisita a verificação de autenticação -->
-<?php require_once("verificaAutenticacao.php"); ?>
+<?php
+require_once("verificaAutenticacao.php");
+require_once("conexao.php");
+
+// Preparar a SQL
+$sql = "select * from agenda";
+
+// Executar a SQL
+$resultado = mysqli_query($conexao, $sql);
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -15,10 +24,8 @@
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
-        <script src="https://kit.fontawesome.com/0215a38eba.js" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <script src="https://kit.fontawesome.com/0215a38eba.js" crossorigin="anonymous"></script>
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
 
@@ -29,7 +36,7 @@
     <!-- Page Wrapper -->
     <div id="wrapper">
 
-    <?php require_once("sidebarAdmin.php"); ?>
+        <?php require_once("sidebarAdmin.php"); ?>
 
         <!-- Content Wrapper -->
         <div id="content-wrapper" class="d-flex flex-column">
@@ -37,47 +44,82 @@
             <!-- Main Content -->
             <div id="content">
 
-    <?php require_once("topbarAdmin.php"); ?>
+                <?php require_once("topbarAdmin.php");
 
-                <!-- Begin Page Content -->
-                <div class="container-fluid">
 
-                    <!-- Page Heading -->
-                    <div class="container">
+                $sql = "SELECT a.id, a.data, a.hora, p.nome as petNome, v.nome as vetNome, pr.nome as procNome  FROM agenda a 
+                                    INNER JOIN pet p on a.pet_id= p.id
+                                    inner JOIN veterinario v on a.veterinario_id = v.id
+                                    INNER join procedimento pr on a.procedimento_id = pr.id";
 
+                $resultado = mysqli_query($conexao, $sql);
+
+                ?>
+
+                <!-- Bloco de mensagem -->
+                <?php if (isset($mensagem)) { ?>
+                    <div class="alert alert-success" role="alert">
+                        <i class="fa-solid fa-check" style="color: #2eb413;"></i>
+                        <?= $mensagem ?>
+                    </div>
+                <?php } ?>
+                <!-- Tabela para a listagem da agenda -->
+                <?php if ($resultado->num_rows > 0) {
+                    // Exibir os dados em uma tabela
+                ?> <table class="table table-striped table-hover tabela-limit">
+                        <?php
+                        echo "<tr><th>Data</th><th>Hora</th><th>Nome do Pet</th><th>Nome do Veterinário</th><th>Procedimento</th></tr>";
+
+                        while ($row = $resultado->fetch_assoc()) {
+                            echo "<tr><td>" . $row["data"] . "<td>" . $row["hora"] . "</td><td>" . $row["petNome"] . "</td><td>" . $row["vetNome"] . "</td><td>" . $row["procNome"] . "</td>" ?>
+                            </tr> <?php
+                                } ?>
+
+                    </table> <?php
+                            } else {
+                                echo "Nenhum resultado encontrado.";
+                            } ?>
             </div>
 
+            <!-- End of Main Content -->
 
-        </form><br>
-        <!-- Requisita conexão -->
-        <?php
-        require_once("conexao.php");
-        if (isset($_POST['salvar'])) {
 
-            //2. Receber os dados para inserir no BD
-            $data = $_POST['data'];
-            $hora = $_POST['hora'];
-            $resultado = $_POST['resultado'];
-            $obs = $_POST['obs'];
+        </div>
 
-            //3. Preparar a SQL
-            $sql = "insert into agenda (data, hora, resultado, obs) values ('$data', '$hora', '$resultado', '$obs')";
 
-            //4. Executar a SQL
-            mysqli_query($conexao, $sql);
+    </div>
 
-            //5. Mostrar mensagem ao usuário
-            $mensagem = "Inserido com Sucesso";
-        }
-        ?>
-        <?php if (isset($mensagem)) { ?>
-            <div class="alert alert-success mb-2" role="alert">
-                <i class="fa-solid fa-check" style="color: #12972c;"></i>
-                <?= $mensagem ?>
-            </div>
-        <?php } 
-        require_once("footer.php");
-        ?>
+
+    </form><br>
+    <!-- Requisita conexão -->
+    <?php
+    require_once("conexao.php");
+    if (isset($_POST['salvar'])) {
+
+        //2. Receber os dados para inserir no BD
+        $data = $_POST['data'];
+        $hora = $_POST['hora'];
+        $resultado = $_POST['resultado'];
+        $obs = $_POST['obs'];
+
+        //3. Preparar a SQL
+        $sql = "insert into agenda (data, hora, resultado, obs) values ('$data', '$hora', '$resultado', '$obs')";
+
+        //4. Executar a SQL
+        mysqli_query($conexao, $sql);
+
+        //5. Mostrar mensagem ao usuário
+        $mensagem = "Inserido com Sucesso";
+    }
+    ?>
+    <?php if (isset($mensagem)) { ?>
+        <div class="alert alert-success mb-2" role="alert">
+            <i class="fa-solid fa-check" style="color: #12972c;"></i>
+            <?= $mensagem ?>
+        </div>
+    <?php }
+    require_once("footer.php");
+    ?>
 
     <!-- Bootstrap core JavaScript-->
     <script src="vendor/jquery/jquery.min.js"></script>

@@ -189,28 +189,45 @@ require_once("conexao.php"); ?>
                         //2. Receber os dados para inserir no BD
                         $data = $_POST['data'];
                         $hora = $_POST['hora'];
-                        $resultado = $_POST['resultado'];
                         $obs = $_POST['obs'];
                         $pet_id = $_POST['pet_id'];
                         $procedimento_id = $_POST['procedimento_id'];
                         $veterinario_id = $_POST['veterinario_id'];
 
+                        $consulta_disponibilidade = "SELECT * FROM agenda WHERE data = '$data' AND hora = '$hora' OR veterinario_id = '$veterinario_id' OR pet_id = '$pet_id'";
+                        $resultado_disponibilidade = mysqli_query($conexao, $consulta_disponibilidade);
+                        if (mysqli_num_rows($resultado_disponibilidade) > 0) {
+                            // Já existe uma consulta agendada nessas condições, exibir mensagem de erro
+                            echo "Desculpe, o horário não está disponível. Por favor, escolha outro horário.";
+                        }
+
+                        else {
                         //3. Preparar a SQL
-                        $sql = "insert into agenda (data, hora, resultado, obs, pet_id, procedimento_id, veterinario_id) values ('$data', '$hora', '$resultado', '$obs', '$pet_id', '$procedimento_id', '$veterinario_id')";
+                        $sql = "insert into agenda (data, hora, obs, pet_id, procedimento_id, veterinario_id) values ('$data', '$hora', '$obs', '$pet_id', '$procedimento_id', '$veterinario_id')";
 
                         //4. Executar a SQL
                         mysqli_query($conexao, $sql);
 
                         //5. Mostrar mensagem ao usuário
                         $mensagem = "Inserido com Sucesso";
-                    }
+                    } 
+                }
                     ?>
-                    <?php if (isset($mensagem)) { ?>
+                    <?php if (isset($mensagem)) { 
+                        if (mysqli_num_rows($resultado_disponibilidade) > 0) { ?>
+                            <div class="alert alert-danger mb-2" role="alert">
+                            <i class="fa-solid fa-check" style="color: #12972c;"></i>
+                            <?= $mensagem ?>
+                        </div> <?php
+                        }
+                        else {
+                        ?>
                         <div class="alert alert-success mb-2" role="alert">
                             <i class="fa-solid fa-check" style="color: #12972c;"></i>
                             <?= $mensagem ?>
                         </div>
-                    <?php }
+                    <?php } 
+                    }
                     require_once("footer.php");
                     ?>
 
