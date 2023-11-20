@@ -123,8 +123,7 @@ require_once("conexao.php"); ?>
                                                 <option value="16:30">16:30</option>
                                                 <option value="17:00">17:00</option>
                                                 <option value="17:30">17:30</option>
-                                                <option value="18:00">18:00</option>
-                                            </select>
+                                             </select>
                                         </div>
                                     </div>
                                     <div class="col-6">
@@ -170,7 +169,7 @@ require_once("conexao.php"); ?>
                                     <div class="col-6">
                                         <div class="mb-1">
                                             <label for="formGroupExampleInput" class="form-label">OBS</label>
-                                            <input name="obs" type="text" class="form-control"><br>
+                                            <textarea name="obs" type="" class="form-control"> </textarea> <br>
                                         </div>
                                     </div>
                                 </div>
