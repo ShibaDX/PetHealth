@@ -123,7 +123,7 @@ require_once("conexao.php"); ?>
                                                 <option value="16:30">16:30</option>
                                                 <option value="17:00">17:00</option>
                                                 <option value="17:30">17:30</option>
-                                            </select>
+                                             </select>
                                         </div>
                                     </div>
                                     <div class="col-6">
