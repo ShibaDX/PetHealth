@@ -193,9 +193,9 @@ require_once("conexao.php"); ?>
                         $procedimento_id = $_POST['procedimento_id'];
                         $veterinario_id = $_POST['veterinario_id'];
 
-                        $consulta_disponibilidade = "SELECT * FROM agenda WHERE data = '$data' AND hora = '$hora' AND (pet_id = '$pet_id' OR veterinario_id = '$veterinario_id')";
+                        $consulta_disponibilidade = "SELECT * FROM agenda WHERE data = '$data' AND hora = '$hora' AND (pet_id = '$pet_id' OR veterinario_id = '$veterinario_id') ";
                         $resultado_disponibilidade = mysqli_query($conexao, $consulta_disponibilidade);
-                        //die($resultado_disponibilidade);
+                        
 
                         if (mysqli_num_rows($resultado_disponibilidade) > 0) {
                             // Já existe uma consulta agendada nessas condições, exibir mensagem de erro
