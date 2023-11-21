@@ -27,7 +27,7 @@ if (isset($_POST['entrar'])) {
         $_SESSION['email'] = $usuario['email'];
         
         //Redireciona para Página Principal
-        header("location: indexAdmin.php");
+        header("location: Admin/indexAdmin.php");
     } else {
         $mensagem = "Email/Senha inválido.";
         header("location: index.php?mensagem=$mensagem");

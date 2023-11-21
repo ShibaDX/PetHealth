@@ -123,7 +123,6 @@ require_once("conexao.php"); ?>
                                                 <option value="16:30">16:30</option>
                                                 <option value="17:00">17:00</option>
                                                 <option value="17:30">17:30</option>
-                                                <option value="18:00">18:00</option>
                                             </select>
                                         </div>
                                     </div>
@@ -170,7 +169,7 @@ require_once("conexao.php"); ?>
                                     <div class="col-6">
                                         <div class="mb-1">
                                             <label for="formGroupExampleInput" class="form-label">OBS</label>
-                                            <input name="obs" type="text" class="form-control"><br>
+                                            <textarea name="obs" type="" class="form-control"> </textarea> <br>
                                         </div>
                                     </div>
                                 </div>
@@ -194,13 +193,14 @@ require_once("conexao.php"); ?>
                         $procedimento_id = $_POST['procedimento_id'];
                         $veterinario_id = $_POST['veterinario_id'];
 
-                        $consulta_disponibilidade = "SELECT * FROM agenda WHERE data = '$data' AND hora = '$hora' OR veterinario_id = '$veterinario_id' OR pet_id = '$pet_id'";
+                        $consulta_disponibilidade = "SELECT * FROM agenda WHERE data = '$data' AND hora = '$hora' AND (pet_id = '$pet_id' OR veterinario_id = '$veterinario_id')";
                         $resultado_disponibilidade = mysqli_query($conexao, $consulta_disponibilidade);
+                        //die($resultado_disponibilidade);
+
                         if (mysqli_num_rows($resultado_disponibilidade) > 0) {
                             // Já existe uma consulta agendada nessas condições, exibir mensagem de erro
                             echo "Desculpe, o horário não está disponível. Por favor, escolha outro horário.";
-                        }
-
+                        } 
                         else {
                         //3. Preparar a SQL
                         $sql = "insert into agenda (data, hora, obs, pet_id, procedimento_id, veterinario_id) values ('$data', '$hora', '$obs', '$pet_id', '$procedimento_id', '$veterinario_id')";
