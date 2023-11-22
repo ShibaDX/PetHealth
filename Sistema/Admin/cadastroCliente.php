@@ -45,18 +45,19 @@
                     <!-- Page Heading -->
                     <!-- Cadastro do Cliente -->
                     <div class="container">
-                        <h1 class="mb-4"><i class="fa-regular fa-user"></i> Cadastro de Cliente</h1>
+                        <h1 class="mb-2"><i class="fa-regular fa-user"></i> Cadastro de Cliente</h1>
+                        <p class="h6">Os campos marcados com * são obrigatórios</p> <br>
                         <form method="post" onsubmit="return validarFormulario()">
                             <div class="row">
                                 <div class="col">
                                     <div class="mb-1">
-                                        <label for="nome" class="form-label">Nome</label>
+                                        <label for="nome" class="form-label">Nome*</label>
                                         <input id="nome" name="nome" type="text" class="form-control" value="<?= isset($_POST['nome']) ? htmlspecialchars($_POST['nome']) : '' ?>"><br>
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="mb-1">
-                                        <label for="telefone" class="form-label">Telefone</label>
+                                        <label for="telefone" class="form-label">Telefone*</label>
                                         <input name="telefone" id="telefone" type="tel" class="form-control" maxlength="15" value="<?= isset($_POST['telefone']) ? htmlspecialchars($_POST['telefone']) : '' ?>" onkeyup="handlePhone(event)"><br>
                                     </div>
                                 </div>
@@ -64,21 +65,22 @@
                             <div class="row">
                                 <div class="col-6">
                                     <div class="mb-1">
-                                        <label for="endereco" class="form-label">Endereço</label>
+                                        <label for="endereco" class="form-label">Endereço*</label>
                                         <input id="endereco" name="endereco" type="text" class="form-control" value="<?= isset($_POST['endereco']) ? htmlspecialchars($_POST['endereco']) : '' ?>"><br>
                                     </div>
                                 </div>
                                 <div class="col-4">
                                     <div class="mb-1">
-                                        <label for="cidade" class="form-label">Cidade</label>
+                                        <label for="cidade" class="form-label">Cidade*</label>
                                         <input id="cidade" name="cidade" type="text" class="form-control" value="<?= isset($_POST['cidade']) ? htmlspecialchars($_POST['cidade']) : '' ?>"><br>
                                     </div>
                                 </div>
                                 <div class="col-2">
                                     <div class="mb-1">
-                                        <label for="uf" class="form-label">UF</label>
+                                        <label for="uf" class="form-label">UF*</label>
                                         <select id="uf" name="uf" class="form-control" value="<?= isset($_POST['uf']) ? htmlspecialchars($_POST['uf']) : '' ?>">
-                                        <?php
+                                            <option selected>Selecione</option>
+                                            <?php
                                             $opcoes = ["AC" => "Acre", "AL" => "Alagoas", "AP" => "Amapá", "AM" => "Amazonas", "BA" => "Bahia", "CE" => "Ceará", "DF" => "Distrito Federal", "ES" => "Espirito Santo", "GO" => "Goiás", "MA" => "Maranhão", "MT" => "Mato Grosso", "MS" => "Mato Grosso do Sul", "MG" => "Minas Gerais", "PA" => "Pará", "PB" => "Paraíba", "PR" => "Paraná", "PE" => "Pernambuco", "PI" => "Piauí", "RJ" => "Rio de Janeiro", "RN" => "Rio Grande do Norte", "RS" => "Rio Grande do Sul", "RO" => "Rondônia", "RR" => "Roraima", "SC" => "Santa Catarina", "SP" => "São Paulo", "SE" => "Sergipe", "TO" => "Tocantins", "EX" => "Estrangeiro"];
 
                                             foreach ($opcoes as $valor => $rotulo) {
@@ -86,34 +88,6 @@
                                                 echo "<option value='$valor' $selected>$rotulo</option>";
                                             }
                                             ?>
-                                        <option value="AC">Acre</option>
-                                            <option value="AL">Alagoas</option>
-                                            <option value="AP">Amapá</option>
-                                            <option value="AM">Amazonas</option>
-                                            <option value="BA">Bahia</option>
-                                            <option value="CE">Ceará</option>
-                                            <option value="DF">Distrito Federal</option>
-                                            <option value="ES">Espírito Santo</option>
-                                            <option value="GO">Goiás</option>
-                                            <option value="MA">Maranhão</option>
-                                            <option value="MT">Mato Grosso</option>
-                                            <option value="MS">Mato Grosso do Sul</option>
-                                            <option value="MG">Minas Gerais</option>
-                                            <option value="PA">Pará</option>
-                                            <option value="PB">Paraíba</option>
-                                            <option value="PR">Paraná</option>
-                                            <option value="PE">Pernambuco</option>
-                                            <option value="PI">Piauí</option>
-                                            <option value="RJ">Rio de Janeiro</option>
-                                            <option value="RN">Rio Grande do Norte</option>
-                                            <option value="RS">Rio Grande do Sul</option>
-                                            <option value="RO">Rondônia</option>
-                                            <option value="RR">Roraima</option>
-                                            <option value="SC">Santa Catarina</option>
-                                            <option value="SP">São Paulo</option>
-                                            <option value="SE">Sergipe</option>
-                                            <option value="TO">Tocantins</option>
-                                            <option value="EX">Estrangeiro</option>
                                         </select><br>
                                     </div>
                                 </div>
@@ -121,8 +95,9 @@
                             <div class="row">
                                 <div class="col">
                                     <div class="mb-1">
-                                        <label for="sexo" class="form-label">Sexo</label>
+                                        <label for="sexo" class="form-label">Sexo*</label>
                                         <select id="sexo" name="sexo" class="form-control">
+                                            <option selected>Selecione</option>
                                             <?php
                                             $opcoes = ["M" => "Masculino", "F" => "Feminino", "O" => "Outro"];
 
@@ -136,7 +111,7 @@
                                 </div>
                                 <div class="col">
                                     <div class="mb-1">
-                                        <label for="dataNascimento" class="form-label">Data de Nascimento</label>
+                                        <label for="dataNascimento" class="form-label">Data de Nascimento*</label>
                                         <input id="dataNascimento" name="dataNascimento" type="date" class="form-control" value="<?= isset($_POST['dataNascimento']) ? htmlspecialchars($_POST['dataNascimento']) : '' ?>"><br>
                                     </div>
                                 </div>
@@ -144,7 +119,7 @@
                             <div class="row">
                                 <div class="col">
                                     <div class="mb-1">
-                                        <label for="cpf" class="form-label">CPF</label>
+                                        <label for="cpf" class="form-label">CPF*</label>
                                         <input name="cpf" id="cpf" type="text" maxlength="14" class="form-control" value="<?= isset($_POST['cpf']) ? htmlspecialchars($_POST['cpf']) : '' ?>" oninput="applyCpfMask(this)"><br>
                                     </div>
                                 </div>
@@ -158,6 +133,28 @@
                             <button name="salvar" type="submit" class="btn btn-primary"><i class="fa-solid fa-check"></i> Salvar</button>
                             <a href="listagemCliente.php" class="btn btn-warning"><i class="fa-solid fa-rotate-left"></i> Voltar</a>
                         </form><br>
+                        
+
+                        <script>
+                                function validarFormulario() {
+                                    // Lógica de validação do lado do cliente
+
+                                    // Exemplo: Verificar se todos os campos obrigatórios estão preenchidos
+                                    var camposObrigatorios = ["nome", "telefone", "endereco", "cidade", "uf", "sexo", "dataNascimento", "cpf"];
+                                    for (var i = 0; i < camposObrigatorios.length; i++) {
+                                        var campo = document.getElementById(camposObrigatorios[i]).value;
+                                        if (campo === "") {
+                                            alert("Por favor, preencha todos os campos obrigatórios.");
+                                            return false; // Impede o envio do formulário
+                                        }
+                                    }
+
+                                    // Outras verificações podem ser adicionadas conforme necessário
+
+                                    return true; // Permite o envio do formulário
+                                }
+                            </script>
+
                         <?php
                         require_once("conexao.php");
 
@@ -191,7 +188,7 @@
                         }
 
 
-                        
+
                         if (isset($_POST['salvar'])) {
 
                             //2. Receber os dados para inserir no BD
@@ -229,7 +226,11 @@
                                     $mensagem = "Erro ao inserir no banco de dados: " . mysqli_error($conexao);
                                 }
                             }
+                        ?>
 
+
+
+                            <?php
                             // Exibir a mensagem
                             if ($mensagem) { ?>
                                 <div class="alert <?= strpos($mensagem, 'Sucesso') !== false ? 'alert-success' : 'alert-danger' ?> mb-2" role="alert">

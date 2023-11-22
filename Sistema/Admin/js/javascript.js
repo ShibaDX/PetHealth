@@ -22,3 +22,34 @@ function cpf(v) {
     return v;
 }
 
+function validarFormulario() {
+    // Obter os valores dos campos
+    var nome = document.getElementById("nome").value;
+    var telefone = document.getElementById("telefone").value;
+    var endereco = document.getElementById("endereco").value;
+    var cidade = document.getElementById("cidade").value;
+    var uf = document.getElementById("uf").value;
+    var sexo = document.getElementById("sexo").value;
+    var dataNascimento = document.getElementById("dataNascimento").value;
+    var cpf = document.getElementById("cpf").value;
+
+    // Verificar se algum campo obrigatório está vazio
+    if (
+        nome === "" ||
+        telefone === "" ||
+        endereco === "" ||
+        cidade === "" ||
+        uf === "" ||
+        sexo === "" ||
+        dataNascimento === "" ||
+        cpf === "" 
+
+    ) {
+        alert("Por favor, preencha todos os campos obrigatórios.");
+        return false; // Impede o envio do formulário
+    }
+
+    // Outras verificações podem ser adicionadas conforme necessário
+
+    return true; // Permite o envio do formulário
+}
