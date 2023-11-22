@@ -46,65 +46,137 @@
                     <!-- Cadastro do Cliente -->
                     <div class="container">
                         <h1 class="mb-4"><i class="fa-regular fa-user"></i> Cadastro de Cliente</h1>
-                        <form method="post">
-                            <div class="mb-1">
-                                <label for="formGroupExampleInput" class="form-label">Nome</label>
-                                <input name="nome" type="text" class="form-control"><br>
+                        <form method="post" onsubmit="return validarFormulario()">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="mb-1">
+                                        <label for="nome" class="form-label">Nome</label>
+                                        <input id="nome" name="nome" type="text" class="form-control" value="<?= isset($_POST['nome']) ? htmlspecialchars($_POST['nome']) : '' ?>"><br>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="mb-1">
+                                        <label for="telefone" class="form-label">Telefone</label>
+                                        <input name="telefone" id="telefone" type="tel" class="form-control" maxlength="15" value="<?= isset($_POST['telefone']) ? htmlspecialchars($_POST['telefone']) : '' ?>" onkeyup="handlePhone(event)"><br>
+                                    </div>
+                                </div>
                             </div>
-                            <div class="mb-1">
-                                <label for="formGroupExampleInput" class="form-label">Telefone</label>
-                                <input name="telefone" id="telefone" type="tel" class="form-control" maxlength="15" onkeyup="handlePhone(event)"><br>
-                            </div>
-                            <div class="mb-1">
-                                <label for="formGroupExampleInput" class="form-label">Endereço</label>
-                                <input name="endereco" type="text" class="form-control"><br>
-                            </div>
-                            <div class="mb-1">
-                                <label for="formGroupExampleInput" class="form-label">Cidade</label>
-                                <input name="cidade" type="text" class="form-control"><br>
-                            </div>
-                            <div class="mb-1">
-                                <label for="formGroupExampleInput" class="form-label">UF</label>
-                                <input name="uf" type="text" class="form-control"><br>
-                            </div>
-                            <div class="mb-1">
-                                <label for="formGroupExampleInput" class="form-label">Sexo</label>
-                                <input name="sexo" type="text" class="form-control"><br>
-                            </div>
-                            <div class="mb-1">
-                                <label for="formGroupExampleInput" class="form-label">Data de Nascimento</label>
-                                <input name="dataNascimento" type="date" class="form-control"><br>
-                            </div>
-                            <div class="mb-1">
-                                <label for="formGroupExampleInput" class="form-label">CPF</label>
-                                <input name="cpf" id="cpf" type="text" maxlength="14" class="form-control" oninput="applyCpfMask(this)"><br>
-                            </div>
-                            <div class="mb-1">
-                                <label for="formGroupExampleInput" class="form-label">Email</label>
-                                <input name="email" type="email" class="form-control"><br>
-                            </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="mb-1">
+                                        <label for="endereco" class="form-label">Endereço</label>
+                                        <input id="endereco" name="endereco" type="text" class="form-control" value="<?= isset($_POST['endereco']) ? htmlspecialchars($_POST['endereco']) : '' ?>"><br>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="mb-1">
+                                        <label for="cidade" class="form-label">Cidade</label>
+                                        <input id="cidade" name="cidade" type="text" class="form-control" value="<?= isset($_POST['cidade']) ? htmlspecialchars($_POST['cidade']) : '' ?>"><br>
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <div class="mb-1">
+                                        <label for="uf" class="form-label">UF</label>
+                                        <select id="uf" name="uf" class="form-control" value="<?= isset($_POST['uf']) ? htmlspecialchars($_POST['uf']) : '' ?>">
+                                        <?php
+                                            $opcoes = ["AC" => "Acre", "AL" => "Alagoas", "AP" => "Amapá", "AM" => "Amazonas", "BA" => "Bahia", "CE" => "Ceará", "DF" => "Distrito Federal", "ES" => "Espirito Santo", "GO" => "Goiás", "MA" => "Maranhão", "MT" => "Mato Grosso", "MS" => "Mato Grosso do Sul", "MG" => "Minas Gerais", "PA" => "Pará", "PB" => "Paraíba", "PR" => "Paraná", "PE" => "Pernambuco", "PI" => "Piauí", "RJ" => "Rio de Janeiro", "RN" => "Rio Grande do Norte", "RS" => "Rio Grande do Sul", "RO" => "Rondônia", "RR" => "Roraima", "SC" => "Santa Catarina", "SP" => "São Paulo", "SE" => "Sergipe", "TO" => "Tocantins", "EX" => "Estrangeiro"];
 
+                                            foreach ($opcoes as $valor => $rotulo) {
+                                                $selected = ($_POST["uf"] == $valor) ? "selected" : "";
+                                                echo "<option value='$valor' $selected>$rotulo</option>";
+                                            }
+                                            ?>
+                                        <option value="AC">Acre</option>
+                                            <option value="AL">Alagoas</option>
+                                            <option value="AP">Amapá</option>
+                                            <option value="AM">Amazonas</option>
+                                            <option value="BA">Bahia</option>
+                                            <option value="CE">Ceará</option>
+                                            <option value="DF">Distrito Federal</option>
+                                            <option value="ES">Espírito Santo</option>
+                                            <option value="GO">Goiás</option>
+                                            <option value="MA">Maranhão</option>
+                                            <option value="MT">Mato Grosso</option>
+                                            <option value="MS">Mato Grosso do Sul</option>
+                                            <option value="MG">Minas Gerais</option>
+                                            <option value="PA">Pará</option>
+                                            <option value="PB">Paraíba</option>
+                                            <option value="PR">Paraná</option>
+                                            <option value="PE">Pernambuco</option>
+                                            <option value="PI">Piauí</option>
+                                            <option value="RJ">Rio de Janeiro</option>
+                                            <option value="RN">Rio Grande do Norte</option>
+                                            <option value="RS">Rio Grande do Sul</option>
+                                            <option value="RO">Rondônia</option>
+                                            <option value="RR">Roraima</option>
+                                            <option value="SC">Santa Catarina</option>
+                                            <option value="SP">São Paulo</option>
+                                            <option value="SE">Sergipe</option>
+                                            <option value="TO">Tocantins</option>
+                                            <option value="EX">Estrangeiro</option>
+                                        </select><br>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="mb-1">
+                                        <label for="sexo" class="form-label">Sexo</label>
+                                        <select id="sexo" name="sexo" class="form-control">
+                                            <?php
+                                            $opcoes = ["M" => "Masculino", "F" => "Feminino", "O" => "Outro"];
+
+                                            foreach ($opcoes as $valor => $rotulo) {
+                                                $selected = ($_POST["sexo"] == $valor) ? "selected" : "";
+                                                echo "<option value='$valor' $selected>$rotulo</option>";
+                                            }
+                                            ?>
+                                        </select><br>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="mb-1">
+                                        <label for="dataNascimento" class="form-label">Data de Nascimento</label>
+                                        <input id="dataNascimento" name="dataNascimento" type="date" class="form-control" value="<?= isset($_POST['dataNascimento']) ? htmlspecialchars($_POST['dataNascimento']) : '' ?>"><br>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="mb-1">
+                                        <label for="cpf" class="form-label">CPF</label>
+                                        <input name="cpf" id="cpf" type="text" maxlength="14" class="form-control" value="<?= isset($_POST['cpf']) ? htmlspecialchars($_POST['cpf']) : '' ?>" oninput="applyCpfMask(this)"><br>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="mb-1">
+                                        <label for="email" class="form-label">Email</label>
+                                        <input id="email" name="email" type="email" class="form-control" value="<?= isset($_POST['email']) ? htmlspecialchars($_POST['email']) : '' ?>"><br>
+                                    </div>
+                                </div>
+                            </div>
                             <button name="salvar" type="submit" class="btn btn-primary"><i class="fa-solid fa-check"></i> Salvar</button>
                             <a href="listagemCliente.php" class="btn btn-warning"><i class="fa-solid fa-rotate-left"></i> Voltar</a>
                         </form><br>
                         <?php
                         require_once("conexao.php");
 
-                        function validaCPF($cpf) {
- 
+                        function validaCPF($cpf)
+                        {
+
                             // Extrai somente os números
-                            $cpf = preg_replace( '/[^0-9]/is', '', $cpf );
-                             
+                            $cpf = preg_replace('/[^0-9]/is', '', $cpf);
+
                             // Verifica se foi informado todos os digitos corretamente
                             if (strlen($cpf) != 11) {
                                 return false;
                             }
-                        
+
                             // Verifica se foi informada uma sequência de digitos repetidos. Ex: 111.111.111-11
                             if (preg_match('/(\d)\1{10}/', $cpf)) {
                                 return false;
                             }
-                        
+
                             // Faz o calculo para validar o CPF
                             for ($t = 9; $t < 11; $t++) {
                                 for ($d = 0, $c = 0; $c < $t; $c++) {
@@ -116,11 +188,10 @@
                                 }
                             }
                             return true;
-                        
                         }
-                        
-                        
 
+
+                        
                         if (isset($_POST['salvar'])) {
 
                             //2. Receber os dados para inserir no BD
@@ -134,47 +205,41 @@
                             $cpf = $_POST['cpf'];
                             $email = $_POST['email'];
 
-                            if (!validaCPF($cpf)) {
-                                // CPF inválido, mostrar mensagem de erro ou tomar a ação necessária
-                                $mensagem = "CPF inválido. Por favor, insira um CPF válido.";
+                            $mensagem = ""; // Inicializa a variável $mensagem
 
-                                if (isset($mensagem)) { ?>
-                                    <div class="alert alert-danger mb-2" role="alert">
-                                    <i class="fa-solid fa-x" style="color: #b70b0b;"></i>
-                                        <?= $mensagem ?>
-                                    </div> <?php }
+                            if (!validaCPF($cpf)) {
+                                // CPF inválido, mostrar mensagem de erro
+                                $mensagem = "CPF inválido. Por favor, insira um CPF válido.";
                             } else if (strtotime($dataNascimento) > time()) {
-                                // Data de nascimento é no futuro
+                                // Data de nascimento é no futuro, mostrar mensagem de erro
                                 $mensagem = "Data de nascimento não pode ser no futuro";
-                                if (isset($mensagem)) { ?>
-                                    <div class="alert alert-danger mb-2" role="alert">
-                                    <i class="fa-solid fa-x" style="color: #b70b0b;"></i>
-                                        <?= $mensagem ?>
-                                    </div> <?php }
+                            } else {
+                                //3. Preparar a SQL
+                                $sql = "insert into cliente (nome, telefone, endereco, cidade, uf, sexo, dataNascimento, CPF, email) values ('$nome', '$telefone', '$endereco', '$cidade', '$uf', '$sexo', '$dataNascimento', '$cpf', '$email')";
+
+                                //4. Executar a SQL
+                                $resultado = mysqli_query($conexao, $sql);
+
+                                //5. Verificar o resultado da inserção
+                                if ($resultado) {
+                                    // Inserção bem-sucedida
+                                    $mensagem = "Inserido com Sucesso";
+                                } else {
+                                    // Erro na inserção
+                                    $mensagem = "Erro ao inserir no banco de dados: " . mysqli_error($conexao);
+                                }
                             }
 
-                             else {
-                            
-                            //3. Preparar a SQL
-                            $sql = "insert into cliente (nome, telefone, endereco, cidade, uf, sexo, dataNascimento, CPF, email) values ('$nome', '$telefone', '$endereco', '$cidade', '$uf', '$sexo', '$dataNascimento', '$cpf', '$email')";
+                            // Exibir a mensagem
+                            if ($mensagem) { ?>
+                                <div class="alert <?= strpos($mensagem, 'Sucesso') !== false ? 'alert-success' : 'alert-danger' ?> mb-2" role="alert">
+                                    <i class="fa-solid <?= strpos($mensagem, 'Sucesso') !== false ? 'fa-check' : 'fa-x' ?>" style="color: <?= strpos($mensagem, 'Sucesso') !== false ? '#12972c' : '#b70b0b' ?>;"></i>
+                                    <?= $mensagem ?>
+                                </div>
+                            <?php } ?>
 
-                            //4. Executar a SQL
-                            mysqli_query($conexao, $sql);
-
-                            //5. Mostrar mensagem ao usuário
-                            $mensagem = "Inserido com Sucesso";
-                            
-                            
-                            
-                        
-                         if (isset($mensagem)) { ?>
-                            <div class="alert alert-success mb-2" role="alert">
-                                <i class="fa-solid fa-check" style="color: #12972c;"></i>
-                                <?= $mensagem ?>
-                            </div>
-                        
                             <!-- Requisitar a Conexão -->
-                        <?php } } }
+                        <?php }
                         require_once("footer.php");
                         ?>
 
