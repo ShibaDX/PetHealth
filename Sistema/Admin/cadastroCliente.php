@@ -77,16 +77,11 @@
                             </div>
                             <div class="mb-1">
                                 <label for="formGroupExampleInput" class="form-label">CPF</label>
-                                <input name="cpf" id="cpf" type="text" maxlength="14" class="form-control" oninput="applyCpfMask(this)" oninput="validateCpf(this)"><br>
-                                <span id="cpfError" style="color: red;"></span>
+                                <input name="cpf" id="cpf" type="text" maxlength="14" class="form-control" oninput="applyCpfMask(this)"><br>
                             </div>
                             <div class="mb-1">
                                 <label for="formGroupExampleInput" class="form-label">Email</label>
                                 <input name="email" type="email" class="form-control"><br>
-                            </div>
-                            <div class="mb-1">
-                                <label for="formGroupExampleInput" class="form-label">Senha</label>
-                                <input name="senha" type="password" class="form-control"><br>
                             </div>
 
                             <button name="salvar" type="submit" class="btn btn-primary"><i class="fa-solid fa-check"></i> Salvar</button>
@@ -94,6 +89,38 @@
                         </form><br>
                         <?php
                         require_once("conexao.php");
+
+                        function validaCPF($cpf) {
+ 
+                            // Extrai somente os números
+                            $cpf = preg_replace( '/[^0-9]/is', '', $cpf );
+                             
+                            // Verifica se foi informado todos os digitos corretamente
+                            if (strlen($cpf) != 11) {
+                                return false;
+                            }
+                        
+                            // Verifica se foi informada uma sequência de digitos repetidos. Ex: 111.111.111-11
+                            if (preg_match('/(\d)\1{10}/', $cpf)) {
+                                return false;
+                            }
+                        
+                            // Faz o calculo para validar o CPF
+                            for ($t = 9; $t < 11; $t++) {
+                                for ($d = 0, $c = 0; $c < $t; $c++) {
+                                    $d += $cpf[$c] * (($t + 1) - $c);
+                                }
+                                $d = ((10 * $d) % 11) % 10;
+                                if ($cpf[$c] != $d) {
+                                    return false;
+                                }
+                            }
+                            return true;
+                        
+                        }
+                        
+                        
+
                         if (isset($_POST['salvar'])) {
 
                             //2. Receber os dados para inserir no BD
@@ -106,25 +133,48 @@
                             $dataNascimento = $_POST['dataNascimento'];
                             $cpf = $_POST['cpf'];
                             $email = $_POST['email'];
-                            $senha = $_POST['senha'];
 
+                            if (!validaCPF($cpf)) {
+                                // CPF inválido, mostrar mensagem de erro ou tomar a ação necessária
+                                $mensagem = "CPF inválido. Por favor, insira um CPF válido.";
+
+                                if (isset($mensagem)) { ?>
+                                    <div class="alert alert-danger mb-2" role="alert">
+                                    <i class="fa-solid fa-x" style="color: #b70b0b;"></i>
+                                        <?= $mensagem ?>
+                                    </div> <?php }
+                            } else if (strtotime($dataNascimento) > time()) {
+                                // Data de nascimento é no futuro
+                                $mensagem = "Data de nascimento não pode ser no futuro";
+                                if (isset($mensagem)) { ?>
+                                    <div class="alert alert-danger mb-2" role="alert">
+                                    <i class="fa-solid fa-x" style="color: #b70b0b;"></i>
+                                        <?= $mensagem ?>
+                                    </div> <?php }
+                            }
+
+                             else {
+                            
                             //3. Preparar a SQL
-                            $sql = "insert into cliente (nome, telefone, endereco, cidade, uf, sexo, dataNascimento, CPF, email, senha) values ('$nome', '$telefone', '$endereco', '$cidade', '$uf', '$sexo', '$dataNascimento', '$cpf', '$email', '$senha')";
+                            $sql = "insert into cliente (nome, telefone, endereco, cidade, uf, sexo, dataNascimento, CPF, email) values ('$nome', '$telefone', '$endereco', '$cidade', '$uf', '$sexo', '$dataNascimento', '$cpf', '$email')";
 
                             //4. Executar a SQL
                             mysqli_query($conexao, $sql);
 
                             //5. Mostrar mensagem ao usuário
                             $mensagem = "Inserido com Sucesso";
-                        }
-                        ?>
-                        <?php if (isset($mensagem)) { ?>
+                            
+                            
+                            
+                        
+                         if (isset($mensagem)) { ?>
                             <div class="alert alert-success mb-2" role="alert">
                                 <i class="fa-solid fa-check" style="color: #12972c;"></i>
                                 <?= $mensagem ?>
                             </div>
+                        
                             <!-- Requisitar a Conexão -->
-                        <?php }
+                        <?php } } }
                         require_once("footer.php");
                         ?>
 
