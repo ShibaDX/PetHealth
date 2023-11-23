@@ -85,7 +85,7 @@ $resultado = mysqli_query($conexao, $sql);
                         <form method="POST">
                             <div class="col-2">
                                 <!--<label for="formGroupExampleInput" class="form-label">Data</label> -->
-                                <input name="data" type="date" class="form-control" onchange="this.form.submit()"><br>
+                                <input name="data" type="date" class="form-control" onchange="this.form.submit()" value="<?= isset($_POST['data']) ? htmlspecialchars($_POST['data']) : '' ?>"><br>
                             </div>
                         </form>
                          <?php
