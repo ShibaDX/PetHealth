@@ -45,67 +45,94 @@ require_once("conexao.php"); ?>
                     <!-- Cadastrar Raça -->
                     <div class="container">
                         <h1 class="mb-4"><i class="fa-solid fa-dog"></i> Cadastro de Raça</h1>
-                        <form method="post">
-                            <div class="mb-1">
-                                <label for="formGroupExampleInput" class="form-label">Nome</label>
-                                <input name="nome" type="text" class="form-control"><br>
-                            </div>
-                            <div class="mb-1">
-                                <label for="especie_id" class="form-label">Espécie</label>
-                                <select name="especie_id" class="form-select">
-                                    <option value="Cachorro">Cachorro</option>
-                                    <option value="Gato">Gato</option>
-                                    <option value="Roedor">Roedor</option>
-                                    <option value="Ave">Ave</option>
-                                </select>
+                        <form method="post" onsubmit="return validarFormulario()">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="mb-1">
+                                        <label for="formGroupExampleInput" class="form-label">Nome</label>
+                                        <input id="nomeRaca" name="nomeRaca" type="text" class="form-control"> <br>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="mb-1">
+                                        <label for="especie" class="form-label">Espécie</label>
+                                        <select id="especie" name="especie" class="form-control">
+                                            <option selected>Selecione</option>
+                                            <option value="Cachorro">Cachorro</option>
+                                            <option value="Gato">Gato</option>
+                                            <option value="Roeor">Roedor</option>
+                                            <option value="Ave">Ave</option>
+                                        </select>
+                                    </div>
+                                </div>
                             </div>
                             <div class="mb-1">
                                 <label for="formGroupExampleInput" class="form-label">Descrição</label>
-                                <input name="descricao" type="text" class="form-control"><br>
+                                <textarea name="descricao" type="" class="form-control"> </textarea><br>
                                 <button name="salvar" type="submit" class="btn btn-primary"><i class="fa-solid fa-check"></i> Salvar</button>
                                 <a href="listagemPet.php" class="btn btn-warning"><i class="fa-solid fa-rotate-left"></i> Voltar</a>
                             </div>
                     </div>
+                </form><br>
 
 
-                    </form><br>
-                    <!-- Requisitar a Conexão -->
-                    <?php
-                    if (isset($_POST['salvar'])) {
 
-                        //2. Receber os dados para inserir no BD
-                        $nome = $_POST['nome'];
-                        $descricao = $_POST['descricao'];
-                        $especie_id = $_POST['especie_id'];
 
-                        //3. Preparar a SQL
-                        $sql = "insert into raca (nome, descricao, especie_id) values ('$nome', '$descricao', '$especie_id')";
+                <script>
+                    function validarFormulario() {
+                        // Lógica de validação do lado do cliente
 
-                        //4. Executar a SQL
-                        mysqli_query($conexao, $sql);
+                        // Exemplo: Verificar se todos os campos obrigatórios estão preenchidos
+                        var camposObrigatorios = ["nomeRaca", "especie"];
+                        for (var i = 0; i < camposObrigatorios.length; i++) {
+                            var campo = document.getElementById(camposObrigatorios[i]).value;
+                            if (campo === "") {
+                                alert("Por favor, preencha todos os campos obrigatórios.");
+                                return false; // Impede o envio do formulário
+                            }
+                        }
 
-                        //5. Mostrar mensagem ao usuário
-                        $mensagem = "Inserido com Sucesso";
+                        // Outras verificações podem ser adicionadas conforme necessário
+
+                        return true; // Permite o envio do formulário
                     }
-                    ?>
-                    <?php if (isset($mensagem)) { ?>
-                        <div class="alert alert-success mb-2" role="alert">
-                            <i class="fa-solid fa-check" style="color: #12972c;"></i>
-                            <?= $mensagem ?>
-                        </div>
-                    <?php }
-                    require_once("footer.php");
-                    ?>
+                </script>
 
-                    <!-- Bootstrap core JavaScript-->
-                    <script src="vendor/jquery/jquery.min.js"></script>
-                    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+                <?php
+                if (isset($_POST['salvar'])) {
 
-                    <!-- Core plugin JavaScript-->
-                    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+                    //2. Receber os dados para inserir no BD
+                    $nomeRaca = $_POST['nomeRaca'];
+                    $descricao = $_POST['descricao'];
+                    $especie = $_POST['especie'];
 
-                    <!-- Custom scripts for all pages-->
-                    <script src="js/sb-admin-2.min.js"></script>
+                    //3. Preparar a SQL
+                    $sql = "insert into raca (nome, descricao, especie) values ('$nomeRaca', '$descricao', '$especie')";
+
+                    //4. Executar a SQL
+                    mysqli_query($conexao, $sql);
+
+                    //5. Mostrar mensagem ao usuário
+                    $mensagem = "Inserido com Sucesso";
+                }
+                ?>
+                <?php if (isset($mensagem)) { ?>
+                    <div class="alert alert-success mb-2" role="alert">
+                        <i class="fa-solid fa-check" style="color: #12972c;"></i>
+                        <?= $mensagem ?>
+                    </div>
+                <?php }
+                require_once("footer.php");
+                ?>
+                <!-- Bootstrap core JavaScript-->
+                <script src="vendor/jquery/jquery.min.js"></script>
+                <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+                <!-- Core plugin JavaScript-->
+                <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+                <!-- Custom scripts for all pages-->
+                <script src="js/sb-admin-2.min.js"></script>
 
 </body>
 

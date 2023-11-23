@@ -88,7 +88,9 @@ require_once("conexao.php"); ?>
                                                     $id = $linha['id'];
                                                     $nome = $linha['nome'];
 
-                                                    echo "<option value='{$id}'>{$nome}</option>";
+                                                    $selecionado = ($_POST['pet_id'] == $id) ? "selected" : "";
+
+                                                    echo "<option value='{$id}' {$selecionado}>{$nome}</option>";
                                                 }
                                                 ?>
                                             </select>
@@ -99,7 +101,7 @@ require_once("conexao.php"); ?>
                                     <div class="col-3">
                                         <div class="mb-1">
                                             <label for="formGroupExampleInput" class="form-label">Data</label>
-                                            <input name="data" type="date" class="form-control"><br>
+                                            <input name="data" type="date" class="form-control" value="<?= isset($_POST['data']) ? htmlspecialchars($_POST['data']) : '' ?>"><br>
                                         </div>
                                     </div>
                                     <div class="col-3">
@@ -123,7 +125,7 @@ require_once("conexao.php"); ?>
                                                 <option value="16:30">16:30</option>
                                                 <option value="17:00">17:00</option>
                                                 <option value="17:30">17:30</option>
-                                             </select>
+                                            </select>
                                         </div>
                                     </div>
                                     <div class="col-6">
@@ -139,7 +141,9 @@ require_once("conexao.php"); ?>
                                                     $id = $linha['id'];
                                                     $nome = $linha['nome'];
 
-                                                    echo "<option value='{$id}'>{$nome}</option>";
+                                                    $selecionado = ($_POST['procedimento_id'] == $id) ? "selected" : "";
+
+                                                    echo "<option value='{$id}' {$selecionado}>{$nome}</option>";
                                                 }
                                                 ?>
                                             </select>
@@ -160,7 +164,9 @@ require_once("conexao.php"); ?>
                                                     $id = $linha['id'];
                                                     $nome = $linha['nome'];
 
-                                                    echo "<option value='{$id}'>{$nome}</option>";
+                                                    $selecionado = ($_POST['veterinario_id'] == $id) ? "selected" : "";
+
+                                                    echo "<option value='{$id}' {$selecionado}>{$nome}</option>";
                                                 }
                                                 ?>
                                             </select>
@@ -169,7 +175,7 @@ require_once("conexao.php"); ?>
                                     <div class="col-6">
                                         <div class="mb-1">
                                             <label for="formGroupExampleInput" class="form-label">OBS</label>
-                                            <textarea name="obs" type="" class="form-control"> </textarea> <br>
+                                            <textarea name="obs" type="text" class="form-control" value="<?= isset($_POST['obs']) ? htmlspecialchars($_POST['obs']) : '' ?>"></textarea> <br>
                                         </div>
                                     </div>
                                 </div>
@@ -195,40 +201,38 @@ require_once("conexao.php"); ?>
 
                         $consulta_disponibilidade = "SELECT * FROM agenda WHERE data = '$data' AND hora = '$hora' AND (pet_id = '$pet_id' OR veterinario_id = '$veterinario_id') ";
                         $resultado_disponibilidade = mysqli_query($conexao, $consulta_disponibilidade);
-                        
+
 
                         if (mysqli_num_rows($resultado_disponibilidade) > 0) {
                             // Já existe uma consulta agendada nessas condições, exibir mensagem de erro
-                            echo "Desculpe, o horário não está disponível. Por favor, escolha outro horário.";
-                        } 
-                        else {
-                        //3. Preparar a SQL
-                        $sql = "insert into agenda (data, hora, obs, pet_id, procedimento_id, veterinario_id) values ('$data', '$hora', '$obs', '$pet_id', '$procedimento_id', '$veterinario_id')";
+                            $mensagem = "Desculpe, o horário não está disponível. Por favor, escolha outro horário.";
+                        } else {
+                            //3. Preparar a SQL
+                            $sql = "insert into agenda (data, hora, obs, pet_id, procedimento_id, veterinario_id) values ('$data', '$hora', '$obs', '$pet_id', '$procedimento_id', '$veterinario_id')";
 
-                        //4. Executar a SQL
-                        mysqli_query($conexao, $sql);
+                            //4. Executar a SQL
+                            mysqli_query($conexao, $sql);
 
-                        //5. Mostrar mensagem ao usuário
-                        $mensagem = "Inserido com Sucesso";
-                    } 
-                }
+                            //5. Mostrar mensagem ao usuário
+                            $mensagem = "Inserido com Sucesso";
+                        }
+                    }
                     ?>
-                    <?php if (isset($mensagem)) { 
+                    <?php if (isset($mensagem)) {
                         if (mysqli_num_rows($resultado_disponibilidade) > 0) { ?>
                             <div class="alert alert-danger mb-2" role="alert">
-                            <i class="fa-solid fa-check" style="color: #12972c;"></i>
-                            <?= $mensagem ?>
-                        </div> <?php
-                        }
-                        else {
-                        ?>
-                        <div class="alert alert-success mb-2" role="alert">
-                            <i class="fa-solid fa-check" style="color: #12972c;"></i>
-                            <?= $mensagem ?>
-                        </div>
-                    <?php } 
-                    }
-                    require_once("footer.php");
+                                <i class="fa-solid fa-x" style="color: #b70b0b;"></i>
+                                <?= $mensagem ?>
+                            </div> <?php
+                                } else {
+                                    ?>
+                            <div class="alert alert-success mb-2" role="alert">
+                                <i class="fa-solid fa-check" style="color: #12972c;"></i>
+                                <?= $mensagem ?>
+                            </div>
+                    <?php }
+                            }
+                            require_once("footer.php");
                     ?>
 
                     <!-- Bootstrap core JavaScript-->

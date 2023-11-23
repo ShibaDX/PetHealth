@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 13/11/2023 às 16:21
+-- Tempo de geração: 23/11/2023 às 01:26
 -- Versão do servidor: 10.4.28-MariaDB
 -- Versão do PHP: 8.2.4
 
@@ -46,8 +46,9 @@ CREATE TABLE `agenda` (
 --
 
 INSERT INTO `agenda` (`id`, `status`, `data`, `hora`, `obs`, `resultado`, `pet_id`, `veterinario_id`, `procedimento_id`) VALUES
-(1, '', '2023-06-07', '12:29', '', '', NULL, NULL, NULL),
-(2, '', '2023-11-13', '11:30', '312312', '', 2, 7, 1);
+(1, '', '2023-11-22', '17:00', ' ', NULL, 2, 10, 5),
+(2, '', '2023-11-22', '14:00', ' ', NULL, 2, 10, 5),
+(3, '', '2023-11-22', '17:00', ' ', NULL, 4, 7, 14);
 
 -- --------------------------------------------------------
 
@@ -106,13 +107,13 @@ CREATE TABLE `pet` (
 --
 
 INSERT INTO `pet` (`id`, `status`, `nome`, `especie`, `anoNascimento`, `sexo`, `cor`, `obs`, `cliente_id`, `raca_id`) VALUES
-(1, '', 'Juan', '', 2019, 'Macho', 'Caramelo', '', 5, NULL),
-(2, '', 'Bella', '', 2018, 'Fêmea', 'Marrom e branco', '', 2, NULL),
-(3, '', 'Max', '', 2016, 'Macho', 'Preto', '', 3, NULL),
-(4, '', 'Luna', '', 2019, 'Fêmea', 'Cinza e rajado', '', 4, NULL),
-(5, '', 'Rocky', '', 2015, 'Macho', 'Dourado', '', 6, NULL),
-(6, '', 'Sophie', '', 2020, 'Fêmea', 'Creme', '', 6, NULL),
-(7, '', 'Mel', '', 2018, 'Fêmea', 'Caramelo', '', 5, NULL);
+(1, '', 'Juan', '', 2019, 'Macho', 'Caramelo', '', 5, 2),
+(2, '', 'Bella', '', 2018, 'Fêmea', 'Marrom e branco', '', 2, 5),
+(3, '', 'Max', '', 2016, 'Macho', 'Preto', '', 3, 10),
+(4, '', 'Luna', '', 2019, 'Fêmea', 'Cinza e rajado', '', 4, 11),
+(5, '', 'Rocky', '', 2015, 'Macho', 'Dourado', '', 6, 14),
+(6, '', 'Sophie', '', 2020, 'Fêmea', 'Creme', '', 6, 5),
+(7, '', 'Mel', '', 2018, 'Fêmea', 'Caramelo', '', 5, 6);
 
 -- --------------------------------------------------------
 
@@ -133,7 +134,20 @@ CREATE TABLE `procedimento` (
 --
 
 INSERT INTO `procedimento` (`id`, `status`, `nome`, `valor`, `categoria`) VALUES
-(1, '', 'qeqweqw', 0, 'cachorro');
+(2, '', 'Consulta Veterinária de Rotina', 50, ''),
+(3, '', 'Vacinação Anual', 30, ''),
+(4, '', 'Castração/esterilização', 150, ''),
+(5, '', 'Exame de Sangue', 80, ''),
+(6, '', 'Radiografia ', 100, ''),
+(7, '', 'Limpeza Dentária', 70, ''),
+(8, '', 'Tratamento para Pulgas e Carrapatos', 40, ''),
+(9, '', 'Microchipagem', 25, ''),
+(10, '', 'Consulta de Emergência', 80, ''),
+(11, '', 'Ultrassonografia ', 120, ''),
+(12, '', 'Tratamento para Verminoses', 20, ''),
+(13, '', 'Análise de Fezes', 25, ''),
+(14, '', 'Fisioterapia para Animais', 60, ''),
+(15, '', 'Acompanhamento de Gravidez', 90, '');
 
 -- --------------------------------------------------------
 
@@ -146,8 +160,46 @@ CREATE TABLE `raca` (
   `status` varchar(15) NOT NULL,
   `nome` varchar(100) NOT NULL,
   `descricao` varchar(100) DEFAULT NULL,
-  `especie_id` int(11) DEFAULT NULL
+  `especie` varchar(15) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `raca`
+--
+
+INSERT INTO `raca` (`id`, `status`, `nome`, `descricao`, `especie`) VALUES
+(1, '', 'Labrador Retriever', ' ', 'Cachorro'),
+(2, '', 'Pastor Alemão', ' ', 'Cachorro'),
+(3, '', 'Golden Retriever', ' ', 'Cachorro'),
+(4, '', 'Bulldog Inglês', ' ', 'Cachorro'),
+(5, '', 'Beagle', ' ', 'Cachorro'),
+(6, '', 'Poodle', ' ', 'Cachorro'),
+(7, '', 'Boxer', ' ', 'Cachorro'),
+(8, '', 'Dachshund', ' ', 'Cachorro'),
+(9, '', 'Chihuahua', ' ', 'Cachorro'),
+(10, '', 'Shih Tzu', ' ', 'Cachorro'),
+(11, '', 'Pug', ' ', 'Cachorro'),
+(12, '', 'Yorkshire Terrier', ' ', 'Cachorro'),
+(13, '', 'Rottweiler', ' ', 'Cachorro'),
+(14, '', 'Doberman Pinscher', ' ', 'Cachorro'),
+(15, '', 'Border Collie', ' ', 'Cachorro'),
+(16, '', 'Schnauzer Miniatura', ' ', 'Cachorro'),
+(17, '', 'Shetland Sheepdog', ' ', 'Cachorro'),
+(18, '', 'Akita', ' ', 'Cachorro'),
+(19, '', 'Husky Siberiano', ' ', 'Cachorro'),
+(20, '', 'Bulldog Francês', ' ', 'Cachorro'),
+(21, '', 'Cocker Spaniel', ' ', 'Cachorro'),
+(22, '', 'Mastiff', ' ', 'Cachorro'),
+(23, '', 'Dálmata', ' ', 'Cachorro'),
+(24, '', 'Shiba Inu', ' ', 'Cachorro'),
+(25, '', 'Sem Raça', ' ', 'Cachorro'),
+(26, '', 'Siamês', ' ', 'Gato'),
+(27, '', 'Persa', ' ', 'Gato'),
+(28, '', 'Bengal', ' ', 'Gato'),
+(29, '', 'Sphynx', ' ', 'Gato'),
+(30, '', 'Birmanês', ' ', 'Gato'),
+(31, '', 'Abissínio', ' ', 'Gato'),
+(32, '', 'Himalaio', ' ', 'Gato');
 
 -- --------------------------------------------------------
 
@@ -233,7 +285,7 @@ ALTER TABLE `procedimento`
 --
 ALTER TABLE `raca`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_especie_raca` (`especie_id`);
+  ADD KEY `fk_especie_raca` (`especie`);
 
 --
 -- Índices de tabela `recebimento`
@@ -255,7 +307,7 @@ ALTER TABLE `veterinario`
 -- AUTO_INCREMENT de tabela `agenda`
 --
 ALTER TABLE `agenda`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de tabela `cliente`
@@ -267,19 +319,19 @@ ALTER TABLE `cliente`
 -- AUTO_INCREMENT de tabela `pet`
 --
 ALTER TABLE `pet`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
 
 --
 -- AUTO_INCREMENT de tabela `procedimento`
 --
 ALTER TABLE `procedimento`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT de tabela `raca`
 --
 ALTER TABLE `raca`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
 
 --
 -- AUTO_INCREMENT de tabela `recebimento`
