@@ -2,11 +2,10 @@
 // Conecte-se ao banco de dados
 require_once("conexao.php");
 
- 
+
 
 // Consulta SQL
-$sql = "SELECT nome  FROM raca ORDER BY  nome";
-
+$sql = "SELECT id, nome FROM raca ORDER BY nome";
 $result = mysqli_query($conexao, $sql);
 
 $racas = array();
@@ -20,4 +19,3 @@ mysqli_close($conexao);
 
 // Retornar como JSON
 echo json_encode($racas);
-?>

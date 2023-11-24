@@ -75,7 +75,7 @@ require_once("conexao.php"); ?>
                             <div class="row">
                                 <div class="col-6">
                                     <div class="mb-1">
-                                        <label for="raca" class="form-label">Raça</label>
+                                        <label for="raca_id" class="form-label">Raça</label>
                                         <select id="raca_id" name="raca_id" class="form-control">
                                             <option selected>Selecione</option>
                                         </select>
@@ -138,6 +138,8 @@ require_once("conexao.php"); ?>
                             var xhr = new XMLHttpRequest();
                             xhr.onreadystatechange = function() {
                                 if (xhr.readyState === 4 && xhr.status === 200) {
+                                    console.log(xhr.responseText); // Adicione esta linha para verificar os dados no console
+
                                     var racas = JSON.parse(xhr.responseText);
 
                                     // Limpar opções existentes
@@ -147,8 +149,9 @@ require_once("conexao.php"); ?>
                                     // Adicionar opções
                                     for (var i = 0; i < racas.length; i++) {
                                         var option = document.createElement("option");
-                                        option.text = racas[i].nome;
-                                        selectRaca.appendChild(option);
+                                        option.value = racas[i].id; // Use o ID como valor
+                                        option.text = racas[i].nome; // Use o nome como texto da opção
+                                        selectRaca.add(option);
                                     }
                                 }
                             };
@@ -158,11 +161,13 @@ require_once("conexao.php"); ?>
                             xhr.send();
                         }
 
+
+
                         function validarFormulario() {
                             // Lógica de validação do lado do cliente
 
                             // Exemplo: Verificar se todos os campos obrigatórios estão preenchidos
-                            var camposObrigatorios = ["nomePet", "anoNascimento", "sexo", "cor", "cliente_id", "raca_id", "especie" ];
+                            var camposObrigatorios = ["nomePet", "anoNascimento", "sexo", "cor", "cliente_id", "raca_id", "especie"];
                             for (var i = 0; i < camposObrigatorios.length; i++) {
                                 var campo = document.getElementById(camposObrigatorios[i]).value;
                                 if (campo === "") {
@@ -192,6 +197,8 @@ require_once("conexao.php"); ?>
                         $raca_id = $_POST['raca_id'];
                         $especie = $_POST['especie'];
 
+
+
                         //3. Preparar a SQL
                         $sql = "insert into pet (nome, anoNascimento, sexo, cor, obs, cliente_id, raca_id, especie) values ('$nome', '$anoNascimento', '$sexo', '$cor', '$obs', '$cliente_id', '$raca_id', '$especie')";
 
@@ -207,7 +214,7 @@ require_once("conexao.php"); ?>
                             <i class="fa-solid fa-check" style="color: #12972c;"></i>
                             <?= $mensagem ?>
                         </div>
-                    <?php }
+                    <?php  }
                     require_once("footer.php");
                     ?>
 
