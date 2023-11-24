@@ -54,8 +54,8 @@
                                 </div>
                                 <div class="col">
                                     <div class="mb-1">
-                                        <label for="formGroupExampleInput" class="form-label">Valor</label>
-                                        <input name="valor" type="text" class="form-control"><br>
+                                        <label for="formGroupExampleInput" class="form-label">Valor (R$)</label>
+                                        <input name="valor" type="number" class="form-control" min="0" required><br>
                                     </div>
                                 </div>
                             </div>

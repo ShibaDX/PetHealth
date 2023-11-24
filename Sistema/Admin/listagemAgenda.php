@@ -88,61 +88,63 @@ $resultado = mysqli_query($conexao, $sql);
                                 <input name="data" type="date" class="form-control" onchange="this.form.submit()" value="<?= isset($_POST['data']) ? htmlspecialchars($_POST['data']) : '' ?>"><br>
                             </div>
                         </form>
-                         <?php
+                        <?php
                         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
                             $dataFiltrada = mysqli_real_escape_string($conexao, $_POST['data']);
 
                             // Adicione a condição WHERE para filtrar os dados pela data
-                            $sql = "SELECT a.id, a.data, a.hora, p.nome as petNome, v.nome as vetNome, pr.nome as procNome FROM agenda a 
-                            INNER JOIN pet p on a.pet_id= p.id
-                            inner JOIN veterinario v on a.veterinario_id = v.id
-                            INNER join procedimento pr on a.procedimento_id = pr.id
-                            WHERE data = '$dataFiltrada'
-                            ORDER BY hora ";
+                            $sql = "SELECT a.id, a.data, a.hora, p.nome as petNome, v.nome as vetNome, pr.nome as procNome, pr.valor FROM agenda a 
+                                    INNER JOIN pet p ON a.pet_id = p.id
+                                    INNER JOIN veterinario v ON a.veterinario_id = v.id
+                                    INNER JOIN procedimento pr ON a.procedimento_id = pr.id
+                                    WHERE data = '$dataFiltrada'
+                                    ORDER BY hora";
                             $resultado = mysqli_query($conexao, $sql);
                         }
-                        ?>  
+                        ?>
                     </div>
                 </div>
                 <?php
-if ($resultado->num_rows > 0) {
-    // Exibir os dados em uma tabela
-    ?>
-    <table class="table table-striped table-hover">
-        <tr>
-            <th>Data</th>
-            <th>Hora</th>
-            <th>Nome do Pet</th>
-            <th>Nome do Veterinário</th>
-            <th>Procedimento</th>
-            <th>Ação</th>
-        </tr>
-        <?php
-        while ($row = $resultado->fetch_assoc()) {
-            echo "<tr><td>" . $row["data"] . "</td><td>" . $row["hora"];
+                if ($resultado->num_rows > 0) {
+                    // Exibir os dados em uma tabela
+                ?>
+                    <table class="table table-striped table-hover">
+                        <tr>
+                            <th>Data</th>
+                            <th>Hora</th>
+                            <th>Nome do Pet</th>
+                            <th>Nome do Veterinário</th>
+                            <th>Procedimento</th>
+                            <th>Valor</th>
+                            <th>Ação</th>
+                        </tr>
+                        <?php
+                        while ($row = $resultado->fetch_assoc()) {
+                            echo "<tr><td>" . $row["data"] . "</td><td>" . $row["hora"];
 
-            // Verifique se os índices existem antes de acessá-los
-            $petNome = isset($row["petNome"]) ? $row["petNome"] : "";
-            $vetNome = isset($row["vetNome"]) ? $row["vetNome"] : "";
-            $procNome = isset($row["procNome"]) ? $row["procNome"] : "";
+                            // Verifique se os índices existem antes de acessá-los
+                            $petNome = isset($row["petNome"]) ? $row["petNome"] : "";
+                            $vetNome = isset($row["vetNome"]) ? $row["vetNome"] : "";
+                            $procNome = isset($row["procNome"]) ? $row["procNome"] : "";
+                            $valorProcedimento = isset($row["valor"]) ? $row["valor"] : "";
 
-            echo "</td><td>" . $petNome . "</td><td>" . $vetNome . "</td><td>" . $procNome . "</td>";
-            ?>
-            <td>
-                <a href="editarAgenda.php?id=<?= $row['id'] ?>" class="btn btn-warning"><i class="fa-solid fa-pen-to-square" style="color: #000000;"></i></a>
-                <a href="listagemAgenda.php?id=<?= $row['id'] ?>" class="btn btn-danger" onclick="return confirm('Confirma exclusão?')"><i class="fa-solid fa-trash" style="color: #000000;"></i></a>
-            </td>
-            </tr>
-        <?php
-        }
-        ?>
-    </table>
-    <br>
-    <?php
-} else {
-    echo "Nenhum resultado encontrado para a data selecionada.";
-}
-?>
+                            echo "</td><td>" . $petNome . "</td><td>" . $vetNome . "</td><td>" . $procNome . "</td><td>" .  $valorProcedimento . "</td>";
+                        ?>
+                            <td>
+                                <a href="editarAgenda.php?id=<?= $row['id'] ?>" class="btn btn-warning"><i class="fa-solid fa-pen-to-square" style="color: #000000;"></i></a>
+                                <a href="listagemAgenda.php?id=<?= $row['id'] ?>" class="btn btn-danger" onclick="return confirm('Confirma exclusão?')"><i class="fa-solid fa-trash" style="color: #000000;"></i></a>
+                            </td>
+                            </tr>
+                        <?php
+                        }
+                        ?>
+                    </table>
+                    <br>
+                <?php
+                } else {
+                    echo "Nenhum resultado encontrado para a data selecionada.";
+                }
+                ?>
 
             </div>
 

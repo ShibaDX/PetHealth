@@ -60,7 +60,7 @@ require_once("conexao.php"); ?>
                                             <option selected>Selecione</option>
                                             <option value="Cachorro">Cachorro</option>
                                             <option value="Gato">Gato</option>
-                                            <option value="Roeor">Roedor</option>
+                                            <option value="Roedor">Roedor</option>
                                             <option value="Ave">Ave</option>
                                         </select>
                                     </div>

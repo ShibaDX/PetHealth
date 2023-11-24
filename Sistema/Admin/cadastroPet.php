@@ -56,7 +56,7 @@ require_once("conexao.php"); ?>
                                 <div class="col-4">
                                     <div class="mb-1">
                                         <label for="especie" class="form-label">Espécie</label>
-                                        <select id="especie" name="especie" class="form-control" onchange="atualizarRacas()">
+                                        <select id="especie" name="especie" class="form-control" onchange="atualizarRacas(this.value)">
                                             <option selected>Selecione</option>
                                             <option value="Cachorro">Cachorro</option>
                                             <option value="Gato">Gato</option>
@@ -133,39 +133,48 @@ require_once("conexao.php"); ?>
                     </form><br>
 
                     <script>
+                        var xhr; // Declarar xhr no escopo global
+
                         // Função para atualizar dinamicamente as opções do campo de seleção de raças
-                        function atualizarRacas() {
-                            var xhr = new XMLHttpRequest();
+                        function atualizarRacas(especieSelecionada) {
+                            xhr = new XMLHttpRequest();
                             xhr.onreadystatechange = function() {
-                                if (xhr.readyState === 4 && xhr.status === 200) {
-                                    console.log(xhr.responseText); // Adicione esta linha para verificar os dados no console
+                                if (xhr.readyState === 4) {
+                                    console.log(xhr.responseText); // Exibir a resposta JSON no console
 
-                                    var racas = JSON.parse(xhr.responseText);
+                                    if (xhr.status === 200) {
+                                        var racas = JSON.parse(xhr.responseText);
 
-                                    // Limpar opções existentes
-                                    var selectRaca = document.getElementById("raca_id");
-                                    selectRaca.innerHTML = "";
+                                        console.log(racas); // Exibir as raças no console
 
-                                    // Adicionar opções
-                                    for (var i = 0; i < racas.length; i++) {
-                                        var option = document.createElement("option");
-                                        option.value = racas[i].id; // Use o ID como valor
-                                        option.text = racas[i].nome; // Use o nome como texto da opção
-                                        selectRaca.add(option);
+                                        // Limpar opções existentes
+                                        var selectRaca = document.getElementById("raca_id");
+                                        selectRaca.innerHTML = "";
+
+                                        // Adicionar opções
+                                        for (var i = 0; i < racas.length; i++) {
+                                            var option = document.createElement("option");
+                                            option.value = racas[i].id; // Configurar o valor como o id da raça
+                                            option.text = racas[i].nome;
+                                            selectRaca.appendChild(option);
+                                        }
+                                    } else {
+                                        console.error("Erro na requisição AJAX:", xhr.status);
                                     }
                                 }
                             };
 
-                            // Fazer a solicitação ao arquivo PHP
-                            xhr.open("GET", "obter_racas.php", true);
+                            var url = "obter_racas.php?especie=" + encodeURIComponent(especieSelecionada);
+                            xhr.open("GET", url, true);
                             xhr.send();
                         }
 
 
+                        // Chamada inicial para garantir que as raças sejam carregadas corretamente
+                        atualizarRacas(document.getElementById("especie").value);
 
                         function validarFormulario() {
                             // Lógica de validação do lado do cliente
-
                             // Exemplo: Verificar se todos os campos obrigatórios estão preenchidos
                             var camposObrigatorios = ["nomePet", "anoNascimento", "sexo", "cor", "cliente_id", "raca_id", "especie"];
                             for (var i = 0; i < camposObrigatorios.length; i++) {
@@ -177,13 +186,37 @@ require_once("conexao.php"); ?>
                             }
 
                             // Outras verificações podem ser adicionadas conforme necessário
-
                             return true; // Permite o envio do formulário
                         }
                     </script>
 
+
                     <!-- Requisitar a Conexão -->
                     <?php
+
+                    // Verificar se o parâmetro 'especie' está definido
+                    if (isset($_GET['especie'])) {
+                        $especieSelecionada = $_GET['especie'];
+
+                        $sql = "SELECT nome, id FROM raca WHERE especie = '$especieSelecionada' ORDER BY nome";
+                        $result = mysqli_query($conexao, $sql);
+
+                        $racas = array();
+
+                        while ($row = mysqli_fetch_assoc($result)) {
+                            $racas[] = $row;
+                        }
+
+                        // Fechar a conexão
+                        mysqli_close($conexao);
+
+                        // Retornar como JSON
+                        echo json_encode($racas);
+                    } else {
+                        echo json_encode(array()); // Se não houver uma espécie específica, retorna um array vazio
+                    }
+
+
 
                     if (isset($_POST['salvar'])) {
 
@@ -197,10 +230,12 @@ require_once("conexao.php"); ?>
                         $raca_id = $_POST['raca_id'];
                         $especie = $_POST['especie'];
 
-
+                        // Adicione isso para depuração
+                        var_dump($raca_id);
 
                         //3. Preparar a SQL
                         $sql = "insert into pet (nome, anoNascimento, sexo, cor, obs, cliente_id, raca_id, especie) values ('$nome', '$anoNascimento', '$sexo', '$cor', '$obs', '$cliente_id', '$raca_id', '$especie')";
+                        // ... restante do código ...
 
                         //4. Executar a SQL
                         mysqli_query($conexao, $sql);
