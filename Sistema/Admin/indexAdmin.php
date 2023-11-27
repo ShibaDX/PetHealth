@@ -47,9 +47,9 @@ $resultado = mysqli_query($conexao, $sql);
                 <?php require_once("topbarAdmin.php");
 
 
-                $sql = "SELECT a.id, a.data, a.hora, p.nome as petNome, v.nome as vetNome, pr.nome as procNome  FROM agenda a 
+                $sql = "SELECT a.id, a.data, a.hora, p.nome as petNome, u.nome as vetNome, pr.nome as procNome  FROM agenda a 
                                     INNER JOIN pet p on a.pet_id= p.id
-                                    inner JOIN veterinario v on a.veterinario_id = v.id
+                                    inner JOIN usuarioSistema u on a.veterinario_id = u.id
                                     INNER join procedimento pr on a.procedimento_id = pr.id";
 
                 $resultado = mysqli_query($conexao, $sql);

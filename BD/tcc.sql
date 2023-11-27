@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 23/11/2023 às 01:26
+-- Tempo de geração: 27/11/2023 às 12:56
 -- Versão do servidor: 10.4.28-MariaDB
 -- Versão do PHP: 8.2.4
 
@@ -40,15 +40,6 @@ CREATE TABLE `agenda` (
   `veterinario_id` int(11) DEFAULT NULL,
   `procedimento_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Despejando dados para a tabela `agenda`
---
-
-INSERT INTO `agenda` (`id`, `status`, `data`, `hora`, `obs`, `resultado`, `pet_id`, `veterinario_id`, `procedimento_id`) VALUES
-(1, '', '2023-11-22', '17:00', ' ', NULL, 2, 10, 5),
-(2, '', '2023-11-22', '14:00', ' ', NULL, 2, 10, 5),
-(3, '', '2023-11-22', '17:00', ' ', NULL, 4, 7, 14);
 
 -- --------------------------------------------------------
 
@@ -113,7 +104,14 @@ INSERT INTO `pet` (`id`, `status`, `nome`, `especie`, `anoNascimento`, `sexo`, `
 (4, '', 'Luna', '', 2019, 'Fêmea', 'Cinza e rajado', '', 4, 11),
 (5, '', 'Rocky', '', 2015, 'Macho', 'Dourado', '', 6, 14),
 (6, '', 'Sophie', '', 2020, 'Fêmea', 'Creme', '', 6, 5),
-(7, '', 'Mel', '', 2018, 'Fêmea', 'Caramelo', '', 5, 6);
+(7, '', 'Mel', '', 2018, 'Fêmea', 'Caramelo', '', 5, 6),
+(25, '', 'Rex', 'Cachorro', 0, 'Selecione', '', '', 2, 5),
+(26, '', 'Rex', 'Cachorro', 0, 'Selecione', '', '', 2, 28),
+(27, '', 'Rex', 'Cachorro', 2020, 'Macho', 'Preto', '', 3, 1),
+(28, '', 'Rex', 'Cachorro', 2020, 'Macho', 'Preto', '', 6, 5),
+(39, '', 'Rex', 'Cachorro', 2020, 'Macho', 'Preto', '', 5, 7),
+(40, '', 'Thor', 'Cachorro', 2020, 'Macho', 'Preto', '', 5, 2),
+(41, '', 'Thor', 'Cachorro', 2020, 'Selecione', 'Preto', '', 5, 18);
 
 -- --------------------------------------------------------
 
@@ -125,7 +123,7 @@ CREATE TABLE `procedimento` (
   `id` int(11) NOT NULL,
   `status` varchar(10) NOT NULL,
   `nome` varchar(100) NOT NULL,
-  `valor` double NOT NULL,
+  `valor` double(11,2) NOT NULL,
   `categoria` varchar(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -134,20 +132,24 @@ CREATE TABLE `procedimento` (
 --
 
 INSERT INTO `procedimento` (`id`, `status`, `nome`, `valor`, `categoria`) VALUES
-(2, '', 'Consulta Veterinária de Rotina', 50, ''),
-(3, '', 'Vacinação Anual', 30, ''),
-(4, '', 'Castração/esterilização', 150, ''),
-(5, '', 'Exame de Sangue', 80, ''),
-(6, '', 'Radiografia ', 100, ''),
-(7, '', 'Limpeza Dentária', 70, ''),
-(8, '', 'Tratamento para Pulgas e Carrapatos', 40, ''),
-(9, '', 'Microchipagem', 25, ''),
-(10, '', 'Consulta de Emergência', 80, ''),
-(11, '', 'Ultrassonografia ', 120, ''),
-(12, '', 'Tratamento para Verminoses', 20, ''),
-(13, '', 'Análise de Fezes', 25, ''),
-(14, '', 'Fisioterapia para Animais', 60, ''),
-(15, '', 'Acompanhamento de Gravidez', 90, '');
+(2, '', 'Consulta Veterinária de Rotina', 50.35, ''),
+(3, '', 'Vacinação Anual', 30.00, ''),
+(4, '', 'Castração/esterilização', 150.00, ''),
+(5, '', 'Exame de Sangue', 80.00, ''),
+(6, '', 'Radiografia ', 100.00, ''),
+(7, '', 'Limpeza Dentária', 70.00, ''),
+(8, '', 'Tratamento para Pulgas e Carrapatos', 40.00, ''),
+(9, '', 'Microchipagem', 25.00, ''),
+(10, '', 'Consulta de Emergência', 80.20, ''),
+(11, '', 'Ultrassonografia ', 120.00, ''),
+(12, '', 'Tratamento para Verminoses', 20.00, ''),
+(13, '', 'Análise de Fezes', 25.00, ''),
+(14, '', 'Fisioterapia para Animais', 60.00, ''),
+(15, '', 'Acompanhamento de Gravidez', 90.00, ''),
+(17, '', '', -292.00, ''),
+(18, '', '', 0.00, ''),
+(19, '', '', 0.00, ''),
+(20, '', '', 0.00, '');
 
 -- --------------------------------------------------------
 
@@ -199,7 +201,8 @@ INSERT INTO `raca` (`id`, `status`, `nome`, `descricao`, `especie`) VALUES
 (29, '', 'Sphynx', ' ', 'Gato'),
 (30, '', 'Birmanês', ' ', 'Gato'),
 (31, '', 'Abissínio', ' ', 'Gato'),
-(32, '', 'Himalaio', ' ', 'Gato');
+(32, '', 'Himalaio', ' ', 'Gato'),
+(33, '', 'Teste', ' ', 'Roedor');
 
 -- --------------------------------------------------------
 
@@ -219,33 +222,34 @@ CREATE TABLE `recebimento` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `veterinario`
+-- Estrutura para tabela `usuariosistema`
 --
 
-CREATE TABLE `veterinario` (
+CREATE TABLE `usuariosistema` (
   `id` int(11) NOT NULL,
   `status` varchar(10) NOT NULL,
   `nome` varchar(200) NOT NULL,
   `telefone` varchar(20) NOT NULL,
+  `cpf` varchar(14) NOT NULL,
   `email` varchar(200) NOT NULL,
   `dataNascimento` date NOT NULL,
   `dataAdmissao` date DEFAULT current_timestamp(),
   `senha` varchar(200) NOT NULL,
+  `funcao` varchar(15) NOT NULL,
   `CRMV` varchar(50) NOT NULL,
   `dataDemissao` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Despejando dados para a tabela `veterinario`
+-- Despejando dados para a tabela `usuariosistema`
 --
 
-INSERT INTO `veterinario` (`id`, `status`, `nome`, `telefone`, `email`, `dataNascimento`, `dataAdmissao`, `senha`, `CRMV`, `dataDemissao`) VALUES
-(1, '', 'Admin', '', 'admin@adm.com', '0000-00-00', '2023-09-01', '1234', '', NULL),
-(6, '', 'Maria da Silva', '(11) 98765-4321', 'maria.silva@email.com', '1985-03-15', '2023-09-15', 'maria123', '12345-SP', NULL),
-(7, '', 'João dos Santos', '(21) 99999-8888', 'joao.santos@email.com', '1990-07-10', '2023-09-15', 'joao123', '67890-RJ', NULL),
-(8, '', 'Ana Oliveira', '(31) 5555-1234', 'ana.oliveira@email.com', '1982-09-25', '2023-09-15', 'ana123', '54321-MG', NULL),
-(9, '', 'Pedro Pereira', '(41) 7777-5555', 'pedro.pereira@email.com', '1978-12-05', '2023-09-15', 'pedro123', '98765-PR', NULL),
-(10, '', 'Laura Gonçalves', '(51) 3333-2222', 'laura.goncalves@email.com', '1995-01-20', '2023-09-15', 'laura123', '22222-RS', NULL);
+INSERT INTO `usuariosistema` (`id`, `status`, `nome`, `telefone`, `cpf`, `email`, `dataNascimento`, `dataAdmissao`, `senha`, `funcao`, `CRMV`, `dataDemissao`) VALUES
+(1, '', 'Admin', '', '', 'admin@adm.com', '0000-00-00', '2023-09-01', '1234', '', '', NULL),
+(2, '', 'Maria da Silva', '(11) 98765-4321', '', 'maria.silva@email.com', '1985-03-15', '2023-09-15', 'maria123', '', '12345-SP', NULL),
+(3, '', 'João dos Santos', '(21) 99999-8888', '', 'joao.santos@email.com', '1990-07-10', '2023-09-15', 'joao123', '', '67890-RJ', NULL),
+(4, '', 'Ana Oliveira', '(31) 5555-1234', '', 'ana.oliveira@email.com', '1982-09-25', '2023-09-15', 'ana123', '', '54321-MG', NULL),
+(5, '', 'Pedro Pereira', '(41) 7777-5555', '', 'pedro.pereira@email.com', '1978-12-05', '2023-09-15', 'pedro123', '', '98765-PR', NULL);
 
 --
 -- Índices para tabelas despejadas
@@ -294,9 +298,9 @@ ALTER TABLE `recebimento`
   ADD PRIMARY KEY (`id`);
 
 --
--- Índices de tabela `veterinario`
+-- Índices de tabela `usuariosistema`
 --
-ALTER TABLE `veterinario`
+ALTER TABLE `usuariosistema`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -307,7 +311,7 @@ ALTER TABLE `veterinario`
 -- AUTO_INCREMENT de tabela `agenda`
 --
 ALTER TABLE `agenda`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de tabela `cliente`
@@ -319,19 +323,19 @@ ALTER TABLE `cliente`
 -- AUTO_INCREMENT de tabela `pet`
 --
 ALTER TABLE `pet`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=14;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
 
 --
 -- AUTO_INCREMENT de tabela `procedimento`
 --
 ALTER TABLE `procedimento`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
 
 --
 -- AUTO_INCREMENT de tabela `raca`
 --
 ALTER TABLE `raca`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT de tabela `recebimento`
@@ -340,10 +344,10 @@ ALTER TABLE `recebimento`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de tabela `veterinario`
+-- AUTO_INCREMENT de tabela `usuariosistema`
 --
-ALTER TABLE `veterinario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+ALTER TABLE `usuariosistema`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
 -- Restrições para tabelas despejadas
@@ -355,7 +359,7 @@ ALTER TABLE `veterinario`
 ALTER TABLE `agenda`
   ADD CONSTRAINT `fk_pet_agenda` FOREIGN KEY (`pet_id`) REFERENCES `pet` (`id`),
   ADD CONSTRAINT `fk_procedimento_agenda` FOREIGN KEY (`procedimento_id`) REFERENCES `procedimento` (`id`),
-  ADD CONSTRAINT `fk_veterinario_agenda` FOREIGN KEY (`veterinario_id`) REFERENCES `veterinario` (`id`);
+  ADD CONSTRAINT `fk_veterinario_agenda` FOREIGN KEY (`veterinario_id`) REFERENCES `usuariosistema` (`id`);
 
 --
 -- Restrições para tabelas `pet`

@@ -93,49 +93,50 @@
 
 
 
-                    </form><br>
-                    <!-- Requisitar a Conexão -->
-                    <?php
-                    require_once("conexao.php");
-                    if (isset($_POST['salvar'])) {
 
-                        //2. Receber os dados para inserir no BD
-                        $nome = $_POST['nome'];
-                        $telefone = $_POST['telefone'];
-                        $dataNascimento = $_POST['dataNascimento'];
-                        $email = $_POST['email'];
-                        $senha = $_POST['senha'];
-                        $crmv = $_POST['crmv'];
+                        </form><br>
+                        <!-- Requisitar a Conexão -->
+                        <?php
+                        require_once("conexao.php");
+                        if (isset($_POST['salvar'])) {
 
-                        //3. Preparar a SQL
-                        $sql = "insert into veterinario (nome, telefone, dataNascimento, email, senha, CRMV) values ('$nome', '$telefone', '$dataNascimento', '$email', '$senha', '$crmv')";
+                            //2. Receber os dados para inserir no BD
+                            $nome = $_POST['nome'];
+                            $telefone = $_POST['telefone'];
+                            $dataNascimento = $_POST['dataNascimento'];
+                            $email = $_POST['email'];
+                            $senha = $_POST['senha'];
+                            $crmv = $_POST['crmv'];
 
-                        //4. Executar a SQL
-                        mysqli_query($conexao, $sql);
+                            //3. Preparar a SQL
+                            $sql = "insert into usuarioSistema (nome, telefone, dataNascimento, email, senha, CRMV) values ('$nome', '$telefone', '$dataNascimento', '$email', '$senha', '$crmv')";
 
-                        //5. Mostrar mensagem ao usuário
-                        $mensagem = "Inserido com Sucesso";
-                    }
-                    ?>
-                    <?php if (isset($mensagem)) { ?>
-                        <div class="alert alert-success mb-2" role="alert">
-                            <i class="fa-solid fa-check" style="color: #12972c;"></i>
-                            <?= $mensagem ?>
-                        </div>
-                    <?php }
-                    require_once("footer.php");
-                    ?>
+                            //4. Executar a SQL
+                            mysqli_query($conexao, $sql);
 
-                    <!-- Bootstrap core JavaScript-->
-                    <script src="vendor/jquery/jquery.min.js"></script>
-                    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+                            //5. Mostrar mensagem ao usuário
+                            $mensagem = "Inserido com Sucesso";
+                        }
+                        ?>
+                        <?php if (isset($mensagem)) { ?>
+                            <div class="alert alert-success mb-2" role="alert">
+                                <i class="fa-solid fa-check" style="color: #12972c;"></i>
+                                <?= $mensagem ?>
+                            </div>
+                        <?php }
+                        require_once("footer.php");
+                        ?>
 
-                    <!-- Core plugin JavaScript-->
-                    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+                        <!-- Bootstrap core JavaScript-->
+                        <script src="vendor/jquery/jquery.min.js"></script>
+                        <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-                    <!-- Custom scripts for all pages-->
-                    <script src="js/sb-admin-2.min.js"></script>
+                        <!-- Core plugin JavaScript-->
+                        <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
 
-</body>
+                        <!-- Custom scripts for all pages-->
+                        <script src="js/sb-admin-2.min.js"></script>
+
+                    </body>
 
 </html>

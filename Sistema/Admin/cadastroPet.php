@@ -203,9 +203,7 @@ require_once("conexao.php"); ?>
 
                         $racas = array();
 
-                        while ($row = mysqli_fetch_assoc($result)) {
-                            $racas[] = $row;
-                        }
+
 
                         // Fechar a conexão
                         mysqli_close($conexao);
@@ -230,8 +228,7 @@ require_once("conexao.php"); ?>
                         $raca_id = $_POST['raca_id'];
                         $especie = $_POST['especie'];
 
-                        // Adicione isso para depuração
-                        var_dump($raca_id);
+
 
                         //3. Preparar a SQL
                         $sql = "insert into pet (nome, anoNascimento, sexo, cor, obs, cliente_id, raca_id, especie) values ('$nome', '$anoNascimento', '$sexo', '$cor', '$obs', '$cliente_id', '$raca_id', '$especie')";

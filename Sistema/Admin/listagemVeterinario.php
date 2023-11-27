@@ -4,13 +4,13 @@ require_once("verificaAutenticacao.php");
 require_once("conexao.php");
 //Exclusão
 if (isset($_GET['id'])) {
-    $sql = "delete from veterinario where id = " . $_GET['id'];
+    $sql = "delete from usuarioSistema where id = " . $_GET['id'];
     mysqli_query($conexao, $sql);
     $mensagem = "Exclusão realizada com sucesso.";
 }
 
 // preparar a SQL
-$sql = "select * from veterinario";
+$sql = "select * from usuarioSistema";
 
 // executar a SQL
 $resultado = mysqli_query($conexao, $sql);

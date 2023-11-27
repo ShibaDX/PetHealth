@@ -59,9 +59,9 @@ $resultado = mysqli_query($conexao, $sql);
                 <?php
                 // Obter a data atual
                 $data_atual = date("Y-m-d");
-                $sql = "SELECT a.id, a.data, a.hora, p.nome as petNome, v.nome as vetNome, pr.nome as procNome FROM agenda a 
+                $sql = "SELECT a.id, a.data, a.hora, p.nome as petNome, u.nome as vetNome, pr.nome as procNome, pr.valor as procValor FROM agenda a 
                                     INNER JOIN pet p on a.pet_id= p.id
-                                    inner JOIN veterinario v on a.veterinario_id = v.id
+                                    inner JOIN usuarioSistema s on a.veterinario_id = u.id
                                     INNER join procedimento pr on a.procedimento_id = pr.id
                                     WHERE data = '$data_atual'
                                     ORDER BY hora";
@@ -80,7 +80,7 @@ $resultado = mysqli_query($conexao, $sql);
                 <div class="card mt-3 mb-3">
                     <div class="card-body">
                         <h2>
-                            <i class="fa-solid fa-calendar-days"></i> Listagem de Agenda <a href="cadastroAgenda.php" class="btn btn-success btn-sn"><i class="fa-solid fa-calendar-days"></i> Novo Agendamento</a> <a href="cadastroProcedimento.php" class="btn btn-info btn-sn"><i class="fa-solid fa-plus" style="color: #ffffff;"></i> Cadastrar Procedimento</a>
+                            <i class="fa-solid fa-calendar-days"></i> Agendamentos <a href="cadastroAgenda.php" class="btn btn-success btn-sn"><i class="fa-solid fa-calendar-days"></i> Novo Agendamento</a> <a href="cadastroProcedimento.php" class="btn btn-info btn-sn"><i class="fa-solid fa-plus" style="color: #ffffff;"></i> Cadastrar Procedimento</a>
                         </h2>
                         <form method="POST">
                             <div class="col-2">
@@ -93,9 +93,9 @@ $resultado = mysqli_query($conexao, $sql);
                             $dataFiltrada = mysqli_real_escape_string($conexao, $_POST['data']);
 
                             // Adicione a condição WHERE para filtrar os dados pela data
-                            $sql = "SELECT a.id, a.data, a.hora, p.nome as petNome, v.nome as vetNome, pr.nome as procNome, pr.valor FROM agenda a 
+                            $sql = "SELECT a.id, a.data, a.hora, p.nome as petNome, u.nome as vetNome, pr.nome as procNome, pr.valor as procValor FROM agenda a 
                                     INNER JOIN pet p ON a.pet_id = p.id
-                                    INNER JOIN veterinario v ON a.veterinario_id = v.id
+                                    INNER JOIN usuarioSistema u ON a.veterinario_id = u.id
                                     INNER JOIN procedimento pr ON a.procedimento_id = pr.id
                                     WHERE data = '$dataFiltrada'
                                     ORDER BY hora";
@@ -126,15 +126,15 @@ $resultado = mysqli_query($conexao, $sql);
                             $petNome = isset($row["petNome"]) ? $row["petNome"] : "";
                             $vetNome = isset($row["vetNome"]) ? $row["vetNome"] : "";
                             $procNome = isset($row["procNome"]) ? $row["procNome"] : "";
-                            $valorProcedimento = isset($row["valor"]) ? $row["valor"] : "";
+                            $valorProcedimento = isset($row["procValor"]) ? number_format($row["procValor"], 2, ',', '.') : "";
 
-                            echo "</td><td>" . $petNome . "</td><td>" . $vetNome . "</td><td>" . $procNome . "</td><td>" .  $valorProcedimento . "</td>";
+                            echo "</td><td>" . $petNome . "</td><td>" . $vetNome . "</td><td>" . $procNome . "</td><td>R$" .$valorProcedimento . "</td>";
                         ?>
                             <td>
                                 <a href="editarAgenda.php?id=<?= $row['id'] ?>" class="btn btn-warning"><i class="fa-solid fa-pen-to-square" style="color: #000000;"></i></a>
                                 <a href="listagemAgenda.php?id=<?= $row['id'] ?>" class="btn btn-danger" onclick="return confirm('Confirma exclusão?')"><i class="fa-solid fa-trash" style="color: #000000;"></i></a>
                             </td>
-                            </tr>
+                            </tr>5000
                         <?php
                         }
                         ?>

@@ -7,11 +7,10 @@ if (isset($_POST['entrar'])) {
     $senha = $_POST['senha'];
     //Preparar SQL
 
-    $sql = "select * from veterinario where email = '{$email}' and senha = '{$senha}'";
+    $sql = "select * from usuarioSistema where email = '{$email}' and senha = '{$senha}'";
 
     //Executa SQL
     require_once("conexao.php");
-
     $resultado = mysqli_query($conexao, $sql);
     $linhas = mysqli_num_rows($resultado); //retorna o número de linhas da consulta
 
@@ -25,9 +24,21 @@ if (isset($_POST['entrar'])) {
         $_SESSION['id'] = $usuario['id'];
         $_SESSION['nome'] = $usuario['nome'];
         $_SESSION['email'] = $usuario['email'];
+        $_SESSION['funcao'] = $usuario['funcao'];
+
+                // Redireciona para Página Principal baseado na função
+                switch ($usuario['funcao']) {
+                    case 'Admin':
+                        header("location: Admin/indexAdmin.php");
+                        break;
+                    case 'Veterinario':
+                        header("location: Vet/indexVet.php");
+                        break;
+                    case 'Atendente':
+                        header("location: Atendente/indexAtendente.php");
+                        break;
+                }
         
-        //Redireciona para Página Principal
-        header("location: Admin/indexAdmin.php");
     } else {
         $mensagem = "Email/Senha inválido.";
         header("location: index.php?mensagem=$mensagem");
