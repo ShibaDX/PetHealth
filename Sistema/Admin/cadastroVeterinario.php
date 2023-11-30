@@ -93,10 +93,10 @@ require_once("conexao.php"); ?>
                                 </div>
                                 <style>
                                     .teste {
-                                        height: 20px;
+                                        height: 15px;
                                         width: 120px;
                                         font-size: 12px;
-                                        padding-bottom: 2px;
+                                        padding-bottom: 20px;
                                     }
                                 </style>
                                 <div class="col-3">
