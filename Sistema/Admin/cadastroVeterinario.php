@@ -3,7 +3,14 @@
 require_once("conexao.php"); ?>
 <!DOCTYPE html>
 <html lang="pt-br">
-
+<style>
+    .botao {
+        height: 15px;
+        width: 120px;
+        font-size: 12px;
+        padding-bottom: 20px;
+    }
+</style>
 <head>
 
     <meta charset="utf-8">
@@ -54,25 +61,25 @@ require_once("conexao.php"); ?>
                                 <div class="col-6">
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">Nome</label>
-                                        <input name="nome" type="text" class="form-control"><br>
+                                        <input name="nomeVet" type="text" class="form-control" value="<?= isset($_POST['nomeVet']) ? htmlspecialchars($_POST['nomeVet']) : '' ?>"><br>
                                     </div>
                                 </div>
                                 <div class="col-2">
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">Telefone</label>
-                                        <input name="telefone" type="text" maxlength="15" class="form-control" onkeyup="handlePhone(event)"><br>
+                                        <input name="telefone" type="text" maxlength="15" class="form-control" value="<?= isset($_POST['telefone']) ? htmlspecialchars($_POST['telefone']) : '' ?>" onkeyup="handlePhone(event)"><br>
                                     </div>
                                 </div>
                                 <div class="col-2">
                                     <div class="mb-1">
                                         <label for="" class="form-label">Data de Nascimento</label>
-                                        <input name="dataNascimento" type="date" class="form-control"><br>
+                                        <input name="dataNascimento" type="date" class="form-control" value="<?= isset($_POST['dataNascimento']) ? htmlspecialchars($_POST['dataNascimento']) : '' ?>"><br>
                                     </div>
                                 </div>
                                 <div class="col-2">
                                     <div class="mb-1">
                                         <label for="crmv" class="form-label">CRMV</label>
-                                        <input name="crmv" id="crmv" type="text" class="form-control"><br>
+                                        <input name="crmv" id="crmv" type="text" class="form-control" value="<?= isset($_POST['crmv']) ? htmlspecialchars($_POST['crmv']) : '' ?>"><br>
                                     </div>
                                 </div>
                             </div>
@@ -80,7 +87,7 @@ require_once("conexao.php"); ?>
                                 <div class="col-6">
                                     <div class="mb-1">
                                         <label for="email" class="form-label">Email</label>
-                                        <input name="email" id="email" type="email" class="form-control"><br>
+                                        <input name="email" id="email" type="email" class="form-control" value="<?= isset($_POST['email']) ? htmlspecialchars($_POST['email']) : '' ?>"><br>
                                     </div>
                                 </div>
 
@@ -88,30 +95,22 @@ require_once("conexao.php"); ?>
                                     <div class="mb-1">
                                         <label for="senha" class="form-label">Senha</label>
                                         <input name="senha" id="senha" type="password" class="form-control">
-                                        <button type="button" id="togglePass" class="btn btn-primary">Mostrar Senha</button>
+                                        <button type="button" id="togglePass" class="botao btn btn-primary">Mostrar Senha</button>
                                     </div>
                                 </div>
-                                <style>
-                                    .teste {
-                                        height: 15px;
-                                        width: 120px;
-                                        font-size: 12px;
-                                        padding-bottom: 20px;
-                                    }
-                                </style>
                                 <div class="col-3">
                                     <div class="mb-1">
                                         <label for="confirmarSenha" class="form-label">Confirmar Senha</label>
                                         <input name="confirmarSenha" id="confirmarSenha" type="password" class="form-control">
-                                        <button type="button" id="toggleConfirmPass" class="teste btn btn-primary">Mostrar Senha</button>
+                                        <button type="button" id="toggleConfirmPass" class="botao btn btn-primary">Mostrar Senha</button>
                                     </div>
                                 </div>
                             </div>
                             <button name="salvar" type="submit" class="btn btn-primary"><i class="fa-solid fa-check"></i> Salvar</button>
                             <a href="listagemVeterinario.php" class="btn btn-warning"><i class="fa-solid fa-rotate-left"></i> Voltar</a>
-
+                            
                     </div>
-
+                    <br>   
                     <script>
                         //Mostrar Senha
                         const senhaInput = document.querySelector("#senha");
@@ -162,27 +161,37 @@ require_once("conexao.php"); ?>
                         $crmv = $_POST['crmv'];
 
                         if ($confirmarSenha != $senha) {
-                            
+                            $mensagem = "As senhas não coincidem, tente novamente";
+                        } else if (strtotime($dataNascimento) > time()) {
+                            // Data de nascimento é no futuro, mostrar mensagem de erro
+                            $mensagem = "Data de nascimento não pode ser no futuro";
+                        } else {
+                            //3. Preparar a SQL
+                            $sql = "insert into usuarioSistema (nome, telefone, dataNascimento, email, senha, CRMV, funcao) values ('$nome', '$telefone', '$dataNascimento', '$email', '$senha', '$crmv', 'Veterinario')";
+
+                            //4. Executar a SQL
+                            mysqli_query($conexao, $sql);
+
+                            //5. Verificar o resultado da inserção
+                            if ($resultado) {
+                                // Inserção bem-sucedida
+                                $mensagem = "Inserido com Sucesso";
+                            } else {
+                                // Erro na inserção
+                                $mensagem = "Erro ao inserir no banco de dados: " . mysqli_error($conexao);
+                            }
                         }
-
-                        //3. Preparar a SQL
-                        $sql = "insert into usuarioSistema (nome, telefone, dataNascimento, email, senha, CRMV, funcao) values ('$nome', '$telefone', '$dataNascimento', '$email', '$senha', '$crmv', 'Veterinario')";
-
-                        //4. Executar a SQL
-                        mysqli_query($conexao, $sql);
-
-                        //5. Mostrar mensagem ao usuário
-                        $mensagem = "Inserido com Sucesso";
                     }
                     ?>
                     <?php if (isset($mensagem)) { ?>
-                        <div class="alert alert-success mb-2" role="alert">
-                            <i class="fa-solid fa-check" style="color: #12972c;"></i>
+                        <div class="alert <?= strpos($mensagem, 'Sucesso') !== false ? 'alert-success' : 'alert-danger' ?> mb-2" role="alert">
+                            <i class="fa-solid <?= strpos($mensagem, 'Sucesso') !== false ? 'fa-check' : 'fa-x' ?>" style="color: <?= strpos($mensagem, 'Sucesso') !== false ? '#12972c' : '#b70b0b' ?>;"></i>
                             <?= $mensagem ?>
                         </div>
                     <?php }
                     require_once("footer.php");
                     ?>
+
 
                     <!-- Bootstrap core JavaScript-->
                     <script src="vendor/jquery/jquery.min.js"></script>
