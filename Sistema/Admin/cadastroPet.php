@@ -232,9 +232,6 @@ require_once("conexao.php"); ?>
 
                         //5. Mostrar mensagem ao usuário
                         $mensagem = "Inserido com Sucesso";
-                        if (!mysqli_query($conexao, $sql)) {
-                            die('Erro no SQL: ' . mysqli_error($conexao));
-                        }
                     }
                     ?>
                     <?php if (isset($mensagem)) { ?>

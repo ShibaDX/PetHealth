@@ -4,7 +4,7 @@ require_once("conexao.php");
 if (isset($_GET['especie'])) {
     $especieSelecionada = $_GET['especie'];
 
-    $sql = "SELECT nome FROM raca WHERE especie = '$especieSelecionada' ORDER BY nome";
+    $sql = "SELECT id, nome FROM raca WHERE especie = '$especieSelecionada' ORDER BY nome";
     $result = mysqli_query($conexao, $sql);
 
     $racas = array();
