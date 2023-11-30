@@ -45,17 +45,18 @@ require_once("conexao.php"); ?>
                     <!-- Cadastro do Pet -->
                     <div class="container">
                         <h1 class="mb-4"><i class="fa-solid fa-dog"></i> Cadastro de Pet</h1>
+                        <p class="h6">Os campos marcados com * são obrigatórios</p> <br>
                         <form method="post">
                             <div class="row">
                                 <div class="col-6">
                                     <div class="mb-1">
-                                        <label for="nomePet" class="form-label">Nome</label>
-                                        <input id="nomePet" name="nomePet" type="text" class="form-control" value="<?= isset($_POST['nomePet']) ? htmlspecialchars($_POST['nomePet']) : '' ?>" required><br>
+                                        <label for="nomePet" class="form-label">Nome*</label>
+                                        <input id="nomePet" name="nomePet" pattern="[^0-9]*" type="text" class="form-control" value="<?= isset($_POST['nomePet']) ? htmlspecialchars($_POST['nomePet']) : '' ?>" required><br>
                                     </div>
                                 </div>
                                 <div class="col-4">
                                     <div class="mb-1">
-                                        <label for="especie" class="form-label">Espécie</label>
+                                        <label for="especie" class="form-label">Espécie*</label>
                                         <select id="especie" name="especie" class="form-control" onchange="atualizarRacas(this.value)" required>
                                             <?php
                                             $opcoes = ["Cachorro" => "Cachorro", "Gato" => "Gato", "Roedor" => "Roedor", "Ave" => "Ave"];
@@ -70,28 +71,28 @@ require_once("conexao.php"); ?>
                                 </div>
                                 <div class="col-2">
                                     <div class="mb-1">
-                                        <label for="anoNascimento" class="form-label">Ano de Nascimento</label>
-                                        <input id="anoNascimento" name="anoNascimento" type="text" class="form-control" value="<?= isset($_POST['anoNascimento']) ? htmlspecialchars($_POST['anoNascimento']) : '' ?>" required><br>
+                                        <label for="anoNascimento" class="form-label">Ano de Nascimento*</label>
+                                        <input id="anoNascimento" name="anoNascimento" min="1900" max="<?php echo date('Y'); ?>" type="number" class="form-control" value="<?= isset($_POST['anoNascimento']) ? htmlspecialchars($_POST['anoNascimento']) : '' ?>" required><br>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-6">
                                     <div class="mb-1">
-                                        <label for="raca_id" class="form-label">Raça</label>
+                                        <label for="raca_id" class="form-label">Raça*</label>
                                         <select id="raca_id" name="raca_id" class="form-control" required>
                                         </select>
                                     </div> <br>
                                 </div>
                                 <div class="col-4">
                                     <div class="mb-1">
-                                        <label for="cor" class="form-label">Cor</label>
-                                        <input id="cor" name="cor" type="text" class="form-control" value="<?= isset($_POST['cor']) ? htmlspecialchars($_POST['cor']) : '' ?>" required><br>
+                                        <label for="cor" class="form-label">Cor*</label>
+                                        <input id="cor" name="cor" type="text" pattern="[^0-9]*" class="form-control" value="<?= isset($_POST['cor']) ? htmlspecialchars($_POST['cor']) : '' ?>" required><br>
                                     </div>
                                 </div>
                                 <div class="col-2">
                                     <div class="mb-1">
-                                        <label for="sexo" class="form-label">Sexo</label>
+                                        <label for="sexo" class="form-label">Sexo*</label>
                                         <select id="sexo" name="sexo" class="form-control" required>
                                             <?php
                                             $opcoes = ["Macho" => "Macho", "Fêmea" => "Fêmea"];
@@ -108,7 +109,7 @@ require_once("conexao.php"); ?>
                             <div class="row">
                                 <div class="col">
                                     <div class="mb-1">
-                                        <label for="cliente_id" class="form-label">Dono(a)</label>
+                                        <label for="cliente_id" class="form-label">Dono(a)*</label>
                                         <select id="cliente_id" name="cliente_id" class="form-control" required>
                                             <?php
                                             $sql = "select * from cliente order by nome";
@@ -202,9 +203,7 @@ require_once("conexao.php"); ?>
 
                         // Retornar como JSON
                         echo json_encode($racas);
-                    } else {
-                        echo json_encode(array()); // Se não houver uma espécie específica, retorna um array vazio
-                    }
+                    } 
 
 
 

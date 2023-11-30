@@ -134,7 +134,7 @@ $resultado = mysqli_query($conexao, $sql);
                                 <a href="editarAgenda.php?id=<?= $row['id'] ?>" class="btn btn-warning"><i class="fa-solid fa-pen-to-square" style="color: #000000;"></i></a>
                                 <a href="listagemAgenda.php?id=<?= $row['id'] ?>" class="btn btn-danger" onclick="return confirm('Confirma exclusão?')"><i class="fa-solid fa-trash" style="color: #000000;"></i></a>
                             </td>
-                            </tr>5000
+                            </tr>
                         <?php
                         }
                         ?>
