@@ -88,93 +88,111 @@ require_once("conexao.php"); ?>
                                     <div class="mb-1">
                                         <label for="senha" class="form-label">Senha</label>
                                         <input name="senha" id="senha" type="password" class="form-control">
-                                        <button type="button" id="togglePass" class="btn btn-primary">😣</button>
+                                        <button type="button" id="togglePass" class="btn btn-primary">Mostrar Senha</button>
                                     </div>
                                 </div>
+                                <style>
+                                    .teste {
+                                        height: 20px;
+                                        width: 120px;
+                                        font-size: 12px;
+                                        padding-bottom: 2px;
+                                    }
+                                </style>
                                 <div class="col-3">
                                     <div class="mb-1">
                                         <label for="confirmarSenha" class="form-label">Confirmar Senha</label>
-                                        <input name="confirmarSenha" id="confirmarSenha" type="password" class="form-control" >
-                                        <button type="button" id="toggleConfirmPass">😣</button>
+                                        <input name="confirmarSenha" id="confirmarSenha" type="password" class="form-control">
+                                        <button type="button" id="toggleConfirmPass" class="teste btn btn-primary">Mostrar Senha</button>
                                     </div>
                                 </div>
+                            </div>
+                            <button name="salvar" type="submit" class="btn btn-primary"><i class="fa-solid fa-check"></i> Salvar</button>
+                            <a href="listagemVeterinario.php" class="btn btn-warning"><i class="fa-solid fa-rotate-left"></i> Voltar</a>
 
-                                <script>
-                                    //Mostrar Senha
-                                    const senhaInput = document.querySelector("#senha");
-                                    const togglePassButton = document.querySelector("#togglePass");
-                                    togglePassButton.addEventListener('click', togglePass);
+                    </div>
 
-                                    function togglePass() {
-                                        if (senhaInput.type == "password") {
-                                            senhaInput.type = "text";
-                                            togglePassButton.textContent = "🤩";
-                                        } else {
-                                            senhaInput.type = "password";
-                                            togglePassButton.textContent = "😣";
-                                        }
-                                    }
+                    <script>
+                        //Mostrar Senha
+                        const senhaInput = document.querySelector("#senha");
+                        const togglePassButton = document.querySelector("#togglePass");
+                        togglePassButton.addEventListener('click', togglePass);
 
-                                    //Mostrar Confirmar Senha
-                                    const confirmarSenhaInput = document.querySelector("#confirmarSenha");
-                                    const toggleConfirmPassButton = document.querySelector("#toggleConfirmPass");
-                                    toggleConfirmPassButton.addEventListener('click', toggleConfirmPass);
+                        function togglePass() {
+                            if (senhaInput.type == "password") {
+                                senhaInput.type = "text";
+                                togglePassButton.textContent = "Esconder Senha";
+                            } else {
+                                senhaInput.type = "password";
+                                togglePassButton.textContent = "Mostrar Senha";
+                            }
+                        }
 
-                                    function toggleConfirmPass() {
-                                        if (confirmarSenhaInput.type == "password") {
-                                            confirmarSenhaInput.type = "text";
-                                            toggleConfirmPassButton.textContent = "🤩";
-                                        } else {
-                                            confirmarSenhaInput.type = "password";
-                                            toggleConfirmPassButton.textContent = "😣";
-                                        }
-                                    }
-                                </script>
+                        //Mostrar Confirmar Senha
+                        const confirmarSenhaInput = document.querySelector("#confirmarSenha");
+                        const toggleConfirmPassButton = document.querySelector("#toggleConfirmPass");
+                        toggleConfirmPassButton.addEventListener('click', toggleConfirmPass);
 
-
-                                <!-- Requisitar a Conexão -->
-                                <?php
+                        function toggleConfirmPass() {
+                            if (confirmarSenhaInput.type == "password") {
+                                confirmarSenhaInput.type = "text";
+                                toggleConfirmPassButton.textContent = "Esconder Senha";
+                            } else {
+                                confirmarSenhaInput.type = "password";
+                                toggleConfirmPassButton.textContent = "Mostrar Senha";
+                            }
+                        }
+                    </script>
 
 
+                    <!-- Requisitar a Conexão -->
+                    <?php
 
-                                if (isset($_POST['salvar'])) {
 
-                                    //2. Receber os dados para inserir no BD
-                                    $nome = $_POST['nome'];
-                                    $telefone = $_POST['telefone'];
-                                    $dataNascimento = $_POST['dataNascimento'];
-                                    $email = $_POST['email'];
-                                    $senha = $_POST['senha'];
-                                    $crmv = $_POST['crmv'];
 
-                                    //3. Preparar a SQL
-                                    $sql = "insert into usuarioSistema (nome, telefone, dataNascimento, email, senha, CRMV, funcao) values ('$nome', '$telefone', '$dataNascimento', '$email', '$senha', '$crmv', 'Veterinario')";
+                    if (isset($_POST['salvar'])) {
 
-                                    //4. Executar a SQL
-                                    mysqli_query($conexao, $sql);
+                        //2. Receber os dados para inserir no BD
+                        $nome = $_POST['nome'];
+                        $telefone = $_POST['telefone'];
+                        $dataNascimento = $_POST['dataNascimento'];
+                        $email = $_POST['email'];
+                        $senha = $_POST['senha'];
+                        $confirmarSenha = $_POST['confirmarSenha'];
+                        $crmv = $_POST['crmv'];
 
-                                    //5. Mostrar mensagem ao usuário
-                                    $mensagem = "Inserido com Sucesso";
-                                }
-                                ?>
-                                <?php if (isset($mensagem)) { ?>
-                                    <div class="alert alert-success mb-2" role="alert">
-                                        <i class="fa-solid fa-check" style="color: #12972c;"></i>
-                                        <?= $mensagem ?>
-                                    </div>
-                                <?php }
-                                require_once("footer.php");
-                                ?>
+                        if ($confirmarSenha != $senha) {
+                            
+                        }
 
-                                <!-- Bootstrap core JavaScript-->
-                                <script src="vendor/jquery/jquery.min.js"></script>
-                                <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+                        //3. Preparar a SQL
+                        $sql = "insert into usuarioSistema (nome, telefone, dataNascimento, email, senha, CRMV, funcao) values ('$nome', '$telefone', '$dataNascimento', '$email', '$senha', '$crmv', 'Veterinario')";
 
-                                <!-- Core plugin JavaScript-->
-                                <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+                        //4. Executar a SQL
+                        mysqli_query($conexao, $sql);
 
-                                <!-- Custom scripts for all pages-->
-                                <script src="js/sb-admin-2.min.js"></script>
+                        //5. Mostrar mensagem ao usuário
+                        $mensagem = "Inserido com Sucesso";
+                    }
+                    ?>
+                    <?php if (isset($mensagem)) { ?>
+                        <div class="alert alert-success mb-2" role="alert">
+                            <i class="fa-solid fa-check" style="color: #12972c;"></i>
+                            <?= $mensagem ?>
+                        </div>
+                    <?php }
+                    require_once("footer.php");
+                    ?>
+
+                    <!-- Bootstrap core JavaScript-->
+                    <script src="vendor/jquery/jquery.min.js"></script>
+                    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+                    <!-- Core plugin JavaScript-->
+                    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+                    <!-- Custom scripts for all pages-->
+                    <script src="js/sb-admin-2.min.js"></script>
 
 </body>
 
