@@ -10,7 +10,7 @@ if (isset($_GET['id'])) {
 }
 
 // preparar a SQL
-$sql = "select * from usuarioSistema";
+$sql = "select * from usuarioSistema where funcao = 'Veterinario'";
 
 // executar a SQL
 $resultado = mysqli_query($conexao, $sql);
