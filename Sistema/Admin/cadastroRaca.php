@@ -50,14 +50,13 @@ require_once("conexao.php"); ?>
                                 <div class="col">
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">Nome</label>
-                                        <input id="nomeRaca" name="nomeRaca" type="text" class="form-control"> <br>
+                                        <input id="nomeRaca" name="nomeRaca" type="text" class="form-control" required> <br>
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="mb-1">
                                         <label for="especie" class="form-label">Espécie</label>
-                                        <select id="especie" name="especie" class="form-control">
-                                            <option selected>Selecione</option>
+                                        <select id="especie" name="especie" class="form-control" required>
                                             <option value="Cachorro">Cachorro</option>
                                             <option value="Gato">Gato</option>
                                             <option value="Roedor">Roedor</option>

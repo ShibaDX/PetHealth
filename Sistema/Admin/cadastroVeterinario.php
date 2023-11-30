@@ -3,14 +3,8 @@
 require_once("conexao.php"); ?>
 <!DOCTYPE html>
 <html lang="pt-br">
-<style>
-    .botao {
-        height: 15px;
-        width: 120px;
-        font-size: 12px;
-        padding-bottom: 20px;
-    }
-</style>
+
+
 <head>
 
     <meta charset="utf-8">
@@ -33,7 +27,14 @@ require_once("conexao.php"); ?>
 </head>
 
 <body id="page-top">
-
+    <style>
+        .botao {
+            height: 15px;
+            width: 120px;
+            font-size: 12px;
+            padding-bottom: 20px;
+        }
+    </style>
 
 
     <!-- Page Wrapper -->
@@ -56,30 +57,30 @@ require_once("conexao.php"); ?>
                     <!-- Cadastrar Médico Veterinário -->
                     <div class="container">
                         <h1 class="mb-4"><i class="fa-solid fa-user-doctor"></i> Cadastro de Veterinário</h1>
-                        <form method="post">
+                        <form method="post" onsubmit="return validarTelefone();">
                             <div class="row">
                                 <div class="col-6">
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">Nome</label>
-                                        <input name="nomeVet" type="text" class="form-control" value="<?= isset($_POST['nomeVet']) ? htmlspecialchars($_POST['nomeVet']) : '' ?>"><br>
+                                        <input name="nomeVet" type="text" class="form-control" value="<?= isset($_POST['nomeVet']) ? htmlspecialchars($_POST['nomeVet']) : '' ?>" required><br>
                                     </div>
                                 </div>
                                 <div class="col-2">
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">Telefone</label>
-                                        <input name="telefone" type="text" maxlength="15" class="form-control" value="<?= isset($_POST['telefone']) ? htmlspecialchars($_POST['telefone']) : '' ?>" onkeyup="handlePhone(event)"><br>
+                                        <input name="telefone" type="text" id="telefone" maxlength="15" class="form-control" value="<?= isset($_POST['telefone']) ? htmlspecialchars($_POST['telefone']) : '' ?>" onkeyup="handlePhone(event)" required><br>
                                     </div>
                                 </div>
                                 <div class="col-2">
                                     <div class="mb-1">
                                         <label for="" class="form-label">Data de Nascimento</label>
-                                        <input name="dataNascimento" type="date" class="form-control" value="<?= isset($_POST['dataNascimento']) ? htmlspecialchars($_POST['dataNascimento']) : '' ?>"><br>
+                                        <input name="dataNascimento" type="date" class="form-control" value="<?= isset($_POST['dataNascimento']) ? htmlspecialchars($_POST['dataNascimento']) : '' ?>" required><br>
                                     </div>
                                 </div>
                                 <div class="col-2">
                                     <div class="mb-1">
                                         <label for="crmv" class="form-label">CRMV</label>
-                                        <input name="crmv" id="crmv" type="text" class="form-control" value="<?= isset($_POST['crmv']) ? htmlspecialchars($_POST['crmv']) : '' ?>"><br>
+                                        <input name="crmv" id="crmv" type="text" class="form-control" value="<?= isset($_POST['crmv']) ? htmlspecialchars($_POST['crmv']) : '' ?>" required><br>
                                     </div>
                                 </div>
                             </div>
@@ -87,30 +88,30 @@ require_once("conexao.php"); ?>
                                 <div class="col-6">
                                     <div class="mb-1">
                                         <label for="email" class="form-label">Email</label>
-                                        <input name="email" id="email" type="email" class="form-control" value="<?= isset($_POST['email']) ? htmlspecialchars($_POST['email']) : '' ?>"><br>
+                                        <input name="email" id="email" type="email" class="form-control" value="<?= isset($_POST['email']) ? htmlspecialchars($_POST['email']) : '' ?>" required><br>
                                     </div>
                                 </div>
 
                                 <div class="col-3">
                                     <div class="mb-1">
                                         <label for="senha" class="form-label">Senha</label>
-                                        <input name="senha" id="senha" type="password" class="form-control">
-                                        <button type="button" id="togglePass" class="botao btn btn-primary">Mostrar Senha</button>
+                                        <input name="senha" id="senha" type="password" class="form-control" value="<?= isset($_POST['senha']) ? htmlspecialchars($_POST['senha']) : '' ?>" required>
+                                        <button type="button" id="togglePass" class="botao btn btn-link">Mostrar Senha</button>
                                     </div>
                                 </div>
                                 <div class="col-3">
                                     <div class="mb-1">
                                         <label for="confirmarSenha" class="form-label">Confirmar Senha</label>
-                                        <input name="confirmarSenha" id="confirmarSenha" type="password" class="form-control">
-                                        <button type="button" id="toggleConfirmPass" class="botao btn btn-primary">Mostrar Senha</button>
+                                        <input name="confirmarSenha" id="confirmarSenha" type="password" class="form-control" value="<?= isset($_POST['confirmarSenha']) ? htmlspecialchars($_POST['confirmarSenha']) : '' ?>" required>
+                                        <button type="button" id="toggleConfirmPass" class="botao btn btn-link">Mostrar Senha</button>
                                     </div>
                                 </div>
                             </div>
                             <button name="salvar" type="submit" class="btn btn-primary"><i class="fa-solid fa-check"></i> Salvar</button>
                             <a href="listagemVeterinario.php" class="btn btn-warning"><i class="fa-solid fa-rotate-left"></i> Voltar</a>
-                            
+
                     </div>
-                    <br>   
+                    <br>
                     <script>
                         //Mostrar Senha
                         const senhaInput = document.querySelector("#senha");
@@ -141,6 +142,22 @@ require_once("conexao.php"); ?>
                                 toggleConfirmPassButton.textContent = "Mostrar Senha";
                             }
                         }
+
+                        function validarTelefone() {
+                            var telefoneInput = document.getElementById("telefone");
+                            var telefone = telefoneInput.value;
+
+                            // Expressão regular para validar o formato do telefone
+                            var regex = /^\(\d{2}\) \d{4,5}-\d{4}$/;
+
+                            if (!regex.test(telefone)) {
+                                alert("Por favor, insira um número de telefone válido no formato (11) 1234-5678 ou (11) 12345-6789.");
+                                telefoneInput.focus();
+                                return false;
+                            }
+
+                            return true;
+                        }
                     </script>
 
 
@@ -152,7 +169,7 @@ require_once("conexao.php"); ?>
                     if (isset($_POST['salvar'])) {
 
                         //2. Receber os dados para inserir no BD
-                        $nome = $_POST['nome'];
+                        $nome = $_POST['nomeVet'];
                         $telefone = $_POST['telefone'];
                         $dataNascimento = $_POST['dataNascimento'];
                         $email = $_POST['email'];
@@ -170,7 +187,7 @@ require_once("conexao.php"); ?>
                             $sql = "insert into usuarioSistema (nome, telefone, dataNascimento, email, senha, CRMV, funcao) values ('$nome', '$telefone', '$dataNascimento', '$email', '$senha', '$crmv', 'Veterinario')";
 
                             //4. Executar a SQL
-                            mysqli_query($conexao, $sql);
+                            $resultado = mysqli_query($conexao, $sql);
 
                             //5. Verificar o resultado da inserção
                             if ($resultado) {

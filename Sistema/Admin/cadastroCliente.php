@@ -47,18 +47,18 @@
                     <div class="container">
                         <h1 class="mb-2"><i class="fa-regular fa-user"></i> Cadastro de Cliente</h1>
                         <p class="h6">Os campos marcados com * são obrigatórios</p> <br>
-                        <form method="post" onsubmit="return validarFormulario()">
+                        <form method="post" onsubmit="return validarFormulario()" onsubmit="return validarTelefone();">
                             <div class="row">
                                 <div class="col">
                                     <div class="mb-1">
                                         <label for="nome" class="form-label">Nome*</label>
-                                        <input id="nome" name="nome" type="text" class="form-control" value="<?= isset($_POST['nome']) ? htmlspecialchars($_POST['nome']) : '' ?>"><br>
+                                        <input id="nome" name="nome" type="text" class="form-control" value="<?= isset($_POST['nome']) ? htmlspecialchars($_POST['nome']) : '' ?>" required><br>
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="mb-1">
                                         <label for="telefone" class="form-label">Telefone*</label>
-                                        <input name="telefone" id="telefone" type="tel" class="form-control" maxlength="15" value="<?= isset($_POST['telefone']) ? htmlspecialchars($_POST['telefone']) : '' ?>" onkeyup="handlePhone(event)"><br>
+                                        <input name="telefone" id="telefone" type="tel" class="form-control" maxlength="15" value="<?= isset($_POST['telefone']) ? htmlspecialchars($_POST['telefone']) : '' ?>" onkeyup="handlePhone(event)" required><br>
                                     </div>
                                 </div>
                             </div>
@@ -66,20 +66,19 @@
                                 <div class="col-6">
                                     <div class="mb-1">
                                         <label for="endereco" class="form-label">Endereço*</label>
-                                        <input id="endereco" name="endereco" type="text" class="form-control" value="<?= isset($_POST['endereco']) ? htmlspecialchars($_POST['endereco']) : '' ?>"><br>
+                                        <input id="endereco" name="endereco" type="text" class="form-control" value="<?= isset($_POST['endereco']) ? htmlspecialchars($_POST['endereco']) : '' ?>" required><br>
                                     </div>
                                 </div>
                                 <div class="col-4">
                                     <div class="mb-1">
                                         <label for="cidade" class="form-label">Cidade*</label>
-                                        <input id="cidade" name="cidade" type="text" class="form-control" value="<?= isset($_POST['cidade']) ? htmlspecialchars($_POST['cidade']) : '' ?>"><br>
+                                        <input id="cidade" name="cidade" type="text" class="form-control" value="<?= isset($_POST['cidade']) ? htmlspecialchars($_POST['cidade']) : '' ?>" required><br>
                                     </div>
                                 </div>
                                 <div class="col-2">
                                     <div class="mb-1">
                                         <label for="uf" class="form-label">UF*</label>
-                                        <select id="uf" name="uf" class="form-control" value="<?= isset($_POST['uf']) ? htmlspecialchars($_POST['uf']) : '' ?>">
-                                            <option selected>Selecione</option>
+                                        <select id="uf" name="uf" class="form-control" value="<?= isset($_POST['uf']) ? htmlspecialchars($_POST['uf']) : '' ?>" required>
                                             <?php
                                             $opcoes = ["AC" => "Acre", "AL" => "Alagoas", "AP" => "Amapá", "AM" => "Amazonas", "BA" => "Bahia", "CE" => "Ceará", "DF" => "Distrito Federal", "ES" => "Espirito Santo", "GO" => "Goiás", "MA" => "Maranhão", "MT" => "Mato Grosso", "MS" => "Mato Grosso do Sul", "MG" => "Minas Gerais", "PA" => "Pará", "PB" => "Paraíba", "PR" => "Paraná", "PE" => "Pernambuco", "PI" => "Piauí", "RJ" => "Rio de Janeiro", "RN" => "Rio Grande do Norte", "RS" => "Rio Grande do Sul", "RO" => "Rondônia", "RR" => "Roraima", "SC" => "Santa Catarina", "SP" => "São Paulo", "SE" => "Sergipe", "TO" => "Tocantins", "EX" => "Estrangeiro"];
 
@@ -96,8 +95,7 @@
                                 <div class="col">
                                     <div class="mb-1">
                                         <label for="sexo" class="form-label">Sexo*</label>
-                                        <select id="sexo" name="sexo" class="form-control">
-                                            <option selected>Selecione</option>
+                                        <select id="sexo" name="sexo" class="form-control" required>
                                             <?php
                                             $opcoes = ["M" => "Masculino", "F" => "Feminino", "O" => "Outro"];
 
@@ -112,7 +110,7 @@
                                 <div class="col">
                                     <div class="mb-1">
                                         <label for="dataNascimento" class="form-label">Data de Nascimento*</label>
-                                        <input id="dataNascimento" name="dataNascimento" type="date" class="form-control" value="<?= isset($_POST['dataNascimento']) ? htmlspecialchars($_POST['dataNascimento']) : '' ?>"><br>
+                                        <input id="dataNascimento" name="dataNascimento" type="date" class="form-control" value="<?= isset($_POST['dataNascimento']) ? htmlspecialchars($_POST['dataNascimento']) : '' ?>" required><br>
                                     </div>
                                 </div>
                             </div>
@@ -120,7 +118,7 @@
                                 <div class="col">
                                     <div class="mb-1">
                                         <label for="cpf" class="form-label">CPF*</label>
-                                        <input name="cpf" id="cpf" type="text" maxlength="14" class="form-control" value="<?= isset($_POST['cpf']) ? htmlspecialchars($_POST['cpf']) : '' ?>" oninput="applyCpfMask(this)"><br>
+                                        <input name="cpf" id="cpf" type="text" maxlength="14" class="form-control" value="<?= isset($_POST['cpf']) ? htmlspecialchars($_POST['cpf']) : '' ?>" oninput="applyCpfMask(this)" required><br>
                                     </div>
                                 </div>
                                 <div class="col">
@@ -136,22 +134,20 @@
                     </div>
 
                     <script>
-                        function validarFormulario() {
-                            // Lógica de validação do lado do cliente
+                        function validarTelefone() {
+                            var telefoneInput = document.getElementById("telefone");
+                            var telefone = telefoneInput.value;
 
-                            // Exemplo: Verificar se todos os campos obrigatórios estão preenchidos
-                            var camposObrigatorios = ["nome", "telefone", "endereco", "cidade", "uf", "sexo", "dataNascimento", "cpf"];
-                            for (var i = 0; i < camposObrigatorios.length; i++) {
-                                var campo = document.getElementById(camposObrigatorios[i]).value;
-                                if (campo === "") {
-                                    alert("Por favor, preencha todos os campos obrigatórios.");
-                                    return false; // Impede o envio do formulário
-                                }
+                            // Expressão regular para validar o formato do telefone
+                            var regex = /^\(\d{2}\) \d{4,5}-\d{4}$/;
+
+                            if (!regex.test(telefone)) {
+                                alert("Por favor, insira um número de telefone válido no formato (11) 1234-5678 ou (11) 12345-6789.");
+                                telefoneInput.focus();
+                                return false;
                             }
 
-                            // Outras verificações podem ser adicionadas conforme necessário
-
-                            return true; // Permite o envio do formulário
+                            return true;
                         }
                     </script>
 

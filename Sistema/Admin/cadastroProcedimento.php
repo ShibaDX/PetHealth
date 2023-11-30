@@ -83,7 +83,7 @@ if (isset($_POST['salvar'])) {
                                 <div class="col">
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" id="nomeProcedimento" class="form-label">Nome</label>
-                                        <input name="nomeProc" type="text" id="nomeProcedimento" class="form-control"><br>
+                                        <input name="nomeProc" type="text" id="nomeProcedimento" class="form-control" required><br>
                                     </div>
                                 </div>
                                 <div class="col">
