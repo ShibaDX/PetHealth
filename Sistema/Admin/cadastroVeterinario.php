@@ -65,19 +65,27 @@ require_once("conexao.php"); ?>
                                         <input name="nomeVet" type="text" class="form-control" value="<?= isset($_POST['nomeVet']) ? htmlspecialchars($_POST['nomeVet']) : '' ?>" required><br>
                                     </div>
                                 </div>
-                                <div class="col-2">
+                                <div class="col-6">
+                                    <div class="mb-1">
+                                        <label for="email" class="form-label">Email</label>
+                                        <input name="email" id="email" type="email" class="form-control" value="<?= isset($_POST['email']) ? htmlspecialchars($_POST['email']) : '' ?>" required><br>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4">
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">Telefone</label>
                                         <input name="telefone" type="text" id="telefone" maxlength="15" class="form-control" value="<?= isset($_POST['telefone']) ? htmlspecialchars($_POST['telefone']) : '' ?>" onkeyup="handlePhone(event)" required><br>
                                     </div>
                                 </div>
-                                <div class="col-2">
+                                <div class="col-4">
                                     <div class="mb-1">
                                         <label for="" class="form-label">Data de Nascimento</label>
                                         <input name="dataNascimento" type="date" class="form-control" value="<?= isset($_POST['dataNascimento']) ? htmlspecialchars($_POST['dataNascimento']) : '' ?>" required><br>
                                     </div>
                                 </div>
-                                <div class="col-2">
+                                <div class="col-4">
                                     <div class="mb-1">
                                         <label for="crmv" class="form-label">CRMV</label>
                                         <input name="crmv" id="crmv" type="text" class="form-control" value="<?= isset($_POST['crmv']) ? htmlspecialchars($_POST['crmv']) : '' ?>" required><br>
@@ -85,21 +93,27 @@ require_once("conexao.php"); ?>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-6">
-                                    <div class="mb-1">
-                                        <label for="email" class="form-label">Email</label>
-                                        <input name="email" id="email" type="email" class="form-control" value="<?= isset($_POST['email']) ? htmlspecialchars($_POST['email']) : '' ?>" required><br>
-                                    </div>
-                                </div>
+                                <div class="col-4">
+                                    <label for="sexo" class="form-label">Sexo*</label>
+                                    <select id="sexo" name="sexo" class="form-control" required>
+                                        <?php
+                                        $opcoes = ["M" => "Masculino", "F" => "Feminino", "O" => "Outro"];
 
-                                <div class="col-3">
+                                        foreach ($opcoes as $valor => $rotulo) {
+                                            $selected = ($_POST["sexo"] == $valor) ? "selected" : "";
+                                            echo "<option value='$valor' $selected>$rotulo</option>";
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                                <div class="col-4">
                                     <div class="mb-1">
                                         <label for="senha" class="form-label">Senha</label>
                                         <input name="senha" id="senha" type="password" class="form-control" value="<?= isset($_POST['senha']) ? htmlspecialchars($_POST['senha']) : '' ?>" required>
                                         <button type="button" id="togglePass" class="botao btn btn-link">Mostrar Senha</button>
                                     </div>
                                 </div>
-                                <div class="col-3">
+                                <div class="col-4">
                                     <div class="mb-1">
                                         <label for="confirmarSenha" class="form-label">Confirmar Senha</label>
                                         <input name="confirmarSenha" id="confirmarSenha" type="password" class="form-control" value="<?= isset($_POST['confirmarSenha']) ? htmlspecialchars($_POST['confirmarSenha']) : '' ?>" required>

@@ -49,26 +49,29 @@ require_once("conexao.php"); ?>
                             <div class="row">
                                 <div class="col-6">
                                     <div class="mb-1">
-                                        <label for="nome" class="form-label">Nome</label>
-                                        <input id="nome" name="nomePet" type="text" class="form-control"><br>
+                                        <label for="nomePet" class="form-label">Nome</label>
+                                        <input id="nomePet" name="nomePet" type="text" class="form-control" value="<?= isset($_POST['nomePet']) ? htmlspecialchars($_POST['nomePet']) : '' ?>" required><br>
                                     </div>
                                 </div>
                                 <div class="col-4">
                                     <div class="mb-1">
                                         <label for="especie" class="form-label">Espécie</label>
-                                        <select id="especie" name="especie" class="form-control" onchange="atualizarRacas(this.value)">
-                                            <option selected>Selecione</option>
-                                            <option value="Cachorro">Cachorro</option>
-                                            <option value="Gato">Gato</option>
-                                            <option value="Roedor">Roedor</option>
-                                            <option value="Ave">Ave</option>
+                                        <select id="especie" name="especie" class="form-control" onchange="atualizarRacas(this.value)" required>
+                                            <?php
+                                            $opcoes = ["Cachorro" => "Cachorro", "Gato" => "Gato", "Roedor" => "Roedor", "Ave" => "Ave"];
+
+                                            foreach ($opcoes as $valor => $rotulo) {
+                                                $selected = ($_POST["especie"] == $valor) ? "selected" : "";
+                                                echo "<option value='$valor' $selected>$rotulo</option>";
+                                            }
+                                            ?>
                                         </select> <br>
                                     </div>
                                 </div>
                                 <div class="col-2">
                                     <div class="mb-1">
                                         <label for="anoNascimento" class="form-label">Ano de Nascimento</label>
-                                        <input id="anoNascimento" name="anoNascimento" type="text" class="form-control"><br>
+                                        <input id="anoNascimento" name="anoNascimento" type="text" class="form-control" value="<?= isset($_POST['anoNascimento']) ? htmlspecialchars($_POST['anoNascimento']) : '' ?>" required><br>
                                     </div>
                                 </div>
                             </div>
@@ -76,24 +79,28 @@ require_once("conexao.php"); ?>
                                 <div class="col-6">
                                     <div class="mb-1">
                                         <label for="raca_id" class="form-label">Raça</label>
-                                        <select id="raca_id" name="raca_id" class="form-control">
-                                            <option selected>Selecione</option>
+                                        <select id="raca_id" name="raca_id" class="form-control" required>
                                         </select>
                                     </div> <br>
                                 </div>
                                 <div class="col-4">
                                     <div class="mb-1">
                                         <label for="cor" class="form-label">Cor</label>
-                                        <input id="cor" name="cor" type="text" class="form-control"><br>
+                                        <input id="cor" name="cor" type="text" class="form-control" value="<?= isset($_POST['cor']) ? htmlspecialchars($_POST['cor']) : '' ?>" required><br>
                                     </div>
                                 </div>
                                 <div class="col-2">
                                     <div class="mb-1">
                                         <label for="sexo" class="form-label">Sexo</label>
-                                        <select id="sexo" name="sexo" class="form-control">
-                                            <option selected>Selecione</option>
-                                            <option value="Macho">Macho</option>
-                                            <option value="Fêmea">Fêmea</option>
+                                        <select id="sexo" name="sexo" class="form-control" required>
+                                            <?php
+                                            $opcoes = ["Macho" => "Macho", "Fêmea" => "Fêmea"];
+
+                                            foreach ($opcoes as $valor => $rotulo) {
+                                                $selected = ($_POST["sexo"] == $valor) ? "selected" : "";
+                                                echo "<option value='$valor' $selected>$rotulo</option>";
+                                            }
+                                            ?>
                                         </select> <br>
                                     </div>
                                 </div>
@@ -102,7 +109,7 @@ require_once("conexao.php"); ?>
                                 <div class="col">
                                     <div class="mb-1">
                                         <label for="cliente_id" class="form-label">Dono(a)</label>
-                                        <select id="cliente_id" name="cliente_id" class="form-control">
+                                        <select id="cliente_id" name="cliente_id" class="form-control" required>
                                             <?php
                                             $sql = "select * from cliente order by nome";
                                             $resultado = mysqli_query($conexao, $sql);
@@ -120,7 +127,7 @@ require_once("conexao.php"); ?>
                                 <div class="col">
                                     <div class="mb-1">
                                         <label for="obs" class="form-label">OBS</label>
-                                        <textarea id="obs" name="obs" type="text" class="form-control"></textarea><br>
+                                        <textarea id="obs" name="obs" type="text" class="form-control" value="<?= isset($_POST['obs']) ? htmlspecialchars($_POST['obs']) : '' ?>"></textarea><br>
                                     </div>
                                 </div>
                             </div>
@@ -170,24 +177,9 @@ require_once("conexao.php"); ?>
                         }
 
 
+
                         // Chamada inicial para garantir que as raças sejam carregadas corretamente
                         atualizarRacas(document.getElementById("especie").value);
-
-                        function validarFormulario() {
-                            // Lógica de validação do lado do cliente
-                            // Exemplo: Verificar se todos os campos obrigatórios estão preenchidos
-                            var camposObrigatorios = ["nomePet", "anoNascimento", "sexo", "cor", "cliente_id", "raca_id", "especie"];
-                            for (var i = 0; i < camposObrigatorios.length; i++) {
-                                var campo = document.getElementById(camposObrigatorios[i]).value;
-                                if (campo === "") {
-                                    alert("Por favor, preencha todos os campos obrigatórios.");
-                                    return false; // Impede o envio do formulário
-                                }
-                            }
-
-                            // Outras verificações podem ser adicionadas conforme necessário
-                            return true; // Permite o envio do formulário
-                        }
                     </script>
 
 
@@ -230,6 +222,7 @@ require_once("conexao.php"); ?>
 
 
 
+
                         //3. Preparar a SQL
                         $sql = "insert into pet (nome, anoNascimento, sexo, cor, obs, cliente_id, raca_id, especie) values ('$nome', '$anoNascimento', '$sexo', '$cor', '$obs', '$cliente_id', '$raca_id', '$especie')";
                         // ... restante do código ...
@@ -239,6 +232,9 @@ require_once("conexao.php"); ?>
 
                         //5. Mostrar mensagem ao usuário
                         $mensagem = "Inserido com Sucesso";
+                        if (!mysqli_query($conexao, $sql)) {
+                            die('Erro no SQL: ' . mysqli_error($conexao));
+                        }
                     }
                     ?>
                     <?php if (isset($mensagem)) { ?>
