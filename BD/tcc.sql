@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 27/11/2023 às 12:56
+-- Tempo de geração: 29/11/2023 às 20:18
 -- Versão do servidor: 10.4.28-MariaDB
 -- Versão do PHP: 8.2.4
 
@@ -245,11 +245,11 @@ CREATE TABLE `usuariosistema` (
 --
 
 INSERT INTO `usuariosistema` (`id`, `status`, `nome`, `telefone`, `cpf`, `email`, `dataNascimento`, `dataAdmissao`, `senha`, `funcao`, `CRMV`, `dataDemissao`) VALUES
-(1, '', 'Admin', '', '', 'admin@adm.com', '0000-00-00', '2023-09-01', '1234', '', '', NULL),
-(2, '', 'Maria da Silva', '(11) 98765-4321', '', 'maria.silva@email.com', '1985-03-15', '2023-09-15', 'maria123', '', '12345-SP', NULL),
-(3, '', 'João dos Santos', '(21) 99999-8888', '', 'joao.santos@email.com', '1990-07-10', '2023-09-15', 'joao123', '', '67890-RJ', NULL),
-(4, '', 'Ana Oliveira', '(31) 5555-1234', '', 'ana.oliveira@email.com', '1982-09-25', '2023-09-15', 'ana123', '', '54321-MG', NULL),
-(5, '', 'Pedro Pereira', '(41) 7777-5555', '', 'pedro.pereira@email.com', '1978-12-05', '2023-09-15', 'pedro123', '', '98765-PR', NULL);
+(1, '', 'Admin', '', '', 'admin@adm.com', '0000-00-00', '2023-09-01', '1234', 'Admin', '', NULL),
+(2, '', 'Maria da Silva', '(11) 98765-4321', '', 'maria.silva@email.com', '1985-03-15', '2023-09-15', 'maria123', 'Veterinario', '12345-SP', NULL),
+(3, '', 'João dos Santos', '(21) 99999-8888', '', 'joao.santos@email.com', '1990-07-10', '2023-09-15', 'joao123', 'Veterinario', '67890-RJ', NULL),
+(4, '', 'Ana Oliveira', '(31) 5555-1234', '', 'ana.oliveira@email.com', '1982-09-25', '2023-09-15', 'ana123', 'Veterinario', '54321-MG', NULL),
+(5, '', 'Pedro Pereira', '(41) 7777-5555', '', 'pedro.pereira@email.com', '1978-12-05', '2023-09-15', 'pedro123', 'Veterinario', '98765-PR', NULL);
 
 --
 -- Índices para tabelas despejadas

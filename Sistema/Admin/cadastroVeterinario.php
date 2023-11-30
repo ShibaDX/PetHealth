@@ -1,5 +1,6 @@
 <!-- Requisita a verificação de autenticação -->
-<?php require_once("verificaAutenticacao.php"); ?>
+<?php require_once("verificaAutenticacao.php");
+require_once("conexao.php"); ?>
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -11,7 +12,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Cadastro de Cliente</title>
+    <title>Cadastro de Veterinário</title>
 
     <!-- Custom fonts for this template-->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
@@ -25,6 +26,8 @@
 </head>
 
 <body id="page-top">
+
+
 
     <!-- Page Wrapper -->
     <div id="wrapper">
@@ -54,89 +57,125 @@
                                         <input name="nome" type="text" class="form-control"><br>
                                     </div>
                                 </div>
-                                <div class="col-3">
+                                <div class="col-2">
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">Telefone</label>
                                         <input name="telefone" type="text" maxlength="15" class="form-control" onkeyup="handlePhone(event)"><br>
                                     </div>
                                 </div>
-                                <div class="col-3">
+                                <div class="col-2">
                                     <div class="mb-1">
-                                        <label for="formGroupExampleInput" class="form-label">Data de Nascimento</label>
+                                        <label for="" class="form-label">Data de Nascimento</label>
                                         <input name="dataNascimento" type="date" class="form-control"><br>
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <div class="mb-1">
+                                        <label for="crmv" class="form-label">CRMV</label>
+                                        <input name="crmv" id="crmv" type="text" class="form-control"><br>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-6">
                                     <div class="mb-1">
-                                        <label for="formGroupExampleInput" class="form-label">Email</label>
-                                        <input name="email" type="email" class="form-control"><br>
+                                        <label for="email" class="form-label">Email</label>
+                                        <input name="email" id="email" type="email" class="form-control"><br>
                                     </div>
                                 </div>
-                                <div class="col-4">
+
+                                <div class="col-3">
                                     <div class="mb-1">
-                                        <label for="formGroupExampleInput" class="form-label">Senha</label>
-                                        <input name="senha" type="password" class="form-control"><br>
+                                        <label for="senha" class="form-label">Senha</label>
+                                        <input name="senha" id="senha" type="password" class="form-control">
+                                        <button type="button" id="togglePass" class="btn btn-primary">😣</button>
                                     </div>
                                 </div>
-                                <div class="col-2">
+                                <div class="col-3">
                                     <div class="mb-1">
-                                        <label for="formGroupExampleInput" class="form-label">CRMV</label>
-                                        <input name="crmv" type="text" class="form-control"><br>
+                                        <label for="confirmarSenha" class="form-label">Confirmar Senha</label>
+                                        <input name="confirmarSenha" id="confirmarSenha" type="password" class="form-control" >
+                                        <button type="button" id="toggleConfirmPass">😣</button>
                                     </div>
                                 </div>
-                            </div>
-                            <button name="salvar" type="submit" class="btn btn-primary"><i class="fa-solid fa-check"></i> Salvar</button>
-                            <a href="listagemVeterinario.php" class="btn btn-warning"><i class="fa-solid fa-rotate-left"></i> Voltar</a>
-                    </div>
+
+                                <script>
+                                    //Mostrar Senha
+                                    const senhaInput = document.querySelector("#senha");
+                                    const togglePassButton = document.querySelector("#togglePass");
+                                    togglePassButton.addEventListener('click', togglePass);
+
+                                    function togglePass() {
+                                        if (senhaInput.type == "password") {
+                                            senhaInput.type = "text";
+                                            togglePassButton.textContent = "🤩";
+                                        } else {
+                                            senhaInput.type = "password";
+                                            togglePassButton.textContent = "😣";
+                                        }
+                                    }
+
+                                    //Mostrar Confirmar Senha
+                                    const confirmarSenhaInput = document.querySelector("#confirmarSenha");
+                                    const toggleConfirmPassButton = document.querySelector("#toggleConfirmPass");
+                                    toggleConfirmPassButton.addEventListener('click', toggleConfirmPass);
+
+                                    function toggleConfirmPass() {
+                                        if (confirmarSenhaInput.type == "password") {
+                                            confirmarSenhaInput.type = "text";
+                                            toggleConfirmPassButton.textContent = "🤩";
+                                        } else {
+                                            confirmarSenhaInput.type = "password";
+                                            toggleConfirmPassButton.textContent = "😣";
+                                        }
+                                    }
+                                </script>
+
+
+                                <!-- Requisitar a Conexão -->
+                                <?php
 
 
 
+                                if (isset($_POST['salvar'])) {
 
-                        </form><br>
-                        <!-- Requisitar a Conexão -->
-                        <?php
-                        require_once("conexao.php");
-                        if (isset($_POST['salvar'])) {
+                                    //2. Receber os dados para inserir no BD
+                                    $nome = $_POST['nome'];
+                                    $telefone = $_POST['telefone'];
+                                    $dataNascimento = $_POST['dataNascimento'];
+                                    $email = $_POST['email'];
+                                    $senha = $_POST['senha'];
+                                    $crmv = $_POST['crmv'];
 
-                            //2. Receber os dados para inserir no BD
-                            $nome = $_POST['nome'];
-                            $telefone = $_POST['telefone'];
-                            $dataNascimento = $_POST['dataNascimento'];
-                            $email = $_POST['email'];
-                            $senha = $_POST['senha'];
-                            $crmv = $_POST['crmv'];
+                                    //3. Preparar a SQL
+                                    $sql = "insert into usuarioSistema (nome, telefone, dataNascimento, email, senha, CRMV, funcao) values ('$nome', '$telefone', '$dataNascimento', '$email', '$senha', '$crmv', 'Veterinario')";
 
-                            //3. Preparar a SQL
-                            $sql = "insert into usuarioSistema (nome, telefone, dataNascimento, email, senha, CRMV) values ('$nome', '$telefone', '$dataNascimento', '$email', '$senha', '$crmv')";
+                                    //4. Executar a SQL
+                                    mysqli_query($conexao, $sql);
 
-                            //4. Executar a SQL
-                            mysqli_query($conexao, $sql);
+                                    //5. Mostrar mensagem ao usuário
+                                    $mensagem = "Inserido com Sucesso";
+                                }
+                                ?>
+                                <?php if (isset($mensagem)) { ?>
+                                    <div class="alert alert-success mb-2" role="alert">
+                                        <i class="fa-solid fa-check" style="color: #12972c;"></i>
+                                        <?= $mensagem ?>
+                                    </div>
+                                <?php }
+                                require_once("footer.php");
+                                ?>
 
-                            //5. Mostrar mensagem ao usuário
-                            $mensagem = "Inserido com Sucesso";
-                        }
-                        ?>
-                        <?php if (isset($mensagem)) { ?>
-                            <div class="alert alert-success mb-2" role="alert">
-                                <i class="fa-solid fa-check" style="color: #12972c;"></i>
-                                <?= $mensagem ?>
-                            </div>
-                        <?php }
-                        require_once("footer.php");
-                        ?>
+                                <!-- Bootstrap core JavaScript-->
+                                <script src="vendor/jquery/jquery.min.js"></script>
+                                <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-                        <!-- Bootstrap core JavaScript-->
-                        <script src="vendor/jquery/jquery.min.js"></script>
-                        <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+                                <!-- Core plugin JavaScript-->
+                                <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
 
-                        <!-- Core plugin JavaScript-->
-                        <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+                                <!-- Custom scripts for all pages-->
+                                <script src="js/sb-admin-2.min.js"></script>
 
-                        <!-- Custom scripts for all pages-->
-                        <script src="js/sb-admin-2.min.js"></script>
-
-                    </body>
+</body>
 
 </html>

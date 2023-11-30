@@ -61,7 +61,7 @@ $resultado = mysqli_query($conexao, $sql);
                 $data_atual = date("Y-m-d");
                 $sql = "SELECT a.id, a.data, a.hora, p.nome as petNome, u.nome as vetNome, pr.nome as procNome, pr.valor as procValor FROM agenda a 
                                     INNER JOIN pet p on a.pet_id= p.id
-                                    inner JOIN usuarioSistema s on a.veterinario_id = u.id
+                                    inner JOIN usuarioSistema u on a.veterinario_id = u.id
                                     INNER join procedimento pr on a.procedimento_id = pr.id
                                     WHERE data = '$data_atual'
                                     ORDER BY hora";

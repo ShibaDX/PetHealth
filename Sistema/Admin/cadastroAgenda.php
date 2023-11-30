@@ -157,7 +157,7 @@ require_once("conexao.php"); ?>
                                             <select name="veterinario_id" class="custom-select ">
                                                 <option value="">Selecione</option>
                                                 <?php
-                                                $sql = "select * from veterinario order by nome";
+                                                $sql = "select * from usuarioSistema where funcao='Veterinario' order by nome";
                                                 $resultado = mysqli_query($conexao, $sql);
 
                                                 while ($linha = mysqli_fetch_array($resultado)) {

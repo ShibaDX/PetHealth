@@ -54,15 +54,3 @@ function validarFormulario() {
     return true; // Permite o envio do formulário
 }
 
-function togglePassword() {
-    var passwordInput = document.getElementById("senha");
-    var confirmInput = document.getElementById("confirmarSenha");
-
-    if (passwordInput.type === "password") {
-        passwordInput.type = "text";
-        confirmInput.type = "text";
-    } else {
-        passwordInput.type = "password";
-        confirmInput.type = "password";
-    }
-}

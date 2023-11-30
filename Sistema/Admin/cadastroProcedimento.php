@@ -1,5 +1,39 @@
 <!-- Requisita a verificação de autenticação -->
-<?php require_once("verificaAutenticacao.php"); ?>
+<?php require_once("conexao.php");
+require_once("verificaAutenticacao.php");
+?>
+
+<!-- Requisitar a Conexão -->
+<?php
+
+if (isset($_POST['salvar'])) {
+
+
+    // Receber os dados para inserir no BD
+    $nome = $_POST['nomeProc'];
+    $valor = $_POST['valorProc'];
+
+    // Validar se o valor é um número positivo
+    if (is_numeric($valor) && floatval($valor) >= 0) {
+        // Preparar a SQL com prepared statement
+        $sql = "INSERT INTO procedimento (nome, valor) VALUES ('$nome', '$valor')";
+        $stmt = mysqli_prepare($conexao, $sql);
+        // Executar a SQL
+        if (mysqli_stmt_execute($stmt)) {
+            $mensagem = "Inserido com Sucesso";
+        } else {
+            $mensagem = "Erro ao inserir no banco de dados: " . mysqli_error($conexao);
+        }
+
+        // Fechar o statement
+        mysqli_stmt_close($stmt);
+    } else {
+        $mensagem = "Por favor, insira um valor numérico não negativo para o procedimento.";
+    }
+}
+
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -48,61 +82,42 @@
                             <div class="row">
                                 <div class="col">
                                     <div class="mb-1">
-                                        <label for="formGroupExampleInput" class="form-label">Nome</label>
-                                        <input name="nomeProc" type="text" class="form-control"><br>
+                                        <label for="formGroupExampleInput" id="nomeProcedimento" class="form-label">Nome</label>
+                                        <input name="nomeProc" type="text" id="nomeProcedimento" class="form-control"><br>
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="mb-1">
-                                        <label for="formGroupExampleInput" class="form-label">Valor (R$)</label>
-                                        <input name="valor" type="number" class="form-control" min="0" required><br>
+                                        <label for="valorProcedimento" class="form-label">Valor do Procedimento (R$):</label>
+                                        <input type="text" id="valorProcedimento" name="valorProc" class="form-control" required>
                                     </div>
                                 </div>
                             </div>
                             <button name="salvar" type="submit" class="btn btn-primary"><i class="fa-solid fa-check"></i> Salvar</button>
                             <a href="listagemAgenda.php" class="btn btn-warning"><i class="fa-solid fa-rotate-left"></i> Voltar</a>
+                        </form><br>
+                        <?php if ($mensagem) { ?>
+                            <div class="alert <?= strpos($mensagem, 'Sucesso') !== false ? 'alert-success' : 'alert-danger' ?> mb-2" role="alert">
+                                <i class="fa-solid <?= strpos($mensagem, 'Sucesso') !== false ? 'fa-check' : 'fa-x' ?>" style="color: <?= strpos($mensagem, 'Sucesso') !== false ? '#12972c' : '#b70b0b' ?>;"></i>
+                                <?= $mensagem ?>
+                            </div>
+
                     </div>
+                </div>
+            </div>
+        <?php }
+                        require_once("footer.php"); ?>
+        <!-- Bootstrap core JavaScript-->
+        <script src="vendor/jquery/jquery.min.js"></script>
+        <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
+        <!-- Core plugin JavaScript-->
+        <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
 
-                    </form><br>
-                    <!-- Requisitar a Conexão -->
-                    <?php
-                    require_once("conexao.php");
-                    if (isset($_POST['salvar'])) {
-
-                        //2. Receber os dados para inserir no BD
-                        $nome = $_POST['nomeProc'];
-                        $valor = $_POST['valor'];
-
-                        //3. Preparar a SQL
-                        $sql = "insert into procedimento (nome, valor) values ('$nome', '$valor')";
-
-                        //4. Executar a SQL
-                        mysqli_query($conexao, $sql);
-
-                        //5. Mostrar mensagem ao usuário
-                        $mensagem = "Inserido com Sucesso";
-                    }
-                    ?>
-                    <?php if (isset($mensagem)) { ?>
-                        <div class="alert alert-success mb-2" role="alert">
-                            <i class="fa-solid fa-check" style="color: #12972c;"></i>
-                            <?= $mensagem ?>
-                        </div>
-                    <?php }
-                    require_once("footer.php");
-                    ?>
-
-                    <!-- Bootstrap core JavaScript-->
-                    <script src="vendor/jquery/jquery.min.js"></script>
-                    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-                    <!-- Core plugin JavaScript-->
-                    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
-                    <!-- Custom scripts for all pages-->
-                    <script src="js/sb-admin-2.min.js"></script>
+        <!-- Custom scripts for all pages-->
+        <script src="js/sb-admin-2.min.js"></script>
 
 </body>
+
 
 </html>
