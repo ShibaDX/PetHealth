@@ -4,7 +4,7 @@ require_once("verificaAutenticacao.php");
 require_once("conexao.php");
 //Exclusão
 if (isset($_GET['id'])) {
-    $sql = "delete from usuarioSistema where id = " . $_GET['id'];
+    $sql = "delete from veterinario where id = " . $_GET['id'];
     mysqli_query($conexao, $sql);
     $mensagem = "Exclusão realizada com sucesso.";
 }
@@ -77,8 +77,10 @@ $resultado = mysqli_query($conexao, $sql);
                         <thead>
                             <tr>
                                 <th scope="col">ID</th>
+                                <th scope="col">Status</th>
                                 <th scope="col">Nome</th>
                                 <th scope="col">Telefone</th>
+                                <th scope="col">Sexo</th>
                                 <th scope="col">Email</th>
                                 <th scope="col">Data de Nascimento</th>
                                 <th scope="col">Data de Admissão</th>
@@ -94,10 +96,16 @@ $resultado = mysqli_query($conexao, $sql);
                                         <?= $linha['id'] ?>
                                     </th>
                                     <td>
+                                        <?= $linha['status'] ?>
+                                    </td>
+                                    <td>
                                         <?= $linha['nome'] ?>
                                     </td>
                                     <td>
                                         <?= $linha['telefone'] ?>
+                                    </td>
+                                    <td>
+                                        <?= $linha['sexo'] ?>
                                     </td>
                                     <td>
                                         <?= $linha['email'] ?>
@@ -120,11 +128,11 @@ $resultado = mysqli_query($conexao, $sql);
                                         <a href="listagemVeterinario.php?id=<?= $linha['id'] ?>" class="btn btn-danger"
                                             onclick="return confirm('Confirma exclusão?')"><i class="fa-solid fa-trash"
                                                 style="color: #000000;"></i></a>
-                                                
+
                                     </td>
                                 </tr>
                             <?php } ?>
-                            </table>
+                    </table>
 
                 </div>
                 <!-- End of Main Content -->
@@ -137,7 +145,7 @@ $resultado = mysqli_query($conexao, $sql);
 
         <!-- End of Page Wrapper -->
     </div>
-    
+
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>

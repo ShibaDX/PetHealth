@@ -2,13 +2,8 @@
 <?php
 require_once("verificaAutenticacao.php");
 require_once("conexao.php");
-
-// Preparar a SQL
-$sql = "select * from agenda";
-
-// Executar a SQL
-$resultado = mysqli_query($conexao, $sql);
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -24,7 +19,9 @@ $resultado = mysqli_query($conexao, $sql);
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
     <script src="https://kit.fontawesome.com/0215a38eba.js" crossorigin="anonymous"></script>
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
@@ -44,41 +41,9 @@ $resultado = mysqli_query($conexao, $sql);
             <!-- Main Content -->
             <div id="content">
 
-                <?php require_once("topbarAdmin.php");
+                <?php require_once("topbarAdmin.php"); ?>
 
 
-                $sql = "SELECT a.id, a.data, a.hora, p.nome as petNome, u.nome as vetNome, pr.nome as procNome  FROM agenda a 
-                                    INNER JOIN pet p on a.pet_id= p.id
-                                    inner JOIN usuarioSistema u on a.veterinario_id = u.id
-                                    INNER join procedimento pr on a.procedimento_id = pr.id";
-
-                $resultado = mysqli_query($conexao, $sql);
-
-                ?>
-
-                <!-- Bloco de mensagem -->
-                <?php if (isset($mensagem)) { ?>
-                    <div class="alert alert-success" role="alert">
-                        <i class="fa-solid fa-check" style="color: #2eb413;"></i>
-                        <?= $mensagem ?>
-                    </div>
-                <?php } ?>
-                <!-- Tabela para a listagem da agenda -->
-                <?php if ($resultado->num_rows > 0) {
-                    // Exibir os dados em uma tabela
-                ?> <table class="table table-striped table-hover tabela-limit">
-                        <?php
-                        echo "<tr><th>Data</th><th>Hora</th><th>Nome do Pet</th><th>Nome do Veterinário</th><th>Procedimento</th></tr>";
-
-                        while ($row = $resultado->fetch_assoc()) {
-                            echo "<tr><td>" . $row["data"] . "<td>" . $row["hora"] . "</td><td>" . $row["petNome"] . "</td><td>" . $row["vetNome"] . "</td><td>" . $row["procNome"] . "</td>" ?>
-                            </tr> <?php
-                                } ?>
-
-                    </table> <?php
-                            } else {
-                                echo "Nenhum resultado encontrado.";
-                            } ?>
             </div>
 
             <!-- End of Main Content -->

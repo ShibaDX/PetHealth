@@ -13,24 +13,38 @@ if (isset($_POST['entrar'])) {
     $veterinario_query = "SELECT * FROM veterinario WHERE email='$email' AND senha='$senha'";
     $atendente_query = "SELECT * FROM atendente WHERE email='$email' AND senha='$senha'";
 
-    $admin_result = $conexao->query($admin_query);
-    $veterinario_result = $conexao->query($veterinario_query);
-    $atendente_result = $conexao->query($atendente_query);
+    $admin_result = mysqli_query($conexao, $admin_query);
+    $veterinario_result = mysqli_query($conexao, $veterinario_query);
+    $atendente_result = mysqli_query($conexao, $atendente_query);
+
+
 
     if ($admin_result->num_rows > 0) {
         // Usuário é um administrador
         $user_data = $admin_result->fetch_assoc();
-        $_SESSION['user_type'] = 'admin';
+            //Cria a sessão para gerar a permissão de acesso ao sistema
+            session_start();
+            $_SESSION['id'] = $user_data['id'];
+            $_SESSION['nome'] = $user_data['nome'];
+            $_SESSION['email'] = $user_data['email'];
         header("Location: Admin/indexAdmin.php");
     } elseif ($veterinario_result->num_rows > 0) {
         // Usuário é um veterinário
         $user_data = $veterinario_result->fetch_assoc();
-        $_SESSION['user_type'] = 'veterinario';
+            //Cria a sessão para gerar a permissão de acesso ao sistema
+            session_start();
+            $_SESSION['id'] = $user_data['id'];
+            $_SESSION['nome'] = $user_data['nome'];
+            $_SESSION['email'] = $user_data['email'];
         header("Location: Vet/indexVet.php");
     } elseif ($atendente_result->num_rows > 0) {
         // Usuário é um atendente
         $user_data = $atendente_result->fetch_assoc();
-        $_SESSION['user_type'] = 'atendente';
+            //Cria a sessão para gerar a permissão de acesso ao sistema
+            session_start();
+            $_SESSION['id'] = $user_data['id'];
+            $_SESSION['nome'] = $user_data['nome'];
+            $_SESSION['email'] = $user_data['email'];
         header("Location: Atendente/indexAtendente.php");
     } else {
         // Autenticação falhou

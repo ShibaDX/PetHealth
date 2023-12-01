@@ -17,7 +17,9 @@
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="js/javascript.js"></script>
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+    <link
+        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+        rel="stylesheet">
     <script src="https://kit.fontawesome.com/0215a38eba.js" crossorigin="anonymous"></script>
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
@@ -52,13 +54,18 @@
                                 <div class="col">
                                     <div class="mb-1">
                                         <label for="nome" class="form-label">Nome*</label>
-                                        <input id="nome" name="nome" type="text" class="form-control" value="<?= isset($_POST['nome']) ? htmlspecialchars($_POST['nome']) : '' ?>" required><br>
+                                        <input id="nome" name="nome" type="text" class="form-control"
+                                            value="<?= isset($_POST['nome']) ? htmlspecialchars($_POST['nome']) : '' ?>"
+                                            required><br>
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="mb-1">
                                         <label for="telefone" class="form-label">Telefone*</label>
-                                        <input name="telefone" id="telefone" type="tel" class="form-control" maxlength="15" value="<?= isset($_POST['telefone']) ? htmlspecialchars($_POST['telefone']) : '' ?>" onkeyup="handlePhone(event)" required><br>
+                                        <input name="telefone" id="telefone" type="tel" class="form-control"
+                                            maxlength="15"
+                                            value="<?= isset($_POST['telefone']) ? htmlspecialchars($_POST['telefone']) : '' ?>"
+                                            onkeyup="handlePhone(event)" required><br>
                                     </div>
                                 </div>
                             </div>
@@ -66,19 +73,25 @@
                                 <div class="col-6">
                                     <div class="mb-1">
                                         <label for="endereco" class="form-label">Endereço*</label>
-                                        <input id="endereco" name="endereco" type="text" class="form-control" value="<?= isset($_POST['endereco']) ? htmlspecialchars($_POST['endereco']) : '' ?>" required><br>
+                                        <input id="endereco" name="endereco" type="text" class="form-control"
+                                            value="<?= isset($_POST['endereco']) ? htmlspecialchars($_POST['endereco']) : '' ?>"
+                                            required><br>
                                     </div>
                                 </div>
                                 <div class="col-4">
                                     <div class="mb-1">
                                         <label for="cidade" class="form-label">Cidade*</label>
-                                        <input id="cidade" name="cidade" type="text" class="form-control" value="<?= isset($_POST['cidade']) ? htmlspecialchars($_POST['cidade']) : '' ?>" required><br>
+                                        <input id="cidade" name="cidade" type="text" class="form-control"
+                                            value="<?= isset($_POST['cidade']) ? htmlspecialchars($_POST['cidade']) : '' ?>"
+                                            required><br>
                                     </div>
                                 </div>
                                 <div class="col-2">
                                     <div class="mb-1">
                                         <label for="uf" class="form-label">UF*</label>
-                                        <select id="uf" name="uf" class="form-control" value="<?= isset($_POST['uf']) ? htmlspecialchars($_POST['uf']) : '' ?>" required>
+                                        <select id="uf" name="uf" class="form-control"
+                                            value="<?= isset($_POST['uf']) ? htmlspecialchars($_POST['uf']) : '' ?>"
+                                            required>
                                             <?php
                                             $opcoes = ["AC" => "Acre", "AL" => "Alagoas", "AP" => "Amapá", "AM" => "Amazonas", "BA" => "Bahia", "CE" => "Ceará", "DF" => "Distrito Federal", "ES" => "Espirito Santo", "GO" => "Goiás", "MA" => "Maranhão", "MT" => "Mato Grosso", "MS" => "Mato Grosso do Sul", "MG" => "Minas Gerais", "PA" => "Pará", "PB" => "Paraíba", "PR" => "Paraná", "PE" => "Pernambuco", "PI" => "Piauí", "RJ" => "Rio de Janeiro", "RN" => "Rio Grande do Norte", "RS" => "Rio Grande do Sul", "RO" => "Rondônia", "RR" => "Roraima", "SC" => "Santa Catarina", "SP" => "São Paulo", "SE" => "Sergipe", "TO" => "Tocantins", "EX" => "Estrangeiro"];
 
@@ -110,7 +123,10 @@
                                 <div class="col">
                                     <div class="mb-1">
                                         <label for="dataNascimento" class="form-label">Data de Nascimento*</label>
-                                        <input id="dataNascimento" name="dataNascimento" type="date" class="form-control" value="<?= isset($_POST['dataNascimento']) ? htmlspecialchars($_POST['dataNascimento']) : '' ?>" required><br>
+                                        <input id="dataNascimento" name="dataNascimento" type="date"
+                                            class="form-control"
+                                            value="<?= isset($_POST['dataNascimento']) ? htmlspecialchars($_POST['dataNascimento']) : '' ?>"
+                                            required><br>
                                     </div>
                                 </div>
                             </div>
@@ -118,18 +134,23 @@
                                 <div class="col">
                                     <div class="mb-1">
                                         <label for="cpf" class="form-label">CPF*</label>
-                                        <input name="cpf" id="cpf" type="text" maxlength="14" class="form-control" value="<?= isset($_POST['cpf']) ? htmlspecialchars($_POST['cpf']) : '' ?>" oninput="applyCpfMask(this)" required><br>
+                                        <input name="cpf" id="cpf" type="text" maxlength="14" class="form-control"
+                                            value="<?= isset($_POST['cpf']) ? htmlspecialchars($_POST['cpf']) : '' ?>"
+                                            oninput="applyCpfMask(this)" required><br>
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="mb-1">
                                         <label for="email" class="form-label">Email</label>
-                                        <input id="email" name="email" type="email" class="form-control" value="<?= isset($_POST['email']) ? htmlspecialchars($_POST['email']) : '' ?>"><br>
+                                        <input id="email" name="email" type="email" class="form-control"
+                                            value="<?= isset($_POST['email']) ? htmlspecialchars($_POST['email']) : '' ?>"><br>
                                     </div>
                                 </div>
                             </div>
-                            <button name="salvar" type="submit" class="btn btn-primary"><i class="fa-solid fa-check"></i> Salvar</button>
-                            <a href="listagemCliente.php" class="btn btn-warning"><i class="fa-solid fa-rotate-left"></i> Voltar</a>
+                            <button name="salvar" type="submit" class="btn btn-primary"><i
+                                    class="fa-solid fa-check"></i> Salvar</button>
+                            <a href="listagemCliente.php" class="btn btn-warning"><i
+                                    class="fa-solid fa-rotate-left"></i> Voltar</a>
                         </form><br>
                     </div>
 
@@ -199,8 +220,15 @@
                         $email = $_POST['email'];
 
                         $mensagem = ""; // Inicializa a variável $mensagem
+                    
+                        // Calcular a idade
+                        $dataAtual = new DateTime();
+                        $DN = new DateTime($dataNascimento);
+                        $idade = $dataAtual->diff($DN)->y;
 
-                        if (!validaCPF($cpf)) {
+                        if ($idade < 18) {
+                            $mensagem = "O cliente precisa ter pelo menos 18 anos";
+                        } else if (!validaCPF($cpf)) {
                             // CPF inválido, mostrar mensagem de erro
                             $mensagem = "CPF inválido. Por favor, insira um CPF válido.";
                         } else if (strtotime($dataNascimento) > time()) {
@@ -208,7 +236,7 @@
                             $mensagem = "Data de nascimento não pode ser no futuro";
                         } else {
                             //3. Preparar a SQL
-                            $sql = "insert into cliente (nome, telefone, endereco, cidade, uf, sexo, dataNascimento, CPF, email) values ('$nome', '$telefone', '$endereco', '$cidade', '$uf', '$sexo', '$dataNascimento', '$cpf', '$email')";
+                            $sql = "insert into cliente (status, nome, telefone, endereco, cidade, uf, sexo, dataNascimento, CPF, email) values ('Ativo', '$nome', '$telefone', '$endereco', '$cidade', '$uf', '$sexo', '$dataNascimento', '$cpf', '$email')";
 
                             //4. Executar a SQL
                             $resultado = mysqli_query($conexao, $sql);
@@ -222,15 +250,17 @@
                                 $mensagem = "Erro ao inserir no banco de dados: " . mysqli_error($conexao);
                             }
                         }
-                    ?>
+                        ?>
 
 
 
                         <?php
                         // Exibir a mensagem
                         if ($mensagem) { ?>
-                            <div class="alert <?= strpos($mensagem, 'Sucesso') !== false ? 'alert-success' : 'alert-danger' ?> mb-2" role="alert">
-                                <i class="fa-solid <?= strpos($mensagem, 'Sucesso') !== false ? 'fa-check' : 'fa-x' ?>" style="color: <?= strpos($mensagem, 'Sucesso') !== false ? '#12972c' : '#b70b0b' ?>;"></i>
+                            <div class="alert <?= strpos($mensagem, 'Sucesso') !== false ? 'alert-success' : 'alert-danger' ?> mb-2"
+                                role="alert">
+                                <i class="fa-solid <?= strpos($mensagem, 'Sucesso') !== false ? 'fa-check' : 'fa-x' ?>"
+                                    style="color: <?= strpos($mensagem, 'Sucesso') !== false ? '#12972c' : '#b70b0b' ?>;"></i>
                                 <?= $mensagem ?>
                             </div>
                         <?php } ?>
