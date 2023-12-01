@@ -42,7 +42,7 @@ function validarFormulario() {
         uf === "" ||
         sexo === "" ||
         dataNascimento === "" ||
-        cpf === "" 
+        cpf === ""
 
     ) {
         alert("Por favor, preencha todos os campos obrigatórios.");
@@ -54,3 +54,66 @@ function validarFormulario() {
     return true; // Permite o envio do formulário
 }
 
+$(document).ready(function () {
+    function carregarVeterinarios(filtro) {
+        $.ajax({
+            url: 'seu_script.php',
+            type: 'POST',
+            data: { filtro: filtro },
+            dataType: 'json',
+            success: function (data) {
+                renderizarLista(data);
+            },
+            error: function (error) {
+                console.error('Erro ao obter veterinários:', error);
+            }
+        });
+    }
+
+    function renderizarLista(veterinarios) {
+        const listaElement = $('#listaVeterinarios');
+        listaElement.empty();
+
+        veterinarios.forEach(veterinario => {
+            const status = veterinario.ativo == 1 ? 'Ativo' : 'Inativo';
+            listaElement.append(`<tr>
+                <th scope="row">${veterinario.id}</th>
+                <td>${status}</td>
+                <td>${veterinario.nome}</td>
+                <td>${veterinario.telefone}</td>
+                <td>${veterinario.sexo}</td>
+                <td>${veterinario.email}</td>
+                <td>${veterinario.dataNascimento}</td>
+                <td>${veterinario.dataAdmissao}</td>
+                <td>${veterinario.CRMV}</td>
+                <td>${veterinario.dataDemissao}</td>
+                <td>
+                    <a href="editarVeterinario.php?id=${veterinario.id}" class="btn btn-warning">
+                        <i class="fa-solid fa-pen-to-square" style="color: #000000;"></i>
+                    </a>
+                    <a href="listagemVeterinario.php?id=${veterinario.id}" class="btn btn-danger" onclick="return confirm('Confirma exclusão?')">
+                        <i class="fa-solid fa-trash" style="color: #000000;"></i>
+                    </a>
+                </td>
+            </tr>`);
+        });
+    }
+
+    // Ao abrir a página, mostrar todos os veterinários
+    carregarVeterinarios("");
+
+    // Botão para mostrar todos os veterinários
+    $('#btnMostrarTodos').click(function () {
+        carregarVeterinarios("");
+    });
+
+    // Botão para mostrar apenas os ativos
+    $('#btnMostrarAtivos').click(function () {
+        carregarVeterinarios("ativos");
+    });
+
+    // Botão para mostrar apenas os inativos
+    $('#btnMostrarInativos').click(function () {
+        carregarVeterinarios("inativos");
+    });
+});

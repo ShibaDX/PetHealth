@@ -10,10 +10,12 @@ if (isset($_GET['id'])) {
 }
 
 // preparar a SQL
-$sql = "select * from veterinario";
+$sql = "SELECT * FROM veterinario";
 
 // executar a SQL
 $resultado = mysqli_query($conexao, $sql);
+
+
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -28,10 +30,9 @@ $resultado = mysqli_query($conexao, $sql);
     <title>Lista de Veterinários</title>
 
     <!-- Custom fonts for this template-->
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
     <script src="https://kit.fontawesome.com/0215a38eba.js" crossorigin="anonymous"></script>
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
@@ -56,7 +57,7 @@ $resultado = mysqli_query($conexao, $sql);
 
 
                 <!-- Page Heading -->
-                <div>
+                <div id="listagemVeterinarios">
 
                     <!-- Bloco de mensagem -->
                     <?php if (isset($mensagem)) { ?>
@@ -68,9 +69,19 @@ $resultado = mysqli_query($conexao, $sql);
                     <!-- Tabela de listagem de veerinários -->
                     <div class="card mt-3 mb-3">
                         <div class="card-body">
-                            <h2><i class="fa-solid fa-user-doctor"></i> Listagem de Veterinários <a
-                                    href="cadastroVeterinario.php" class="btn btn-success btn-sn"><i
-                                        class="fa-solid fa-plus" style="color: #ffffff;"></i> Novo Veterinário</a></h2>
+                            <h2>
+                                <i class="fa-solid fa-user-doctor"></i> Listagem de Veterinários
+                                <a href="cadastroVeterinario.php" class="btn btn-success btn-sn">
+                                    <i class="fa-solid fa-plus" style="color: #ffffff;"></i> Novo Veterinário
+                                </a>
+                            </h2>
+
+                            <div class="btn-group" role="group">
+                                <button type="button" class="btn btn-secondary" id="btnMostrarTodos">Todos</button>
+                                <button type="button" class="btn btn-success" id="btnMostrarAtivos">Ativos</button>
+                                <button type="button" class="btn btn-danger" id="btnMostrarInativos">Inativos</button>
+                            </div>
+
                         </div>
                     </div>
                     <table class="table table-striped table-hover">
@@ -90,13 +101,13 @@ $resultado = mysqli_query($conexao, $sql);
                             </tr>
                         </thead>
                         <tbody>
-                            <?php while ($linha = mysqli_fetch_array($resultado)) { ?>
+                            <?php while ($linha = $resultado->fetch_assoc()) { ?>
                                 <tr>
                                     <th scope="row">
                                         <?= $linha['id'] ?>
                                     </th>
                                     <td>
-                                        <?= $linha['status'] ?>
+                                        <?= $linha['statusVet'] ?>
                                     </td>
                                     <td>
                                         <?= $linha['nome'] ?>
@@ -123,11 +134,8 @@ $resultado = mysqli_query($conexao, $sql);
                                         <?= $linha['dataDemissao'] ?>
                                     </td>
                                     <td>
-                                        <a href="editarVeterinario.php?id=<?= $linha['id'] ?>" class="btn btn-warning"><i
-                                                class="fa-solid fa-pen-to-square" style="color: #000000;"></i></a>
-                                        <a href="listagemVeterinario.php?id=<?= $linha['id'] ?>" class="btn btn-danger"
-                                            onclick="return confirm('Confirma exclusão?')"><i class="fa-solid fa-trash"
-                                                style="color: #000000;"></i></a>
+                                        <a href="editarVeterinario.php?id=<?= $linha['id'] ?>" class="btn btn-warning"><i class="fa-solid fa-pen-to-square" style="color: #000000;"></i></a>
+                                        <a href="listagemVeterinario.php?id=<?= $linha['id'] ?>" class="btn btn-danger" onclick="return confirm('Confirma exclusão?')"><i class="fa-solid fa-trash" style="color: #000000;"></i></a>
 
                                     </td>
                                 </tr>
@@ -145,15 +153,14 @@ $resultado = mysqli_query($conexao, $sql);
 
         <!-- End of Page Wrapper -->
     </div>
-
+    <script src="js/javascript.js"></script>
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
 
     <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
