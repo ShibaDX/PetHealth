@@ -150,7 +150,7 @@ require_once("conexao.php"); ?>
                         } else {
 
                             //3. Preparar a SQL
-                            $sql = "insert into usuarioSistema (nome, telefone, dataNascimento, email, senha, cpf, funcao) values ('$nome', '$telefone', '$dataNascimento', '$email', '$senha', '$cpf', 'Atendente')";
+                            $sql = "insert into atendente (nome, telefone, dataNascimento, email, senha, cpf) values ('$nome', '$telefone', '$dataNascimento', '$email', '$senha', '$cpf')";
 
                             //4. Executar a SQL
                             $resultado = mysqli_query($conexao, $sql);

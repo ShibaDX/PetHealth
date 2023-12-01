@@ -1,45 +1,39 @@
 <?php
+require_once("conexao.php");
 
 if (isset($_POST['entrar'])) {
 
     //Pegar os dados do formulário
     $email = $_POST['email'];
     $senha = $_POST['senha'];
-    //Preparar SQL
-
-    $sql = "select * from usuarioSistema where email = '{$email}' and senha = '{$senha}'";
 
     //Executa SQL
-    require_once("conexao.php");
-    $resultado = mysqli_query($conexao, $sql);
-    $linhas = mysqli_num_rows($resultado); //retorna o número de linhas da consulta
 
-    //Verificar a  existência do usuário no BD e faz a permissão
-    if ($linhas > 0) {
+    $admin_query = "SELECT * FROM admin WHERE email ='$email' AND senha = '$senha'";
+    $veterinario_query = "SELECT * FROM veterinario WHERE email='$email' AND senha='$senha'";
+    $atendente_query = "SELECT * FROM atendente WHERE email='$email' AND senha='$senha'";
 
-        $usuario = mysqli_fetch_array($resultado);
+    $admin_result = $conexao->query($admin_query);
+    $veterinario_result = $conexao->query($veterinario_query);
+    $atendente_result = $conexao->query($atendente_query);
 
-        //Cria a sessão para gerar a permissão de acesso ao sistema
-        session_start();
-        $_SESSION['id'] = $usuario['id'];
-        $_SESSION['nome'] = $usuario['nome'];
-        $_SESSION['email'] = $usuario['email'];
-        $_SESSION['funcao'] = $usuario['funcao'];
-
-                // Redireciona para Página Principal baseado na função
-                switch ($usuario['funcao']) {
-                    case 'Admin':
-                        header("location: Admin/indexAdmin.php");
-                        break;
-                    case 'Veterinario':
-                        header("location: Vet/indexVet.php");
-                        break;
-                    case 'Atendente':
-                        header("location: Atendente/indexAtendente.php");
-                        break;
-                }
-        
+    if ($admin_result->num_rows > 0) {
+        // Usuário é um administrador
+        $user_data = $admin_result->fetch_assoc();
+        $_SESSION['user_type'] = 'admin';
+        header("Location: Admin/indexAdmin.php");
+    } elseif ($veterinario_result->num_rows > 0) {
+        // Usuário é um veterinário
+        $user_data = $veterinario_result->fetch_assoc();
+        $_SESSION['user_type'] = 'veterinario';
+        header("Location: Vet/indexVet.php");
+    } elseif ($atendente_result->num_rows > 0) {
+        // Usuário é um atendente
+        $user_data = $atendente_result->fetch_assoc();
+        $_SESSION['user_type'] = 'atendente';
+        header("Location: Atendente/indexAtendente.php");
     } else {
+        // Autenticação falhou
         $mensagem = "Email/Senha inválido.";
         header("location: index.php?mensagem=$mensagem");
     }

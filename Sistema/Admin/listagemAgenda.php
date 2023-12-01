@@ -59,9 +59,9 @@ $resultado = mysqli_query($conexao, $sql);
                 <?php
                 // Obter a data atual
                 $data_atual = date("Y-m-d");
-                $sql = "SELECT a.id, a.data, a.hora, p.nome as petNome, u.nome as vetNome, pr.nome as procNome, pr.valor as procValor FROM agenda a 
+                $sql = "SELECT a.id, a.data, a.hora, p.nome as petNome, v.nome as vetNome, pr.nome as procNome, pr.valor as procValor FROM agenda a 
                                     INNER JOIN pet p on a.pet_id= p.id
-                                    inner JOIN usuarioSistema u on a.veterinario_id = u.id
+                                    inner JOIN veterinario v on a.veterinario_id = v.id
                                     INNER join procedimento pr on a.procedimento_id = pr.id
                                     WHERE data = '$data_atual'
                                     ORDER BY hora";
@@ -93,9 +93,9 @@ $resultado = mysqli_query($conexao, $sql);
                             $dataFiltrada = mysqli_real_escape_string($conexao, $_POST['data']);
 
                             // Adicione a condição WHERE para filtrar os dados pela data
-                            $sql = "SELECT a.id, a.data, a.hora, p.nome as petNome, u.nome as vetNome, pr.nome as procNome, pr.valor as procValor FROM agenda a 
+                            $sql = "SELECT a.id, a.data, a.hora, p.nome as petNome, v.nome as vetNome, pr.nome as procNome, pr.valor as procValor FROM agenda a 
                                     INNER JOIN pet p ON a.pet_id = p.id
-                                    INNER JOIN usuarioSistema u ON a.veterinario_id = u.id
+                                    INNER JOIN veterinario v ON a.veterinario_id = v.id
                                     INNER JOIN procedimento pr ON a.procedimento_id = pr.id
                                     WHERE data = '$dataFiltrada'
                                     ORDER BY hora";

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 29/11/2023 às 20:18
+-- Tempo de geração: 01/12/2023 às 04:06
 -- Versão do servidor: 10.4.28-MariaDB
 -- Versão do PHP: 8.2.4
 
@@ -26,6 +26,32 @@ USE `tcc`;
 -- --------------------------------------------------------
 
 --
+-- Estrutura para tabela `admin`
+--
+
+CREATE TABLE `admin` (
+  `id` int(11) NOT NULL,
+  `status` varchar(20) NOT NULL,
+  `nome` varchar(200) NOT NULL,
+  `telefone` varchar(20) NOT NULL,
+  `email` varchar(200) NOT NULL,
+  `dataNascimento` date NOT NULL,
+  `dataAdmissao` date NOT NULL DEFAULT current_timestamp(),
+  `senha` varchar(200) NOT NULL,
+  `cpf` varchar(14) NOT NULL,
+  `dataDemissao` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `admin`
+--
+
+INSERT INTO `admin` (`id`, `status`, `nome`, `telefone`, `email`, `dataNascimento`, `dataAdmissao`, `senha`, `cpf`, `dataDemissao`) VALUES
+(1, 'Ativo', 'Admin', '', 'admin@adm.com', '2023-11-01', '2023-11-30', '1234', '', NULL);
+
+-- --------------------------------------------------------
+
+--
 -- Estrutura para tabela `agenda`
 --
 
@@ -40,6 +66,32 @@ CREATE TABLE `agenda` (
   `veterinario_id` int(11) DEFAULT NULL,
   `procedimento_id` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- --------------------------------------------------------
+
+--
+-- Estrutura para tabela `atendente`
+--
+
+CREATE TABLE `atendente` (
+  `id` int(11) NOT NULL,
+  `status` varchar(20) NOT NULL,
+  `nome` varchar(200) NOT NULL,
+  `telefone` varchar(20) NOT NULL,
+  `email` varchar(200) NOT NULL,
+  `dataNascimento` date NOT NULL,
+  `dataAdmissao` date NOT NULL DEFAULT current_timestamp(),
+  `senha` varchar(200) NOT NULL,
+  `cpf` varchar(14) NOT NULL,
+  `dataDemissao` date DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `atendente`
+--
+
+INSERT INTO `atendente` (`id`, `status`, `nome`, `telefone`, `email`, `dataNascimento`, `dataAdmissao`, `senha`, `cpf`, `dataDemissao`) VALUES
+(1, '', 'Paulo', '(44) 99718-3800', 'abcde@gmail.com', '2023-11-08', '2023-11-30', '1234567', '082.423.899-00', NULL);
 
 -- --------------------------------------------------------
 
@@ -222,38 +274,41 @@ CREATE TABLE `recebimento` (
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `usuariosistema`
+-- Estrutura para tabela `veterinario`
 --
 
-CREATE TABLE `usuariosistema` (
+CREATE TABLE `veterinario` (
   `id` int(11) NOT NULL,
   `status` varchar(10) NOT NULL,
   `nome` varchar(200) NOT NULL,
   `telefone` varchar(20) NOT NULL,
-  `cpf` varchar(14) NOT NULL,
   `email` varchar(200) NOT NULL,
   `dataNascimento` date NOT NULL,
-  `dataAdmissao` date DEFAULT current_timestamp(),
+  `dataAdmissao` date NOT NULL DEFAULT current_timestamp(),
   `senha` varchar(200) NOT NULL,
-  `funcao` varchar(15) NOT NULL,
   `CRMV` varchar(50) NOT NULL,
   `dataDemissao` date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Despejando dados para a tabela `usuariosistema`
+-- Despejando dados para a tabela `veterinario`
 --
 
-INSERT INTO `usuariosistema` (`id`, `status`, `nome`, `telefone`, `cpf`, `email`, `dataNascimento`, `dataAdmissao`, `senha`, `funcao`, `CRMV`, `dataDemissao`) VALUES
-(1, '', 'Admin', '', '', 'admin@adm.com', '0000-00-00', '2023-09-01', '1234', 'Admin', '', NULL),
-(2, '', 'Maria da Silva', '(11) 98765-4321', '', 'maria.silva@email.com', '1985-03-15', '2023-09-15', 'maria123', 'Veterinario', '12345-SP', NULL),
-(3, '', 'João dos Santos', '(21) 99999-8888', '', 'joao.santos@email.com', '1990-07-10', '2023-09-15', 'joao123', 'Veterinario', '67890-RJ', NULL),
-(4, '', 'Ana Oliveira', '(31) 5555-1234', '', 'ana.oliveira@email.com', '1982-09-25', '2023-09-15', 'ana123', 'Veterinario', '54321-MG', NULL),
-(5, '', 'Pedro Pereira', '(41) 7777-5555', '', 'pedro.pereira@email.com', '1978-12-05', '2023-09-15', 'pedro123', 'Veterinario', '98765-PR', NULL);
+INSERT INTO `veterinario` (`id`, `status`, `nome`, `telefone`, `email`, `dataNascimento`, `dataAdmissao`, `senha`, `CRMV`, `dataDemissao`) VALUES
+(2, '', 'Maria da Silva', '(11) 98765-4321', 'maria.silva@email.com', '1985-03-15', '2023-09-15', 'maria123', '12345-SP', NULL),
+(3, '', 'João dos Santos', '(21) 99999-8888', 'joao.santos@email.com', '1990-07-10', '2023-09-15', 'joao123', '67890-RJ', NULL),
+(4, '', 'Ana Oliveira', '(31) 5555-1234', 'ana.oliveira@email.com', '1982-09-25', '2023-09-15', 'ana123', '54321-MG', NULL),
+(5, '', 'Pedro Pereira', '(41) 7777-5555', 'pedro.pereira@email.com', '1978-12-05', '2023-09-15', 'pedro123', '98765-PR', NULL);
 
 --
 -- Índices para tabelas despejadas
 --
+
+--
+-- Índices de tabela `admin`
+--
+ALTER TABLE `admin`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Índices de tabela `agenda`
@@ -263,6 +318,12 @@ ALTER TABLE `agenda`
   ADD KEY `fk_pet_agenda` (`pet_id`),
   ADD KEY `fk_procedimento_agenda` (`procedimento_id`),
   ADD KEY `fk_veterinario_agenda` (`veterinario_id`);
+
+--
+-- Índices de tabela `atendente`
+--
+ALTER TABLE `atendente`
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Índices de tabela `cliente`
@@ -298,9 +359,9 @@ ALTER TABLE `recebimento`
   ADD PRIMARY KEY (`id`);
 
 --
--- Índices de tabela `usuariosistema`
+-- Índices de tabela `veterinario`
 --
-ALTER TABLE `usuariosistema`
+ALTER TABLE `veterinario`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -308,10 +369,22 @@ ALTER TABLE `usuariosistema`
 --
 
 --
+-- AUTO_INCREMENT de tabela `admin`
+--
+ALTER TABLE `admin`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT de tabela `agenda`
 --
 ALTER TABLE `agenda`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT de tabela `atendente`
+--
+ALTER TABLE `atendente`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
 -- AUTO_INCREMENT de tabela `cliente`
@@ -344,9 +417,9 @@ ALTER TABLE `recebimento`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
--- AUTO_INCREMENT de tabela `usuariosistema`
+-- AUTO_INCREMENT de tabela `veterinario`
 --
-ALTER TABLE `usuariosistema`
+ALTER TABLE `veterinario`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
 
 --
@@ -359,7 +432,7 @@ ALTER TABLE `usuariosistema`
 ALTER TABLE `agenda`
   ADD CONSTRAINT `fk_pet_agenda` FOREIGN KEY (`pet_id`) REFERENCES `pet` (`id`),
   ADD CONSTRAINT `fk_procedimento_agenda` FOREIGN KEY (`procedimento_id`) REFERENCES `procedimento` (`id`),
-  ADD CONSTRAINT `fk_veterinario_agenda` FOREIGN KEY (`veterinario_id`) REFERENCES `usuariosistema` (`id`);
+  ADD CONSTRAINT `fk_veterinario_agenda` FOREIGN KEY (`veterinario_id`) REFERENCES `veterinario` (`id`);
 
 --
 -- Restrições para tabelas `pet`

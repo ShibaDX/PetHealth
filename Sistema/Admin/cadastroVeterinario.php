@@ -198,7 +198,7 @@ require_once("conexao.php"); ?>
                             $mensagem = "Data de nascimento não pode ser no futuro";
                         } else {
                             //3. Preparar a SQL
-                            $sql = "insert into usuarioSistema (nome, telefone, dataNascimento, email, senha, CRMV, funcao) values ('$nome', '$telefone', '$dataNascimento', '$email', '$senha', '$crmv', 'Veterinario')";
+                            $sql = "insert into veterinario (nome, telefone, dataNascimento, email, senha, CRMV) values ('$nome', '$telefone', '$dataNascimento', '$email', '$senha', '$crmv')";
 
                             //4. Executar a SQL
                             $resultado = mysqli_query($conexao, $sql);
