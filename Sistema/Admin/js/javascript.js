@@ -54,29 +54,30 @@ function validarFormulario() {
     return true; // Permite o envio do formulário
 }
 
-$(document).ready(function () {
-    function carregarVeterinarios(filtro) {
-        $.ajax({
-            url: 'seu_script.php',
-            type: 'POST',
-            data: { filtro: filtro },
-            dataType: 'json',
-            success: function (data) {
-                renderizarLista(data);
-            },
-            error: function (error) {
-                console.error('Erro ao obter veterinários:', error);
-            }
-        });
-    }
+function carregarVeterinarios(filtro) {
+    console.log('Chamando carregarVeterinarios com filtro:', filtro);
+    $.ajax({
+        url: 'listagemVeterinario.php',
+        type: 'POST',
+        data: { filtro: filtro },
+        dataType: 'json',
+        success: function (data) {
+            console.log('Dados obtidos com sucesso:', data);
+            renderizarLista(data);
+        },
+        error: function (error) {
+            console.error('Erro ao obter veterinários:', error);
+        }
+    });
+}
 
-    function renderizarLista(veterinarios) {
-        const listaElement = $('#listaVeterinarios');
-        listaElement.empty();
+function renderizarLista(veterinarios) {
+    const tabela = $('#listaVeterinarios tbody');
+    tabela.empty();
 
-        veterinarios.forEach(veterinario => {
-            const status = veterinario.ativo == 1 ? 'Ativo' : 'Inativo';
-            listaElement.append(`<tr>
+    veterinarios.forEach(veterinario => {
+        const status = veterinario.statusVet == 1 ? 'Ativo' : 'Inativo';
+        tabela.append(`<tr>
                 <th scope="row">${veterinario.id}</th>
                 <td>${status}</td>
                 <td>${veterinario.nome}</td>
@@ -96,24 +97,24 @@ $(document).ready(function () {
                     </a>
                 </td>
             </tr>`);
-        });
-    }
+    });
+}
 
-    // Ao abrir a página, mostrar todos os veterinários
+// Ao abrir a página, mostrar todos os veterinários
+carregarVeterinarios("");
+
+// Botão para mostrar todos os veterinários
+$('#btnMostrarTodos').click(function () {
     carregarVeterinarios("");
-
-    // Botão para mostrar todos os veterinários
-    $('#btnMostrarTodos').click(function () {
-        carregarVeterinarios("");
-    });
-
-    // Botão para mostrar apenas os ativos
-    $('#btnMostrarAtivos').click(function () {
-        carregarVeterinarios("ativos");
-    });
-
-    // Botão para mostrar apenas os inativos
-    $('#btnMostrarInativos').click(function () {
-        carregarVeterinarios("inativos");
-    });
 });
+
+// Botão para mostrar apenas os ativos
+$('#btnMostrarAtivos').click(function () {
+    carregarVeterinarios("Ativo");
+});
+
+// Botão para mostrar apenas os inativos
+$('#btnMostrarInativos').click(function () {
+    carregarVeterinarios("Inativo");
+});
+

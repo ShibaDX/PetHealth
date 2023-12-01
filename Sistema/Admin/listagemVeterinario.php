@@ -8,14 +8,17 @@ if (isset($_GET['id'])) {
     mysqli_query($conexao, $sql);
     $mensagem = "Exclusão realizada com sucesso.";
 }
+$filtro = isset($_POST['filtro']) ? $_POST['filtro'] : "";
 
-// preparar a SQL
+// Modifica a SQL com base no filtro
 $sql = "SELECT * FROM veterinario";
+
+if ($filtro !== "") {
+    $sql .= " WHERE statusVet = $filtro";
+}
 
 // executar a SQL
 $resultado = mysqli_query($conexao, $sql);
-
-
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -31,6 +34,7 @@ $resultado = mysqli_query($conexao, $sql);
 
     <!-- Custom fonts for this template-->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+    <script src="js/javascript.js"></script>
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
     <script src="https://kit.fontawesome.com/0215a38eba.js" crossorigin="anonymous"></script>
@@ -77,14 +81,13 @@ $resultado = mysqli_query($conexao, $sql);
                             </h2>
 
                             <div class="btn-group" role="group">
-                                <button type="button" class="btn btn-secondary" id="btnMostrarTodos">Todos</button>
-                                <button type="button" class="btn btn-success" id="btnMostrarAtivos">Ativos</button>
-                                <button type="button" class="btn btn-danger" id="btnMostrarInativos">Inativos</button>
+                                <button type="submit" class="btn btn-secondary" name="filtro" value="">Todos</button>
+                                <button type="submit" class="btn btn-success" name="filtro" value="ativos">Ativos</button>
+                                <button type="submit" class="btn btn-danger" name="filtro" value="inativos">Inativos</button>
                             </div>
-
                         </div>
                     </div>
-                    <table class="table table-striped table-hover">
+                    <table class="table table-striped table-hover" id="listaVeterinarios">
                         <thead>
                             <tr>
                                 <th scope="col">ID</th>
@@ -153,7 +156,6 @@ $resultado = mysqli_query($conexao, $sql);
 
         <!-- End of Page Wrapper -->
     </div>
-    <script src="js/javascript.js"></script>
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
