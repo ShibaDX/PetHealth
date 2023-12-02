@@ -14,6 +14,7 @@ $sql = "select * from cliente";
 
 // executar a SQL
 $resultado = mysqli_query($conexao, $sql);
+
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -30,9 +31,7 @@ $resultado = mysqli_query($conexao, $sql);
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
     <script src="https://kit.fontawesome.com/0215a38eba.js" crossorigin="anonymous"></script>
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
@@ -58,96 +57,94 @@ $resultado = mysqli_query($conexao, $sql);
 
                 <!-- Page Heading -->
 
-                    <!-- Bloco de mensagem -->
-                    <?php if (isset($mensagem)) { ?>
-                        <div class="alert alert-success" role="alert">
-                            <i class="fa-solid fa-check" style="color: #2eb413;"></i>
-                            <?= $mensagem ?>
-                        </div>
-                    <?php } ?>
-                    <!-- Tabela de listagem de cliente -->
-                    <div class="card mt-3 mb-3">
-                        <div class="card-body">
-                            <h2><i class="fa-regular fa-user"></i> Listagem de Clientes <a
-                                    href="cadastroCliente.php" class="btn btn-info btn-sn"><i class="fa-solid fa-plus"
-                                        style="color: #ffffff;"></i> Novo Cliente</a></h2>
-                        </div>
+                <!-- Bloco de mensagem -->
+                <?php if (isset($mensagem)) { ?>
+                    <div class="alert alert-success" role="alert">
+                        <i class="fa-solid fa-check" style="color: #2eb413;"></i>
+                        <?= $mensagem ?>
                     </div>
-                    <table class="table table-striped table-hover">
-                        <thead>
-                            <tr>
-                                <th scope="col">ID</th>
-                                <th scope="col">Nome</th>
-                                <th scope="col">Telefone</th>
-                                <th scope="col">Endereço</th>
-                                <th scope="col">Cidade</th>
-                                <th scope="col">UF</th>
-                                <th scope="col">Sexo</th>
-                                <th scope="col">Data de Nascimento</th>
-                                <th scope="col">CPF</th>
-                                <th scope="col">Email</th>
-                                <th scope="col">Data de Cadastro</th>
-                                <th scope="col">Ação</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php while ($linha = mysqli_fetch_array($resultado)) { ?>
-                                <tr>
-                                    <th scope="row">
-                                        <?= $linha['id'] ?>
-                                    </th>
-                                    <td>
-                                        <?= $linha['nome'] ?>
-                                    </td>
-                                    <td>
-                                        <?= $linha['telefone'] ?>
-                                    </td>
-                                    <td>
-                                        <?= $linha['endereco'] ?>
-                                    </td>
-                                    <td>
-                                        <?= $linha['cidade'] ?>
-                                    </td>
-                                    <td>
-                                        <?= $linha['UF'] ?>
-                                    </td>
-                                    <td>
-                                        <?= $linha['sexo'] ?>
-                                    </td>
-                                    <td>
-                                        <?= $linha['dataNascimento'] ?>
-                                    </td>
-                                    <td>
-                                        <?= $linha['CPF'] ?>
-                                    </td>
-                                    <td>
-                                        <?= $linha['email'] ?>
-                                    </td>
-                                    <td>
-                                        <?= $linha['dataCadastro'] ?>
-                                    </td>
-                                    <td>
-                                        <a href="editarCliente.php?id=<?= $linha['id'] ?>" class="btn btn-warning"><i
-                                                class="fa-solid fa-pen-to-square" style="color: #000000;"></i></a>
-                                        <a href="listagemCliente.php?id=<?= $linha['id'] ?>" class="btn btn-danger"
-                                            onclick="return confirm('Confirma exclusão?')"><i class="fa-solid fa-trash"
-                                                style="color: #000000;"></i></a>
-                                    </td>
-                                </tr>
-                            <?php } ?>
-                            </table>
-                            
+                <?php } ?>
+                <!-- Tabela de listagem de cliente -->
+                <div class="card mt-3 mb-3">
+                    <div class="card-body">
+                        <h2><i class="fa-regular fa-user"></i> Listagem de Clientes <a href="cadastroCliente.php" class="btn btn-info btn-sn"><i class="fa-solid fa-plus" style="color: #ffffff;"></i> Novo Cliente</a></h2>
+                    </div>
                 </div>
-                <!-- End of Main Content -->
+                <table class="table table-striped table-hover">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Nome</th>
+                            <th scope="col">Telefone</th>
+                            <th scope="col">Endereço</th>
+                            <th scope="col">Cidade</th>
+                            <th scope="col">UF</th>
+                            <th scope="col">Sexo</th>
+                            <th scope="col">Data de Nascimento</th>
+                            <th scope="col">CPF</th>
+                            <th scope="col">Email</th>
+                            <th scope="col">Data de Cadastro</th>
+                            <th scope="col">Ação</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php while ($linha = mysqli_fetch_array($resultado)) {
+                            $dataNascimentoFormatada = date("d/m/Y", strtotime($linha["dataNascimento"]));
+                            $dataCadastroFormatada = date("d/m/Y", strtotime($linha["dataCadastro"])); ?>
 
-                <?php require_once("footer.php"); ?>
+                            <tr>
+                                <th scope="row">
+                                    <?= $linha['id'] ?>
+                                </th>
+                                <td>
+                                    <?= $linha['nome'] ?>
+                                </td>
+                                <td>
+                                    <?= $linha['telefone'] ?>
+                                </td>
+                                <td>
+                                    <?= $linha['endereco'] ?>
+                                </td>
+                                <td>
+                                    <?= $linha['cidade'] ?>
+                                </td>
+                                <td>
+                                    <?= $linha['UF'] ?>
+                                </td>
+                                <td>
+                                    <?= $linha['sexo'] ?>
+                                </td>
+                                <td>
+                                    <?= $dataNascimentoFormatada ?>
+                                </td>
+                                <td>
+                                    <?= $linha['CPF'] ?>
+                                </td>
+                                <td>
+                                    <?= $linha['email'] ?>
+                                </td>
+                                <td>
+                                    <?= $dataCadastroFormatada ?>
+                                </td>
+                                <td>
+                                    <a href="editarCliente.php?id=<?= $linha['id'] ?>" class="btn btn-warning"><i class="fa-solid fa-pen-to-square" style="color: #000000;"></i></a>
+                                    <a href="listagemCliente.php?id=<?= $linha['id'] ?>" class="btn btn-danger" onclick="return confirm('Confirma exclusão?')"><i class="fa-solid fa-trash" style="color: #000000;"></i></a>
+                                </td>
+                            </tr>
+                        <?php } ?>
+                </table>
 
             </div>
+            <!-- End of Main Content -->
 
-            <!-- End of Content Wrapper -->
+            <?php require_once("footer.php"); ?>
+
         </div>
 
-        <!-- End of Page Wrapper -->
+        <!-- End of Content Wrapper -->
+    </div>
+
+    <!-- End of Page Wrapper -->
 
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
@@ -155,8 +152,7 @@ $resultado = mysqli_query($conexao, $sql);
     </a>
 
     <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">

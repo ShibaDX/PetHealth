@@ -15,7 +15,13 @@ if (isset($_GET['id'])) {
 
 
 // Consulta SQL para obter as consultas marcadas para o dia atual
-$sql = "SELECT * FROM agenda";
+$data_atual = date("Y-m-d");
+$sql = "SELECT a.id, a.data, a.hora, p.nome as petNome, v.nome as vetNome, pr.nome as procNome, c.nome as clienteNome, pr.valor as procValor FROM agenda a 
+INNER JOIN pet p on a.pet_id= p.id
+inner JOIN veterinario v on a.veterinario_id = v.id
+INNER join procedimento pr on a.procedimento_id = pr.id
+INNER JOIN cliente c ON p.cliente_id = c.id
+ORDER BY id";
 $resultado = mysqli_query($conexao, $sql);
 
 ?>
@@ -54,20 +60,21 @@ $resultado = mysqli_query($conexao, $sql);
             <!-- Main Content -->
             <div id="content">
 
-                <?php require_once("topbarAdmin.php"); ?>
+                <?php require_once("topbarAdmin.php"); 
 
-                <?php
+                
                 // Obter a data atual
-                $data_atual = date("Y-m-d");
-                $sql = "SELECT a.id, a.data, a.hora, p.nome as petNome, v.nome as vetNome, pr.nome as procNome, pr.valor as procValor FROM agenda a 
+                /**$data_atual = date("Y-m-d");
+                $sql = "SELECT a.id, a.data, a.hora, p.nome as petNome, v.nome as vetNome, pr.nome as procNome, c.nome as clienteNome, pr.valor as procValor FROM agenda a 
                                     INNER JOIN pet p on a.pet_id= p.id
                                     inner JOIN veterinario v on a.veterinario_id = v.id
                                     INNER join procedimento pr on a.procedimento_id = pr.id
+                                    INNER JOIN cliente c ON p.cliente_id = c.id
                                     WHERE data = '$data_atual'
                                     ORDER BY hora";
 
-                $resultado = mysqli_query($conexao, $sql);
-                ?>
+                $resultado = mysqli_query($conexao, $sql);*/
+                ?> 
 
                 <!-- Bloco de mensagem -->
                 <?php if (isset($mensagem)) { ?>
@@ -83,36 +90,44 @@ $resultado = mysqli_query($conexao, $sql);
                             <i class="fa-solid fa-calendar-days"></i> Agendamentos <a href="cadastroAgenda.php" class="btn btn-success btn-sn"><i class="fa-solid fa-calendar-days"></i> Novo Agendamento</a> <a href="cadastroProcedimento.php" class="btn btn-info btn-sn"><i class="fa-solid fa-plus" style="color: #ffffff;"></i> Cadastrar Procedimento</a>
                         </h2>
                         <form method="POST">
-                            <div class="col-2">
-                                <!--<label for="formGroupExampleInput" class="form-label">Data</label> -->
-                                <input name="data" type="date" class="form-control" onchange="this.form.submit()" value="<?= isset($_POST['data']) ? htmlspecialchars($_POST['data']) : '' ?>"><br>
+                            <label for="formGroupExampleInput" class="form-label">Filtrar por Data</label>
+                            <div class="row">
+                                <div class="col-2">
+                                    <input name="data" type="date" class="form-control" onchange="this.form.submit()" value="<?= isset($_POST['data']) ? htmlspecialchars($_POST['data']) : '' ?>">
+                                </div>
+                                <div class="col-2">
+                                    <button type="submit" class="btn btn-primary" name="data" value="<?=$data_atual?>">Hoje</button>
+                                </div>
                             </div>
-                        </form>
-                        <?php
-                        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-                            $dataFiltrada = mysqli_real_escape_string($conexao, $_POST['data']);
+                    </div>
+                    </form>
+                    <?php
+                    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                        $dataFiltrada = mysqli_real_escape_string($conexao, $_POST['data']);
 
-                            // Adicione a condição WHERE para filtrar os dados pela data
-                            $sql = "SELECT a.id, a.data, a.hora, p.nome as petNome, v.nome as vetNome, pr.nome as procNome, pr.valor as procValor FROM agenda a 
+                        // Adicione a condição WHERE para filtrar os dados pela data
+                        $sql = "SELECT a.id, a.data, a.hora, p.nome as petNome, v.nome as vetNome, pr.nome as procNome, c.nome as clienteNome, pr.valor as procValor FROM agenda a 
                                     INNER JOIN pet p ON a.pet_id = p.id
                                     INNER JOIN veterinario v ON a.veterinario_id = v.id
                                     INNER JOIN procedimento pr ON a.procedimento_id = pr.id
+                                    INNER JOIN cliente c ON p.cliente_id = c.id
                                     WHERE data = '$dataFiltrada'
                                     ORDER BY hora";
-                            $resultado = mysqli_query($conexao, $sql);
-                        }
-                        ?>
-                    </div>
+                        $resultado = mysqli_query($conexao, $sql);
+                    }
+                    ?>
                 </div>
+
                 <?php
                 if ($resultado->num_rows > 0) {
                     // Exibir os dados em uma tabela
                 ?>
-                    <table class="table table-striped table-hover">
+                    <table class="table table-striped table-hover" id="listaAgenda">
                         <tr>
                             <th>Data</th>
                             <th>Hora</th>
                             <th>Nome do Pet</th>
+                            <th>Proprietário do Pet</th>
                             <th>Nome do Veterinário</th>
                             <th>Procedimento</th>
                             <th>Valor</th>
@@ -120,15 +135,17 @@ $resultado = mysqli_query($conexao, $sql);
                         </tr>
                         <?php
                         while ($row = $resultado->fetch_assoc()) {
-                            echo "<tr><td>" . $row["data"] . "</td><td>" . $row["hora"];
+                            $dataFormatada = date("d/m/Y", strtotime($row["data"]));
+                            echo "<tr><td>" . $dataFormatada . "</td><td>" . $row["hora"];
 
                             // Verifique se os índices existem antes de acessá-los
                             $petNome = isset($row["petNome"]) ? $row["petNome"] : "";
+                            $clienteNome = isset($row["clienteNome"]) ? $row["clienteNome"] : "";
                             $vetNome = isset($row["vetNome"]) ? $row["vetNome"] : "";
                             $procNome = isset($row["procNome"]) ? $row["procNome"] : "";
                             $valorProcedimento = isset($row["procValor"]) ? number_format($row["procValor"], 2, ',', '.') : "";
 
-                            echo "</td><td>" . $petNome . "</td><td>" . $vetNome . "</td><td>" . $procNome . "</td><td>R$" .$valorProcedimento . "</td>";
+                            echo "</td><td>" . $petNome . "</td><td>" . $clienteNome . "</td><td>" . $vetNome . "</td><td>" . $procNome . "</td><td>R$" . $valorProcedimento . "</td>";
                         ?>
                             <td>
                                 <a href="editarAgenda.php?id=<?= $row['id'] ?>" class="btn btn-warning"><i class="fa-solid fa-pen-to-square" style="color: #000000;"></i></a>
@@ -149,11 +166,10 @@ $resultado = mysqli_query($conexao, $sql);
             </div>
 
             <!-- End of Main Content -->
-
-
         </div>
+    </div>
 
-        <!-- End of Content Wrapper -->
+    <!-- End of Content Wrapper -->
     </div>
 
     <!-- Scroll to Top Button-->

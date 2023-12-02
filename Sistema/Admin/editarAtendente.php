@@ -4,7 +4,7 @@ require_once("verificaAutenticacao.php");
 require_once("conexao.php");
 
 //Busca o usuário selecionado pelo usuarioListar.php
-$sql = "select * from veterinario where id = " . $_GET['id'];
+$sql = "select * from atendente where id = " . $_GET['id'];
 $resultado = mysqli_query($conexao, $sql);
 $linha = mysqli_fetch_array($resultado);
 ?>
@@ -87,8 +87,8 @@ $linha = mysqli_fetch_array($resultado);
                                 </div>
                                 <div class="col-4">
                                     <div class="mb-1">
-                                        <label for="formGroupExampleInput" class="form-label">CRMV</label>
-                                        <input name="crmv" type="text" class="form-control" value="<?= $linha['CRMV'] ?>"><br>
+                                        <label for="formGroupExampleInput" class="form-label">CPF</label>
+                                        <input name="cpf" type="text" class="form-control" maxlength="15" value="<?= $linha['cpf'] ?>" oninput="applyCpfMask(this)"><br>
                                     </div>
                                 </div>
                             </div>
@@ -122,7 +122,7 @@ $linha = mysqli_fetch_array($resultado);
                             </div>
                             <button name="salvar" type="submit" class="btn btn-primary"><i class="fa-solid fa-check"></i>
                                 Salvar</button>
-                            <a href="listagemVeterinario.php" class="btn btn-warning"><i class="fa-solid fa-rotate-left"></i>
+                            <a href="listagemAtendente.php" class="btn btn-warning"><i class="fa-solid fa-rotate-left"></i>
                                 Voltar</a>
                     </div>
                 </div>
@@ -161,7 +161,7 @@ $linha = mysqli_fetch_array($resultado);
                 $dataNascimento = $_POST['dataNascimento'];
                 $email = $_POST['email'];
                 $senha = $_POST['senha'];
-                $crmv = $_POST['crmv'];
+                $cpf = $_POST['cpf'];
                 $sexo = $_POST['sexo'];
                 $dataDemissao = isset($_POST['limparDataDemissao']) && $_POST['limparDataDemissao'] == 1 ? null : $_POST['dataDemissao'];
 
@@ -175,10 +175,10 @@ $linha = mysqli_fetch_array($resultado);
                 if (!empty($dataDemissao) || $dataDemissao == "0000-00-00") {
 
                     // Atualizar o registro do veterinário no banco de dados
-                    $sql = "UPDATE veterinario SET nome = '$nome', telefone = '$telefone', sexo = '$sexo', dataNascimento = '$dataNascimento', email = '$email', senha = '$senha' , statusVet = 'Inativo', CRMV = '$crmv', dataDemissao = '$dataDemissao' where id = $id";
+                    $sql = "UPDATE atendente SET nome = '$nome', telefone = '$telefone', sexo = '$sexo', dataNascimento = '$dataNascimento', email = '$email', senha = '$senha' , statusAt = 'Inativo', cpf = '$cpf', dataDemissao = '$dataDemissao' WHERE id = $id";
                 } else {
                     //3. Preparar a SQL
-                    $sql = "update veterinario set nome = '$nome', telefone = '$telefone', sexo = '$sexo', dataNascimento = '$dataNascimento', email = '$email', senha = '$senha' , statusVet = 'Ativo', CRMV = '$crmv', dataDemissao = '$dataDemissao' where id = $id";
+                    $sql = "UPDATE atendente SET nome = '$nome', telefone = '$telefone', sexo = '$sexo', dataNascimento = '$dataNascimento', email = '$email', senha = '$senha' , statusAt = 'Ativo', cpf = '$cpf', dataDemissao = '$dataDemissao' WHERE id = $id";
                 }
                 //4. Executar a SQL
                 mysqli_query($conexao, $sql);

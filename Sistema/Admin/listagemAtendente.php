@@ -29,9 +29,7 @@ $resultado = mysqli_query($conexao, $sql);
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
     <script src="https://kit.fontawesome.com/0215a38eba.js" crossorigin="anonymous"></script>
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
@@ -68,11 +66,10 @@ $resultado = mysqli_query($conexao, $sql);
                     <!-- Tabela de listagem de veerinários -->
                     <div class="card mt-3 mb-3">
                         <div class="card-body">
-                            <h2><i class="fa-solid fa-user-pen"></i> Listagem de Atendentes <a
-                                    href="cadastroAtendente.php" class="btn btn-success btn-sn"><i
-                                        class="fa-solid fa-plus" style="color: #ffffff;"></i> Novo Atendente</a></h2>
+                            <h2><i class="fa-solid fa-user-pen"></i> Listagem de Atendentes <a href="cadastroAtendente.php" class="btn btn-success btn-sn"><i class="fa-solid fa-plus" style="color: #ffffff;"></i> Novo Atendente</a></h2>
                         </div>
                     </div>
+                    
                     <table class="table table-striped table-hover">
                         <thead>
                             <tr>
@@ -80,6 +77,7 @@ $resultado = mysqli_query($conexao, $sql);
                                 <th scope="col">Status</th>
                                 <th scope="col">Nome</th>
                                 <th scope="col">Telefone</th>
+                                <th scope="col">Sexo</th>
                                 <th scope="col">Email</th>
                                 <th scope="col">Data de Nascimento</th>
                                 <th scope="col">CPF</th>
@@ -89,46 +87,20 @@ $resultado = mysqli_query($conexao, $sql);
                             </tr>
                         </thead>
                         <tbody>
-                            <?php while ($linha = mysqli_fetch_array($resultado)) { ?>
-                                <tr>
-                                    <th scope="row">
-                                        <?= $linha['id'] ?>
-                                    </th>
-                                    <td>
-                                        <?= $linha['status'] ?>
-                                    </td>
-                                    <td>
-                                        <?= $linha['nome'] ?>
-                                    </td>
-                                    <td>
-                                        <?= $linha['telefone'] ?>
-                                    </td>
-                                    <td>
-                                        <?= $linha['email'] ?>
-                                    </td>
-                                    <td>
-                                        <?= $linha['dataNascimento'] ?>
-                                    </td>
-                                    <td>
-                                        <?= $linha['cpf'] ?>
-                                    </td>
-                                    <td>
-                                        <?= $linha['dataAdmissao'] ?>
-                                    </td>
-                                    <td>
-                                        <?= $linha['dataDemissao'] ?>
-                                    </td>
-                                    <td>
-                                        <a href="editarVeterinario.php?id=<?= $linha['id'] ?>" class="btn btn-warning"><i
-                                                class="fa-solid fa-pen-to-square" style="color: #000000;"></i></a>
-                                        <a href="listagemVeterinario.php?id=<?= $linha['id'] ?>" class="btn btn-danger"
-                                            onclick="return confirm('Confirma exclusão?')"><i class="fa-solid fa-trash"
-                                                style="color: #000000;"></i></a>
-                                                
-                                    </td>
+                            <?php while ($linha = $resultado->fetch_assoc()) {
+                                $dataNascimentoFormatada = date("d/m/Y", strtotime($linha["dataNascimento"]));
+                                $dataAdmissaoFormatada = date("d/m/Y", strtotime($linha["dataAdmissao"]));
+                                // Verifica se a dataDemissao é diferente de '0000-00-00' e não é nula antes de formatar
+                                $dataDemissaoFormatada = ($linha["dataDemissao"] && $linha["dataDemissao"] != '0000-00-00') ? date("d/m/Y", strtotime($linha["dataDemissao"])) : '';
+                                echo "<tr><td>" . $linha["id"] . "</td><td>" . $linha["statusAt"] . "</td><td>" . $linha["nome"] . "</td><td>" . $linha["telefone"] . "</td><td>" . $linha["sexo"] . "</td><td>" . $linha["email"] . "</td><td>" . $dataNascimentoFormatada . "</td><td>" . $linha["cpf"] . "</td><td>" . $dataAdmissaoFormatada . "</td><td>" . $dataDemissaoFormatada;
+                            ?>
+                                <td>
+                                    <a href="editarAtendente.php?id=<?= $linha['id'] ?>" class="btn btn-warning"><i class="fa-solid fa-pen-to-square" style="color: #000000;"></i></a>
+                                    <a href="listagemAtendente.php?id=<?= $linha['id'] ?>" class="btn btn-danger" onclick="return confirm('Confirma exclusão?')"><i class="fa-solid fa-trash" style="color: #000000;"></i></a>
+                                </td>
                                 </tr>
                             <?php } ?>
-                            </table>
+                    </table>
 
                 </div>
                 <!-- End of Main Content -->
@@ -141,15 +113,14 @@ $resultado = mysqli_query($conexao, $sql);
 
         <!-- End of Page Wrapper -->
     </div>
-    
+
     <!-- Scroll to Top Button-->
     <a class="scroll-to-top rounded" href="#page-top">
         <i class="fas fa-angle-up"></i>
     </a>
 
     <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">

@@ -1,24 +1,24 @@
-<!-- Requisita conexão e a verificação de autenticação -->
 <?php
 require_once("verificaAutenticacao.php");
 require_once("conexao.php");
+
 //Exclusão
 if (isset($_GET['id'])) {
     $sql = "delete from veterinario where id = " . $_GET['id'];
     mysqli_query($conexao, $sql);
     $mensagem = "Exclusão realizada com sucesso.";
 }
-$filtro = isset($_POST['filtro']) ? $_POST['filtro'] : "";
 
 // Modifica a SQL com base no filtro
-$sql = "SELECT * FROM veterinario";
+$sql = "SELECT * FROM veterinario
+        ORDER BY nome";
 
-if ($filtro !== "") {
-    $sql .= " WHERE statusVet = $filtro";
+$resultado = mysqli_query($conexao, $sql);
+
+if (!$resultado) {
+    die('Erro na consulta SQL: ' . mysqli_error($conexao));
 }
 
-// executar a SQL
-$resultado = mysqli_query($conexao, $sql);
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -61,7 +61,7 @@ $resultado = mysqli_query($conexao, $sql);
 
 
                 <!-- Page Heading -->
-                <div id="listagemVeterinarios">
+                <div>
 
                     <!-- Bloco de mensagem -->
                     <?php if (isset($mensagem)) { ?>
@@ -80,70 +80,74 @@ $resultado = mysqli_query($conexao, $sql);
                                 </a>
                             </h2>
 
-                            <div class="btn-group" role="group">
-                                <button type="submit" class="btn btn-secondary" name="filtro" value="">Todos</button>
-                                <button type="submit" class="btn btn-success" name="filtro" value="ativos">Ativos</button>
-                                <button type="submit" class="btn btn-danger" name="filtro" value="inativos">Inativos</button>
-                            </div>
+                            <form method="post">
+                                <div class="btn-group" role="group">
+                                    <button type="submit" class="btn btn-secondary" name="filtro" value="">Todos</button>
+                                    <button type="submit" class="btn btn-success" name="filtro" value="Ativo">Ativos</button>
+                                    <button type="submit" class="btn btn-danger" name="filtro" value="Inativo">Inativos</button>
+                                </div>
+                            </form>
+                            <?php
+                            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+                                $filtro = mysqli_real_escape_string($conexao, $_POST['filtro']);
+
+                                if ($filtro === "") {
+                                    $sql = "SELECT * FROM veterinario
+                                    ORDER BY nome";
+                                } else {
+                                    // Adicione a condição WHERE para filtrar os dados pela data
+                                    $sql = "SELECT * FROM veterinario
+                                    WHERE statusVet = '$filtro'
+                                    ORDER BY nome";
+                                }
+                                $resultado = mysqli_query($conexao, $sql);
+                            }
+                            ?>
                         </div>
                     </div>
-                    <table class="table table-striped table-hover" id="listaVeterinarios">
-                        <thead>
-                            <tr>
-                                <th scope="col">ID</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Nome</th>
-                                <th scope="col">Telefone</th>
-                                <th scope="col">Sexo</th>
-                                <th scope="col">Email</th>
-                                <th scope="col">Data de Nascimento</th>
-                                <th scope="col">Data de Admissão</th>
-                                <th scope="col">CRMV</th>
-                                <th scope="col">Data de Demissão</th>
-                                <th scope="col">Ação</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php while ($linha = $resultado->fetch_assoc()) { ?>
+                    <?php
+                    if ($resultado->num_rows > 0) {
+                        // Exibir os dados em uma tabela
+                    ?>
+                        <table class="table table-striped table-hover">
+                            <thead>
                                 <tr>
-                                    <th scope="row">
-                                        <?= $linha['id'] ?>
-                                    </th>
-                                    <td>
-                                        <?= $linha['statusVet'] ?>
-                                    </td>
-                                    <td>
-                                        <?= $linha['nome'] ?>
-                                    </td>
-                                    <td>
-                                        <?= $linha['telefone'] ?>
-                                    </td>
-                                    <td>
-                                        <?= $linha['sexo'] ?>
-                                    </td>
-                                    <td>
-                                        <?= $linha['email'] ?>
-                                    </td>
-                                    <td>
-                                        <?= $linha['dataNascimento'] ?>
-                                    </td>
-                                    <td>
-                                        <?= $linha['dataAdmissao'] ?>
-                                    </td>
-                                    <td>
-                                        <?= $linha['CRMV'] ?>
-                                    </td>
-                                    <td>
-                                        <?= $linha['dataDemissao'] ?>
-                                    </td>
-                                    <td>
-                                        <a href="editarVeterinario.php?id=<?= $linha['id'] ?>" class="btn btn-warning"><i class="fa-solid fa-pen-to-square" style="color: #000000;"></i></a>
-                                        <a href="listagemVeterinario.php?id=<?= $linha['id'] ?>" class="btn btn-danger" onclick="return confirm('Confirma exclusão?')"><i class="fa-solid fa-trash" style="color: #000000;"></i></a>
-
-                                    </td>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Nome</th>
+                                    <th scope="col">Telefone</th>
+                                    <th scope="col">Sexo</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">Data de Nascimento</th>
+                                    <th scope="col">CRMV</th>
+                                    <th scope="col">Data de Admissão</th>
+                                    <th scope="col">Data de Demissão</th>
+                                    <th scope="col">Ação</th>
                                 </tr>
-                            <?php } ?>
-                    </table>
+                            </thead>
+                            <tbody>
+                                <?php
+                                while ($row = $resultado->fetch_assoc()) {
+                                    $dataNascimentoFormatada = date("d/m/Y", strtotime($row["dataNascimento"]));
+                                    $dataAdmissaoFormatada = date("d/m/Y", strtotime($row["dataAdmissao"]));
+                                    // Verifica se a dataDemissao é diferente de '0000-00-00' e não é nula antes de formatar
+                                    $dataDemissaoFormatada = ($row["dataDemissao"] && $row["dataDemissao"] != '0000-00-00') ? date("d/m/Y", strtotime($row["dataDemissao"])) : '';
+
+                                    echo "<tr><td>" . $row["id"] . "</td><td>" . $row["statusVet"] . "</td><td>" . $row["nome"] . "</td><td>" . $row["telefone"] . "</td><td>" . $row["sexo"] . "</td><td>" . $row["email"] . "</td><td>" . $dataNascimentoFormatada . "</td><td>" . $row["CRMV"] . "</td><td>" . $dataAdmissaoFormatada . "</td><td>" . $dataDemissaoFormatada;
+                                ?>
+                                    <td>
+                                        <a href="editarVeterinario.php?id=<?= $row['id'] ?>" class="btn btn-warning"><i class="fa-solid fa-pen-to-square" style="color: #000000;"></i></a>
+                                        <a href="listagemVeterina.php?id=<?= $row['id'] ?>" class="btn btn-danger" onclick="return confirm('Confirma exclusão?')"><i class="fa-solid fa-trash" style="color: #000000;"></i></a>
+                                    </td>
+                                    </tr>
+                                <?php
+                                }
+                                ?>
+                        </table>
+                    <?php } else {
+                        echo "Nenhum resultado encontrado";
+                    } ?>
 
                 </div>
                 <!-- End of Main Content -->

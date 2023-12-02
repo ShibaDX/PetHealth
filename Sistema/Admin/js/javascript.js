@@ -71,35 +71,6 @@ function carregarVeterinarios(filtro) {
     });
 }
 
-function renderizarLista(veterinarios) {
-    const tabela = $('#listaVeterinarios tbody');
-    tabela.empty();
-
-    veterinarios.forEach(veterinario => {
-        const status = veterinario.statusVet == 1 ? 'Ativo' : 'Inativo';
-        tabela.append(`<tr>
-                <th scope="row">${veterinario.id}</th>
-                <td>${status}</td>
-                <td>${veterinario.nome}</td>
-                <td>${veterinario.telefone}</td>
-                <td>${veterinario.sexo}</td>
-                <td>${veterinario.email}</td>
-                <td>${veterinario.dataNascimento}</td>
-                <td>${veterinario.dataAdmissao}</td>
-                <td>${veterinario.CRMV}</td>
-                <td>${veterinario.dataDemissao}</td>
-                <td>
-                    <a href="editarVeterinario.php?id=${veterinario.id}" class="btn btn-warning">
-                        <i class="fa-solid fa-pen-to-square" style="color: #000000;"></i>
-                    </a>
-                    <a href="listagemVeterinario.php?id=${veterinario.id}" class="btn btn-danger" onclick="return confirm('Confirma exclusão?')">
-                        <i class="fa-solid fa-trash" style="color: #000000;"></i>
-                    </a>
-                </td>
-            </tr>`);
-    });
-}
-
 // Ao abrir a página, mostrar todos os veterinários
 carregarVeterinarios("");
 
@@ -117,4 +88,33 @@ $('#btnMostrarAtivos').click(function () {
 $('#btnMostrarInativos').click(function () {
     carregarVeterinarios("Inativo");
 });
+
+function renderizarLista(veterinarios) {
+    const tabela = $('#listaVeterinarios tbody');
+    tabela.empty();
+
+    veterinarios.forEach(veterinario => {
+        const status = veterinario.statusVet === "Ativo" ? "Ativo" : "Inativo";
+        tabela.append(`<tr>
+            <th scope="row">${veterinario.id}</th>
+            <td>${status}</td>
+            <td>${veterinario.nome}</td>
+            <td>${veterinario.telefone}</td>
+            <td>${veterinario.sexo}</td>
+            <td>${veterinario.email}</td>
+            <td>${veterinario.dataNascimento}</td>
+            <td>${veterinario.dataAdmissao}</td>
+            <td>${veterinario.CRMV}</td>
+            <td>${veterinario.dataDemissao ? veterinario.dataDemissao : 'N/A'}</td>
+            <td>
+                <a href="editarVeterinario.php?id=${veterinario.id}" class="btn btn-warning">
+                    <i class="fa-solid fa-pen-to-square" style="color: #000000;"></i>
+                </a>
+                <a href="listagemVeterinario.php?id=${veterinario.id}" class="btn btn-danger" onclick="return confirm('Confirma exclusão?')">
+                    <i class="fa-solid fa-trash" style="color: #000000;"></i>
+                </a>
+            </td>
+        </tr>`);
+    });
+}
 

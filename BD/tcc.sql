@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 01/12/2023 às 04:06
+-- Tempo de geração: 01/12/2023 às 19:08
 -- Versão do servidor: 10.4.28-MariaDB
 -- Versão do PHP: 8.2.4
 
@@ -156,14 +156,7 @@ INSERT INTO `pet` (`id`, `status`, `nome`, `especie`, `anoNascimento`, `sexo`, `
 (4, '', 'Luna', '', 2019, 'Fêmea', 'Cinza e rajado', '', 4, 11),
 (5, '', 'Rocky', '', 2015, 'Macho', 'Dourado', '', 6, 14),
 (6, '', 'Sophie', '', 2020, 'Fêmea', 'Creme', '', 6, 5),
-(7, '', 'Mel', '', 2018, 'Fêmea', 'Caramelo', '', 5, 6),
-(25, '', 'Rex', 'Cachorro', 0, 'Selecione', '', '', 2, 5),
-(26, '', 'Rex', 'Cachorro', 0, 'Selecione', '', '', 2, 28),
-(27, '', 'Rex', 'Cachorro', 2020, 'Macho', 'Preto', '', 3, 1),
-(28, '', 'Rex', 'Cachorro', 2020, 'Macho', 'Preto', '', 6, 5),
-(39, '', 'Rex', 'Cachorro', 2020, 'Macho', 'Preto', '', 5, 7),
-(40, '', 'Thor', 'Cachorro', 2020, 'Macho', 'Preto', '', 5, 2),
-(41, '', 'Thor', 'Cachorro', 2020, 'Selecione', 'Preto', '', 5, 18);
+(7, '', 'Mel', '', 2018, 'Fêmea', 'Caramelo', '', 5, 6);
 
 -- --------------------------------------------------------
 
@@ -197,11 +190,7 @@ INSERT INTO `procedimento` (`id`, `status`, `nome`, `valor`, `categoria`) VALUES
 (12, '', 'Tratamento para Verminoses', 20.00, ''),
 (13, '', 'Análise de Fezes', 25.00, ''),
 (14, '', 'Fisioterapia para Animais', 60.00, ''),
-(15, '', 'Acompanhamento de Gravidez', 90.00, ''),
-(17, '', '', -292.00, ''),
-(18, '', '', 0.00, ''),
-(19, '', '', 0.00, ''),
-(20, '', '', 0.00, '');
+(15, '', 'Acompanhamento de Gravidez', 90.00, '');
 
 -- --------------------------------------------------------
 
@@ -279,10 +268,11 @@ CREATE TABLE `recebimento` (
 
 CREATE TABLE `veterinario` (
   `id` int(11) NOT NULL,
-  `status` varchar(10) NOT NULL,
+  `statusVet` varchar(10) NOT NULL,
   `nome` varchar(200) NOT NULL,
   `telefone` varchar(20) NOT NULL,
   `email` varchar(200) NOT NULL,
+  `sexo` char(1) NOT NULL,
   `dataNascimento` date NOT NULL,
   `dataAdmissao` date NOT NULL DEFAULT current_timestamp(),
   `senha` varchar(200) NOT NULL,
@@ -294,11 +284,11 @@ CREATE TABLE `veterinario` (
 -- Despejando dados para a tabela `veterinario`
 --
 
-INSERT INTO `veterinario` (`id`, `status`, `nome`, `telefone`, `email`, `dataNascimento`, `dataAdmissao`, `senha`, `CRMV`, `dataDemissao`) VALUES
-(2, '', 'Maria da Silva', '(11) 98765-4321', 'maria.silva@email.com', '1985-03-15', '2023-09-15', 'maria123', '12345-SP', NULL),
-(3, '', 'João dos Santos', '(21) 99999-8888', 'joao.santos@email.com', '1990-07-10', '2023-09-15', 'joao123', '67890-RJ', NULL),
-(4, '', 'Ana Oliveira', '(31) 5555-1234', 'ana.oliveira@email.com', '1982-09-25', '2023-09-15', 'ana123', '54321-MG', NULL),
-(5, '', 'Pedro Pereira', '(41) 7777-5555', 'pedro.pereira@email.com', '1978-12-05', '2023-09-15', 'pedro123', '98765-PR', NULL);
+INSERT INTO `veterinario` (`id`, `statusVet`, `nome`, `telefone`, `email`, `sexo`, `dataNascimento`, `dataAdmissao`, `senha`, `CRMV`, `dataDemissao`) VALUES
+(1, 'Inativo', 'Maria da Silva', ' (11) 98765-4321', 'maria.silva@email.com', 'F', '1985-03-15', '2023-09-15', 'maria123', '12345-SP', '2023-11-28'),
+(2, 'Ativo', 'João dos Santos', '(21) 99999-8888', 'joao.santos@email.com', 'M', '1990-07-10', '2023-09-15', 'joao123', '67890-RJ', NULL),
+(3, 'Ativo', 'Ana Oliveira', '(31) 5555-1234', 'ana.oliveira@email.com', 'F', '1982-09-25', '2023-09-15', 'ana123', '54321-MG', NULL),
+(4, 'Ativo', 'Pedro Pereira', '(41) 7777-5555', 'pedro.pereira@email.com', 'M', '1978-12-05', '2023-09-15', 'pedro123', '98765-PR', NULL);
 
 --
 -- Índices para tabelas despejadas
@@ -396,13 +386,13 @@ ALTER TABLE `cliente`
 -- AUTO_INCREMENT de tabela `pet`
 --
 ALTER TABLE `pet`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de tabela `procedimento`
 --
 ALTER TABLE `procedimento`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=21;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
 
 --
 -- AUTO_INCREMENT de tabela `raca`
@@ -420,7 +410,7 @@ ALTER TABLE `recebimento`
 -- AUTO_INCREMENT de tabela `veterinario`
 --
 ALTER TABLE `veterinario`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
 
 --
 -- Restrições para tabelas despejadas
