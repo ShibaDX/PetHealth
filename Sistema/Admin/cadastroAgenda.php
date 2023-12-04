@@ -61,10 +61,11 @@ require_once("conexao.php"); ?>
                                                 while ($linha = mysqli_fetch_array($resultado)) {
                                                     $id = $linha['id'];
                                                     $nome = $linha['nome'];
+                                                    $cpf = $linha['CPF'];
 
                                                     $selecionado = ($_POST['cliente_id'] == $id) ? "selected" : "";
 
-                                                    echo "<option value='{$id}' {$selecionado}>{$nome}</option>";
+                                                    echo "<option value='{$id}' {$selecionado}>{$nome} - {$cpf}</option>";
                                                 }
                                                 ?>
                                             </select>
@@ -217,22 +218,16 @@ require_once("conexao.php"); ?>
                             $mensagem = "Inserido com Sucesso";
                         }
                     }
-                    ?>
-                    <?php if (isset($mensagem)) {
-                        if (mysqli_num_rows($resultado_disponibilidade) > 0) { ?>
-                            <div class="alert alert-danger mb-2" role="alert">
-                                <i class="fa-solid fa-x" style="color: #b70b0b;"></i>
-                                <?= $mensagem ?>
-                            </div> <?php
-                                } else {
-                                    ?>
-                            <div class="alert alert-success mb-2" role="alert">
-                                <i class="fa-solid fa-check" style="color: #12972c;"></i>
-                                <?= $mensagem ?>
-                            </div>
+
+                    // Exibir a mensagem
+                    if ($mensagem) { ?>
+                        <div class="alert <?= strpos($mensagem, 'Sucesso') !== false ? 'alert-success' : 'alert-danger' ?> mb-2" role="alert">
+                            <i class="fa-solid <?= strpos($mensagem, 'Sucesso') !== false ? 'fa-check' : 'fa-x' ?>" style="color: <?= strpos($mensagem, 'Sucesso') !== false ? '#12972c' : '#b70b0b' ?>;"></i>
+                            <?= $mensagem ?>
+                        </div>
                     <?php }
-                            }
-                            require_once("footer.php");
+
+                    require_once("footer.php");
                     ?>
 
                     <!-- Bootstrap core JavaScript-->
