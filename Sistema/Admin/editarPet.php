@@ -89,10 +89,25 @@ $linha = mysqli_fetch_array($resultado);
                                         <label for="raca_id" class="form-label">Raça*</label>
                                         <select id="raca_id" name="raca_id" class="form-control" required>
                                             <?php
+                                            $sqlRacas = "SELECT p.id, r.id as racaId, r.nome as racaNome FROM pet p
+                                            INNER JOIN raca r ON p.raca_id = r.id
+                                            WHERE p.id = " . $_GET['id'];
+                                            $resultadoRacas = mysqli_query($conexao, $sqlRacas);
+
+                                            // Verifique se há resultados
+                                            if ($raca = mysqli_fetch_array($resultadoRacas)) {
+                                                // Raça associada ao pet
+                                                $racaAssociadaId = $raca['racaId'];
+                                            }
+
+                                            // Consulta para obter todas as raças
+                                            $sqlTodasRacas = "SELECT id, nome FROM raca";
+                                            $resultadoTodasRacas = mysqli_query($conexao, $sqlTodasRacas);
+
                                             // Iterar sobre as raças e adicionar opções
-                                            while ($raca = mysqli_fetch_array($resultado)) {
-                                                $selected = ($linha["raca_id"] == $raca['id']) ? "selected" : "";
-                                                echo "<option value='{$raca['id']}' $selected>{$raca['nome']}</option>";
+                                            while ($racaAtual = mysqli_fetch_array($resultadoTodasRacas)) {
+                                                $selected = ($racaAtual['id'] == $racaAssociadaId) ? "selected" : "";
+                                                echo "<option value='{$racaAtual['id']}' $selected>{$racaAtual['nome']}</option>";
                                             }
                                             ?>
                                         </select>
@@ -165,6 +180,7 @@ $linha = mysqli_fetch_array($resultado);
                         // Função para atualizar dinamicamente as opções do campo de seleção de raças
                         function atualizarRacas() {
                             var especieSelecionada = document.getElementById("especie").value;
+                            var racaSelecionada = document.getElementById("raca_id").value; // Salvar a raça selecionada
 
                             xhr = new XMLHttpRequest();
                             xhr.onreadystatechange = function() {
@@ -185,6 +201,8 @@ $linha = mysqli_fetch_array($resultado);
                                             var option = document.createElement("option");
                                             option.value = racas[i].id; // Configurar o valor como o id da raça
                                             option.text = racas[i].nome;
+                                            // Verificar se a raça é a mesma que estava selecionada antes
+                                            option.selected = (racaSelecionada === racas[i].id.toString());
                                             selectRaca.appendChild(option);
                                         }
                                     } else {
