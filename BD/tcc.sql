@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 05/12/2023 às 18:31
+-- Tempo de geração: 06/12/2023 às 00:20
 -- Versão do servidor: 10.4.28-MariaDB
 -- Versão do PHP: 8.2.4
 
@@ -103,7 +103,7 @@ CREATE TABLE `atendente` (
 --
 
 INSERT INTO `atendente` (`id`, `statusAtendente`, `nome`, `telefone`, `email`, `sexo`, `dataNascimento`, `dataAdmissao`, `senha`, `cpf`, `dataDemissao`) VALUES
-(1, 'Ativo', 'Paulo', '(44) 99718-3800', 'ae@gmail.com', 'M', '2023-11-08', '2023-11-30', '1234567', '093.933.938-26', '0000-00-00');
+(1, 'Ativo', 'Paulo', '(44) 99718-3800', 'ae@gmail.com', 'M', '2023-11-08', '2023-11-30', '1234567', '012.456.798-98', '0000-00-00');
 
 -- --------------------------------------------------------
 
@@ -113,7 +113,7 @@ INSERT INTO `atendente` (`id`, `statusAtendente`, `nome`, `telefone`, `email`, `
 
 CREATE TABLE `cliente` (
   `id` int(11) NOT NULL,
-  `status` varchar(15) NOT NULL,
+  `statusCliente` varchar(15) NOT NULL,
   `nome` varchar(200) NOT NULL,
   `telefone` varchar(20) NOT NULL,
   `endereco` varchar(200) NOT NULL,
@@ -132,12 +132,12 @@ CREATE TABLE `cliente` (
 -- Despejando dados para a tabela `cliente`
 --
 
-INSERT INTO `cliente` (`id`, `status`, `nome`, `telefone`, `endereco`, `cep`, `numero`, `cidade`, `UF`, `sexo`, `dataNascimento`, `CPF`, `email`, `dataCadastro`) VALUES
-(2, 'Ativo', 'Ana Silva Oliveira', '(11) 98765-4321', 'Rua das Flores, 123', '', 0, 'São Paulo', 'SP', 'F', '1980-05-11', '123.456.789-00', 'ana.silva@email.com', '2023-09-15'),
-(3, 'Ativo', 'Marcos Santos Pereira', '(21) 99999-8888', 'Avenida Principal, 456', '', 0, 'Rio de Janeiro', 'RJ', 'M', '1982-08-20', '987.654.321-00', 'marcos.santos@email.com', '2023-09-15'),
-(4, 'Ativo', 'Camila Alves Souza', '(31) 5555-1234', 'Rua das Palmeiras, 789', '', 0, 'Belo Horizonte', 'MG', 'F', '1985-11-15', '456.789.123-00', 'camila.alves@email.com', '2023-09-15'),
-(5, 'Ativo', 'Luiz Costa Lima', '(41) 7777-5555', 'Travessa das Pedras, 321', '', 0, 'Curitiba', 'PR', 'M', '1977-04-03', '234.567.890-00', 'luiz.lima@email.com', '2023-09-15'),
-(6, 'Ativo', 'Marina Gonçalves Ribeiro', '(51) 3333-2222', 'Rua das Árvores, 987', '', 0, 'Porto Alegre', 'RS', 'F', '1990-02-25', '345.678.901-00', 'marina.ribeiro@email.com', '2023-09-15');
+INSERT INTO `cliente` (`id`, `statusCliente`, `nome`, `telefone`, `endereco`, `cep`, `numero`, `cidade`, `UF`, `sexo`, `dataNascimento`, `CPF`, `email`, `dataCadastro`) VALUES
+(2, 'Ativo', 'Ana Silva Oliveira', '(11) 98765-4321', 'Rua das Flores', '87025-789', 123, 'São Paulo', 'SP', 'F', '1980-05-11', '123.456.789-00', 'ana.silva@email.com', '2023-09-15'),
+(3, 'Ativo', 'Marcos Santos Pereira', '(21) 99999-8888', 'Avenida Principal', '46782-531', 456, 'Rio de Janeiro', 'RJ', 'M', '1982-08-20', '987.654.321-00', 'marcos.santos@email.com', '2023-09-15'),
+(4, 'Ativo', 'Camila Alves Souza', '(31) 5555-1234', 'Rua das Palmeiras', '75436-658', 789, 'Belo Horizonte', 'MG', 'F', '1985-11-15', '456.789.123-00', 'camila.alves@email.com', '2023-09-15'),
+(5, 'Ativo', 'Luiz Costa Lima', '(41) 7777-5555', 'Travessa das Pedras', '85647-896', 321, 'Curitiba', 'PR', 'M', '1977-04-03', '234.567.890-00', 'luiz.lima@email.com', '2023-09-15'),
+(6, 'Ativo', 'Marina Gonçalves Ribeiro', '(51) 3333-2222', 'Rua das Árvores', '46325-865', 987, 'Porto Alegre', 'RS', 'F', '1990-02-25', '345.678.901-00', 'marina.ribeiro@email.com', '2023-09-15');
 
 -- --------------------------------------------------------
 
@@ -164,7 +164,7 @@ CREATE TABLE `pet` (
 
 INSERT INTO `pet` (`id`, `statusPet`, `nome`, `especie`, `anoNascimento`, `sexo`, `cor`, `obs`, `cliente_id`, `raca_id`) VALUES
 (1, 'Ativo', 'Juan', 'Cachorro', 2019, 'Macho', 'Caramelo', '', 5, 2),
-(2, 'Ativo', 'Bella', 'Gato', 2018, 'Fêmea', 'Marrom e branco', '', 2, 5),
+(2, 'Ativo', 'Bella', 'Gato', 2018, 'Fêmea', 'Marrom e branco', '', 2, 30),
 (3, 'Ativo', 'Max', 'Cachorro', 2016, 'Macho', 'Preto', '', 3, 10),
 (4, 'Ativo', 'Luna', 'Gato', 2019, 'Fêmea', 'Cinza e rajado', '', 4, 11),
 (5, 'Ativo', 'Rocky', 'Cachorro', 2015, 'Macho', 'Dourado', '', 6, 14),
