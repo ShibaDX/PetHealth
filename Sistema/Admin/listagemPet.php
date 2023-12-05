@@ -60,62 +60,71 @@ $resultado = mysqli_query($conexao, $sql);
 
                 <!-- Page Heading -->
 
-                <!-- Bloco de mensagem -->
-                <?php if (isset($mensagem)) { ?>
-                    <div class="alert alert-success" role="alert">
-                        <i class="fa-solid fa-check" style="color: #2eb413;"></i>
-                        <?= $mensagem ?>
-                    </div>
-                <?php } ?>
-                <!-- Tabela de listagem de pets -->
-                <div class="card mt-3 mb-3">
-                    <div class="card-body">
-                        <h2><i class="fa-solid fa-dog"></i> Listagem de Pets <a href="cadastroPet.php" class="btn btn-info btn-sn"><i class="fa-solid fa-plus" style="color: #ffffff;"></i> Novo Pet</a>
-                            <a href="listagemRaca.php" class="btn btn-success btn-sn"><i class="fa-solid fa-paw"></i> Raças</a>
-                        </h2>
-                    </div>
-                </div>
-                <?php
-                if ($resultado->num_rows > 0) {
-                    // Exibir os dados em uma tabela
-                ?>
-                    <table class="table table-striped table-hover" id="listaAgenda">
-                        <tr>
-                            <th>Status</th>
-                            <th>Nome</th>
-                            <th>Proprietário do Pet</th>
-                            <th>Ano Nascimento</th>
-                            <th>Sexo</th>
-                            <th>Espécie</th>
-                            <th>Cor</th>
-                            <th>Ação</th>
-                        </tr>
-                        <?php
-                        while ($row = $resultado->fetch_assoc()) {
-
-                            // Verifique se os índices existem antes de acessá-los
-                            $clienteNome = isset($row["clienteNome"]) ? $row["clienteNome"] : "";
-
-                            echo "<tr><td>" . $row["statusPet"] . "</td><td>" . $row["nome"] . "</td><td>" . $clienteNome . "</td><td>" . $row["anoNascimento"] . "</td><td>" . $row["sexo"] . "</td><td>" . $row["especie"] . "</td><td>" . $row["cor"] . "</td>";
-                        ?>
-                            <td>
-                                <a href="editarAgenda.php?id=<?= $row['id'] ?>" class="btn btn-warning"><i class="fa-solid fa-pen-to-square" style="color: #000000;"></i></a>
-                                <a href="listagemAgenda.php?id=<?= $row['id'] ?>" class="btn btn-danger" onclick="return confirm('Confirma exclusão?')"><i class="fa-solid fa-trash" style="color: #000000;"></i></a>
-                            </td>
+                    <!-- Bloco de mensagem -->
+                    <?php if (isset($mensagem)) { ?>
+                        <div class="alert alert-success" role="alert">
+                            <i class="fa-solid fa-check" style="color: #2eb413;"></i>
+                            <?= $mensagem ?>
+                        </div>
+                    <?php } ?>
+                    <!-- Tabela de listagem de pets -->
+                    <div class="card mt-3 mb-3">
+                        <div class="card-body">
+                            <h2><i class="fa-solid fa-dog"></i> Listagem de Pets <a
+                                        href="cadastroPet.php" class="btn btn-info btn-sn"><i class="fa-solid fa-plus"
+                                        style="color: #ffffff;"></i> Novo Pet</a>
+                                        <a href="listagemRaca.php" class="btn btn-success btn-sn"><i class="fa-solid fa-paw"></i> Raças</a>
+                                    </h2>
+                        </div>
+                        </div>
+                    <table class="table table-striped table-hover">
+                        <thead>
+                            <tr>
+                                <th scope="col">ID</th>
+                                <th scope="col">Nome</th>
+                                <th scope="col">Ano de Nascimento</th>
+                                <th scope="col">Sexo</th>
+                                <th scope="col">Cor</th>
+                                <th scope="col">Obs</th>
+                                <th scope="col">Ação</th>
                             </tr>
-                        <?php
-                        }
-                        ?>
-                    </table>
-                    <br>
-                <?php
-                } else {
-                    echo "Nenhum resultado encontrado.";
-                }
-                ?>
-            </div>
-            <!-- End of Main Content -->
-            <?php require_once("footer.php"); ?>
+                        </thead>
+                        <tbody>
+                            <?php while ($linha = mysqli_fetch_array($resultado)) { ?>
+                                <tr>
+                                    <th scope="row">
+                                        <?= $linha['id'] ?>
+                                    </th>
+                                    <td>
+                                        <?= $linha['nome'] ?>
+                                    </td>
+                                    <td>
+                                        <?= $linha['anoNascimento'] ?>
+                                    </td>
+                                    <td>
+                                        <?= $linha['sexo'] ?>
+                                    </td>
+                                    <td>
+                                        <?= $linha['cor'] ?>
+                                    </td>
+                                    <td>
+                                        <?= $linha['obs'] ?>
+                                    </td>
+                                    <td>
+                                        <a href="editarPet.php?id=<?= $linha['id'] ?>" class="btn btn-warning"><i
+                                                class="fa-solid fa-pen-to-square" style="color: #000000;"></i></a>
+                                        <a href="listagemPet.php?id=<?= $linha['id'] ?>" class="btn btn-danger"
+                                            onclick="return confirm('Confirma exclusão?')"><i class="fa-solid fa-trash"
+                                                style="color: #000000;"></i></a>
+                                    </td>
+                                </tr>
+                            <?php } ?>
+
+                            </table>
+                            
+                </div>
+                <!-- End of Main Content -->
+                <?php require_once("footer.php"); ?>
 
         </div>
 
