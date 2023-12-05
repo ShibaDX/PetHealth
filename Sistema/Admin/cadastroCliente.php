@@ -1,5 +1,7 @@
 <!-- Requisita a verificação de autenticação -->
-<?php require_once("verificaAutenticacao.php"); ?>
+<?php require_once("verificaAutenticacao.php");
+require_once("conexao.php");
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -62,7 +64,7 @@
                         <div class="row">
                             <div class="col-2">
                                 <div class="mb-1">
-                                    <label for="cep" class="active" class="form-label">Cep</label>
+                                    <label for="cep" class="active" class="form-label">Cep*</label>
                                     <input type="tel" placeholder="Informe o Cep" class="form-control" id="cep" name="cep" autofocus>
                                 </div>
                             </div>
@@ -74,14 +76,14 @@
                             </div>
                             <div class="col-1">
                                 <div class="mb-1">
-                                    <label for="uf" class="form-label" class="active">UF</label>
-                                    <input type="text" placeholder="UF" class="form-control" name="uf" id="uf">
+                                    <label for="uf" class="form-label" class="active">UF*</label>
+                                    <input type="text" placeholder="UF" class="form-control" name="uf" id="uf" required>
                                 </div>
                             </div>
                             <div class="col-5">
                                 <div class="mb-1">
-                                    <label for="bairro" class="active" class="form-label">Bairro</label>
-                                    <input type="text" placeholder="Informe o Bairro" class="form-control" name="bairro" id="bairro">
+                                    <label for="bairro" class="active" class="form-label">Bairro*</label>
+                                    <input type="text" placeholder="Informe o Bairro" class="form-control" name="bairro" id="bairro" required>
 
                                 </div>
                             </div>
@@ -92,8 +94,8 @@
                                 <input id="endereco" name="endereco" type="text" class="form-control" required><br>
                             </div>
                             <div class="col-2">
-                                <label for="nr_end" class="active" class="form-label">Número</label>
-                                <input type="text" placeholder="Informe o número do endereço" class="form-control" name="nr_end" id="nr_end">
+                                <label for="nr_end" class="active" class="form-label">Número*</label>
+                                <input type="text" placeholder="Informe o número do endereço" class="form-control" name="nr_end" id="nr_end" required>
                             </div>
                             <div class="col-2">
                                 <div class="mb-1">
@@ -102,7 +104,7 @@
                                 </div>
                             </div>
                             <div class="col-2">
-                            <div class="mb-1">
+                                <div class="mb-1">
                                     <label for="sexo" class="form-label">Sexo*</label>
                                     <select id="sexo" name="sexo" class="form-control" required>
                                         <?php
@@ -125,7 +127,7 @@
                                 </div>
                             </div>
                             <div class="col-6">
-                            <div class="mb-1">
+                                <div class="mb-1">
                                     <label for="email" class="form-label">Email</label>
                                     <input id="email" name="email" type="email" class="form-control" value="<?= isset($_POST['email']) ? htmlspecialchars($_POST['email']) : '' ?>"><br>
                                 </div>
@@ -202,6 +204,8 @@
                 $nome = $_POST['nome'];
                 $telefone = $_POST['telefone'];
                 $endereco = $_POST['endereco'];
+                $cep = $_POST['cep'];
+                $numero = $_POST['numero'];
                 $cidade = $_POST['cidade'];
                 $uf = $_POST['uf'];
                 $sexo = $_POST['sexo'];
@@ -226,7 +230,7 @@
                     $mensagem = "Data de nascimento não pode ser no futuro";
                 } else {
                     //3. Preparar a SQL
-                    $sql = "insert into cliente (status, nome, telefone, endereco, cidade, uf, sexo, dataNascimento, CPF, email) values ('Ativo', '$nome', '$telefone', '$endereco', '$cidade', '$uf', '$sexo', '$dataNascimento', '$cpf', '$email')";
+                    $sql = "insert into cliente (status, nome, telefone, endereco, numero, cep, cidade, uf, sexo, dataNascimento, CPF, email) values ('Ativo', '$nome', '$telefone', '$endereco', '$numero', '$cep', '$cidade', '$uf', '$sexo', '$dataNascimento', '$cpf', '$email')";
 
                     //4. Executar a SQL
                     $resultado = mysqli_query($conexao, $sql);

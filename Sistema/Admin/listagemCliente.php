@@ -74,6 +74,7 @@ $resultado = mysqli_query($conexao, $sql);
                     <thead>
                         <tr>
                             <th scope="col">ID</th>
+                            <th scope="col">Status</th>
                             <th scope="col">Nome</th>
                             <th scope="col">Telefone</th>
                             <th scope="col">Endereço</th>
@@ -96,6 +97,9 @@ $resultado = mysqli_query($conexao, $sql);
                                 <th scope="row">
                                     <?= $linha['id'] ?>
                                 </th>
+                                <td>
+                                    <?= $linha['statusCliente'] ?>
+                                </td>
                                 <td>
                                     <?= $linha['nome'] ?>
                                 </td>

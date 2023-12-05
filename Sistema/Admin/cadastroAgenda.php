@@ -1,5 +1,6 @@
 <!-- Requisita a verificação de autenticação -->
 <?php
+require_once("verificaAutenticacao.php");
 require_once("conexao.php"); ?>
 <!DOCTYPE html>
 <html lang="pt-br">

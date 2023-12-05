@@ -19,32 +19,36 @@ if (isset($_POST['entrar'])) {
 
 
 
+
     if ($admin_result->num_rows > 0) {
         // Usuário é um administrador
         $user_data = $admin_result->fetch_assoc();
-            //Cria a sessão para gerar a permissão de acesso ao sistema
-            session_start();
-            $_SESSION['id'] = $user_data['id'];
-            $_SESSION['nome'] = $user_data['nome'];
-            $_SESSION['email'] = $user_data['email'];
+        // Cria a sessão para gerar a permissão de acesso ao sistema
+        session_start();
+        $_SESSION['id'] = $user_data['id'];
+        $_SESSION['nome'] = $user_data['nome'];
+        $_SESSION['email'] = $user_data['email'];
+        $_SESSION['tipo_usuario'] = 'admin'; // Adiciona o tipo de usuário à sessão
         header("Location: Admin/indexAdmin.php");
     } elseif ($veterinario_result->num_rows > 0) {
         // Usuário é um veterinário
         $user_data = $veterinario_result->fetch_assoc();
-            //Cria a sessão para gerar a permissão de acesso ao sistema
-            session_start();
-            $_SESSION['id'] = $user_data['id'];
-            $_SESSION['nome'] = $user_data['nome'];
-            $_SESSION['email'] = $user_data['email'];
+        // Cria a sessão para gerar a permissão de acesso ao sistema
+        session_start();
+        $_SESSION['id'] = $user_data['id'];
+        $_SESSION['nome'] = $user_data['nome'];
+        $_SESSION['email'] = $user_data['email'];
+        $_SESSION['tipo_usuario'] = 'veterinario'; // Adiciona o tipo de usuário à sessão
         header("Location: Vet/indexVet.php");
     } elseif ($atendente_result->num_rows > 0) {
         // Usuário é um atendente
         $user_data = $atendente_result->fetch_assoc();
-            //Cria a sessão para gerar a permissão de acesso ao sistema
-            session_start();
-            $_SESSION['id'] = $user_data['id'];
-            $_SESSION['nome'] = $user_data['nome'];
-            $_SESSION['email'] = $user_data['email'];
+        // Cria a sessão para gerar a permissão de acesso ao sistema
+        session_start();
+        $_SESSION['id'] = $user_data['id'];
+        $_SESSION['nome'] = $user_data['nome'];
+        $_SESSION['email'] = $user_data['email'];
+        $_SESSION['tipo_usuario'] = 'atendente'; // Adiciona o tipo de usuário à sessão
         header("Location: Atendente/indexAtendente.php");
     } else {
         // Autenticação falhou
