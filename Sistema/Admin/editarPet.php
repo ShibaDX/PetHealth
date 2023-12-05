@@ -58,7 +58,7 @@ $linha = mysqli_fetch_array($resultado);
                                 <div class="col-6">
                                     <div class="mb-1">
                                         <label for="nomePet" class="form-label">Nome*</label>
-                                        <input id="nomePet" name="nomePet" pattern="[^0-9]*" type="text" class="form-control" value="<?= $linha['nome'] ?>" required><br>
+                                        <input id="nomePet" name="nomePet" oninput="validarLetras(this)" type="text" class="form-control" value="<?= $linha['nome'] ?>" required><br>
                                     </div>
                                 </div>
                                 <div class="col-4">
@@ -155,6 +155,11 @@ $linha = mysqli_fetch_array($resultado);
                     </form><br>
 
                     <script>
+                        function validarLetras(input) {
+                            // Substituir qualquer caractere que não seja uma letra por vazio
+                            input.value = input.value.replace(/[^a-zA-Z\sàáâãäåçèéêëìíîïòóôõöùúûü-]/g, '');
+                        }
+
                         var xhr; // Declarar xhr no escopo global
 
                         // Função para atualizar dinamicamente as opções do campo de seleção de raças

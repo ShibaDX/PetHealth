@@ -62,7 +62,7 @@ $linha = mysqli_fetch_array($resultado);
                                 <div class="col-6">
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">Nome</label>
-                                        <input name="nome" type="text" class="form-control" value="<?= $linha['nome'] ?>" required><br>
+                                        <input name="nome" type="text" class="form-control" oninput="validarLetras(this)" value="<?= $linha['nome'] ?>" required><br>
                                     </div>
                                 </div>
                                 <div class="col-6">
@@ -76,7 +76,7 @@ $linha = mysqli_fetch_array($resultado);
                                 <div class="col-4">
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">Telefone</label>
-                                        <input name="telefone" type="text" maxlength="15" class="form-control" onkeyup="handlePhone(event)" value="<?= $linha['telefone']?>" required><br>
+                                        <input name="telefone" type="text" maxlength="15" class="form-control" onkeyup="handlePhone(event)" value="<?= $linha['telefone'] ?>" required><br>
                                     </div>
                                 </div>
                                 <div class="col-4">
@@ -130,6 +130,11 @@ $linha = mysqli_fetch_array($resultado);
             </div>
 
             <script>
+                function validarLetras(input) {
+                    // Substituir qualquer caractere que não seja uma letra por vazio
+                    input.value = input.value.replace(/[^a-zA-Z\sàáâãäåçèéêëìíîïòóôõöùúûü-]/g, '');
+                }
+
                 function limpar() {
                     document.getElementById("dataDemissao").value = null;
                     // Defina o valor do campo oculto como 1 quando o botão "Limpar" for clicado

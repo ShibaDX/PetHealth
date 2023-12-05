@@ -62,7 +62,7 @@ $linha = mysqli_fetch_array($resultado);
                                 <div class="col-6">
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">Nome</label>
-                                        <input name="nome" type="text" class="form-control" value="<?= $linha['nome'] ?>"><br>
+                                        <input name="nome" type="text" oninput="validarLetras(this)" class="form-control" value="<?= $linha['nome'] ?>"><br>
                                     </div>
                                 </div>
                                 <div class="col-6">
@@ -149,6 +149,11 @@ $linha = mysqli_fetch_array($resultado);
                         togglePassButton.textContent = "Mostrar Senha";
                     }
                 }
+
+                function validarLetras(input) {
+                            // Substituir qualquer caractere que não seja uma letra por vazio
+                            input.value = input.value.replace(/[^a-zA-Z\sàáâãäåçèéêëìíîïòóôõöùúûü-]/g, '');
+                        }
             </script>
 
             <?php
