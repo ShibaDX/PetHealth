@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 05/12/2023 às 18:27
+-- Tempo de geração: 05/12/2023 às 18:31
 -- Versão do servidor: 10.4.28-MariaDB
 -- Versão do PHP: 8.2.4
 
@@ -117,6 +117,8 @@ CREATE TABLE `cliente` (
   `nome` varchar(200) NOT NULL,
   `telefone` varchar(20) NOT NULL,
   `endereco` varchar(200) NOT NULL,
+  `cep` varchar(15) NOT NULL,
+  `numero` int(6) NOT NULL,
   `cidade` varchar(100) NOT NULL,
   `UF` varchar(2) NOT NULL,
   `sexo` varchar(1) NOT NULL,
@@ -130,12 +132,12 @@ CREATE TABLE `cliente` (
 -- Despejando dados para a tabela `cliente`
 --
 
-INSERT INTO `cliente` (`id`, `status`, `nome`, `telefone`, `endereco`, `cidade`, `UF`, `sexo`, `dataNascimento`, `CPF`, `email`, `dataCadastro`) VALUES
-(2, 'Ativo', 'Ana Silva Oliveira', '(11) 98765-4321', 'Rua das Flores, 123', 'São Paulo', 'SP', 'F', '1980-05-11', '123.456.789-00', 'ana.silva@email.com', '2023-09-15'),
-(3, 'Ativo', 'Marcos Santos Pereira', '(21) 99999-8888', 'Avenida Principal, 456', 'Rio de Janeiro', 'RJ', 'M', '1982-08-20', '987.654.321-00', 'marcos.santos@email.com', '2023-09-15'),
-(4, 'Ativo', 'Camila Alves Souza', '(31) 5555-1234', 'Rua das Palmeiras, 789', 'Belo Horizonte', 'MG', 'F', '1985-11-15', '456.789.123-00', 'camila.alves@email.com', '2023-09-15'),
-(5, 'Ativo', 'Luiz Costa Lima', '(41) 7777-5555', 'Travessa das Pedras, 321', 'Curitiba', 'PR', 'M', '1977-04-03', '234.567.890-00', 'luiz.lima@email.com', '2023-09-15'),
-(6, 'Ativo', 'Marina Gonçalves Ribeiro', '(51) 3333-2222', 'Rua das Árvores, 987', 'Porto Alegre', 'RS', 'F', '1990-02-25', '345.678.901-00', 'marina.ribeiro@email.com', '2023-09-15');
+INSERT INTO `cliente` (`id`, `status`, `nome`, `telefone`, `endereco`, `cep`, `numero`, `cidade`, `UF`, `sexo`, `dataNascimento`, `CPF`, `email`, `dataCadastro`) VALUES
+(2, 'Ativo', 'Ana Silva Oliveira', '(11) 98765-4321', 'Rua das Flores, 123', '', 0, 'São Paulo', 'SP', 'F', '1980-05-11', '123.456.789-00', 'ana.silva@email.com', '2023-09-15'),
+(3, 'Ativo', 'Marcos Santos Pereira', '(21) 99999-8888', 'Avenida Principal, 456', '', 0, 'Rio de Janeiro', 'RJ', 'M', '1982-08-20', '987.654.321-00', 'marcos.santos@email.com', '2023-09-15'),
+(4, 'Ativo', 'Camila Alves Souza', '(31) 5555-1234', 'Rua das Palmeiras, 789', '', 0, 'Belo Horizonte', 'MG', 'F', '1985-11-15', '456.789.123-00', 'camila.alves@email.com', '2023-09-15'),
+(5, 'Ativo', 'Luiz Costa Lima', '(41) 7777-5555', 'Travessa das Pedras, 321', '', 0, 'Curitiba', 'PR', 'M', '1977-04-03', '234.567.890-00', 'luiz.lima@email.com', '2023-09-15'),
+(6, 'Ativo', 'Marina Gonçalves Ribeiro', '(51) 3333-2222', 'Rua das Árvores, 987', '', 0, 'Porto Alegre', 'RS', 'F', '1990-02-25', '345.678.901-00', 'marina.ribeiro@email.com', '2023-09-15');
 
 -- --------------------------------------------------------
 
