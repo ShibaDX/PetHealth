@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 05/12/2023 às 15:16
+-- Tempo de geração: 05/12/2023 às 18:27
 -- Versão do servidor: 10.4.28-MariaDB
 -- Versão do PHP: 8.2.4
 
@@ -26,15 +26,16 @@ USE `tcc`;
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `adm`
+-- Estrutura para tabela `admin`
 --
 
-CREATE TABLE `adm` (
+CREATE TABLE `admin` (
   `id` int(11) NOT NULL,
-  `status` varchar(20) NOT NULL,
+  `statusAdmin` varchar(20) NOT NULL,
   `nome` varchar(200) NOT NULL,
   `telefone` varchar(20) NOT NULL,
   `email` varchar(200) NOT NULL,
+  `sexo` char(1) NOT NULL,
   `dataNascimento` date NOT NULL,
   `dataAdmissao` date NOT NULL DEFAULT current_timestamp(),
   `senha` varchar(200) NOT NULL,
@@ -43,11 +44,11 @@ CREATE TABLE `adm` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Despejando dados para a tabela `adm`
+-- Despejando dados para a tabela `admin`
 --
 
-INSERT INTO `adm` (`id`, `status`, `nome`, `telefone`, `email`, `dataNascimento`, `dataAdmissao`, `senha`, `cpf`, `dataDemissao`) VALUES
-(1, 'Ativo', 'Admin', '', 'admin@adm.com', '2023-11-01', '2023-11-30', '1234', '', NULL);
+INSERT INTO `admin` (`id`, `statusAdmin`, `nome`, `telefone`, `email`, `sexo`, `dataNascimento`, `dataAdmissao`, `senha`, `cpf`, `dataDemissao`) VALUES
+(1, 'Ativo', 'Admin', '', 'admin@adm.com', '', '2023-11-01', '2023-11-30', '1234', '', NULL);
 
 -- --------------------------------------------------------
 
@@ -288,9 +289,9 @@ INSERT INTO `veterinario` (`id`, `statusVet`, `nome`, `telefone`, `email`, `sexo
 --
 
 --
--- Índices de tabela `adm`
+-- Índices de tabela `admin`
 --
-ALTER TABLE `adm`
+ALTER TABLE `admin`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -346,9 +347,9 @@ ALTER TABLE `veterinario`
 --
 
 --
--- AUTO_INCREMENT de tabela `adm`
+-- AUTO_INCREMENT de tabela `admin`
 --
-ALTER TABLE `adm`
+ALTER TABLE `admin`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --
