@@ -76,7 +76,7 @@ $linha = mysqli_fetch_array($resultado);
                                 <div class="col-4">
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">Telefone</label>
-                                        <input name="telefone" type="text" maxlength="15" class="form-control" onkeyup="handlePhone(event)" value=" <?= $linha['telefone'] ?>"><br>
+                                        <input name="telefone" type="text" maxlength="15" class="form-control" onkeyup="handlePhone(event)" value="<?= $linha['telefone'] ?>"><br>
                                     </div>
                                 </div>
                                 <div class="col-4">
@@ -165,20 +165,14 @@ $linha = mysqli_fetch_array($resultado);
                 $sexo = $_POST['sexo'];
                 $dataDemissao = isset($_POST['limparDataDemissao']) && $_POST['limparDataDemissao'] == 1 ? null : $_POST['dataDemissao'];
 
-                // Certifique-se de que o valor é realmente nulo
-                if ($dataDemissao === null) {
-                    // Converta explicitamente para NULL
-                    $dataDemissao = "NULL";
-                }
-
                 // Verificar se a data de demissão foi fornecida
-                if (!empty($dataDemissao) || $dataDemissao == "0000-00-00") {
+                if (!empty($dataDemissao) || $dataDemissao != null) {
 
                     // Atualizar o registro do veterinário no banco de dados
-                    $sql = "UPDATE atendente SET nome = '$nome', telefone = '$telefone', sexo = '$sexo', dataNascimento = '$dataNascimento', email = '$email', senha = '$senha' , statusAt = 'Inativo', cpf = '$cpf', dataDemissao = '$dataDemissao' WHERE id = $id";
+                    $sql = "UPDATE atendente SET nome = '$nome', telefone = '$telefone', sexo = '$sexo', dataNascimento = '$dataNascimento', email = '$email', senha = '$senha' , statusAtendente = 'Inativo', cpf = '$cpf', dataDemissao = '$dataDemissao' WHERE id = $id";
                 } else {
                     //3. Preparar a SQL
-                    $sql = "UPDATE atendente SET nome = '$nome', telefone = '$telefone', sexo = '$sexo', dataNascimento = '$dataNascimento', email = '$email', senha = '$senha' , statusAt = 'Ativo', cpf = '$cpf', dataDemissao = '$dataDemissao' WHERE id = $id";
+                    $sql = "UPDATE atendente SET nome = '$nome', telefone = '$telefone', sexo = '$sexo', dataNascimento = '$dataNascimento', email = '$email', senha = '$senha' , statusAtendente = 'Ativo', cpf = '$cpf', dataDemissao = '$dataDemissao' WHERE id = $id";
                 }
                 //4. Executar a SQL
                 mysqli_query($conexao, $sql);

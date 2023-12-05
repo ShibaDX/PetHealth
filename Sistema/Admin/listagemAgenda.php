@@ -16,7 +16,7 @@ if (isset($_GET['id'])) {
 
 // Consulta SQL para obter as consultas marcadas para o dia atual
 $data_atual = date("Y-m-d");
-$sql = "SELECT a.id, a.data, a.hora, p.nome as petNome, v.nome as vetNome, pr.nome as procNome, c.nome as clienteNome, pr.valor as procValor FROM agenda a 
+$sql = "SELECT a.id, a.data, a.hora, a.statusAgenda, p.nome as petNome, v.nome as vetNome, pr.nome as procNome, c.nome as clienteNome, pr.valor as procValor FROM agenda a 
 INNER JOIN pet p on a.pet_id= p.id
 inner JOIN veterinario v on a.veterinario_id = v.id
 INNER join procedimento pr on a.procedimento_id = pr.id
@@ -87,7 +87,7 @@ $resultado = mysqli_query($conexao, $sql);
                 <div class="card mt-3 mb-3">
                     <div class="card-body">
                         <h2>
-                            <i class="fa-solid fa-calendar-days"></i> Agendamentos <a href="cadastroAgenda.php" class="btn btn-success btn-sn"><i class="fa-solid fa-calendar-days"></i> Novo Agendamento</a> <a href="cadastroProcedimento.php" class="btn btn-info btn-sn"><i class="fa-solid fa-plus" style="color: #ffffff;"></i> Cadastrar Procedimento</a>
+                            <i class="fa-solid fa-calendar-days"></i> Agendamentos <a href="cadastroAgenda.php" class="btn btn-success btn-sn"><i class="fa-solid fa-calendar-days"></i> Novo Agendamento</a> <a href="listagemProcedimento.php" class="btn btn-info btn-sn"><i class="fa-solid fa-notes-medical"></i> Procedimentos</a>
                         </h2>
                         <form method="POST">
                             <label for="formGroupExampleInput" class="form-label">Filtrar por Data</label>
@@ -106,7 +106,7 @@ $resultado = mysqli_query($conexao, $sql);
                         $dataFiltrada = mysqli_real_escape_string($conexao, $_POST['data']);
 
                         // Adicione a condição WHERE para filtrar os dados pela data
-                        $sql = "SELECT a.id, a.data, a.hora, p.nome as petNome, v.nome as vetNome, pr.nome as procNome, c.nome as clienteNome, pr.valor as procValor FROM agenda a 
+                        $sql = "SELECT a.id, a.data, a.hora, a.statusAgenda, p.nome as petNome, v.nome as vetNome, pr.nome as procNome, c.nome as clienteNome, pr.valor as procValor FROM agenda a 
                                     INNER JOIN pet p ON a.pet_id = p.id
                                     INNER JOIN veterinario v ON a.veterinario_id = v.id
                                     INNER JOIN procedimento pr ON a.procedimento_id = pr.id
@@ -126,6 +126,7 @@ $resultado = mysqli_query($conexao, $sql);
                         <tr>
                             <th>Data</th>
                             <th>Hora</th>
+                            <th>Status</th>
                             <th>Nome do Pet</th>
                             <th>Proprietário do Pet</th>
                             <th>Nome do Veterinário</th>
@@ -136,7 +137,7 @@ $resultado = mysqli_query($conexao, $sql);
                         <?php
                         while ($row = $resultado->fetch_assoc()) {
                             $dataFormatada = date("d/m/Y", strtotime($row["data"]));
-                            echo "<tr><td>" . $dataFormatada . "</td><td>" . $row["hora"];
+                            echo "<tr><td>" . $dataFormatada . "</td><td>" . $row["hora"]. "</td><td>" . $row["statusAgenda"];
 
                             // Verifique se os índices existem antes de acessá-los
                             $petNome = isset($row["petNome"]) ? $row["petNome"] : "";

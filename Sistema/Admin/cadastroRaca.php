@@ -44,8 +44,8 @@ require_once("conexao.php"); ?>
                     <!-- Page Heading -->
                     <!-- Cadastrar Raça -->
                     <div class="container">
-                        <h1 class="mb-4"><i class="fa-solid fa-dog"></i> Cadastro de Raça</h1>
-                        <form method="post" onsubmit="return validarFormulario()">
+                        <h1 class="mb-4"><i class="fa-solid fa-paw"></i> Cadastro de Raça</h1>
+                        <form method="post">
                             <div class="row">
                                 <div class="col">
                                     <div class="mb-1">
@@ -67,35 +67,12 @@ require_once("conexao.php"); ?>
                             </div>
                             <div class="mb-1">
                                 <label for="formGroupExampleInput" class="form-label">Descrição</label>
-                                <textarea name="descricao" type="" class="form-control"> </textarea><br>
+                                <textarea name="descricao" type="text" class="form-control"> </textarea><br>
                                 <button name="salvar" type="submit" class="btn btn-primary"><i class="fa-solid fa-check"></i> Salvar</button>
-                                <a href="listagemPet.php" class="btn btn-warning"><i class="fa-solid fa-rotate-left"></i> Voltar</a>
+                                <a href="listagemRaca.php" class="btn btn-warning"><i class="fa-solid fa-rotate-left"></i> Voltar</a>
                             </div>
                     </div>
                 </form><br>
-
-
-
-
-                <script>
-                    function validarFormulario() {
-                        // Lógica de validação do lado do cliente
-
-                        // Exemplo: Verificar se todos os campos obrigatórios estão preenchidos
-                        var camposObrigatorios = ["nomeRaca", "especie"];
-                        for (var i = 0; i < camposObrigatorios.length; i++) {
-                            var campo = document.getElementById(camposObrigatorios[i]).value;
-                            if (campo === "") {
-                                alert("Por favor, preencha todos os campos obrigatórios.");
-                                return false; // Impede o envio do formulário
-                            }
-                        }
-
-                        // Outras verificações podem ser adicionadas conforme necessário
-
-                        return true; // Permite o envio do formulário
-                    }
-                </script>
 
                 <?php
                 if (isset($_POST['salvar'])) {
@@ -106,7 +83,7 @@ require_once("conexao.php"); ?>
                     $especie = $_POST['especie'];
 
                     //3. Preparar a SQL
-                    $sql = "insert into raca (nome, descricao, especie) values ('$nomeRaca', '$descricao', '$especie')";
+                    $sql = "insert into raca (statusRaca, nome, descricao, especie) values ('$nomeRaca', '$descricao', '$especie')";
 
                     //4. Executar a SQL
                     mysqli_query($conexao, $sql);

@@ -51,8 +51,6 @@ $resultado = mysqli_query($conexao, $sql);
 
                 <?php require_once("topbarAdmin.php"); ?>
 
-
-
                 <!-- Page Heading -->
                 <div>
 
@@ -67,9 +65,56 @@ $resultado = mysqli_query($conexao, $sql);
                     <div class="card mt-3 mb-3">
                         <div class="card-body">
                             <h2><i class="fa-solid fa-user-pen"></i> Listagem de Atendentes <a href="cadastroAtendente.php" class="btn btn-success btn-sn"><i class="fa-solid fa-plus" style="color: #ffffff;"></i> Novo Atendente</a></h2>
+                            <form method="post">
+                                <div class="row mb-3 mt-4">
+                                    <div class="col-3">
+                                        <label for="filtroStatus">Filtrar por Status</label>
+                                        <select class="custom-select" name="filtroStatus">
+                                            <option value="">Todos</option>
+                                            <option value="Ativo">Ativos</option>
+                                            <option value="Inativo">Inativos</option>
+                                        </select>
+                                        <button type="submit" class="btn btn-primary mt-3">Filtrar</button>
+                                    </div>
+                                    <div class="col-3">
+                                        <label for="filtroNome">Buscar por Nome:</label>
+                                        <input type="text" name="filtroNome" placeholder="Digite o nome" class="form-control">
+                                    </div>
+                                </div>
+                                <?php
+                                $filtroStatus = "";
+                                $filtroNome = "";
+                                if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+                                    $filtroStatus = mysqli_real_escape_string($conexao, $_POST['filtroStatus']);
+                                    $filtroNome = mysqli_real_escape_string($conexao, $_POST['filtroNome']);
+
+                                    if ($filtroStatus === "" && $filtroNome === "") {
+                                        $sql = "SELECT * FROM atendente
+                                    ORDER BY id";
+                                    } else if ($filtroStatus != "" && $filtroNome === "") {
+                                        // Adicione a condição WHERE para filtrar os dados pela data
+                                        $sql = "SELECT * FROM atendente
+                                    WHERE statusAtendente = '$filtroStatus'
+                                    ORDER BY id";
+                                    } else if ($filtroStatus === "" && $filtroNome != "") {
+                                        $sql = "SELECT * FROM atendente
+                                        WHERE nome LIKE '%$filtroNome%'
+                                        ORDER BY id";
+                                    }
+                                    } else if ($filtroStatus != "" && $filtroNome != "") {
+                                        $sql = "SELECT * FROM atendente
+                                        WHERE statusAtendente = '$filtroStatus' AND nome LIKE '%$filtroNome%'
+                                        ORDER BY id";
+                                    }
+                                    $resultado = mysqli_query($conexao, $sql);
+                                
+                                ?>
+
+                            </form>
                         </div>
                     </div>
-                    
+
                     <table class="table table-striped table-hover">
                         <thead>
                             <tr>
@@ -92,7 +137,7 @@ $resultado = mysqli_query($conexao, $sql);
                                 $dataAdmissaoFormatada = date("d/m/Y", strtotime($linha["dataAdmissao"]));
                                 // Verifica se a dataDemissao é diferente de '0000-00-00' e não é nula antes de formatar
                                 $dataDemissaoFormatada = ($linha["dataDemissao"] && $linha["dataDemissao"] != '0000-00-00') ? date("d/m/Y", strtotime($linha["dataDemissao"])) : '';
-                                echo "<tr><td>" . $linha["id"] . "</td><td>" . $linha["statusAt"] . "</td><td>" . $linha["nome"] . "</td><td>" . $linha["telefone"] . "</td><td>" . $linha["sexo"] . "</td><td>" . $linha["email"] . "</td><td>" . $dataNascimentoFormatada . "</td><td>" . $linha["cpf"] . "</td><td>" . $dataAdmissaoFormatada . "</td><td>" . $dataDemissaoFormatada;
+                                echo "<tr><td>" . $linha["id"] . "</td><td>" . $linha["statusAtendente"] . "</td><td>" . $linha["nome"] . "</td><td>" . $linha["telefone"] . "</td><td>" . $linha["sexo"] . "</td><td>" . $linha["email"] . "</td><td>" . $dataNascimentoFormatada . "</td><td>" . $linha["cpf"] . "</td><td>" . $dataAdmissaoFormatada . "</td><td>" . $dataDemissaoFormatada;
                             ?>
                                 <td>
                                     <a href="editarAtendente.php?id=<?= $linha['id'] ?>" class="btn btn-warning"><i class="fa-solid fa-pen-to-square" style="color: #000000;"></i></a>

@@ -62,13 +62,13 @@ $linha = mysqli_fetch_array($resultado);
                                 <div class="col-6">
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">Nome</label>
-                                        <input name="nome" type="text" class="form-control" value="<?= $linha['nome'] ?>"><br>
+                                        <input name="nome" type="text" class="form-control" value="<?= $linha['nome'] ?>" required><br>
                                     </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">Email</label>
-                                        <input name="email" type="email" class="form-control" value="<?= $linha['email'] ?>"><br>
+                                        <input name="email" type="email" class="form-control" value="<?= $linha['email'] ?>" required><br>
                                     </div>
                                 </div>
                             </div>
@@ -76,19 +76,19 @@ $linha = mysqli_fetch_array($resultado);
                                 <div class="col-4">
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">Telefone</label>
-                                        <input name="telefone" type="text" maxlength="15" class="form-control" onkeyup="handlePhone(event)" value=" <?= $linha['telefone'] ?>"><br>
+                                        <input name="telefone" type="text" maxlength="15" class="form-control" onkeyup="handlePhone(event)" value="<?= $linha['telefone']?>" required><br>
                                     </div>
                                 </div>
                                 <div class="col-4">
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">Data de Nascimento</label>
-                                        <input name="dataNascimento" type="date" class="form-control" value="<?= $linha['dataNascimento'] ?>"><br>
+                                        <input name="dataNascimento" type="date" class="form-control" value="<?= $linha['dataNascimento'] ?>" required><br>
                                     </div>
                                 </div>
                                 <div class="col-4">
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">CRMV</label>
-                                        <input name="crmv" type="text" class="form-control" value="<?= $linha['CRMV'] ?>"><br>
+                                        <input name="crmv" type="text" class="form-control" value="<?= $linha['CRMV'] ?>" required><br>
                                     </div>
                                 </div>
                             </div>
@@ -104,7 +104,7 @@ $linha = mysqli_fetch_array($resultado);
                                 <div class="col-4">
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">Senha</label>
-                                        <input name="senha" id="senha" type="password" class="form-control" value="<?= $linha['senha'] ?>">
+                                        <input name="senha" id="senha" type="password" class="form-control" value="<?= $linha['senha'] ?>" required>
                                         <button type="button" id="togglePass" class="botao btn btn-link">Mostrar Senha</button>
                                     </div>
                                 </div>
@@ -165,14 +165,8 @@ $linha = mysqli_fetch_array($resultado);
                 $sexo = $_POST['sexo'];
                 $dataDemissao = isset($_POST['limparDataDemissao']) && $_POST['limparDataDemissao'] == 1 ? null : $_POST['dataDemissao'];
 
-                // Certifique-se de que o valor é realmente nulo
-                if ($dataDemissao === null) {
-                    // Converta explicitamente para NULL
-                    $dataDemissao = "NULL";
-                }
-
                 // Verificar se a data de demissão foi fornecida
-                if (!empty($dataDemissao) || $dataDemissao == "0000-00-00") {
+                if (!empty($dataDemissao) || $dataDemissao != null) {
 
                     // Atualizar o registro do veterinário no banco de dados
                     $sql = "UPDATE veterinario SET nome = '$nome', telefone = '$telefone', sexo = '$sexo', dataNascimento = '$dataNascimento', email = '$email', senha = '$senha' , statusVet = 'Inativo', CRMV = '$crmv', dataDemissao = '$dataDemissao' where id = $id";

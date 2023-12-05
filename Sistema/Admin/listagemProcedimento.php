@@ -4,13 +4,13 @@ require_once("verificaAutenticacao.php");
 require_once("conexao.php");
 //Exclusão
 if (isset($_GET['id'])) {
-    $sql = "delete from pet where id = " . $_GET['id'];
+    $sql = "delete from procedimento where id = " . $_GET['id'];
     mysqli_query($conexao, $sql);
     $mensagem = "Exclusão realizada com sucesso.";
 }
 
 // preparar a SQL
-$sql = "select * from pet";
+$sql = "select * from procedimento";
 
 // executar a SQL
 $resultado = mysqli_query($conexao, $sql);
@@ -70,22 +70,44 @@ $resultado = mysqli_query($conexao, $sql);
                     <!-- Tabela de listagem de pets -->
                     <div class="card mt-3 mb-3">
                         <div class="card-body">
-                            <h2><i class="fa-solid fa-dog"></i> Listagem de Pets <a
-                                        href="cadastroPet.php" class="btn btn-info btn-sn"><i class="fa-solid fa-plus"
-                                        style="color: #ffffff;"></i> Novo Pet</a>
-                                        <a href="listagemRaca.php" class="btn btn-success btn-sn"><i class="fa-solid fa-paw"></i> Raças</a>
-                                    </h2>
+                            <h2><i class="fa-solid fa-notes-medical"></i> Listagem de Procedimentos 
+                            <a href="cadastroProcedimento.php" class="btn btn-info btn-sn"><i class="fa-solid fa-notes-medical"></i> Novo Procedimento</a>
+                            </h2>
+                            <form method="post">
+                            <h5>Filtrar por status </h5>
+                                <div class="btn-group" role="group">
+
+                                    <button type="submit" class="btn btn-secondary" name="filtro" value="">Todos</button>
+                                    <button type="submit" class="btn btn-success" name="filtro" value="Ativo">Ativos</button>
+                                    <button type="submit" class="btn btn-danger" name="filtro" value="Inativo">Inativos</button>
+                                </div>
+                            </form>
+                            <?php
+                            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+                                $filtro = mysqli_real_escape_string($conexao, $_POST['filtro']);
+
+                                if ($filtro === "") {
+                                    $sql = "SELECT * FROM procedimento
+                                    ORDER BY id";
+                                } else {
+                                    // Adicione a condição WHERE para filtrar os dados pela data
+                                    $sql = "SELECT * FROM procedimento
+                                    WHERE statusProcedimento = '$filtro'
+                                    ORDER BY id";
+                                }
+                                $resultado = mysqli_query($conexao, $sql);
+                            }
+                            ?>
                         </div>
                         </div>
                     <table class="table table-striped table-hover">
                         <thead>
                             <tr>
                                 <th scope="col">ID</th>
+                                <th scope="col">Status</th>
                                 <th scope="col">Nome</th>
-                                <th scope="col">Ano de Nascimento</th>
-                                <th scope="col">Sexo</th>
-                                <th scope="col">Cor</th>
-                                <th scope="col">Obs</th>
+                                <th scope="col">Valor</th>
                                 <th scope="col">Ação</th>
                             </tr>
                         </thead>
@@ -96,24 +118,18 @@ $resultado = mysqli_query($conexao, $sql);
                                         <?= $linha['id'] ?>
                                     </th>
                                     <td>
+                                        <?= $linha['statusProcedimento'] ?>
+                                    </td>
+                                    <td>
                                         <?= $linha['nome'] ?>
                                     </td>
                                     <td>
-                                        <?= $linha['anoNascimento'] ?>
+                                        <?= $linha['valor'] ?>
                                     </td>
                                     <td>
-                                        <?= $linha['sexo'] ?>
-                                    </td>
-                                    <td>
-                                        <?= $linha['cor'] ?>
-                                    </td>
-                                    <td>
-                                        <?= $linha['obs'] ?>
-                                    </td>
-                                    <td>
-                                        <a href="editarPet.php?id=<?= $linha['id'] ?>" class="btn btn-warning"><i
+                                        <a href="editarProcedimento.php?id=<?= $linha['id'] ?>" class="btn btn-warning"><i
                                                 class="fa-solid fa-pen-to-square" style="color: #000000;"></i></a>
-                                        <a href="listagemPet.php?id=<?= $linha['id'] ?>" class="btn btn-danger"
+                                        <a href="listagemProcedimento.php?id=<?= $linha['id'] ?>" class="btn btn-danger"
                                             onclick="return confirm('Confirma exclusão?')"><i class="fa-solid fa-trash"
                                                 style="color: #000000;"></i></a>
                                     </td>

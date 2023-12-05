@@ -9,10 +9,10 @@ if (isset($_GET['id'])) {
     $mensagem = "Exclusão realizada com sucesso.";
 }
 
-// Modifica a SQL com base no filtro
-$sql = "SELECT * FROM veterinario
-        ORDER BY nome";
+//Consulta o SQL
+$sql = "SELECT * FROM veterinario";
 
+//Executa o SQL
 $resultado = mysqli_query($conexao, $sql);
 
 if (!$resultado) {
@@ -79,31 +79,52 @@ if (!$resultado) {
                                     <i class="fa-solid fa-plus" style="color: #ffffff;"></i> Novo Veterinário
                                 </a>
                             </h2>
-
                             <form method="post">
-                                <div class="btn-group" role="group">
-                                    <button type="submit" class="btn btn-secondary" name="filtro" value="">Todos</button>
-                                    <button type="submit" class="btn btn-success" name="filtro" value="Ativo">Ativos</button>
-                                    <button type="submit" class="btn btn-danger" name="filtro" value="Inativo">Inativos</button>
+                                <div class="row mb-3 mt-4">
+                                    <div class="col-3">
+                                        <label for="filtroStatus">Filtrar por Status</label>
+                                        <select class="custom-select" name="filtroStatus">
+                                            <option value="">Todos</option>
+                                            <option value="Ativo">Ativos</option>
+                                            <option value="Inativo">Inativos</option>
+                                        </select>
+                                        <button type="submit" class="btn btn-primary mt-3">Filtrar</button>
+                                    </div>
+                                    <div class="col-3">
+                                        <label for="filtroNome">Buscar por Nome:</label>
+                                        <input type="text" name="filtroNome" placeholder="Digite o nome" class="form-control">
+                                    </div>
                                 </div>
+                                <?php
+                                $filtroStatus = "";
+                                $filtroNome = "";
+                                if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+                                    $filtroStatus = mysqli_real_escape_string($conexao, $_POST['filtroStatus']);
+                                    $filtroNome = mysqli_real_escape_string($conexao, $_POST['filtroNome']);
+
+                                    if ($filtroStatus === "" && $filtroNome === "") {
+                                        $sql = "SELECT * FROM veterinario
+                                    ORDER BY id";
+                                    } else if ($filtroStatus != "" && $filtroNome === "") {
+                                        // Adicione a condição WHERE para filtrar os dados pela data
+                                        $sql = "SELECT * FROM veterinario
+                                    WHERE statusVet = '$filtroStatus'
+                                    ORDER BY id";
+                                    } else if ($filtroStatus === "" && $filtroNome != "") {
+                                        $sql = "SELECT * FROM veterinario
+                                        WHERE nome LIKE '%$filtroNome%'
+                                        ORDER BY id";
+                                    }
+                                    } else if ($filtroStatus != "" && $filtroNome != "") {
+                                        $sql = "SELECT * FROM veterinario
+                                        WHERE statusVet = '$filtroStatus' AND nome LIKE '%$filtroNome%'
+                                        ORDER BY id";
+                                    }
+                                    $resultado = mysqli_query($conexao, $sql);
+                                
+                                ?>
                             </form>
-                            <?php
-                            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-
-                                $filtro = mysqli_real_escape_string($conexao, $_POST['filtro']);
-
-                                if ($filtro === "") {
-                                    $sql = "SELECT * FROM veterinario
-                                    ORDER BY nome";
-                                } else {
-                                    // Adicione a condição WHERE para filtrar os dados pela data
-                                    $sql = "SELECT * FROM veterinario
-                                    WHERE statusVet = '$filtro'
-                                    ORDER BY nome";
-                                }
-                                $resultado = mysqli_query($conexao, $sql);
-                            }
-                            ?>
                         </div>
                     </div>
                     <?php

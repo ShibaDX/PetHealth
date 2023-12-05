@@ -77,7 +77,6 @@ require_once("conexao.php"); ?>
                                         <div class="mb-1">
                                             <label for="pet_id" class="form-label">Pet</label>
                                             <select name="pet_id" class="custom-select" aria-label="Large select example">
-                                                <option value="">Selecione</option>
                                                 <?php
                                                 $sql = "select pet.id, pet.nome
                                               from pet 
@@ -102,14 +101,13 @@ require_once("conexao.php"); ?>
                                     <div class="col-3">
                                         <div class="mb-1">
                                             <label for="formGroupExampleInput" class="form-label">Data</label>
-                                            <input name="data" type="date" class="form-control" value="<?= isset($_POST['data']) ? htmlspecialchars($_POST['data']) : '' ?>"><br>
+                                            <input name="data" type="date" class="form-control" value="<?= isset($_POST['data']) ? htmlspecialchars($_POST['data']) : '' ?>" required><br>
                                         </div>
                                     </div>
                                     <div class="col-3">
                                         <div class="mb-1">
                                             <label for="formGroupExampleInput" class="form-label">Hora</label>
                                             <select name="hora" class="custom-select">
-                                                <option value="">Selecione</option>
                                                 <option value="08:00">08:00</option>
                                                 <option value="08:30">08:30</option>
                                                 <option value="09:00">09:00</option>
@@ -133,9 +131,8 @@ require_once("conexao.php"); ?>
                                         <div class="mb-1">
                                             <label for="procedimento_id" class="form-label">Procedimento</label>
                                             <select name="procedimento_id" class="custom-select ">
-                                                <option value="">Selecione</option>
                                                 <?php
-                                                $sql = "select * from procedimento order by nome";
+                                                $sql = "SELECT * FROM procedimento WHERE statusProcedimento = 'Ativo' ORDER BY nome";
                                                 $resultado = mysqli_query($conexao, $sql);
 
                                                 while ($linha = mysqli_fetch_array($resultado)) {
@@ -156,7 +153,6 @@ require_once("conexao.php"); ?>
                                         <div class="mb-1">
                                             <label for="veterinario_id" class="form-label">Veterinário</label>
                                             <select name="veterinario_id" class="custom-select ">
-                                                <option value="">Selecione</option>
                                                 <?php
                                                 $sql = "select * from veterinario order by nome";
                                                 $resultado = mysqli_query($conexao, $sql);

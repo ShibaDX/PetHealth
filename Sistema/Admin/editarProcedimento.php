@@ -1,6 +1,13 @@
 <!-- Requisita a verificação de autenticação -->
 <?php require_once("conexao.php");
-require_once("verificaAutenticacao.php"); ?>
+require_once("verificaAutenticacao.php");
+
+//Busca o usuário selecionado pelo usuarioListar.php
+$sql = "select * from procedimento where id = " . $_GET['id'];
+$resultado = mysqli_query($conexao, $sql);
+$linha = mysqli_fetch_array($resultado);
+
+?>
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -44,37 +51,68 @@ require_once("verificaAutenticacao.php"); ?>
                     <!-- Page Heading -->
                     <!-- Cadastrar Procedimento -->
                     <div class="container">
-                        <h1 class="mb-4"><i class="fa-solid fa-notes-medical"></i> Cadastro de Procedimento</h1>
+                        <h1 class="mb-4"><i class="fa-solid fa-notes-medical"></i> Edição de Procedimento</h1>
                         <form method="post">
+                            <input type="hidden" name="id" value="<?= $linha['id'] ?>">
                             <div class="row">
                                 <div class="col">
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" id="nomeProcedimento" class="form-label">Nome</label>
-                                        <input name="nomeProc" type="text" id="nomeProcedimento" class="form-control" required><br>
+                                        <input name="nomeProc" type="text" id="nomeProcedimento" class="form-control" value="<?= $linha['nome'] ?>" required><br>
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="mb-1">
                                         <label for="valorProcedimento" class="form-label">Valor do Procedimento (R$):</label>
-                                        <input type="text" id="valorProcedimento" name="valorProc" class="form-control" required>
+                                        <input type="text" id="valorProcedimento" name="valorProc" class="form-control" value="<?= $linha['valor'] ?>" required>
                                     </div>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="mb-1">
+                                        <label for="formGroupExampleInput" class="form-label">Status</label>
+                                        <div class="btn-group" role="group">
+                                            <button type="submit" class="btn btn-success" name="status" value="Ativo">Ativo</button>
+                                            <button type="submit" class="btn btn-danger" name="status" value="Inativo">Inativo</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div><br>
                             <button name="salvar" type="submit" class="btn btn-primary"><i class="fa-solid fa-check"></i> Salvar</button>
                             <a href="listagemProcedimento.php" class="btn btn-warning"><i class="fa-solid fa-rotate-left"></i> Voltar</a>
                         </form><br>
 
                         <?php
+
+                        if (isset($_POST['status'])) {
+                            $id = $_POST['id'];
+                            $status = $_POST['status'];
+                            //Preparar o SQL
+                            $sql = "UPDATE procedimento SET statusProcedimento = '$status' WHERE id = '$id'";
+                            //Exec0utar a SQL
+                            mysqli_query($conexao, $sql);
+                            //Mostrar mensagem ao usuário
+                            $mensagem = "Alterado com Sucesso";
+                            if ($mensagem) { ?>
+                                <div class="alert <?= strpos($mensagem, 'Sucesso') !== false ? 'alert-success' : 'alert-danger' ?> mb-2" role="alert">
+                                    <i class="fa-solid <?= strpos($mensagem, 'Sucesso') !== false ? 'fa-check' : 'fa-x' ?>" style="color: <?= strpos($mensagem, 'Sucesso') !== false ? '#12972c' : '#b70b0b' ?>;"></i>
+                                    <?= $mensagem ?>
+                                </div>
+                            <?php }
+                        }
+
                         if (isset($_POST['salvar'])) {
 
                             // Receber os dados para inserir no BD
+                            $id = $_POST['id'];
                             $nome = $_POST['nomeProc'];
                             $valor = $_POST['valorProc'];
 
                             // Validar se o valor é um número positivo
                             if (is_numeric($valor) && floatval($valor) >= 0) {
                                 // Preparar a SQL com prepared statement
-                                $sql = "INSERT INTO procedimento (nome, valor, statusProcedimento) VALUES ('$nome', '$valor', 'Ativo')";
+                                $sql = "UPDATE procedimento SET nome = '$nome', valor = '$valor' WHERE id = $id";
                                 $stmt = mysqli_prepare($conexao, $sql);
                                 // Executar a SQL
                                 if (mysqli_stmt_execute($stmt)) {
@@ -94,7 +132,7 @@ require_once("verificaAutenticacao.php"); ?>
                                     <i class="fa-solid <?= strpos($mensagem, 'Sucesso') !== false ? 'fa-check' : 'fa-x' ?>" style="color: <?= strpos($mensagem, 'Sucesso') !== false ? '#12972c' : '#b70b0b' ?>;"></i>
                                     <?= $mensagem ?>
                             <?php }
-                            } ?>
+                        } ?>
                                 </div>
 
                     </div>
