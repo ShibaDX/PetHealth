@@ -55,7 +55,7 @@ $linha = mysqli_fetch_array($resultado); ?>
                                 <div class="col">
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">Nome</label>
-                                        <input id="nomeRaca" name="nomeRaca" type="text" oninput="validarLetras(this)" class="form-control" value="<?= $linha['nome'] ?>" required> <br>
+                                        <input id="nomeRaca" name="nomeRaca" type="text" class="form-control" value="<?= $linha['nome'] ?>" required> <br>
                                     </div>
                                 </div>
                                 <div class="col">
@@ -91,13 +91,6 @@ $linha = mysqli_fetch_array($resultado); ?>
                             <a href="listagemRaca.php" class="btn btn-warning"><i class="fa-solid fa-rotate-left"></i> Voltar</a>
                     </div>
                     </form><br>
-
-                    <script>
-                        function validarLetras(input) {
-                            // Substituir qualquer caractere que não seja uma letra por vazio
-                            input.value = input.value.replace(/[^a-zA-Z\sàáâãäåçèéêëìíîïòóôõöùúûü-]/g, '');
-                        }
-                    </script>
 
                     <?php
 

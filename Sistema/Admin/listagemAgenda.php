@@ -149,8 +149,8 @@ $resultado = mysqli_query($conexao, $sql);
                             echo "</td><td>" . $petNome . "</td><td>" . $clienteNome . "</td><td>" . $vetNome . "</td><td>" . $procNome . "</td><td>R$" . $valorProcedimento . "</td>";
                         ?>
                             <td>
+                                <a href="olharAgenda.php?id=<?= $row['id'] ?>" class="btn btn-info"><i class="fa-solid fa-eye" style="color: #000000;"></i></a>
                                 <a href="editarAgenda.php?id=<?= $row['id'] ?>" class="btn btn-warning"><i class="fa-solid fa-pen-to-square" style="color: #000000;"></i></a>
-                                <a href="listagemAgenda.php?id=<?= $row['id'] ?>" class="btn btn-danger" onclick="return confirm('Confirma exclusão?')"><i class="fa-solid fa-trash" style="color: #000000;"></i></a>
                             </td>
                             </tr>
                         <?php

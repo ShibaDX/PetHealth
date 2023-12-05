@@ -11,9 +11,8 @@ if (isset($_GET['id'])) {
 
 
 // preparar a SQL
-$sql = "SELECT p.id, p.statusPet, p.nome, p.especie, p.anoNascimento, p.sexo, p.cor, c.nome as clienteNome, r.nome as racaNome FROM pet p 
+$sql = "SELECT p.id, p.statusPet, p.nome, p.especie, p.anoNascimento, p.sexo, p.cor, c.nome as clienteNome FROM pet p 
 INNER JOIN cliente c ON p.cliente_id = c.id
-INNER JOIN raca r ON p.raca_id = r.id
 ORDER BY nome";
 
 // executar a SQL
@@ -106,10 +105,9 @@ $resultado = mysqli_query($conexao, $sql);
                         }
 
                         // preparar a SQL
-                        $sql = "SELECT p.id, p.statusPet, p.nome, p.especie, p.anoNascimento, p.sexo, p.cor, c.nome as clienteNome, r.nome as racaNome 
+                        $sql = "SELECT p.id, p.statusPet, p.nome, p.especie, p.anoNascimento, p.sexo, p.cor, c.nome as clienteNome 
                         FROM pet p 
-                        INNER JOIN cliente c ON p.cliente_id = c.id
-                        INNER JOIN raca r ON p.raca_id = r.id";
+                        INNER JOIN cliente c ON p.cliente_id = c.id";
 
                         if (!empty($filtro_cliente_id)) {
                             $sql .= " WHERE cliente_id = '$filtro_cliente_id'";
@@ -133,7 +131,6 @@ $resultado = mysqli_query($conexao, $sql);
                             <th>Proprietário do Pet</th>
                             <th>Ano Nascimento</th>
                             <th>Sexo</th>
-                            <th>Raça</th>
                             <th>Espécie</th>
                             <th>Cor</th>
                             <th>Ação</th>
@@ -143,13 +140,12 @@ $resultado = mysqli_query($conexao, $sql);
 
                             // Verifique se os índices existem antes de acessá-los
                             $clienteNome = isset($row["clienteNome"]) ? $row["clienteNome"] : "";
-                            $racaNome = isset($row["racaNome"]) ? $row["racaNome"] : "";
 
-                            echo "<tr><td>" . $row["statusPet"] . "</td><td>" . $row["nome"] . "</td><td>" . $clienteNome . "</td><td>" . $row["anoNascimento"] . "</td><td>" . $row["sexo"] . "</td><td>" . $racaNome . "</td><td>" . $row["especie"] . "</td><td>" . $row["cor"] . "</td>";
+                            echo "<tr><td>" . $row["statusPet"] . "</td><td>" . $row["nome"] . "</td><td>" . $clienteNome . "</td><td>" . $row["anoNascimento"] . "</td><td>" . $row["sexo"] . "</td><td>" . $row["especie"] . "</td><td>" . $row["cor"] . "</td>";
                         ?>
                             <td>
-                                <a href="editarPet.php?id=<?= $row['id'] ?>" class="btn btn-warning"><i class="fa-solid fa-pen-to-square" style="color: #000000;"></i></a>
-                                <a href="listagemPet.php?id=<?= $row['id'] ?>" class="btn btn-danger" onclick="return confirm('Confirma exclusão?')"><i class="fa-solid fa-trash" style="color: #000000;"></i></a>
+                                <a href="editarAgenda.php?id=<?= $row['id'] ?>" class="btn btn-warning"><i class="fa-solid fa-pen-to-square" style="color: #000000;"></i></a>
+                                <a href="listagemAgenda.php?id=<?= $row['id'] ?>" class="btn btn-danger" onclick="return confirm('Confirma exclusão?')"><i class="fa-solid fa-trash" style="color: #000000;"></i></a>
                             </td>
                             </tr>
                         <?php

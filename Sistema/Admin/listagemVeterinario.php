@@ -150,8 +150,8 @@ if (!$resultado) {
                                     echo "<tr><td>" . $row["id"] . "</td><td>" . $row["statusVet"] . "</td><td>" . $row["nome"] . "</td><td>" . $row["telefone"] . "</td><td>" . $row["sexo"] . "</td><td>" . $row["email"] . "</td><td>" . $dataNascimentoFormatada . "</td><td>" . $row["CRMV"] . "</td><td>" . $dataAdmissaoFormatada . "</td><td>" . $dataDemissaoFormatada;
                                 ?>
                                     <td>
+                                        <a href="olharVeterinario.php?id=<?= $row['id'] ?>" class="btn btn-info"><i class="fa-solid fa-eye" style="color: #000000;"></i></a>
                                         <a href="editarVeterinario.php?id=<?= $row['id'] ?>" class="btn btn-warning"><i class="fa-solid fa-pen-to-square" style="color: #000000;"></i></a>
-                                        <a href="listagemVeterina.php?id=<?= $row['id'] ?>" class="btn btn-danger" onclick="return confirm('Confirma exclusão?')"><i class="fa-solid fa-trash" style="color: #000000;"></i></a>
                                     </td>
                                     </tr>
                                 <?php
@@ -219,9 +219,5 @@ if (!$resultado) {
 
     <!-- Template Main JS File -->
     <script src="assets/js/main.js"></script>
-
-
 </body>
-
-
 </html>
