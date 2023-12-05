@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 05/12/2023 às 03:50
+-- Tempo de geração: 05/12/2023 às 15:16
 -- Versão do servidor: 10.4.28-MariaDB
 -- Versão do PHP: 8.2.4
 
@@ -26,10 +26,10 @@ USE `tcc`;
 -- --------------------------------------------------------
 
 --
--- Estrutura para tabela `admin`
+-- Estrutura para tabela `adm`
 --
 
-CREATE TABLE `admin` (
+CREATE TABLE `adm` (
   `id` int(11) NOT NULL,
   `status` varchar(20) NOT NULL,
   `nome` varchar(200) NOT NULL,
@@ -43,10 +43,10 @@ CREATE TABLE `admin` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
--- Despejando dados para a tabela `admin`
+-- Despejando dados para a tabela `adm`
 --
 
-INSERT INTO `admin` (`id`, `status`, `nome`, `telefone`, `email`, `dataNascimento`, `dataAdmissao`, `senha`, `cpf`, `dataDemissao`) VALUES
+INSERT INTO `adm` (`id`, `status`, `nome`, `telefone`, `email`, `dataNascimento`, `dataAdmissao`, `senha`, `cpf`, `dataDemissao`) VALUES
 (1, 'Ativo', 'Admin', '', 'admin@adm.com', '2023-11-01', '2023-11-30', '1234', '', NULL);
 
 -- --------------------------------------------------------
@@ -75,7 +75,7 @@ INSERT INTO `agenda` (`id`, `statusAgenda`, `data`, `hora`, `obs`, `resultado`, 
 (1, 'Concluído', '2023-12-02', '09:30', '', 'asdas', 2, 4, 14),
 (2, 'Em Andamento', '2023-12-13', '15:30', '', NULL, 7, 1, 12),
 (3, 'Em Andamento', '2023-12-06', '16:00', '', NULL, 1, 2, 3),
-(4, 'Concluído', '2023-12-02', '09:00', '', NULL, 7, 4, 14);
+(4, 'Inconcluido', '2023-12-02', '09:00', '', NULL, 7, 4, 14);
 
 -- --------------------------------------------------------
 
@@ -144,7 +144,7 @@ INSERT INTO `cliente` (`id`, `status`, `nome`, `telefone`, `endereco`, `cidade`,
 
 CREATE TABLE `pet` (
   `id` int(11) NOT NULL,
-  `status` varchar(10) NOT NULL,
+  `statusPet` varchar(10) NOT NULL,
   `nome` varchar(100) NOT NULL,
   `especie` varchar(50) NOT NULL,
   `anoNascimento` int(11) NOT NULL,
@@ -159,14 +159,14 @@ CREATE TABLE `pet` (
 -- Despejando dados para a tabela `pet`
 --
 
-INSERT INTO `pet` (`id`, `status`, `nome`, `especie`, `anoNascimento`, `sexo`, `cor`, `obs`, `cliente_id`, `raca_id`) VALUES
-(1, '', 'Juan', '', 2019, 'Macho', 'Caramelo', '', 5, 2),
-(2, '', 'Bella', '', 2018, 'Fêmea', 'Marrom e branco', '', 2, 5),
-(3, '', 'Max', '', 2016, 'Macho', 'Preto', '', 3, 10),
-(4, '', 'Luna', '', 2019, 'Fêmea', 'Cinza e rajado', '', 4, 11),
-(5, '', 'Rocky', '', 2015, 'Macho', 'Dourado', '', 6, 14),
-(6, '', 'Sophie', '', 2020, 'Fêmea', 'Creme', '', 6, 5),
-(7, '', 'Mel', '', 2018, 'Fêmea', 'Caramelo', '', 5, 6);
+INSERT INTO `pet` (`id`, `statusPet`, `nome`, `especie`, `anoNascimento`, `sexo`, `cor`, `obs`, `cliente_id`, `raca_id`) VALUES
+(1, 'Ativo', 'Juan', 'Cachorro', 2019, 'Macho', 'Caramelo', '', 5, 2),
+(2, 'Ativo', 'Bella', 'Gato', 2018, 'Fêmea', 'Marrom e branco', '', 2, 5),
+(3, 'Ativo', 'Max', 'Cachorro', 2016, 'Macho', 'Preto', '', 3, 10),
+(4, 'Ativo', 'Luna', 'Gato', 2019, 'Fêmea', 'Cinza e rajado', '', 4, 11),
+(5, 'Ativo', 'Rocky', 'Cachorro', 2015, 'Macho', 'Dourado', '', 6, 14),
+(6, 'Ativo', 'Sophie', 'Gato', 2020, 'Fêmea', 'Creme', '', 6, 5),
+(7, 'Ativo', 'Mel', 'Gato', 2018, 'Fêmea', 'Caramelo', '', 5, 6);
 
 -- --------------------------------------------------------
 
@@ -220,7 +220,7 @@ CREATE TABLE `raca` (
 --
 
 INSERT INTO `raca` (`id`, `statusRaca`, `nome`, `descricao`, `especie`) VALUES
-(1, 'Ativo', 'Labrador Retriever', ' ', 'Roedor'),
+(1, 'Ativo', 'Labrador Retriever', ' ', 'Cachorro'),
 (2, 'Ativo', 'Pastor Alemão', ' ', 'Cachorro'),
 (3, 'Ativo', 'Golden Retriever', ' ', 'Cachorro'),
 (4, 'Ativo', 'Bulldog Inglês', ' ', 'Cachorro'),
@@ -278,7 +278,7 @@ CREATE TABLE `veterinario` (
 --
 
 INSERT INTO `veterinario` (`id`, `statusVet`, `nome`, `telefone`, `email`, `sexo`, `dataNascimento`, `dataAdmissao`, `senha`, `CRMV`, `dataDemissao`) VALUES
-(1, 'Ativo', 'Paulo', '(44) 99718-3800', 'abcde@gmail.com', 'M', '2023-11-08', '2023-09-15', '1234567', '12456-PR', '0000-00-00'),
+(1, 'Inativo', 'Paulo', '(44) 99718-3800', 'abcde@gmail.com', 'M', '2023-11-08', '2023-09-15', '1234567', '12456-PR', '2023-12-04'),
 (2, 'Ativo', 'João dos Santos', '(65) 99854-3301', 'joao.santos@email.com', 'M', '1990-07-10', '2023-09-15', 'joao123', '67890-RJ', '0000-00-00'),
 (3, 'Ativo', 'Ana Oliveira', ' (31) 5555-1234', 'ana.oliveira@email.com', 'F', '1982-09-25', '2023-09-15', 'ana123', '54321-MG', '0000-00-00'),
 (4, 'Ativo', 'Pedro Pereira', '(41) 7777-5555', 'pedro.pereira@email.com', 'M', '1978-12-05', '2023-09-15', 'pedro123', '98765-PR', NULL);
@@ -288,9 +288,9 @@ INSERT INTO `veterinario` (`id`, `statusVet`, `nome`, `telefone`, `email`, `sexo
 --
 
 --
--- Índices de tabela `admin`
+-- Índices de tabela `adm`
 --
-ALTER TABLE `admin`
+ALTER TABLE `adm`
   ADD PRIMARY KEY (`id`);
 
 --
@@ -346,9 +346,9 @@ ALTER TABLE `veterinario`
 --
 
 --
--- AUTO_INCREMENT de tabela `admin`
+-- AUTO_INCREMENT de tabela `adm`
 --
-ALTER TABLE `admin`
+ALTER TABLE `adm`
   MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
 
 --

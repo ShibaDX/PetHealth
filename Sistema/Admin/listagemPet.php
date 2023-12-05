@@ -9,6 +9,9 @@ if (isset($_GET['id'])) {
     $mensagem = "Exclusão realizada com sucesso.";
 }
 
+// Inicializar $resultado antes de verificar se há resultados
+$resultado = null;
+
 // preparar a SQL
 $sql = "SELECT p.id, p.statusPet, p.nome, p.especie, p.anoNascimento, p.sexo, p.cor, c.nome as clienteNome FROM pet p 
 INNER JOIN cliente c ON p.cliente_id = c.id
@@ -73,6 +76,39 @@ $resultado = mysqli_query($conexao, $sql);
                         <h2><i class="fa-solid fa-dog"></i> Listagem de Pets <a href="cadastroPet.php" class="btn btn-info btn-sn"><i class="fa-solid fa-plus" style="color: #ffffff;"></i> Novo Pet</a>
                             <a href="listagemRaca.php" class="btn btn-success btn-sn"><i class="fa-solid fa-paw"></i> Raças</a>
                         </h2>
+                        <form method="post">
+                            <select name="cliente_id" class="custom-select" aria-label="Large select example" onchange="this.form.submit()">
+                                <option value="">Selecione</option>
+                                <?php
+                                $sql = "select * from cliente order by nome";
+                                $resultado = mysqli_query($conexao, $sql);
+
+                                while ($linha = mysqli_fetch_array($resultado)) {
+                                    $id = $linha['id'];
+                                    $nome = $linha['nome'];
+                                    $cpf = $linha['CPF'];
+
+                                    $selecionado = ($_POST['cliente_id'] == $id) ? "selected" : "";
+
+                                    echo "<option value='{$id}' {$selecionado}>{$nome} - {$cpf}</option>";
+                                }
+                                ?>
+                            </select>
+                        </form>
+                        <?php
+                        if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['cliente_id'])) {
+                            $id_cliente = mysqli_real_escape_string($conexao, $_POST['cliente_id']);
+
+                            // Adicione a condição WHERE para filtrar os dados pela data
+                            $sql = "SELECT p.id, p.statusPet, p.nome, p.especie, p.anoNascimento, p.sexo, p.cor, c.nome as clienteNome 
+                            FROM pet p 
+                            INNER JOIN cliente c ON p.cliente_id = c.id
+                            WHERE cliente_id = '$id_cliente'
+                            ORDER BY nome";
+
+                            $resultado = mysqli_query($conexao, $sql);
+                        }
+                        ?>
                     </div>
                 </div>
                 <?php
