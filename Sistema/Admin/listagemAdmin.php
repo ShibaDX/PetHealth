@@ -4,13 +4,13 @@ require_once("verificaAutenticacao.php");
 require_once("conexao.php");
 //Exclusão
 if (isset($_GET['id'])) {
-    $sql = "delete from atendente where id = " . $_GET['id'];
+    $sql = "delete from admin where id = " . $_GET['id'];
     mysqli_query($conexao, $sql);
     $mensagem = "Exclusão realizada com sucesso.";
 }
 
 // preparar a SQL
-$sql = "select * from atendente";
+$sql = "select * from admin";
 
 // executar a SQL
 $resultado = mysqli_query($conexao, $sql);
@@ -27,7 +27,7 @@ $resultado = mysqli_query($conexao, $sql);
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Lista de Atendentes</title>
+    <title>Lista de Admins</title>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -66,7 +66,7 @@ $resultado = mysqli_query($conexao, $sql);
                     <!-- Tabela de listagem de veerinários -->
                     <div class="card mt-3 mb-3">
                         <div class="card-body">
-                            <h2><i class="fa-solid fa-user-pen"></i> Listagem de Atendentes <a href="cadastroAtendente.php" class="btn btn-success btn-sn"><i class="fa-solid fa-plus" style="color: #ffffff;"></i> Novo Atendente</a></h2>
+                            <h2><i class="fa-solid fa-user-gear"></i> Listagem de Admin <a href="cadastroAdmin.php" class="btn btn-success btn-sn"><i class="fa-solid fa-plus" style="color: #ffffff;"></i> Novo Admin</a></h2>
                             <form method="post">
                                 <div class="row mb-3 mt-4">
                                     <div class="col-3">
@@ -94,13 +94,13 @@ $resultado = mysqli_query($conexao, $sql);
 
                                     $filtro = "";
                                     if (isset($filtroStatus) && ($filtroStatus != '')) {
-                                        $filtro .= " and statusAtendente = '$filtroStatus' ";
+                                        $filtro .= " and statusAdmin = '$filtroStatus' ";
                                     }
                                     if (isset($filtroNome) && ($filtroNome != '')) {
                                         $filtro .= " and nome LIKE '%$filtroNome%' ";
                                     }
 
-                                    $sql = "SELECT * FROM atendente WHERE 1 = 1 {$filtro} ORDER BY nome";
+                                    $sql = "SELECT * FROM admin WHERE 1 = 1 {$filtro} ORDER BY nome";
                                     $resultado = mysqli_query($conexao, $sql);
                                 }
                                 ?>
@@ -130,11 +130,11 @@ $resultado = mysqli_query($conexao, $sql);
                                 $dataAdmissaoFormatada = date("d/m/Y", strtotime($linha["dataAdmissao"]));
                                 // Verifica se a dataDemissao é diferente de '0000-00-00' e não é nula antes de formatar
                                 $dataDemissaoFormatada = ($linha["dataDemissao"] && $linha["dataDemissao"] != '0000-00-00') ? date("d/m/Y", strtotime($linha["dataDemissao"])) : '';
-                                echo "<tr><td>" . $linha["id"] . "</td><td>" . $linha["statusAtendente"] . "</td><td>" . $linha["nome"] . "</td><td>" . $linha["telefone"] . "</td><td>" . $linha["sexo"] . "</td><td>" . $linha["email"] . "</td><td>" . $dataNascimentoFormatada . "</td><td>" . $linha["cpf"] . "</td><td>" . $dataAdmissaoFormatada . "</td><td>" . $dataDemissaoFormatada;
+                                echo "<tr><td>" . $linha["id"] . "</td><td>" . $linha["statusAdmin"] . "</td><td>" . $linha["nome"] . "</td><td>" . $linha["telefone"] . "</td><td>" . $linha["sexo"] . "</td><td>" . $linha["email"] . "</td><td>" . $dataNascimentoFormatada . "</td><td>" . $linha["cpf"] . "</td><td>" . $dataAdmissaoFormatada . "</td><td>" . $dataDemissaoFormatada;
                             ?>
                                 <td>
-                                    <a href="editarAtendente.php?id=<?= $linha['id'] ?>" class="btn btn-warning"><i class="fa-solid fa-pen-to-square" style="color: #000000;"></i></a>
-                                    <a href="listagemAtendente.php?id=<?= $linha['id'] ?>" class="btn btn-danger" onclick="return confirm('Confirma exclusão?')"><i class="fa-solid fa-trash" style="color: #000000;"></i></a>
+                                    <a href="editarAdmin.php?id=<?= $linha['id'] ?>" class="btn btn-warning"><i class="fa-solid fa-pen-to-square" style="color: #000000;"></i></a>
+                                    <a href="listagemAdmin.php?id=<?= $linha['id'] ?>" class="btn btn-danger" onclick="return confirm('Confirma exclusão?')"><i class="fa-solid fa-trash" style="color: #000000;"></i></a>
                                 </td>
                                 </tr>
                             <?php } ?>

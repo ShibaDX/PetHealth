@@ -13,7 +13,7 @@ require_once("conexao.php"); ?>
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Cadastro de Atendente</title>
+    <title>Cadastro de Admin</title>
 
     <!-- Custom fonts for this template-->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
@@ -47,50 +47,75 @@ require_once("conexao.php"); ?>
                     <!-- Page Heading -->
                     <!-- Cadastrar Médico Veterinário -->
                     <div class="container">
-                        <h1 class="mb-4"><i class="fa-solid fa-user-pen"></i> Cadastro de Atendente</h1>
+                        <h1 class="mb-4"><i class="fa-solid fa-user-pen"></i> Cadastro de Admin</h1>
                         <form method="post">
                             <div class="row">
                                 <div class="col-6">
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">Nome</label>
-                                        <input name="nomeAtendente" type="text" oninput="validarLetras(this)" class="form-control" value="<?= isset($_POST['nomeAtendente']) ? htmlspecialchars($_POST['nomeAtendente']) : '' ?>"><br>
+                                        <input name="nomeAdmin" type="text" class="form-control" oninput="validarLetras(this)" value="<?= isset($_POST['nomeAdmin']) ? htmlspecialchars($_POST['nomeAdmin']) : '' ?>" required><br>
                                     </div>
                                 </div>
-                                <div class="col-3">
+                                <div class="col-6">
                                     <div class="mb-1">
-                                        <label for="formGroupExampleInput" class="form-label">Telefone</label>
-                                        <input name="telefone" type="text" maxlength="15" class="form-control" value="<?= isset($_POST['telefone']) ? htmlspecialchars($_POST['telefone']) : '' ?>" onkeyup="handlePhone(event)"><br>
-                                    </div>
-                                </div>
-                                <div class="col-3">
-                                    <div class="mb-1">
-                                        <label for="formGroupExampleInput" class="form-label">Data de Nascimento</label>
-                                        <input name="dataNascimento" type="date" class="form-control" value="<?= isset($_POST['dataNascimento']) ? htmlspecialchars($_POST['dataNascimento']) : '' ?>"><br>
+                                        <label for="email" class="form-label">Email</label>
+                                        <input name="email" id="email" type="email" class="form-control" value="<?= isset($_POST['email']) ? htmlspecialchars($_POST['email']) : '' ?>" required><br>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-6">
+                                <div class="col-4">
                                     <div class="mb-1">
-                                        <label for="formGroupExampleInput" class="form-label">Email</label>
-                                        <input name="email" type="email" class="form-control" value="<?= isset($_POST['email']) ? htmlspecialchars($_POST['email']) : '' ?>"><br>
+                                        <label for="formGroupExampleInput" class="form-label">Telefone</label>
+                                        <input name="telefone" type="text" id="telefone" maxlength="15" class="form-control" value="<?= isset($_POST['telefone']) ? htmlspecialchars($_POST['telefone']) : '' ?>" onkeyup="handlePhone(event)" required><br>
                                     </div>
                                 </div>
                                 <div class="col-4">
                                     <div class="mb-1">
-                                        <label for="formGroupExampleInput" class="form-label">Senha</label>
-                                        <input name="senha" type="password" class="form-control" value="<?= isset($_POST['senha']) ? htmlspecialchars($_POST['senha']) : '' ?>"><br>
+                                        <label for="" class="form-label">Data de Nascimento</label>
+                                        <input name="dataNascimento" type="date" class="form-control" value="<?= isset($_POST['dataNascimento']) ? htmlspecialchars($_POST['dataNascimento']) : '' ?>" required><br>
                                     </div>
                                 </div>
-                                <div class="col-2">
+                                <div class="col-4">
                                     <div class="mb-1">
-                                        <label for="formGroupExampleInput" class="form-label">CPF</label>
-                                        <input name="cpf" type="text" maxlength="14" class="form-control" value="<?= isset($_POST['cpf']) ? htmlspecialchars($_POST['cpf']) : '' ?>" oninput="applyCpfMask(this)"><br>
+                                        <label for="cpf" class="form-label">CPF</label>
+                                        <input name="cpf" id="cpf" type="text" maxlength="14" class="form-control" value="<?= isset($_POST['cpf']) ? htmlspecialchars($_POST['cpf']) : '' ?>" oninput="applyCpfMask(this)" required><br>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4">
+                                    <label for="sexo" class="form-label">Sexo*</label>
+                                    <select id="sexo" name="sexo" class="form-control" required>
+                                        <?php
+                                        $opcoes = ["M" => "Masculino", "F" => "Feminino", "O" => "Outro"];
+
+                                        foreach ($opcoes as $valor => $rotulo) {
+                                            $selected = ($_POST["sexo"] == $valor) ? "selected" : "";
+                                            echo "<option value='$valor' $selected>$rotulo</option>";
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                                <div class="col-4">
+                                    <div class="mb-1">
+                                        <label for="senha" class="form-label">Senha</label>
+                                        <input name="senha" id="senha" type="password" class="form-control" value="<?= isset($_POST['senha']) ? htmlspecialchars($_POST['senha']) : '' ?>" required>
+                                        <button type="button" id="togglePass" class="botao btn btn-link">Mostrar
+                                            Senha</button>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="mb-1">
+                                        <label for="confirmarSenha" class="form-label">Confirmar Senha</label>
+                                        <input name="confirmarSenha" id="confirmarSenha" type="password" class="form-control" value="<?= isset($_POST['confirmarSenha']) ? htmlspecialchars($_POST['confirmarSenha']) : '' ?>" required>
+                                        <button type="button" id="toggleConfirmPass" class="botao btn btn-link">Mostrar
+                                            Senha</button>
                                     </div>
                                 </div>
                             </div>
                             <button name="salvar" type="submit" class="btn btn-primary"><i class="fa-solid fa-check"></i> Salvar</button>
-                            <a href="listagemVeterinario.php" class="btn btn-warning"><i class="fa-solid fa-rotate-left"></i> Voltar</a>
+                            <a href="listagemAdmin.php" class="btn btn-warning"><i class="fa-solid fa-rotate-left"></i> Voltar</a>
                     </div>
 
                     </form><br>
@@ -101,7 +126,6 @@ require_once("conexao.php"); ?>
                             input.value = input.value.replace(/[^a-zA-Z]/g, '');
                         }
                     </script>
-
 
                     <!-- Requisitar a Conexão -->
                     <?php
@@ -138,7 +162,7 @@ require_once("conexao.php"); ?>
                     if (isset($_POST['salvar'])) {
 
                         //2. Receber os dados para inserir no BD
-                        $nome = $_POST['nomeAtendente'];
+                        $nome = $_POST['nomeAdmin'];
                         $telefone = $_POST['telefone'];
                         $dataNascimento = $_POST['dataNascimento'];
                         $email = $_POST['email'];
@@ -156,7 +180,7 @@ require_once("conexao.php"); ?>
                         } else {
 
                             //3. Preparar a SQL
-                            $sql = "insert into atendente (nome, telefone, dataNascimento, email, senha, cpf, statusAtendente) values ('$nome', '$telefone', '$dataNascimento', '$email', '$senha', '$cpf', 'Ativo')";
+                            $sql = "insert into admin (nome, telefone, dataNascimento, email, senha, cpf, statusAdmin) values ('$nome', '$telefone', '$dataNascimento', '$email', '$senha', '$cpf', 'Ativo')";
 
                             //4. Executar a SQL
                             $resultado = mysqli_query($conexao, $sql);

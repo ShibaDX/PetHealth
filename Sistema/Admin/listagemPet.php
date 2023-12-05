@@ -77,24 +77,29 @@ $resultado = mysqli_query($conexao, $sql);
                             <a href="listagemRaca.php" class="btn btn-success btn-sn"><i class="fa-solid fa-paw"></i> Raças</a>
                         </h2>
                         <form method="post">
-                            <select name="cliente_id" class="custom-select" aria-label="Large select example" onchange="this.form.submit()">
-                                <option value="">Selecione</option>
-                                <?php
-                                $sql = "select * from cliente order by nome";
-                                $resultado = mysqli_query($conexao, $sql);
+                            <div class="row mb-3 mt-4">
+                                <div class="col-3">
+                                    <select name="cliente_id" class="custom-select" aria-label="Large select example" onchange="this.form.submit()">
+                                        <option value="">Selecione</option>
+                                        <?php
+                                        $sql = "select * from cliente order by nome";
+                                        $resultado = mysqli_query($conexao, $sql);
 
-                                while ($linha = mysqli_fetch_array($resultado)) {
-                                    $id = $linha['id'];
-                                    $nome = $linha['nome'];
-                                    $cpf = $linha['CPF'];
+                                        while ($linha = mysqli_fetch_array($resultado)) {
+                                            $id = $linha['id'];
+                                            $nome = $linha['nome'];
+                                            $cpf = $linha['CPF'];
 
-                                    $selecionado = ($_POST['cliente_id'] == $id) ? "selected" : "";
+                                            $selecionado = ($_POST['cliente_id'] == $id) ? "selected" : "";
 
-                                    echo "<option value='{$id}' {$selecionado}>{$nome} - {$cpf}</option>";
-                                }
-                                ?>
-                            </select>
+                                            echo "<option value='{$id}' {$selecionado}>{$nome} - {$cpf}</option>";
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                            </div>
                         </form>
+
                         <?php
                         if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['cliente_id'])) {
                             $id_cliente = mysqli_real_escape_string($conexao, $_POST['cliente_id']);

@@ -85,14 +85,14 @@ if (!$resultado) {
                                         <label for="filtroStatus">Filtrar por Status</label>
                                         <select class="custom-select" name="filtroStatus">
                                             <option value="">Todos</option>
-                                            <option value="Ativo" <?= ($_POST['filtroStatus'] == 'Ativo') ? "selected" : "" ?>>Ativos</option>
-                                            <option value="Inativo" <?= ($_POST['filtroStatus'] == 'Inativo') ? "selected" : "" ?>>Inativos</option>
+                                            <option value="Ativo" <?= (isset($_POST['filtroStatus']) && $_POST['filtroStatus'] == 'Ativo') ? "selected" : "" ?>>Ativos</option>
+                                            <option value="Inativo" <?= (isset($_POST['filtroStatus']) && $_POST['filtroStatus'] == 'Inativo') ? "selected" : "" ?>>Inativos</option>
                                         </select>
                                         <button type="submit" class="btn btn-primary mt-3">Filtrar</button>
                                     </div>
                                     <div class="col-3">
                                         <label for="filtroNome">Buscar por Nome:</label>
-                                        <input type="text" name="filtroNome" placeholder="Digite o nome" class="form-control" >
+                                        <input type="text" name="filtroNome" placeholder="Digite o nome" class="form-control" value="<?= (isset($_POST['filtroNome'])) ? $_POST['filtroNome'] : '' ?>">
                                     </div>
                                 </div>
                                 <?php
@@ -103,15 +103,15 @@ if (!$resultado) {
                                     $filtroStatus = mysqli_real_escape_string($conexao, $_POST['filtroStatus']);
                                     $filtroNome = mysqli_real_escape_string($conexao, $_POST['filtroNome']);
 
-                                    
+
                                     $filtro = "";
                                     if (isset($filtroStatus) && ($filtroStatus != '')) {
                                         $filtro .= " and statusVet = '$filtroStatus' ";
                                     }
                                     if (isset($filtroNome) && ($filtroNome != '')) {
                                         $filtro .= " and nome LIKE '%$filtroNome%' ";
-                                    } 
-                                    
+                                    }
+
                                     $sql = "SELECT * FROM veterinario WHERE 1 = 1 {$filtro} ORDER BY nome";
                                     $resultado = mysqli_query($conexao, $sql);
                                 }

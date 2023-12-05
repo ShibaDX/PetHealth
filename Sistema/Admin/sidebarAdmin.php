@@ -39,6 +39,13 @@
         </a>
     </li>
 
+    <li class="nav-item">
+        <a class="nav-link" href="listagemAdmin.php">
+            <i class="fa-solid fa-user-gear"></i>
+            <span>Admin</span>
+        </a>
+    </li>
+
     <!-- Divider -->
     <hr class="sidebar-divider">
 

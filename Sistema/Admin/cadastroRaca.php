@@ -50,7 +50,7 @@ require_once("conexao.php"); ?>
                                 <div class="col">
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">Nome</label>
-                                        <input id="nomeRaca" name="nomeRaca" type="text" class="form-control" required> <br>
+                                        <input id="nomeRaca" name="nomeRaca" type="text" class="form-control" oninput="validarLetras(this)" required> <br>
                                     </div>
                                 </div>
                                 <div class="col">
@@ -72,43 +72,50 @@ require_once("conexao.php"); ?>
                                 <a href="listagemRaca.php" class="btn btn-warning"><i class="fa-solid fa-rotate-left"></i> Voltar</a>
                             </div>
                     </div>
-                </form><br>
+                    </form><br>
 
-                <?php
-                if (isset($_POST['salvar'])) {
+                    <script>
+                        function validarLetras(input) {
+                            // Substituir qualquer caractere que não seja uma letra por vazio
+                            input.value = input.value.replace(/[^a-zA-Z]/g, '');
+                        }
+                    </script>
 
-                    //2. Receber os dados para inserir no BD
-                    $nomeRaca = $_POST['nomeRaca'];
-                    $descricao = $_POST['descricao'];
-                    $especie = $_POST['especie'];
+                    <?php
+                    if (isset($_POST['salvar'])) {
 
-                    //3. Preparar a SQL
-                    $sql = "insert into raca (statusRaca, nome, descricao, especie) values ('$nomeRaca', '$descricao', '$especie')";
+                        //2. Receber os dados para inserir no BD
+                        $nomeRaca = $_POST['nomeRaca'];
+                        $descricao = $_POST['descricao'];
+                        $especie = $_POST['especie'];
 
-                    //4. Executar a SQL
-                    mysqli_query($conexao, $sql);
+                        //3. Preparar a SQL
+                        $sql = "insert into raca (statusRaca, nome, descricao, especie) values ('$nomeRaca', '$descricao', '$especie')";
 
-                    //5. Mostrar mensagem ao usuário
-                    $mensagem = "Inserido com Sucesso";
-                }
-                ?>
-                <?php if (isset($mensagem)) { ?>
-                    <div class="alert alert-success mb-2" role="alert">
-                        <i class="fa-solid fa-check" style="color: #12972c;"></i>
-                        <?= $mensagem ?>
-                    </div>
-                <?php }
-                require_once("footer.php");
-                ?>
-                <!-- Bootstrap core JavaScript-->
-                <script src="vendor/jquery/jquery.min.js"></script>
-                <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+                        //4. Executar a SQL
+                        mysqli_query($conexao, $sql);
 
-                <!-- Core plugin JavaScript-->
-                <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+                        //5. Mostrar mensagem ao usuário
+                        $mensagem = "Inserido com Sucesso";
+                    }
+                    ?>
+                    <?php if (isset($mensagem)) { ?>
+                        <div class="alert alert-success mb-2" role="alert">
+                            <i class="fa-solid fa-check" style="color: #12972c;"></i>
+                            <?= $mensagem ?>
+                        </div>
+                    <?php }
+                    require_once("footer.php");
+                    ?>
+                    <!-- Bootstrap core JavaScript-->
+                    <script src="vendor/jquery/jquery.min.js"></script>
+                    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-                <!-- Custom scripts for all pages-->
-                <script src="js/sb-admin-2.min.js"></script>
+                    <!-- Core plugin JavaScript-->
+                    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+                    <!-- Custom scripts for all pages-->
+                    <script src="js/sb-admin-2.min.js"></script>
 
 </body>
 

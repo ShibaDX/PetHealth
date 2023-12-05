@@ -50,7 +50,7 @@ require_once("verificaAutenticacao.php"); ?>
                                 <div class="col">
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" id="nomeProcedimento" class="form-label">Nome</label>
-                                        <input name="nomeProc" type="text" id="nomeProcedimento" class="form-control" required><br>
+                                        <input name="nomeProc" type="text" id="nomeProcedimento" oninput="validarLetras(this)" class="form-control" required><br>
                                     </div>
                                 </div>
                                 <div class="col">
@@ -63,6 +63,13 @@ require_once("verificaAutenticacao.php"); ?>
                             <button name="salvar" type="submit" class="btn btn-primary"><i class="fa-solid fa-check"></i> Salvar</button>
                             <a href="listagemProcedimento.php" class="btn btn-warning"><i class="fa-solid fa-rotate-left"></i> Voltar</a>
                         </form><br>
+
+                        <script>
+                            function validarLetras(input) {
+                                // Substituir qualquer caractere que não seja uma letra por vazio
+                                input.value = input.value.replace(/[^a-zA-Z]/g, '');
+                            }
+                        </script>
 
                         <?php
                         if (isset($_POST['salvar'])) {
@@ -94,7 +101,7 @@ require_once("verificaAutenticacao.php"); ?>
                                     <i class="fa-solid <?= strpos($mensagem, 'Sucesso') !== false ? 'fa-check' : 'fa-x' ?>" style="color: <?= strpos($mensagem, 'Sucesso') !== false ? '#12972c' : '#b70b0b' ?>;"></i>
                                     <?= $mensagem ?>
                             <?php }
-                            } ?>
+                        } ?>
                                 </div>
 
                     </div>

@@ -19,9 +19,7 @@ require_once("conexao.php"); ?>
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
     <script src="js/javascript.js"></script>
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
     <script src="https://kit.fontawesome.com/0215a38eba.js" crossorigin="anonymous"></script>
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
@@ -64,17 +62,13 @@ require_once("conexao.php"); ?>
                                 <div class="col-6">
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">Nome</label>
-                                        <input name="nomeVet" type="text" class="form-control"
-                                            value="<?= isset($_POST['nomeVet']) ? htmlspecialchars($_POST['nomeVet']) : '' ?>"
-                                            required><br>
+                                        <input name="nomeVet" type="text" class="form-control" oninput="validarLetras(this)" value="<?= isset($_POST['nomeVet']) ? htmlspecialchars($_POST['nomeVet']) : '' ?>" required><br>
                                     </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="mb-1">
                                         <label for="email" class="form-label">Email</label>
-                                        <input name="email" id="email" type="email" class="form-control"
-                                            value="<?= isset($_POST['email']) ? htmlspecialchars($_POST['email']) : '' ?>"
-                                            required><br>
+                                        <input name="email" id="email" type="email" class="form-control" value="<?= isset($_POST['email']) ? htmlspecialchars($_POST['email']) : '' ?>" required><br>
                                     </div>
                                 </div>
                             </div>
@@ -82,26 +76,19 @@ require_once("conexao.php"); ?>
                                 <div class="col-4">
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">Telefone</label>
-                                        <input name="telefone" type="text" id="telefone" maxlength="15"
-                                            class="form-control"
-                                            value="<?= isset($_POST['telefone']) ? htmlspecialchars($_POST['telefone']) : '' ?>"
-                                            onkeyup="handlePhone(event)" required><br>
+                                        <input name="telefone" type="text" id="telefone" maxlength="15" class="form-control" value="<?= isset($_POST['telefone']) ? htmlspecialchars($_POST['telefone']) : '' ?>" onkeyup="handlePhone(event)" required><br>
                                     </div>
                                 </div>
                                 <div class="col-4">
                                     <div class="mb-1">
                                         <label for="" class="form-label">Data de Nascimento</label>
-                                        <input name="dataNascimento" type="date" class="form-control"
-                                            value="<?= isset($_POST['dataNascimento']) ? htmlspecialchars($_POST['dataNascimento']) : '' ?>"
-                                            required><br>
+                                        <input name="dataNascimento" type="date" class="form-control" value="<?= isset($_POST['dataNascimento']) ? htmlspecialchars($_POST['dataNascimento']) : '' ?>" required><br>
                                     </div>
                                 </div>
                                 <div class="col-4">
                                     <div class="mb-1">
                                         <label for="crmv" class="form-label">CRMV</label>
-                                        <input name="crmv" id="crmv" type="text" class="form-control"
-                                            value="<?= isset($_POST['crmv']) ? htmlspecialchars($_POST['crmv']) : '' ?>"
-                                            required><br>
+                                        <input name="crmv" id="crmv" type="text" class="form-control" value="<?= isset($_POST['crmv']) ? htmlspecialchars($_POST['crmv']) : '' ?>" required><br>
                                     </div>
                                 </div>
                             </div>
@@ -122,9 +109,7 @@ require_once("conexao.php"); ?>
                                 <div class="col-4">
                                     <div class="mb-1">
                                         <label for="senha" class="form-label">Senha</label>
-                                        <input name="senha" id="senha" type="password" class="form-control"
-                                            value="<?= isset($_POST['senha']) ? htmlspecialchars($_POST['senha']) : '' ?>"
-                                            required>
+                                        <input name="senha" id="senha" type="password" class="form-control" value="<?= isset($_POST['senha']) ? htmlspecialchars($_POST['senha']) : '' ?>" required>
                                         <button type="button" id="togglePass" class="botao btn btn-link">Mostrar
                                             Senha</button>
                                     </div>
@@ -132,21 +117,17 @@ require_once("conexao.php"); ?>
                                 <div class="col-4">
                                     <div class="mb-1">
                                         <label for="confirmarSenha" class="form-label">Confirmar Senha</label>
-                                        <input name="confirmarSenha" id="confirmarSenha" type="password"
-                                            class="form-control"
-                                            value="<?= isset($_POST['confirmarSenha']) ? htmlspecialchars($_POST['confirmarSenha']) : '' ?>"
-                                            required>
+                                        <input name="confirmarSenha" id="confirmarSenha" type="password" class="form-control" value="<?= isset($_POST['confirmarSenha']) ? htmlspecialchars($_POST['confirmarSenha']) : '' ?>" required>
                                         <button type="button" id="toggleConfirmPass" class="botao btn btn-link">Mostrar
                                             Senha</button>
                                     </div>
                                 </div>
                             </div>
-                            <button name="salvar" type="submit" class="btn btn-primary"><i
-                                    class="fa-solid fa-check"></i> Salvar</button>
-                            <a href="listagemVeterinario.php" class="btn btn-warning"><i
-                                    class="fa-solid fa-rotate-left"></i> Voltar</a>
+                            <button name="salvar" type="submit" class="btn btn-primary"><i class="fa-solid fa-check"></i> Salvar</button>
+                            <a href="listagemVeterinario.php" class="btn btn-warning"><i class="fa-solid fa-rotate-left"></i> Voltar</a>
 
                     </div>
+                    </form>
                     <br>
                     <script>
                         //Mostrar Senha
@@ -193,6 +174,11 @@ require_once("conexao.php"); ?>
                             }
 
                             return true;
+                        }
+
+                        function validarLetras(input) {
+                            // Substituir qualquer caractere que não seja uma letra por vazio
+                            input.value = input.value.replace(/[^a-zA-Z]/g, '');
                         }
                     </script>
 
@@ -258,10 +244,8 @@ require_once("conexao.php"); ?>
                     }
                     ?>
                     <?php if (isset($mensagem)) { ?>
-                        <div class="alert <?= strpos($mensagem, 'Sucesso') !== false ? 'alert-success' : 'alert-danger' ?> mb-2"
-                            role="alert">
-                            <i class="fa-solid <?= strpos($mensagem, 'Sucesso') !== false ? 'fa-check' : 'fa-x' ?>"
-                                style="color: <?= strpos($mensagem, 'Sucesso') !== false ? '#12972c' : '#b70b0b' ?>;"></i>
+                        <div class="alert <?= strpos($mensagem, 'Sucesso') !== false ? 'alert-success' : 'alert-danger' ?> mb-2" role="alert">
+                            <i class="fa-solid <?= strpos($mensagem, 'Sucesso') !== false ? 'fa-check' : 'fa-x' ?>" style="color: <?= strpos($mensagem, 'Sucesso') !== false ? '#12972c' : '#b70b0b' ?>;"></i>
                             <?= $mensagem ?>
                         </div>
                     <?php }
