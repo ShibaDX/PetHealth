@@ -2,7 +2,8 @@
 <?php
 // Obtenha o ID do veterinário logado a partir da sessão
 session_start();
-require_once("conexao.php"); ?>
+require_once("conexao.php");
+require_once("verificaAutenticacao.php"); ?>
 <!DOCTYPE html>
 <html lang="pt-br">
 

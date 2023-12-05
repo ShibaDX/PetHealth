@@ -9,8 +9,6 @@ if (isset($_GET['id'])) {
     $mensagem = "Exclusão realizada com sucesso.";
 }
 
-// Inicializar $resultado antes de verificar se há resultados
-$resultado = null;
 
 // preparar a SQL
 $sql = "SELECT p.id, p.statusPet, p.nome, p.especie, p.anoNascimento, p.sexo, p.cor, c.nome as clienteNome FROM pet p 
@@ -101,18 +99,24 @@ $resultado = mysqli_query($conexao, $sql);
                         </form>
 
                         <?php
+                        $filtro_cliente_id = "";
                         if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['cliente_id'])) {
-                            $id_cliente = mysqli_real_escape_string($conexao, $_POST['cliente_id']);
-
-                            // Adicione a condição WHERE para filtrar os dados pela data
-                            $sql = "SELECT p.id, p.statusPet, p.nome, p.especie, p.anoNascimento, p.sexo, p.cor, c.nome as clienteNome 
-                            FROM pet p 
-                            INNER JOIN cliente c ON p.cliente_id = c.id
-                            WHERE cliente_id = '$id_cliente'
-                            ORDER BY nome";
-
-                            $resultado = mysqli_query($conexao, $sql);
+                            $filtro_cliente_id = mysqli_real_escape_string($conexao, $_POST['cliente_id']);
                         }
+
+                        // preparar a SQL
+                        $sql = "SELECT p.id, p.statusPet, p.nome, p.especie, p.anoNascimento, p.sexo, p.cor, c.nome as clienteNome 
+                        FROM pet p 
+                        INNER JOIN cliente c ON p.cliente_id = c.id";
+
+                        if (!empty($filtro_cliente_id)) {
+                            $sql .= " WHERE cliente_id = '$filtro_cliente_id'";
+                        }
+
+                        $sql .= " ORDER BY nome";
+
+                        // executar a SQL
+                        $resultado = mysqli_query($conexao, $sql);
                         ?>
                     </div>
                 </div>
