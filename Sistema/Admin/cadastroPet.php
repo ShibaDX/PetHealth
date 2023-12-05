@@ -81,7 +81,15 @@ require_once("conexao.php"); ?>
                                     <div class="mb-1">
                                         <label for="raca_id" class="form-label">Raça*</label>
                                         <select id="raca_id" name="raca_id" class="form-control" required>
+                                            <?php
+                                            // Iterar sobre as raças e adicionar opções
+                                            while ($raca = mysqli_fetch_array($result)) {
+                                                $selected = ($linha["raca_id"] == $raca['id']) ? "selected" : "";
+                                                echo "<option value='{$raca['id']}' $selected>{$raca['nome']}</option>";
+                                            }
+                                            ?>
                                         </select>
+
                                     </div> <br>
                                 </div>
                                 <div class="col-4">
@@ -128,7 +136,7 @@ require_once("conexao.php"); ?>
                                 <div class="col">
                                     <div class="mb-1">
                                         <label for="obs" class="form-label">OBS</label>
-                                        <textarea id="obs" name="obs" type="text" class="form-control" value="<?= isset($_POST['obs']) ? htmlspecialchars($_POST['obs']) : '' ?>"></textarea><br>
+                                        <textarea id="obs" name="obs" type="text" class="form-control"><?= isset($_POST['obs']) ? htmlspecialchars($_POST['obs']) : '' ?></textarea><br>
                                     </div>
                                 </div>
                             </div>
@@ -144,7 +152,9 @@ require_once("conexao.php"); ?>
                         var xhr; // Declarar xhr no escopo global
 
                         // Função para atualizar dinamicamente as opções do campo de seleção de raças
-                        function atualizarRacas(especieSelecionada) {
+                        function atualizarRacas() {
+                            var especieSelecionada = document.getElementById("especie").value;
+
                             xhr = new XMLHttpRequest();
                             xhr.onreadystatechange = function() {
                                 if (xhr.readyState === 4) {
@@ -177,10 +187,11 @@ require_once("conexao.php"); ?>
                             xhr.send();
                         }
 
-
+                        // Adicione um evento onchange ao campo de seleção de espécie
+                        document.getElementById("especie").addEventListener("change", atualizarRacas);
 
                         // Chamada inicial para garantir que as raças sejam carregadas corretamente
-                        atualizarRacas(document.getElementById("especie").value);
+                        atualizarRacas();
                     </script>
 
 
@@ -203,7 +214,7 @@ require_once("conexao.php"); ?>
 
                         // Retornar como JSON
                         echo json_encode($racas);
-                    } 
+                    }
 
 
 

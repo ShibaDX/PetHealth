@@ -96,13 +96,13 @@ $linha = mysqli_fetch_array($resultado);
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">Data</label>
                                         <input name="data" type="date" class="form-control"
-                                            value="<?= $linha['data'] ?>" required><br>
+                                            value="<?= $linha['data'] ?>" disabled><br>
                                     </div>
                                 </div>
                                 <div class="col-3">
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">Hora</label>
-                                        <select name="hora" class="custom-select">
+                                        <select name="hora" class="custom-select" disabled>
                                             <option value="08:00" <?php echo ($linha['hora'] == '08:00') ? 'selected' : ''; ?>>08:00</option>
                                             <option value="08:30" <?php echo ($linha['hora'] == '08:30') ? 'selected' : ''; ?>>08:30</option>
                                             <option value="09:00" <?php echo ($linha['hora'] == '09:00') ? 'selected' : ''; ?>>09:00</option>
@@ -125,7 +125,7 @@ $linha = mysqli_fetch_array($resultado);
                                 <div class="col-6">
                                     <div class="mb-1">
                                         <label for="procedimento_id" class="form-label">Procedimento</label>
-                                        <select name="procedimento_id" class="custom-select ">
+                                        <select name="procedimento_id" class="custom-select " disabled>
                                             <?php
                                             $sql = "SELECT * FROM procedimento WHERE statusProcedimento = 'Ativo' ORDER BY nome";
                                             $resultado = mysqli_query($conexao, $sql);
@@ -148,7 +148,7 @@ $linha = mysqli_fetch_array($resultado);
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">OBS</label>
                                         <textarea name="obs" type="text" class="form-control"
-                                            value="<?= $linha['obs'] ?>"></textarea> <br>
+                                             disabled><?= $linha['obs'] ?></textarea> <br>
                                     </div>
                                 </div>
 
@@ -156,13 +156,13 @@ $linha = mysqli_fetch_array($resultado);
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">Resultado</label>
                                         <textarea name="resultado" id="campoResultado"
-                                            class="form-control"><?= $linha['resultado'] ?></textarea>
+                                            class="form-control" disabled ><?= $linha['resultado'] ?></textarea>
                                     </div>
                                 </div>
                             </div>
                             <div class="mb-1">
                                 <label for="veterinario_id" class="form-label">Veterinário</label>
-                                <select name="veterinario_id" class="custom-select ">
+                                <select name="veterinario_id" class="custom-select " disabled >
                                     <?php
                                     $sql = "select * from veterinario order by nome";
                                     $resultado = mysqli_query($conexao, $sql);

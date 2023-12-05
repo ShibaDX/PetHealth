@@ -54,54 +54,165 @@ $linha = mysqli_fetch_array($resultado);
                         <h1 class="mb-4"><i class="fa-solid fa-calendar-days"></i> Editar Pet</h1>
                         <form method="post">
                             <input type="hidden" name="id" value="<?= $linha['id'] ?>">
-                            <div class="mb-1">
-                                <label for="formGroupExampleInput" class="form-label">Nome</label>
-                                <input name="nome" type="text" class="form-control" value="<?= $linha['nome'] ?>"><br>
-                            </div>
-                            <div class="mb-1">
-                                <label for="formGroupExampleInput" class="form-label">Ano de Nascimento</label>
-                                <input name="anoNascimento" type="text" class="form-control" value="<?= $linha['anoNascimento'] ?>"><br>
-                            </div>
-                            <div class="mb-1">
-                                <label for="formGroupExampleInput" class="form-label">Sexo</label>
-                                <input name="sexo" type="text" class="form-control" value="<?= $linha['sexo'] ?>"><br>
-                            </div>
-                            <div class="mb-1">
-                                <label for="formGroupExampleInput" class="form-label">Cor</label>
-                                <input name="cor" type="text" class="form-control" value="<?= $linha['cor'] ?>"><br>
-                            </div>
-                            <div class="mb-3">
-                                <label for="cliente_id" class="form-label">Dono(a)</label>
-                                <select name="cliente_id" class="custom-select">
-                                    <option value="">-- Selecione --</option>
-                                    <?php
-                                    $sql = "select * from cliente order by nome";
-                                    $resultado = mysqli_query($conexao, $sql);
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="mb-1">
+                                        <label for="nomePet" class="form-label">Nome*</label>
+                                        <input id="nomePet" name="nomePet" oninput="validarLetras(this)" type="text" class="form-control" value="<?= $linha['nome'] ?>" required><br>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="mb-1">
+                                        <label for="especie" class="form-label">Espécie*</label>
+                                        <select id="especie" name="especie" class="form-control" onchange="atualizarRacas(this.value)" required>
+                                            <?php
+                                            $opcoes = ["Cachorro" => "Cachorro", "Gato" => "Gato", "Roedor" => "Roedor", "Ave" => "Ave"];
 
-                                    while ($linhaTU = mysqli_fetch_array($resultado)) {
-                                        $id = $linhaTU['id'];
-                                        $nome = $linhaTU['nome'];
-
-                                        $selected = ($id == $linha['cliente_id']) ? 'selected' : '';
-
-                                        echo "<option value='{$id}' {$selected}>{$nome}</option>";
-                                    } ?>
-                                </select>
-                            </div> <br>
-                            <div class="mb-1">
-                                <label for="formGroupExampleInput" class="form-label">OBS</label>
-                                <input name="obs" type="text" class="form-control" value="<?= $linha['obs'] ?>"><br>
-                                <button name="salvar" type="submit" class="btn btn-primary"><i class="fa-solid fa-check"></i> Salvar</button>
-                                <a href="listagemPet.php" class="btn btn-warning"><i class="fa-solid fa-rotate-left"></i> Voltar</a>
+                                            foreach ($opcoes as $valor => $rotulo) {
+                                                $selected = ($linha["especie"] == $valor) ? "selected" : "";
+                                                echo "<option value='$valor' $selected>$rotulo</option>";
+                                            }
+                                            ?>
+                                        </select> <br>
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <div class="mb-1">
+                                        <label for="anoNascimento" class="form-label">Ano de Nascimento*</label>
+                                        <input id="anoNascimento" name="anoNascimento" min="1900" max="<?php echo date('Y'); ?>" type="number" class="form-control" value="<?= $linha['anoNascimento'] ?>" required><br>
+                                    </div>
+                                </div>
                             </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="mb-1">
+                                        <label for="raca_id" class="form-label">Raça*</label>
+                                        <select id="raca_id" name="raca_id" class="form-control" required>
+                                            <?php
+                                            // Iterar sobre as raças e adicionar opções
+                                            while ($raca = mysqli_fetch_array($resultado)) {
+                                                $selected = ($linha["raca_id"] == $raca['id']) ? "selected" : "";
+                                                echo "<option value='{$raca['id']}' $selected>{$raca['nome']}</option>";
+                                            }
+                                            ?>
+                                        </select>
+
+                                    </div> <br>
+                                </div>
+                                <div class="col-4">
+                                    <div class="mb-1">
+                                        <label for="cor" class="form-label">Cor*</label>
+                                        <input id="cor" name="cor" type="text" pattern="[^0-9]*" class="form-control" value="<?= $linha['cor'] ?>" required><br>
+                                    </div>
+                                </div>
+                                <div class="col-2">
+                                    <div class="mb-1">
+                                        <label for="sexo" class="form-label">Sexo*</label>
+                                        <select id="sexo" name="sexo" class="form-control" required>
+                                            <?php
+                                            $opcoes = ["Macho" => "Macho", "Fêmea" => "Fêmea"];
+
+                                            foreach ($opcoes as $valor => $rotulo) {
+                                                $selected = ($linha["sexo"] == $valor) ? "selected" : "";
+                                                echo "<option value='$valor' $selected>$rotulo</option>";
+                                            }
+                                            ?>
+                                        </select> <br>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="mb-1">
+                                        <label for="cliente_id" class="form-label">Dono(a)*</label>
+                                        <select id="cliente_id" name="cliente_id" class="form-control" required>
+                                            <?php
+                                            $sql = "select * from cliente order by nome";
+                                            $resultado = mysqli_query($conexao, $sql);
+
+                                            while ($dono = mysqli_fetch_array($resultado)) {
+                                                $idDono = $dono['id'];
+                                                $nomeDono = $dono['nome'];
+
+                                                $selectedDono = ($linha["cliente_id"] == $idDono) ? "selected" : "";
+                                                echo "<option value='{$idDono}' $selectedDono>{$nomeDono}</option>";
+                                            }
+                                            ?>
+                                        </select>
+
+                                    </div> <br>
+                                </div>
+                                <div class="col">
+                                    <div class="mb-1">
+                                        <label for="obs" class="form-label">OBS</label>
+                                        <textarea id="obs" name="obs" type="text" class="form-control"><?= isset($linha['obs']) ? $linha['obs'] : '' ?></textarea><br>
+                                    </div>
+                                </div>
+                            </div>
+                            <button name="salvar" type="submit" class="btn btn-primary"><i class="fa-solid fa-check"></i> Salvar</button>
+                            <a href="listagemPet.php" class="btn btn-warning"><i class="fa-solid fa-rotate-left"></i> Voltar</a>
                     </div>
                     </form><br>
+
+                    <script>
+                        function validarLetras(input) {
+                            // Substituir qualquer caractere que não seja uma letra por vazio
+                            input.value = input.value.replace(/[^a-zA-Z\sàáâãäåçèéêëìíîïòóôõöùúûü-]/g, '');
+                        }
+
+                        var xhr; // Declarar xhr no escopo global
+
+                        // Função para atualizar dinamicamente as opções do campo de seleção de raças
+                        function atualizarRacas() {
+                            var especieSelecionada = document.getElementById("especie").value;
+
+                            xhr = new XMLHttpRequest();
+                            xhr.onreadystatechange = function() {
+                                if (xhr.readyState === 4) {
+                                    console.log(xhr.responseText); // Exibir a resposta JSON no console
+
+                                    if (xhr.status === 200) {
+                                        var racas = JSON.parse(xhr.responseText);
+
+                                        console.log(racas); // Exibir as raças no console
+
+                                        // Limpar opções existentes
+                                        var selectRaca = document.getElementById("raca_id");
+                                        selectRaca.innerHTML = "";
+
+                                        // Adicionar opções
+                                        for (var i = 0; i < racas.length; i++) {
+                                            var option = document.createElement("option");
+                                            option.value = racas[i].id; // Configurar o valor como o id da raça
+                                            option.text = racas[i].nome;
+                                            selectRaca.appendChild(option);
+                                        }
+                                    } else {
+                                        console.error("Erro na requisição AJAX:", xhr.status);
+                                    }
+                                }
+                            };
+
+                            var url = "obter_racas.php?especie=" + encodeURIComponent(especieSelecionada);
+                            xhr.open("GET", url, true);
+                            xhr.send();
+                        }
+
+                        // Adicione um evento onchange ao campo de seleção de espécie
+                        document.getElementById("especie").addEventListener("change", atualizarRacas);
+
+                        // Chamada inicial para garantir que as raças sejam carregadas corretamente
+                        atualizarRacas();
+                    </script>
+
 
                     <?php if (isset($_POST['salvar'])) {
 
                         //2. Receber os dados para inserir no BD
                         $id = $_POST['id'];
-                        $nome = $_POST['nome'];
+                        $nome = $_POST['nomePet'];
+                        $especie = $_POST['especie'];
+                        $raca_id = $_POST['raca_id'];
                         $anoNascimento = $_POST['anoNascimento'];
                         $sexo = $_POST['sexo'];
                         $cor = $_POST['cor'];
@@ -109,7 +220,7 @@ $linha = mysqli_fetch_array($resultado);
                         $cliente_id = $_POST['cliente_id'];
 
                         //3. Preparar a SQL
-                        $sql = "update pet set nome = '$nome', anoNascimento = '$anoNascimento', sexo = '$sexo', cor = '$cor', obs = '$obs', cliente_id = '$cliente_id' where id = $id";
+                        $sql = "update pet set nome = '$nome', anoNascimento = '$anoNascimento', sexo = '$sexo', cor = '$cor', obs = '$obs', cliente_id = '$cliente_id', especie = '$especie', raca_id = '$raca_id' where id = $id";
 
                         //4. Executar a SQL
                         mysqli_query($conexao, $sql);
