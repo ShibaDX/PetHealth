@@ -76,8 +76,8 @@ require_once("conexao.php"); ?>
 
                     <script>
                         function validarLetras(input) {
-                            // Substituir qualquer caractere que não seja uma letra por vazio
-                            input.value = input.value.replace(/[^a-zA-Z]/g, '');
+                            // Substituir qualquer caractere que não seja uma letra ou espaço por vazio
+                            input.value = input.value.replace(/[^a-zA-Z\sàáâãäåçèéêëìíîïòóôõöùúûü-]/g, '');
                         }
                     </script>
 
