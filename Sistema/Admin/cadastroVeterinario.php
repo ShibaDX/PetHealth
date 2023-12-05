@@ -214,7 +214,7 @@ require_once("conexao.php"); ?>
                         $crmv = $_POST['crmv'];
 
                         // Verificar se o e-mail já está cadastrado em qualquer uma das tabelas
-                        $check_query = "SELECT * FROM admin WHERE email='$email'
+                        $check_query = "SELECT * FROM adm WHERE email='$email'
                         UNION
                         SELECT * FROM veterinario WHERE email='$email'
                         UNION
@@ -241,7 +241,7 @@ require_once("conexao.php"); ?>
                             $mensagem = "Data de nascimento não pode ser no futuro";
                         } else {
                             //3. Preparar a SQL
-                            $sql = "insert into veterinario (nome, telefone, dataNascimento, email, senha, CRMV) values ('$nome', '$telefone', '$dataNascimento', '$email', '$senha', '$crmv')";
+                            $sql = "insert into veterinario (statusVet, nome, telefone, dataNascimento, email, senha, CRMV) values ('Ativo', '$nome', '$telefone', '$dataNascimento', '$email', '$senha', '$crmv')";
 
                             //4. Executar a SQL
                             $resultado = mysqli_query($conexao, $sql);

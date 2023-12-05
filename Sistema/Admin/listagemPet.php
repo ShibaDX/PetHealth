@@ -82,8 +82,10 @@ $resultado = mysqli_query($conexao, $sql);
                             <tr>
                                 <th scope="col">ID</th>
                                 <th scope="col">Nome</th>
+                                <th scope="col">Proprietário</th>
                                 <th scope="col">Ano de Nascimento</th>
                                 <th scope="col">Sexo</th>
+                                <th scope="col">Espécie</th>
                                 <th scope="col">Cor</th>
                                 <th scope="col">Obs</th>
                                 <th scope="col">Ação</th>
@@ -103,6 +105,9 @@ $resultado = mysqli_query($conexao, $sql);
                                     </td>
                                     <td>
                                         <?= $linha['sexo'] ?>
+                                    </td>
+                                    <td>
+                                        <?= $linha['especie'] ?>
                                     </td>
                                     <td>
                                         <?= $linha['cor'] ?>
