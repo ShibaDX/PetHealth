@@ -85,14 +85,14 @@ if (!$resultado) {
                                         <label for="filtroStatus">Filtrar por Status</label>
                                         <select class="custom-select" name="filtroStatus">
                                             <option value="">Todos</option>
-                                            <option value="Ativo">Ativos</option>
-                                            <option value="Inativo">Inativos</option>
+                                            <option value="Ativo" <?= ($_POST['filtroStatus'] == 'Ativo') ? "selected" : "" ?>>Ativos</option>
+                                            <option value="Inativo" <?= ($_POST['filtroStatus'] == 'Inativo') ? "selected" : "" ?>>Inativos</option>
                                         </select>
                                         <button type="submit" class="btn btn-primary mt-3">Filtrar</button>
                                     </div>
                                     <div class="col-3">
                                         <label for="filtroNome">Buscar por Nome:</label>
-                                        <input type="text" name="filtroNome" placeholder="Digite o nome" class="form-control">
+                                        <input type="text" name="filtroNome" placeholder="Digite o nome" class="form-control" >
                                     </div>
                                 </div>
                                 <?php
@@ -103,26 +103,18 @@ if (!$resultado) {
                                     $filtroStatus = mysqli_real_escape_string($conexao, $_POST['filtroStatus']);
                                     $filtroNome = mysqli_real_escape_string($conexao, $_POST['filtroNome']);
 
-                                    if ($filtroStatus === "" && $filtroNome === "") {
-                                        $sql = "SELECT * FROM veterinario
-                                    ORDER BY id";
-                                    } else if ($filtroStatus != "" && $filtroNome === "") {
-                                        // Adicione a condição WHERE para filtrar os dados pela data
-                                        $sql = "SELECT * FROM veterinario
-                                    WHERE statusVet = '$filtroStatus'
-                                    ORDER BY id";
-                                    } else if ($filtroStatus === "" && $filtroNome != "") {
-                                        $sql = "SELECT * FROM veterinario
-                                        WHERE nome LIKE '%$filtroNome%'
-                                        ORDER BY id";
+                                    
+                                    $filtro = "";
+                                    if (isset($filtroStatus) && ($filtroStatus != '')) {
+                                        $filtro .= " and statusVet = '$filtroStatus' ";
                                     }
-                                    } else if ($filtroStatus != "" && $filtroNome != "") {
-                                        $sql = "SELECT * FROM veterinario
-                                        WHERE statusVet = '$filtroStatus' AND nome LIKE '%$filtroNome%'
-                                        ORDER BY id";
-                                    }
+                                    if (isset($filtroNome) && ($filtroNome != '')) {
+                                        $filtro .= " and nome LIKE '%$filtroNome%' ";
+                                    } 
+                                    
+                                    $sql = "SELECT * FROM veterinario WHERE 1 = 1 {$filtro} ORDER BY nome";
                                     $resultado = mysqli_query($conexao, $sql);
-                                
+                                }
                                 ?>
                             </form>
                         </div>
@@ -214,6 +206,20 @@ if (!$resultado) {
 
     <!-- Custom scripts for all pages-->
     <script src="js/sb-admin-2.min.js"></script>
+
+    <!-- Vendor JS Files -->
+    <script src="assets/vendor/apexcharts/apexcharts.min.js"></script>
+    <script src="assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="assets/vendor/chart.js/chart.umd.js"></script>
+    <script src="assets/vendor/echarts/echarts.min.js"></script>
+    <script src="assets/vendor/quill/quill.min.js"></script>
+    <script src="assets/vendor/simple-datatables/simple-datatables.js"></script>
+    <script src="assets/vendor/tinymce/tinymce.min.js"></script>
+    <script src="assets/vendor/php-email-form/validate.js"></script>
+
+    <!-- Template Main JS File -->
+    <script src="assets/js/main.js"></script>
+
 
 </body>
 

@@ -31,6 +31,8 @@ $resultado = mysqli_query($conexao, $sql);
     </title>
 
     <!-- Custom fonts for this template-->
+    <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" type="text/css">
+    <script src="https://cdn.jsdelivr.net/npm/simple-datatables@latest" type="text/javascript"></script>
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
     <script src="https://kit.fontawesome.com/0215a38eba.js" crossorigin="anonymous"></script>
@@ -126,7 +128,7 @@ $resultado = mysqli_query($conexao, $sql);
                         ?>
                     </div>
                 </div>
-                <table class="table table-striped table-hover">
+                <table class="table table-striped table-hover datatable">
                     <thead>
                         <tr>
                             <th scope="col">ID</th>

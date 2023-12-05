@@ -14,6 +14,8 @@ $sql = "select * from atendente";
 
 // executar a SQL
 $resultado = mysqli_query($conexao, $sql);
+
+
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -71,8 +73,8 @@ $resultado = mysqli_query($conexao, $sql);
                                         <label for="filtroStatus">Filtrar por Status</label>
                                         <select class="custom-select" name="filtroStatus">
                                             <option value="">Todos</option>
-                                            <option value="Ativo">Ativos</option>
-                                            <option value="Inativo">Inativos</option>
+                                            <option value="Ativo" <?= ($_POST['filtroStatus'] == 'Ativo') ? "selected" : "" ?>>Ativos</option>
+                                            <option value="Inativo" <?= ($_POST['filtroStatus'] == 'Inativo') ? "selected" : "" ?>>Inativos</option>
                                         </select>
                                         <button type="submit" class="btn btn-primary mt-3">Filtrar</button>
                                     </div>
@@ -86,31 +88,21 @@ $resultado = mysqli_query($conexao, $sql);
                                 $filtroNome = "";
                                 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-                                    $filtroStatus = mysqli_real_escape_string($conexao, $_POST['filtroStatus']);
-                                    $filtroNome = mysqli_real_escape_string($conexao, $_POST['filtroNome']);
 
-                                    if ($filtroStatus === "" && $filtroNome === "") {
-                                        $sql = "SELECT * FROM atendente
-                                    ORDER BY id";
-                                    } else if ($filtroStatus != "" && $filtroNome === "") {
-                                        // Adicione a condição WHERE para filtrar os dados pela data
-                                        $sql = "SELECT * FROM atendente
-                                    WHERE statusAtendente = '$filtroStatus'
-                                    ORDER BY id";
-                                    } else if ($filtroStatus === "" && $filtroNome != "") {
-                                        $sql = "SELECT * FROM atendente
-                                        WHERE nome LIKE '%$filtroNome%'
-                                        ORDER BY id";
+
+                                    
+                                    $filtro = "";
+                                    if (isset($filtroStatus) && ($filtroStatus != '')) {
+                                        $filtro .= " and statusAtendente = '$filtroStatus' ";
                                     }
-                                    } else if ($filtroStatus != "" && $filtroNome != "") {
-                                        $sql = "SELECT * FROM atendente
-                                        WHERE statusAtendente = '$filtroStatus' AND nome LIKE '%$filtroNome%'
-                                        ORDER BY id";
-                                    }
+                                    if (isset($filtroNome) && ($filtroNome != '')) {
+                                        $filtro .= " and nome LIKE '%$filtroNome%' ";
+                                    } 
+                                    
+                                    $sql = "SELECT * FROM atendente WHERE 1 = 1 {$filtro} ORDER BY nome";
                                     $resultado = mysqli_query($conexao, $sql);
-                                
+                                }
                                 ?>
-
                             </form>
                         </div>
                     </div>
