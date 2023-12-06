@@ -62,7 +62,7 @@ $resultado = mysqli_query($conexao, $sql);
             <!-- Main Content -->
             <div id="content">
 
-                <?php require_once("topbarAdmin.php"); ?> 
+                <?php require_once("topbarAdmin.php"); ?>
 
                 <!-- Bloco de mensagem -->
                 <?php if (isset($mensagem)) { ?>
@@ -84,81 +84,136 @@ $resultado = mysqli_query($conexao, $sql);
                                     <input name="data" type="date" class="form-control" onchange="this.form.submit()" value="<?= isset($_POST['data']) ? htmlspecialchars($_POST['data']) : '' ?>">
                                 </div>
                                 <div class="col-2">
-                                    <button type="submit" class="btn btn-primary" name="data" value="<?=$data_atual?>">Hoje</button>
+                                    <button type="submit" class="btn btn-primary" name="data" value="<?= $data_atual ?>">Hoje</button>
+                                </div>
+                                <div class="col-3">
+                                    <div class="mb-1">
+                                        <select name="cliente_id" class="custom-select" aria-label="Large select example" onchange="this.form.submit()">
+                                            <option value="">Selecione</option>
+                                            <?php
+                                            $sql = "select * from cliente order by nome";
+                                            $resultado = mysqli_query($conexao, $sql);
+
+                                            while ($linha = mysqli_fetch_array($resultado)) {
+                                                $id = $linha['id'];
+                                                $nome = $linha['nome'];
+                                                $cpf = $linha['CPF'];
+
+                                                $selecionado = ($_POST['cliente_id'] == $id) ? "selected" : "";
+
+                                                echo "<option value='{$id}' {$selecionado}>{$nome} - {$cpf}</option>";
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="mb-1">
+                                        <select name="pet_id" class="custom-select" aria-label="Large select example">
+                                            <?php
+                                            $sql = "select pet.id, pet.nome
+                                              from pet 
+                                              where pet.cliente_id = {$_POST['cliente_id']}
+                                          order by pet.nome";
+                                            $resultado = mysqli_query($conexao, $sql);
+
+                                            while ($linha = mysqli_fetch_array($resultado)) {
+                                                $id = $linha['id'];
+                                                $nome = $linha['nome'];
+
+                                                $selecionado = ($_POST['pet_id'] == $id) ? "selected" : "";
+
+                                                echo "<option value='{$id}' {$selecionado}>{$nome}</option>";
+                                            }
+                                            ?>
+                                        </select>
+                                    </div>
                                 </div>
                             </div>
-                    </div>
-                    </form>
-                    <?php
-                    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-                        $dataFiltrada = mysqli_real_escape_string($conexao, $_POST['data']);
-
-                        // Adicione a condição WHERE para filtrar os dados pela data
-                        $sql = "SELECT a.id, a.data, a.hora, a.statusAgenda, p.nome as petNome, v.nome as vetNome, pr.nome as procNome, c.nome as clienteNome, pr.valor as procValor FROM agenda a 
-                                    INNER JOIN pet p ON a.pet_id = p.id
-                                    INNER JOIN veterinario v ON a.veterinario_id = v.id
-                                    INNER JOIN procedimento pr ON a.procedimento_id = pr.id
-                                    INNER JOIN cliente c ON p.cliente_id = c.id
-                                    WHERE data = '$dataFiltrada'
-                                    ORDER BY hora";
-                        $resultado = mysqli_query($conexao, $sql);
-                    }
-                    ?>
-                </div>
-
-                <?php
-                if ($resultado->num_rows > 0) {
-                    // Exibir os dados em uma tabela
-                ?>
-                    <table class="table table-striped table-hover" id="listaAgenda">
-                        <tr>
-                            <th>Data</th>
-                            <th>Hora</th>
-                            <th>Status</th>
-                            <th>Nome do Pet</th>
-                            <th>Proprietário do Pet</th>
-                            <th>Nome do Veterinário</th>
-                            <th>Procedimento</th>
-                            <th>Valor</th>
-                            <th>Ação</th>
-                        </tr>
+                        </form>
                         <?php
-                        while ($row = $resultado->fetch_assoc()) {
-                            $dataFormatada = date("d/m/Y", strtotime($row["data"]));
-                            echo "<tr><td>" . $dataFormatada . "</td><td>" . $row["hora"]. "</td><td>" . $row["statusAgenda"];
+                        // Verifica se foi feita uma requisição POST
+                        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                            $dataFiltrada = mysqli_real_escape_string($conexao, $_POST['data']);
+                            $cliente_id = isset($_POST['cliente_id']) ? mysqli_real_escape_string($conexao, $_POST['cliente_id']) : null;
+                            $pet_id = isset($_POST['pet_id']) ? mysqli_real_escape_string($conexao, $_POST['pet_id']) : null;
 
-                            // Verifique se os índices existem antes de acessá-los
-                            $petNome = isset($row["petNome"]) ? $row["petNome"] : "";
-                            $clienteNome = isset($row["clienteNome"]) ? $row["clienteNome"] : "";
-                            $vetNome = isset($row["vetNome"]) ? $row["vetNome"] : "";
-                            $procNome = isset($row["procNome"]) ? $row["procNome"] : "";
-                            $valorProcedimento = isset($row["procValor"]) ? number_format($row["procValor"], 2, ',', '.') : "";
+                            // Adiciona a condição WHERE para filtrar os dados pela data e opcionalmente por cliente_id e pet_id
+                            $sql = "SELECT a.id, a.data, a.hora, a.statusAgenda, p.nome as petNome, v.nome as vetNome, pr.nome as procNome, c.nome as clienteNome, pr.valor as procValor 
+                            FROM agenda a 
+                            INNER JOIN pet p ON a.pet_id = p.id
+                            INNER JOIN veterinario v ON a.veterinario_id = v.id
+                            INNER JOIN procedimento pr ON a.procedimento_id = pr.id
+                            INNER JOIN cliente c ON p.cliente_id = c.id
+                            WHERE a.data = '$dataFiltrada'";
 
-                            echo "</td><td>" . $petNome . "</td><td>" . $clienteNome . "</td><td>" . $vetNome . "</td><td>" . $procNome . "</td><td>R$" . $valorProcedimento . "</td>";
-                        ?>
-                            <td>
-                                <a href="olharAgenda.php?id=<?= $row['id'] ?>" class="btn btn-info"><i class="fa-solid fa-eye" style="color: #000000;"></i></a>
-                                <a href="editarAgenda.php?id=<?= $row['id'] ?>" class="btn btn-warning"><i class="fa-solid fa-pen-to-square" style="color: #000000;"></i></a>
-                            </td>
-                            </tr>
-                        <?php
+                            if ($cliente_id !== null) {
+                                $sql .= " AND c.id = '$cliente_id'";
+                            }
+
+                            if ($pet_id !== null) {
+                                $sql .= " AND p.id = '$pet_id'";
+                            }
+
+                            $sql .= " ORDER BY a.data, a.hora"; // Alterado a ordenação para data e hora
+                            $resultado = mysqli_query($conexao, $sql);
                         }
                         ?>
-                    </table>
-                    <br>
-                <?php
-                } else {
-                    echo "Nenhum resultado encontrado para a data selecionada.";
-                }
-                ?>
+                    </div>
 
+                    <?php
+                    if ($resultado->num_rows > 0) {
+                        // Exibir os dados em uma tabela
+                    ?>
+                        <table class="table table-striped table-hover" id="listaAgenda">
+                            <tr>
+                                <th>Data</th>
+                                <th>Hora</th>
+                                <th>Status</th>
+                                <th>Nome do Pet</th>
+                                <th>Proprietário do Pet</th>
+                                <th>Nome do Veterinário</th>
+                                <th>Procedimento</th>
+                                <th>Valor</th>
+                                <th>Ação</th>
+                            </tr>
+                            <?php
+                            while ($row = $resultado->fetch_assoc()) {
+                                $dataFormatada = date("d/m/Y", strtotime($row["data"]));
+                                echo "<tr><td>" . $dataFormatada . "</td><td>" . $row["hora"] . "</td><td>" . $row["statusAgenda"];
+
+                                // Verifique se os índices existem antes de acessá-los
+                                $petNome = isset($row["petNome"]) ? $row["petNome"] : "";
+                                $clienteNome = isset($row["clienteNome"]) ? $row["clienteNome"] : "";
+                                $vetNome = isset($row["vetNome"]) ? $row["vetNome"] : "";
+                                $procNome = isset($row["procNome"]) ? $row["procNome"] : "";
+                                $valorProcedimento = isset($row["procValor"]) ? number_format($row["procValor"], 2, ',', '.') : "";
+
+                                echo "</td><td>" . $petNome . "</td><td>" . $clienteNome . "</td><td>" . $vetNome . "</td><td>" . $procNome . "</td><td>R$" . $valorProcedimento . "</td>";
+                            ?>
+                                <td>
+                                    <a href="olharAgenda.php?id=<?= $row['id'] ?>" class="btn btn-info"><i class="fa-solid fa-eye" style="color: #000000;"></i></a>
+                                    <a href="editarAgenda.php?id=<?= $row['id'] ?>" class="btn btn-warning"><i class="fa-solid fa-pen-to-square" style="color: #000000;"></i></a>
+                                </td>
+                                </tr>
+                            <?php
+                            }
+                            ?>
+                        </table>
+                        <br>
+                    <?php
+                    } else {
+                        echo "Nenhum resultado encontrado.";
+                    }
+                    ?>
+
+                </div>
+
+                <!-- End of Main Content -->
             </div>
-
-            <!-- End of Main Content -->
         </div>
-    </div>
 
-    <!-- End of Content Wrapper -->
+        <!-- End of Content Wrapper -->
     </div>
 
     <!-- Scroll to Top Button-->

@@ -73,8 +73,6 @@ require_once("conexao.php"); ?>
                                         </div>
                                     </div>
                                     <div class="col">
-
-
                                         <div class="mb-1">
                                             <label for="pet_id" class="form-label">Pet</label>
                                             <select name="pet_id" class="custom-select" aria-label="Large select example">
