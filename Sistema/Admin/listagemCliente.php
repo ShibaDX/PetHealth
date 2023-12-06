@@ -77,11 +77,10 @@ $resultado = mysqli_query($conexao, $sql);
                             <th scope="col">Status</th>
                             <th scope="col">Nome</th>
                             <th scope="col">Telefone</th>
-                            <th scope="col">Endereço</th>
                             <th scope="col">Cidade</th>
                             <th scope="col">UF</th>
-                            <th scope="col">Sexo</th>
                             <th scope="col">Data de Nascimento</th>
+                            <th scope="col">Sexo</th>
                             <th scope="col">CPF</th>
                             <th scope="col">Email</th>
                             <th scope="col">Data de Cadastro</th>
@@ -107,19 +106,16 @@ $resultado = mysqli_query($conexao, $sql);
                                     <?= $linha['telefone'] ?>
                                 </td>
                                 <td>
-                                    <?= $linha['endereco'] ?>
-                                </td>
-                                <td>
                                     <?= $linha['cidade'] ?>
                                 </td>
                                 <td>
                                     <?= $linha['UF'] ?>
                                 </td>
                                 <td>
-                                    <?= $linha['sexo'] ?>
+                                    <?= $dataNascimentoFormatada ?>
                                 </td>
                                 <td>
-                                    <?= $dataNascimentoFormatada ?>
+                                    <?= $linha['sexo'] ?>
                                 </td>
                                 <td>
                                     <?= $linha['CPF'] ?>
@@ -131,8 +127,8 @@ $resultado = mysqli_query($conexao, $sql);
                                     <?= $dataCadastroFormatada ?>
                                 </td>
                                 <td>
+                                    <a href="olharCliente.php?id=<?= $linha['id'] ?>" class="btn btn-info"><i class="fa-solid fa-eye" style="color: #000000;"></i></a>
                                     <a href="editarCliente.php?id=<?= $linha['id'] ?>" class="btn btn-warning"><i class="fa-solid fa-pen-to-square" style="color: #000000;"></i></a>
-                                    <a href="listagemCliente.php?id=<?= $linha['id'] ?>" class="btn btn-danger" onclick="return confirm('Confirma exclusão?')"><i class="fa-solid fa-trash" style="color: #000000;"></i></a>
                                 </td>
                             </tr>
                         <?php } ?>

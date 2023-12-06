@@ -18,6 +18,7 @@ if (isset($_GET['id'])) {
 
 // Consulta SQL para obter as consultas marcadas para o dia atual
 $data_atual = date("Y-m-d");
+/*
 $sql = "SELECT a.id, a.data, a.hora, a.statusAgenda, p.nome as petNome, v.nome as vetNome, pr.nome as procNome, c.nome as clienteNome, pr.valor as procValor FROM agenda a 
 INNER JOIN pet p on a.pet_id= p.id
 inner JOIN veterinario v on a.veterinario_id = v.id
@@ -25,7 +26,7 @@ INNER join procedimento pr on a.procedimento_id = pr.id
 INNER JOIN cliente c ON p.cliente_id = c.id
 ORDER BY id";
 $resultado = mysqli_query($conexao, $sql);
-
+*/
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -77,7 +78,7 @@ $resultado = mysqli_query($conexao, $sql);
                         <h2>
                             <i class="fa-solid fa-calendar-days"></i> Agendamentos <a href="cadastroAgenda.php" class="btn btn-success btn-sn"><i class="fa-solid fa-calendar-days"></i> Novo Agendamento</a> <a href="listagemProcedimento.php" class="btn btn-info btn-sn"><i class="fa-solid fa-notes-medical"></i> Procedimentos</a>
                         </h2>
-                        <form method="POST">
+                        <form name="filtro" method="POST">
                             <label for="formGroupExampleInput" class="form-label">Filtrar por Data</label>
                             <div class="row">
                                 <div class="col-2">
@@ -89,75 +90,84 @@ $resultado = mysqli_query($conexao, $sql);
                                 <div class="col-3">
                                     <div class="mb-1">
                                         <select name="cliente_id" class="custom-select" aria-label="Large select example" onchange="this.form.submit()">
-                                            <option value="">Selecione</option>
+                                            <option value="" selected>Selecione</option>
                                             <?php
-                                            $sql = "select * from cliente order by nome";
-                                            $resultado = mysqli_query($conexao, $sql);
+                                            $sqlFiltro1 = "select * from cliente order by nome";
+                                            $resultadoFiltroCliente = mysqli_query($conexao, $sqlFiltro1);
 
-                                            while ($linha = mysqli_fetch_array($resultado)) {
-                                                $id = $linha['id'];
-                                                $nome = $linha['nome'];
-                                                $cpf = $linha['CPF'];
+                                            while ($linha1 = mysqli_fetch_array($resultadoFiltroCliente)) {
+                                                $idCliente = $linha1['id'];
+                                                $nome = $linha1['nome'];
+                                                $cpf = $linha1['CPF'];
 
-                                                $selecionado = ($_POST['cliente_id'] == $id) ? "selected" : "";
+                                                $selecionado = ($_POST['cliente_id'] == $idCliente) ? "selected" : "";
 
-                                                echo "<option value='{$id}' {$selecionado}>{$nome} - {$cpf}</option>";
+                                                echo "<option value='{$idCliente}' {$selecionado}>{$nome} - {$cpf}</option>";
                                             }
                                             ?>
                                         </select>
                                     </div>
                                 </div>
+                                <?php if ($_POST['cliente_id'] != '') { ?>
                                 <div class="col-3">
                                     <div class="mb-1">
-                                        <select name="pet_id" class="custom-select" aria-label="Large select example">
+                                        <select name="pet_id" class="custom-select" aria-label="Large select example" onchange="this.form.submit()">
+                                            <option value="" selected>Selecione</option>
                                             <?php
-                                            $sql = "select pet.id, pet.nome
+                                            $sqlFiltro2 = "select pet.id, pet.nome
                                               from pet 
                                               where pet.cliente_id = {$_POST['cliente_id']}
                                           order by pet.nome";
-                                            $resultado = mysqli_query($conexao, $sql);
+                                            $resultadoFiltroPet = mysqli_query($conexao, $sqlFiltro2);
 
-                                            while ($linha = mysqli_fetch_array($resultado)) {
-                                                $id = $linha['id'];
-                                                $nome = $linha['nome'];
+                                            while ($linha2 = mysqli_fetch_array($resultadoFiltroPet)) {
+                                                $idPet = $linha2['id'];
+                                                $nome = $linha2['nome'];
 
-                                                $selecionado = ($_POST['pet_id'] == $id) ? "selected" : "";
+                                                $selecionado = ($_POST['pet_id'] == $idPet) ? "selected" : "";
 
-                                                echo "<option value='{$id}' {$selecionado}>{$nome}</option>";
+                                                echo "<option value='{$idPet}' {$selecionado}>{$nome}</option>";
                                             }
                                             ?>
                                         </select>
                                     </div>
                                 </div>
+                                <?php } ?>
                             </div>
                         </form>
                         <?php
                         // Verifica se foi feita uma requisição POST
-                        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                        //if (isset($_POST['filtro'])) {
                             $dataFiltrada = mysqli_real_escape_string($conexao, $_POST['data']);
                             $cliente_id = isset($_POST['cliente_id']) ? mysqli_real_escape_string($conexao, $_POST['cliente_id']) : null;
                             $pet_id = isset($_POST['pet_id']) ? mysqli_real_escape_string($conexao, $_POST['pet_id']) : null;
 
-                            // Adiciona a condição WHERE para filtrar os dados pela data e opcionalmente por cliente_id e pet_id
+                            // Adiciona a condição WHERE apenas se a data estiver definida
+                            $whereClause = "WHERE 1"; // Sempre verdadeiro
+
+                            if (isset($dataFiltrada) && ($dataFiltrada != '')) {
+                                $whereClause .= " AND a.data = '$dataFiltrada'";
+                            }
+
+                            if (isset($cliente_id) && ($cliente_id != '')) {
+                                $whereClause .= " AND c.id = '$cliente_id'";
+
+                                if (isset($pet_id) && ($pet_id != '')) {
+                                    $whereClause .= " AND p.id = '$pet_id'";
+                                }
+                            }
+
+
                             $sql = "SELECT a.id, a.data, a.hora, a.statusAgenda, p.nome as petNome, v.nome as vetNome, pr.nome as procNome, c.nome as clienteNome, pr.valor as procValor 
                             FROM agenda a 
-                            INNER JOIN pet p ON a.pet_id = p.id
-                            INNER JOIN veterinario v ON a.veterinario_id = v.id
-                            INNER JOIN procedimento pr ON a.procedimento_id = pr.id
-                            INNER JOIN cliente c ON p.cliente_id = c.id
-                            WHERE a.data = '$dataFiltrada'";
-
-                            if ($cliente_id !== null) {
-                                $sql .= " AND c.id = '$cliente_id'";
-                            }
-
-                            if ($pet_id !== null) {
-                                $sql .= " AND p.id = '$pet_id'";
-                            }
-
-                            $sql .= " ORDER BY a.data, a.hora"; // Alterado a ordenação para data e hora
+                            LEFT JOIN pet p ON a.pet_id = p.id
+                            LEFT JOIN veterinario v ON a.veterinario_id = v.id
+                            LEFT JOIN procedimento pr ON a.procedimento_id = pr.id
+                            LEFT JOIN cliente c ON p.cliente_id = c.id
+                            $whereClause
+                            ORDER BY a.data, a.hora"; // Alterado a ordenação para data e hora
                             $resultado = mysqli_query($conexao, $sql);
-                        }
+                        //}
                         ?>
                     </div>
 

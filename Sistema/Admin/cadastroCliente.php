@@ -65,7 +65,7 @@ date_default_timezone_set('America/Sao_Paulo');
                         <div class="row">
                             <div class="col-2">
                                 <div class="mb-1">
-                                    <label for="cep" class="active" class="form-label">Cep*</label>
+                                    <label for="cep" class="active" class="form-label">CEP*</label>
                                     <input type="tel" placeholder="Informe o Cep" class="form-control" id="cep" name="cep" autofocus>
                                 </div>
                             </div>
@@ -85,7 +85,6 @@ date_default_timezone_set('America/Sao_Paulo');
                                 <div class="mb-1">
                                     <label for="bairro" class="active" class="form-label">Bairro*</label>
                                     <input type="text" placeholder="Informe o Bairro" class="form-control" name="bairro" id="bairro" required>
-
                                 </div>
                             </div>
                         </div>

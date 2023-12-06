@@ -64,13 +64,13 @@ $linha = mysqli_fetch_array($resultado);
                                 <div class="col-8">
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">Nome</label>
-                                        <input name="nome" type="text" class="form-control"
+                                        <input disabled name="nome" type="text" class="form-control"
                                             value="<?= $linha['nome'] ?>"><br>
                                     </div>
                                 </div>
                                 <div class="col-4">
                                     <label for="sexo" class="form-label">Sexo</label>
-                                    <select id="sexo" name="sexo" class="form-control">
+                                    <select disabled id="sexo" name="sexo" class="form-control">
                                         <option value="M" <?php echo ($linha['sexo'] == 'M') ? 'selected' : ''; ?>>
                                             Masculino
                                         </option>
@@ -86,7 +86,7 @@ $linha = mysqli_fetch_array($resultado);
                                 <div class="col-12">
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">Email</label>
-                                        <input name="email" type="email" class="form-control"
+                                        <input disabled name="email" type="email" class="form-control"
                                             value="<?= $linha['email'] ?>"><br>
                                     </div>
                                 </div>
@@ -95,14 +95,14 @@ $linha = mysqli_fetch_array($resultado);
                                 <div class="col-6">
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">Telefone</label>
-                                        <input name="telefone" type="text" maxlength="15" class="form-control"
+                                        <input disabled name="telefone" type="text" maxlength="15" class="form-control"
                                             onkeyup="handlePhone(event)" value="<?= $linha['telefone'] ?>"><br>
                                     </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">Data de Nascimento</label>
-                                        <input name="dataNascimento" type="date" class="form-control"
+                                        <input disabled name="dataNascimento" type="date" class="form-control"
                                             value="<?= $linha['dataNascimento'] ?>"><br>
                                     </div>
                                 </div>
@@ -113,7 +113,7 @@ $linha = mysqli_fetch_array($resultado);
                                         <div class="mb-1">
                                             <label for="formGroupExampleInput" class="form-label">Data de
                                                 Demissão</label>
-                                            <input name="dataDemissao" id="dataDemissao" type="date"
+                                            <input disabled name="dataDemissao" id="dataDemissao" type="date"
                                                 class="form-control" value="<?= $linha['dataDemissao'] ?>">
                                         </div>
                                     </div>
@@ -121,7 +121,7 @@ $linha = mysqli_fetch_array($resultado);
                                 <div class="col-6">
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">CPF</label>
-                                        <input name="cpf" type="text" class="form-control" maxlength="15"
+                                        <input disabled name="cpf" type="text" class="form-control" maxlength="15"
                                             value="<?= $linha['cpf'] ?>" oninput="applyCpfMask(this)"><br>
                                     </div>
                                 </div>

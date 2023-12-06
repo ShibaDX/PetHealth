@@ -148,8 +148,8 @@ $resultado = mysqli_query($conexao, $sql);
                             echo "<tr><td>" . $row["statusPet"] . "</td><td>" . $row["nome"] . "</td><td>" . $clienteNome . "</td><td>" . $row["anoNascimento"] . "</td><td>" . $row["sexo"] . "</td><td>" . $racaNome . "</td><td>" . $row["especie"] . "</td><td>" . $row["cor"] . "</td>";
                         ?>
                             <td>
+                                <a href="olharPet.php?id=<?= $row['id'] ?>" class="btn btn-info"><i class="fa-solid fa-eye" style="color: #000000;"></i></a>
                                 <a href="editarPet.php?id=<?= $row['id'] ?>" class="btn btn-warning"><i class="fa-solid fa-pen-to-square" style="color: #000000;"></i></a>
-                                <a href="listagemPet.php?id=<?= $row['id'] ?>" class="btn btn-danger" onclick="return confirm('Confirma exclusão?')"><i class="fa-solid fa-trash" style="color: #000000;"></i></a>
                             </td>
                             </tr>
                         <?php

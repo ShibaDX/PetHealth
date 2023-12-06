@@ -3,7 +3,7 @@
 require_once("verificaAutenticacao.php");
 require_once("conexao.php");
 //Busca o usuário selecionado pelo usuarioListar.php
-$sql = "select * from agenda where id = ".$_GET['id'];
+$sql = "select * from agenda where id = " . $_GET['id'];
 $resultado = mysqli_query($conexao, $sql);
 $linha = mysqli_fetch_array($resultado);
 ?>
@@ -22,9 +22,7 @@ $linha = mysqli_fetch_array($resultado);
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
     <script src="https://kit.fontawesome.com/0215a38eba.js" crossorigin="anonymous"></script>
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
@@ -59,7 +57,7 @@ $linha = mysqli_fetch_array($resultado);
                                 <div class="col-6">
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">Cliente</label>
-                                        <select class="custom-select" aria-label="Disabled select example" disabled>
+                                        <select disabled class="custom-select" aria-label="Disabled select example" disabled>
                                             <?php
                                             $pet_id = $linha['pet_id'];
                                             $sql = "SELECT pet.*, cliente.nome AS nome_cliente 
@@ -68,7 +66,7 @@ $linha = mysqli_fetch_array($resultado);
                                             WHERE pet.id = '$pet_id'";
                                             $resultado = mysqli_query($conexao, $sql);
 
-                                            if($resultado) {
+                                            if ($resultado) {
                                                 $dados_pet = mysqli_fetch_assoc($resultado);
 
                                                 // Agora você pode acessar o nome do cliente usando $dados_pet['nome_cliente']
@@ -95,14 +93,13 @@ $linha = mysqli_fetch_array($resultado);
                                 <div class="col-3">
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">Data</label>
-                                        <input name="data" type="date" class="form-control"
-                                            value="<?= $linha['data'] ?>" disabled><br>
+                                        <input disabled name="data" type="date" class="form-control" value="<?= $linha['data'] ?>" disabled><br>
                                     </div>
                                 </div>
                                 <div class="col-3">
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">Hora</label>
-                                        <select name="hora" class="custom-select" disabled>
+                                        <select disabled name="hora" class="custom-select" disabled>
                                             <option value="08:00" <?php echo ($linha['hora'] == '08:00') ? 'selected' : ''; ?>>08:00</option>
                                             <option value="08:30" <?php echo ($linha['hora'] == '08:30') ? 'selected' : ''; ?>>08:30</option>
                                             <option value="09:00" <?php echo ($linha['hora'] == '09:00') ? 'selected' : ''; ?>>09:00</option>
@@ -125,12 +122,12 @@ $linha = mysqli_fetch_array($resultado);
                                 <div class="col-6">
                                     <div class="mb-1">
                                         <label for="procedimento_id" class="form-label">Procedimento</label>
-                                        <select name="procedimento_id" class="custom-select " disabled>
+                                        <select disabled name="procedimento_id" class="custom-select " disabled>
                                             <?php
                                             $sql = "SELECT * FROM procedimento WHERE statusProcedimento = 'Ativo' ORDER BY nome";
                                             $resultado = mysqli_query($conexao, $sql);
 
-                                            while($linhaPR = mysqli_fetch_array($resultado)) {
+                                            while ($linhaPR = mysqli_fetch_array($resultado)) {
                                                 $idPr = $linhaPR['id'];
                                                 $nome = $linhaPR['nome'];
 
@@ -146,57 +143,62 @@ $linha = mysqli_fetch_array($resultado);
                             <div class="row">
                                 <div class="col-6">
                                     <div class="mb-1">
-                                        <label for="formGroupExampleInput" class="form-label">OBS</label>
-                                        <textarea name="obs" type="text" class="form-control"
-                                             disabled><?= $linha['obs'] ?></textarea> <br>
+                                        <label disabled for="formGroupExampleInput" class="form-label">OBS</label>
+                                        <textarea name="obs" type="text" class="form-control" disabled><?= $linha['obs'] ?></textarea> <br>
                                     </div>
                                 </div>
 
                                 <div class="col-6">
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">Resultado</label>
-                                        <textarea name="resultado" id="campoResultado"
-                                            class="form-control" disabled ><?= $linha['resultado'] ?></textarea>
+                                        <textarea disabled name="resultado" id="campoResultado" class="form-control" disabled><?= $linha['resultado'] ?></textarea>
                                     </div>
                                 </div>
                             </div>
-                            <div class="mb-1">
-                                <label for="veterinario_id" class="form-label">Veterinário</label>
-                                <select name="veterinario_id" class="custom-select " disabled >
-                                    <?php
-                                    $sql = "select * from veterinario order by nome";
-                                    $resultado = mysqli_query($conexao, $sql);
+                            <div class="row">
+                                <div class="col-6">
+                                    <label for="veterinario_id" class="form-label">Veterinário</label>
+                                    <select disabled name="veterinario_id" class="custom-select " disabled>
+                                        <?php
+                                        $sql = "select * from veterinario order by nome";
+                                        $resultado = mysqli_query($conexao, $sql);
 
-                                    while($linhaVT = mysqli_fetch_array($resultado)) {
-                                        $idVet = $linhaVT['id'];
-                                        $nome = $linhaVT['nome'];
+                                        while ($linhaVT = mysqli_fetch_array($resultado)) {
+                                            $idVet = $linhaVT['id'];
+                                            $nome = $linhaVT['nome'];
 
-                                        $selecionado = ($linha['veterinario_id'] == $idVet) ? "selected" : "";
+                                            $selecionado = ($linha['veterinario_id'] == $idVet) ? "selected" : "";
 
-                                        echo "<option value='{$idVet}' {$selecionado}>{$nome}</option>";
-                                    }
-                                    ?>
-                                </select>
+                                            echo "<option value='{$idVet}' {$selecionado}>{$nome}</option>";
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                                <div class="col-6">
+                                <div class="mb-1">
+                                        <label for="formGroupExampleInput" class="form-label"> Status</label>
+                                        <textarea disabled class="form-control" disabled><?= $linha['statusAgenda'] ?></textarea>
+                                    </div>
+                                </div>
                             </div>
                     </div>
                     <br>
-                    <center><a href="listagemAgenda.php" class="btn btn-warning"><i
-                                class="fa-solid fa-rotate-left"></i>Voltar</a></center>
-                
-                </form><br>
-                <?php
-                require_once("footer.php");
-                ?>
+                    <center><a href="listagemAgenda.php" class="btn btn-warning"><i class="fa-solid fa-rotate-left"></i>Voltar</a></center>
 
-                <!-- Bootstrap core JavaScript-->
-                <script src="vendor/jquery/jquery.min.js"></script>
-                <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+                    </form><br>
+                    <?php
+                    require_once("footer.php");
+                    ?>
 
-                <!-- Core plugin JavaScript-->
-                <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+                    <!-- Bootstrap core JavaScript-->
+                    <script src="vendor/jquery/jquery.min.js"></script>
+                    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-                <!-- Custom scripts for all pages-->
-                <script src="js/sb-admin-2.min.js"></script>
+                    <!-- Core plugin JavaScript-->
+                    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+                    <!-- Custom scripts for all pages-->
+                    <script src="js/sb-admin-2.min.js"></script>
 
 </body>
 

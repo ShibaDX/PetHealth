@@ -65,12 +65,12 @@ $linha = mysqli_fetch_array($resultado);
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">Nome</label>
                                         <input name="nome" type="text" class="form-control"
-                                            value="<?= $linha['nome'] ?>" required><br>
+                                            value="<?= $linha['nome'] ?>" disabled><br>
                                     </div>
                                 </div>
                                 <div class="col-4">
                                     <label for="sexo" class="form-label">Sexo</label>
-                                    <select id="sexo" name="sexo" class="form-control">
+                                    <select id="sexo" name="sexo" class="form-control" disabled>
                                         <option value="M" <?php echo ($linha['sexo'] == 'M') ? 'selected' : ''; ?>>
                                             Masculino</option>
                                         <option value="F" <?php echo ($linha['sexo'] == 'F') ? 'selected' : ''; ?>>
@@ -85,7 +85,7 @@ $linha = mysqli_fetch_array($resultado);
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">Email</label>
                                         <input name="email" type="email" class="form-control"
-                                            value="<?= $linha['email'] ?>" required><br>
+                                            value="<?= $linha['email'] ?>" disabled><br>
                                     </div>
                                 </div>
 
@@ -93,7 +93,7 @@ $linha = mysqli_fetch_array($resultado);
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">CRMV</label>
                                         <input name="crmv" type="text" class="form-control"
-                                            value="<?= $linha['CRMV'] ?>" required><br>
+                                            value="<?= $linha['CRMV'] ?>" disabled><br>
                                     </div>
                                 </div>
                             </div>
@@ -102,13 +102,13 @@ $linha = mysqli_fetch_array($resultado);
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">Telefone</label>
                                         <input name="telefone" type="text" maxlength="15" class="form-control"
-                                            onkeyup="handlePhone(event)" value="<?= $linha['telefone'] ?>" required><br>
+                                            onkeyup="handlePhone(event)" value="<?= $linha['telefone'] ?>" disabled><br>
                                     </div>
                                 </div>
                                 <div class="col-4">
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">Data de Nascimento</label>
-                                        <input name="dataNascimento" type="date" class="form-control" value="<?= $linha['dataNascimento'] ?>" required><br>
+                                        <input name="dataNascimento" type="date" class="form-control" value="<?= $linha['dataNascimento'] ?>" disabled><br>
                                     </div>
                                 </div>
                                 <div class="col-4">
@@ -116,7 +116,7 @@ $linha = mysqli_fetch_array($resultado);
                                         <div class="mb-1">
                                             <label for="formGroupExampleInput" class="form-label">Data de
                                                 Demissão</label>
-                                            <input name="dataDemissao" id="dataDemissao" type="date"
+                                            <input disabled name="dataDemissao" id="dataDemissao" type="date"
                                                 class="form-control" value="<?= $linha['dataDemissao'] ?>">
                                         </div>
                                     </div>
