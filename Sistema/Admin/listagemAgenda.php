@@ -2,6 +2,8 @@
 <?php
 require_once("verificaAutenticacao.php");
 require_once("conexao.php");
+date_default_timezone_set('America/Sao_Paulo');
+
 //Exclusão
 if (isset($_GET['id'])) {
     $sql = "delete from agenda where id = " . $_GET['id'];

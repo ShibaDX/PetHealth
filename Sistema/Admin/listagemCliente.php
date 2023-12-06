@@ -70,7 +70,7 @@ $resultado = mysqli_query($conexao, $sql);
                         <h2><i class="fa-regular fa-user"></i> Listagem de Clientes <a href="cadastroCliente.php" class="btn btn-info btn-sn"><i class="fa-solid fa-plus" style="color: #ffffff;"></i> Novo Cliente</a></h2>
                     </div>
                 </div>
-                <table class="table table-striped table-hover">
+                <table class="table table-striped table-hover" style="overflow: scroll; max-width: 100%;">
                     <thead>
                         <tr>
                             <th scope="col">ID</th>

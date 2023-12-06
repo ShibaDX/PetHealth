@@ -7,6 +7,7 @@
             <i class="fa-solid fa-paw"></i>
         </div>
         <div class="sidebar-brand-text mx-1">Clínica Veterinária</div>
+        <!-- <div class="sidebar-brand-text mx-1 ml-2">PetHealth</div> -->
     </a>
 
     <!-- Divider -->

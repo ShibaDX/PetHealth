@@ -2,6 +2,16 @@
 <?php
 require_once("verificaAutenticacao.php");
 require_once("conexao.php");
+date_default_timezone_set('America/Sao_Paulo');
+$dataAtual = date("Y-m-d");
+
+$sql = "SELECT a.id, a.data, a.hora, a.statusAgenda, p.nome as petNome, v.nome as vetNome, pr.nome as procNome FROM agenda a 
+INNER JOIN pet p ON a.pet_id = p.id
+INNER JOIN veterinario v ON a.veterinario_id = v.id
+INNER JOIN procedimento pr ON a.procedimento_id = pr.id
+WHERE data = '$dataAtual'
+ORDER BY hora";
+$resultado = mysqli_query($conexao, $sql);
 ?>
 
 <!DOCTYPE html>
@@ -19,12 +29,32 @@ require_once("conexao.php");
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
     <script src="https://kit.fontawesome.com/0215a38eba.js" crossorigin="anonymous"></script>
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
+
+    <style>
+        /* Defina a altura e a largura desejadas para o contêiner */
+        .tabela-container {
+            overflow-x: scroll;
+            /* Adiciona rolagem horizontal se necessário */
+            overflow-y: scroll;
+            /* Adiciona rolagem vertical se necessário */
+        }
+
+        /* Defina um estilo para a tabela */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .item {
+            margin: 5px;
+            padding: 10px;
+            text-align: center;
+        }
+    </style>
 
 </head>
 
@@ -43,6 +73,65 @@ require_once("conexao.php");
 
                 <?php require_once("topbarAdmin.php"); ?>
 
+                <div class="container">
+                    <img src="img/petbanner3.png" class="img-fluid mb-3" alt="..."><br><br>
+                    <h4>Agendamentos de Hoje</h4>
+                    <div class="row">
+
+                        <div class="col-8 mt-3">
+                            <?php
+                            if ($resultado->num_rows > 0) {
+                                // Exibir os dados em uma tabela
+                            ?>
+                                <table class="table table-striped table-hover tabela-container" id="listaAgenda">
+                                    <tr>
+                                        <th>Hora</th>
+                                        <th>Status</th>
+                                        <th>Nome do Pet</th>
+                                        <th>Nome do Veterinário</th>
+                                        <th>Procedimento</th>
+                                        <th>Ação</th>
+                                    </tr>
+                                    <?php
+                                    while ($row = $resultado->fetch_assoc()) {
+                                        $dataFormatada = date("d/m/Y", strtotime($row["data"]));
+                                        echo "<tr><td>" . $row["hora"] . "</td><td>" . $row["statusAgenda"];
+
+                                        // Verifique se os índices existem antes de acessá-los
+                                        $petNome = isset($row["petNome"]) ? $row["petNome"] : "";
+                                        $vetNome = isset($row["vetNome"]) ? $row["vetNome"] : "";
+                                        $procNome = isset($row["procNome"]) ? $row["procNome"] : "";
+
+                                        echo "</td><td>" . $petNome . "</td><td>" . $vetNome . "</td><td>" . $procNome . "</td>";
+                                    ?>
+                                        <td>
+                                            <a href="olharAgenda.php?id=<?= $row['id'] ?>" class="btn btn-info"><i class="fa-solid fa-eye" style="color: #000000;"></i></a>
+                                        </td>
+                                        </tr>
+                                    <?php
+                                    }
+                                    ?>
+                                </table>
+                                <br>
+                            <?php
+                            } else {
+                                echo "Nenhum resultado encontrado para hoje.";
+                            }
+                            ?>
+                        </div>
+                        <div class="col-4">
+                            <div class="item">
+                            <a href="cadastroAgenda.php" class="btn btn-success btn-lg btn-block"><i class="fa-solid fa-calendar-days"></i> Novo Agendamento</a>
+                            </div>
+                            <div class="item" >
+                            <a href="cadastroCliente.php" type="button" class="btn btn-primary btn-lg btn-block"><i class="fa-solid fa-user"></i> Novo Cliente</a>
+                            </div>
+                            <div class="item">
+                            <a href="cadastroPet.php" type="button" class="btn btn-info btn-lg btn-block"><i class="fa-solid fa-dog"></i> Novo Pet</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
             </div>
 
