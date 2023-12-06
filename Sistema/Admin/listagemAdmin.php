@@ -134,7 +134,7 @@ $resultado = mysqli_query($conexao, $sql);
                             ?>
                                 <td>
                                     <a href="olharAdmin.php?id=<?= $linha['id'] ?>" class="btn btn-info"><i class="fa-solid fa-eye" style="color: #000000;"></i></a>
-                                    <a href="editarAdmin.php?id=<?= $linha['id'] ?>" class="btn btn-warning"><i class="fa-solid fa-pen-to-square" style="color: #000000;"></i></a>                                    
+                                    <a href="editarAdmin.php?id=<?= $linha['id'] ?>" class="btn btn-warning"><i class="fa-solid fa-pen-to-square" style="color: #000000;"></i></a>                           
                                 </tr>
                             <?php } ?>
                     </table>

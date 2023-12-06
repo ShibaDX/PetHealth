@@ -168,13 +168,38 @@ date_default_timezone_set('America/Sao_Paulo'); ?>
                         $dataNascimento = $_POST['dataNascimento'];
                         $email = $_POST['email'];
                         $senha = $_POST['senha'];
+                        $confirmarSenha = $_POST['confirmarSenha'];
                         $cpf = $_POST['cpf'];
 
                         $mensagem = ""; // Inicializa a variável $mensagem
 
-                        if (!validaCPF($cpf)) {
+                        // Verificar se o e-mail já está cadastrado em qualquer uma das tabelas
+                        $check_query = "SELECT * FROM admin WHERE email='$email'
+                                        UNION
+                                        SELECT * FROM veterinario WHERE email='$email'
+                                        UNION
+                                        SELECT * FROM atendente WHERE email='$email'";
+
+                        $check_result = $conexao->query($check_query);
+
+                        // Calcular a idade
+                        $dataAtual = new DateTime();
+                        $DN = new DateTime($dataNascimento);
+                        $idade = $dataAtual->diff($DN)->y;
+
+
+                        if ($check_result->num_rows > 0) {
+                            // E-mail já cadastrado
+                            $mensagem = "E-mail já cadastrado";
+                        } else if (!validaCPF($cpf)) {
                             // CPF inválido, mostrar mensagem de erro
                             $mensagem = "CPF inválido. Por favor, insira um CPF válido.";
+                        }
+                        // Verificar se a idade é pelo menos 18 anos
+                        else if ($idade < 18) {
+                            $mensagem = "O Admin precisa ter pelo menos 18 anos";
+                        } else if ($confirmarSenha != $senha) {
+                            $mensagem = "As senhas não coincidem, tente novamente";
                         } else if (strtotime($dataNascimento) > time()) {
                             // Data de nascimento é no futuro, mostrar mensagem de erro
                             $mensagem = "Data de nascimento não pode ser no futuro";

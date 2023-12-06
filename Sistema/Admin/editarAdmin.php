@@ -4,7 +4,7 @@ require_once("verificaAutenticacao.php");
 require_once("conexao.php");
 date_default_timezone_set('America/Sao_Paulo');
 //Busca o usuário selecionado pelo usuarioListar.php
-$sql = "select * from atendente where id = " . $_GET['id'];
+$sql = "select * from admin where id = " . $_GET['id'];
 $resultado = mysqli_query($conexao, $sql);
 $linha = mysqli_fetch_array($resultado);
 ?>
@@ -19,7 +19,7 @@ $linha = mysqli_fetch_array($resultado);
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Editar Veterinário</title>
+    <title>Editar Admin</title>
 
     <!-- Custom fonts for this template-->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
@@ -54,7 +54,7 @@ $linha = mysqli_fetch_array($resultado);
 
                     <!-- Page Heading -->
                     <div class="container">
-                        <h1 class="mb-4"><i class="fa-solid fa-calendar-days"></i> Editar Atendente</h1>
+                        <h1 class="mb-4"><i class="fa-solid fa-user-gear"></i> Editar Administrador</h1>
                         <form method="post">
                             <input type="hidden" name="id" value="<?= $linha['id'] ?>">
                             <div class="row">
@@ -150,12 +150,43 @@ $linha = mysqli_fetch_array($resultado);
                 }
 
                 function validarLetras(input) {
-                            // Substituir qualquer caractere que não seja uma letra por vazio
-                            input.value = input.value.replace(/[^a-zA-Z\sàáâãäåçèéêëìíîïòóôõöùúûü-]/g, '');
-                        }
+                    // Substituir qualquer caractere que não seja uma letra por vazio
+                    input.value = input.value.replace(/[^a-zA-Z\sàáâãäåçèéêëìíîïòóôõöùúûü-]/g, '');
+                }
             </script>
 
             <?php
+
+            function validaCPF($cpf)
+            {
+
+                // Extrai somente os números
+                $cpf = preg_replace('/[^0-9]/is', '', $cpf);
+
+                // Verifica se foi informado todos os digitos corretamente
+                if (strlen($cpf) != 11) {
+                    return false;
+                }
+
+                // Verifica se foi informada uma sequência de digitos repetidos. Ex: 111.111.111-11
+                if (preg_match('/(\d)\1{10}/', $cpf)) {
+                    return false;
+                }
+
+                // Faz o calculo para validar o CPF
+                for ($t = 9; $t < 11; $t++) {
+                    for ($d = 0, $c = 0; $c < $t; $c++) {
+                        $d += $cpf[$c] * (($t + 1) - $c);
+                    }
+                    $d = ((10 * $d) % 11) % 10;
+                    if ($cpf[$c] != $d) {
+                        return false;
+                    }
+                }
+                return true;
+            }
+
+
             if (isset($_POST['salvar'])) {
 
                 //2. Receber os dados para inserir no BD
@@ -169,20 +200,56 @@ $linha = mysqli_fetch_array($resultado);
                 $sexo = $_POST['sexo'];
                 $dataDemissao = isset($_POST['limparDataDemissao']) && $_POST['limparDataDemissao'] == 1 ? null : $_POST['dataDemissao'];
 
-                // Verificar se a data de demissão foi fornecida
-                if (!empty($dataDemissao) || $dataDemissao != null) {
+                // Verificar se o e-mail já está cadastrado em qualquer uma das tabelas
+                $check_query = "SELECT * FROM admin WHERE email='$email'
+                                        UNION
+                                        SELECT * FROM veterinario WHERE email='$email'
+                                        UNION
+                                        SELECT * FROM atendente WHERE email='$email'";
 
-                    // Atualizar o registro do veterinário no banco de dados
-                    $sql = "UPDATE admin SET nome = '$nome', telefone = '$telefone', sexo = '$sexo', dataNascimento = '$dataNascimento', email = '$email', senha = '$senha' , statusAdmin = 'Inativo', cpf = '$cpf', dataDemissao = '$dataDemissao' WHERE id = $id";
-                } else {
-                    //3. Preparar a SQL
-                    $sql = "UPDATE admin SET nome = '$nome', telefone = '$telefone', sexo = '$sexo', dataNascimento = '$dataNascimento', email = '$email', senha = '$senha' , statusAdmin = 'Ativo', cpf = '$cpf', dataDemissao = '$dataDemissao' WHERE id = $id";
+                $check_result = $conexao->query($check_query);
+
+                // Calcular a idade
+                $dataAtual = new DateTime();
+                $DN = new DateTime($dataNascimento);
+                $idade = $dataAtual->diff($DN)->y;
+
+                if ($check_result->num_rows > 0) {
+                    // E-mail já cadastrado
+                    $mensagem = "E-mail já cadastrado";
                 }
-                //4. Executar a SQL
-                mysqli_query($conexao, $sql);
+                else if (!validaCPF($cpf)) {
+                    // CPF inválido, mostrar mensagem de erro
+                    $mensagem = "CPF inválido. Por favor, insira um CPF válido.";
+                }
+                // Verificar se a idade é pelo menos 18 anos
+                else if ($idade < 18) {
+                    $mensagem = "O Admin precisa ter pelo menos 18 anos";
+                } 
+                else if ($confirmarSenha != $senha) {
+                    $mensagem = "As senhas não coincidem, tente novamente";
+                } 
+                else if (strtotime($dataNascimento) > time()) {
+                    // Data de nascimento é no futuro, mostrar mensagem de erro
+                    $mensagem = "Data de nascimento não pode ser no futuro";
+                } 
+                else {
 
-                //5. Mostrar mensagem ao usuário
-                $mensagem = "Alterado com sucesso";
+                    // Verificar se a data de demissão foi fornecida
+                    if (!empty($dataDemissao) || $dataDemissao != null) {
+
+                        // Atualizar o registro do veterinário no banco de dados
+                        $sql = "UPDATE admin SET nome = '$nome', telefone = '$telefone', sexo = '$sexo', dataNascimento = '$dataNascimento', email = '$email', senha = '$senha' , statusAdmin = 'Inativo', cpf = '$cpf', dataDemissao = '$dataDemissao' WHERE id = $id";
+                    } else {
+                        //3. Preparar a SQL
+                        $sql = "UPDATE admin SET nome = '$nome', telefone = '$telefone', sexo = '$sexo', dataNascimento = '$dataNascimento', email = '$email', senha = '$senha' , statusAdmin = 'Ativo', cpf = '$cpf', dataDemissao = '$dataDemissao' WHERE id = $id";
+                    }
+                    //4. Executar a SQL
+                    mysqli_query($conexao, $sql);
+
+                    //5. Mostrar mensagem ao usuário
+                    $mensagem = "Alterado com sucesso";
+                }
             }
             ?>
 
