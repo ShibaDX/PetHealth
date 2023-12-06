@@ -10,23 +10,11 @@ if (isset($_GET['id'])) {
     mysqli_query($conexao, $sql);
     $mensagem = "Exclusão realizada com sucesso.";
 }
-
-// Preparar a SQL
-//$sql = "select * from agenda";
-
-
+$sql = "SELECT * FROM agenda";
+$resultado = mysqli_query($conexao, $sql);
 
 // Consulta SQL para obter as consultas marcadas para o dia atual
 $data_atual = date("Y-m-d");
-/*
-$sql = "SELECT a.id, a.data, a.hora, a.statusAgenda, p.nome as petNome, v.nome as vetNome, pr.nome as procNome, c.nome as clienteNome, pr.valor as procValor FROM agenda a 
-INNER JOIN pet p on a.pet_id= p.id
-inner JOIN veterinario v on a.veterinario_id = v.id
-INNER join procedimento pr on a.procedimento_id = pr.id
-INNER JOIN cliente c ON p.cliente_id = c.id
-ORDER BY id";
-$resultado = mysqli_query($conexao, $sql);
-*/
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -92,10 +80,10 @@ $resultado = mysqli_query($conexao, $sql);
                                         <select name="cliente_id" class="custom-select" aria-label="Large select example" onchange="this.form.submit()">
                                             <option value="" selected>Selecione</option>
                                             <?php
-                                            $sqlFiltro1 = "select * from cliente order by nome";
-                                            $resultadoFiltroCliente = mysqli_query($conexao, $sqlFiltro1);
+                                            $sql = "select * from cliente order by nome";
+                                            $resultado = mysqli_query($conexao, $sql);
 
-                                            while ($linha1 = mysqli_fetch_array($resultadoFiltroCliente)) {
+                                            while ($linha1 = mysqli_fetch_array($resultado)) {
                                                 $idCliente = $linha1['id'];
                                                 $nome = $linha1['nome'];
                                                 $cpf = $linha1['CPF'];
@@ -114,15 +102,15 @@ $resultado = mysqli_query($conexao, $sql);
                                         <select name="pet_id" class="custom-select" aria-label="Large select example" onchange="this.form.submit()">
                                             <option value="" selected>Selecione</option>
                                             <?php
-                                            $sqlFiltro2 = "select pet.id, pet.nome
+                                            $sql = "select pet.id, pet.nome
                                               from pet 
                                               where pet.cliente_id = {$_POST['cliente_id']}
                                           order by pet.nome";
-                                            $resultadoFiltroPet = mysqli_query($conexao, $sqlFiltro2);
+                                            $resultado = mysqli_query($conexao, $sql);
 
-                                            while ($linha2 = mysqli_fetch_array($resultadoFiltroPet)) {
-                                                $idPet = $linha2['id'];
-                                                $nome = $linha2['nome'];
+                                            while ($linha = mysqli_fetch_array($resultado)) {
+                                                $idPet = $linha['id'];
+                                                $nome = $linha['nome'];
 
                                                 $selecionado = ($_POST['pet_id'] == $idPet) ? "selected" : "";
 
@@ -138,7 +126,12 @@ $resultado = mysqli_query($conexao, $sql);
                         <?php
                         // Verifica se foi feita uma requisição POST
                         //if (isset($_POST['filtro'])) {
-                            $dataFiltrada = mysqli_real_escape_string($conexao, $_POST['data']);
+                            if (isset($_POST['data'])) {
+                                $dataFiltrada = mysqli_real_escape_string($conexao, $_POST['data']);
+                            } else {
+                                $dataFiltrada =  $data_atual;
+                            }
+
                             $cliente_id = isset($_POST['cliente_id']) ? mysqli_real_escape_string($conexao, $_POST['cliente_id']) : null;
                             $pet_id = isset($_POST['pet_id']) ? mysqli_real_escape_string($conexao, $_POST['pet_id']) : null;
 
@@ -147,15 +140,15 @@ $resultado = mysqli_query($conexao, $sql);
 
                             if (isset($dataFiltrada) && ($dataFiltrada != '')) {
                                 $whereClause .= " AND a.data = '$dataFiltrada'";
-                            }
+                            } 
 
-                            if (isset($cliente_id) && ($cliente_id != '')) {
+                            else if (isset($cliente_id) && ($cliente_id != '')) {
                                 $whereClause .= " AND c.id = '$cliente_id'";
 
                                 if (isset($pet_id) && ($pet_id != '')) {
                                     $whereClause .= " AND p.id = '$pet_id'";
                                 }
-                            }
+                            } 
 
 
                             $sql = "SELECT a.id, a.data, a.hora, a.statusAgenda, p.nome as petNome, v.nome as vetNome, pr.nome as procNome, c.nome as clienteNome, pr.valor as procValor 

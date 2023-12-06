@@ -204,7 +204,7 @@ require_once("conexao.php"); ?>
                             $mensagem = "Desculpe, o horário não está disponível. Por favor, escolha outro horário.";
                         } else {
                             //3. Preparar a SQL
-                            $sql = "insert into agenda (data, hora, obs, pet_id, procedimento_id, veterinario_id) values ('$data', '$hora', '$obs', '$pet_id', '$procedimento_id', '$veterinario_id')";
+                            $sql = "insert into agenda (statusAgenda, data, hora, obs, pet_id, procedimento_id, veterinario_id) values ('Em andamento', '$data', '$hora', '$obs', '$pet_id', '$procedimento_id', '$veterinario_id')";
 
                             //4. Executar a SQL
                             mysqli_query($conexao, $sql);
