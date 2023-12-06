@@ -1,6 +1,6 @@
 <!-- Requisita a verificação de autenticação -->
 <?php require_once("verificaAutenticacao.php");
-require_once("conexao.php"); 
+require_once("conexao.php");
 date_default_timezone_set('America/Sao_Paulo'); ?>
 
 <!DOCTYPE html>
@@ -50,150 +50,246 @@ date_default_timezone_set('America/Sao_Paulo'); ?>
                     <div class="container">
                         <h1 class="mb-4"><i class="fa-solid fa-user-pen"></i> Cadastro de Atendente</h1>
                         <form method="post">
+                            <input type="hidden" name="id" value="<?= $linha['id'] ?>">
                             <div class="row">
                                 <div class="col-6">
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">Nome</label>
-                                        <input name="nomeAtendente" type="text" oninput="validarLetras(this)" class="form-control" value="<?= isset($_POST['nomeAtendente']) ? htmlspecialchars($_POST['nomeAtendente']) : '' ?>"><br>
+                                        <input name="nomeAtendente" type="text" oninput="validarLetras(this)" class="form-control" oninput="validarLetras(this)" value="<?= isset($_POST['nomeAtendente']) ? htmlspecialchars($_POST['nomeAtendente']) : '' ?>"><br>
                                     </div>
                                 </div>
-                                <div class="col-3">
-                                    <div class="mb-1">
-                                        <label for="formGroupExampleInput" class="form-label">Telefone</label>
-                                        <input name="telefone" type="text" maxlength="15" class="form-control" value="<?= isset($_POST['telefone']) ? htmlspecialchars($_POST['telefone']) : '' ?>" onkeyup="handlePhone(event)"><br>
-                                    </div>
-                                </div>
-                                <div class="col-3">
-                                    <div class="mb-1">
-                                        <label for="formGroupExampleInput" class="form-label">Data de Nascimento</label>
-                                        <input name="dataNascimento" type="date" class="form-control" value="<?= isset($_POST['dataNascimento']) ? htmlspecialchars($_POST['dataNascimento']) : '' ?>"><br>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
                                 <div class="col-6">
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">Email</label>
                                         <input name="email" type="email" class="form-control" value="<?= isset($_POST['email']) ? htmlspecialchars($_POST['email']) : '' ?>"><br>
                                     </div>
                                 </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4">
+                                    <div class="mb-1">
+                                        <label for="formGroupExampleInput" class="form-label">Telefone</label>
+                                        <input name="telefone" type="text" maxlength="15" id="telefone" class="form-control" onkeyup="handlePhone(event)" value="<?= isset($_POST['telefone']) ? htmlspecialchars($_POST['telefone']) : '' ?>"><br>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="mb-1">
+                                        <label for="formGroupExampleInput" class="form-label">Data de Nascimento</label>
+                                        <input name="dataNascimento" type="date" class="form-control" value="<?= isset($_POST['dataNascimento']) ? htmlspecialchars($_POST['dataNascimento']) : '' ?>"><br>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="mb-1">
+                                        <label for="formGroupExampleInput" class="form-label">CPF</label>
+                                        <input name="cpf" type="text" class="form-control" maxlength="15" value="<?= isset($_POST['cpf']) ? htmlspecialchars($_POST['cpf']) : '' ?>" oninput="applyCpfMask(this)"><br>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4">
+                                    <label for="sexo" class="form-label">Sexo</label>
+                                    <select id="sexo" name="sexo" class="form-control">
+                                        <?php
+                                        $opcoes = ["M" => "Masculino", "F" => "Feminino", "O" => "Outro"];
+
+                                        foreach ($opcoes as $valor => $rotulo) {
+                                            $selected = ($_POST["sexo"] == $valor) ? "selected" : "";
+                                            echo "<option value='$valor' $selected>$rotulo</option>";
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
                                 <div class="col-4">
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">Senha</label>
-                                        <input name="senha" type="password" class="form-control" value="<?= isset($_POST['senha']) ? htmlspecialchars($_POST['senha']) : '' ?>"><br>
+                                        <input name="senha" id="senha" type="password" class="form-control" value="<?= isset($_POST['senha']) ? htmlspecialchars($_POST['senha']) : '' ?>">
+                                        <button type="button" id="togglePass" class="botao btn btn-link">Mostrar Senha</button>
                                     </div>
                                 </div>
-                                <div class="col-2">
+                                <div class="col-4">
                                     <div class="mb-1">
-                                        <label for="formGroupExampleInput" class="form-label">CPF</label>
-                                        <input name="cpf" type="text" maxlength="14" class="form-control" value="<?= isset($_POST['cpf']) ? htmlspecialchars($_POST['cpf']) : '' ?>" oninput="applyCpfMask(this)"><br>
+                                        <label for="confirmarSenha" class="form-label">Confirmar Senha</label>
+                                        <input name="confirmarSenha" id="confirmarSenha" type="password" class="form-control" value="<?= isset($_POST['confirmarSenha']) ? htmlspecialchars($_POST['confirmarSenha']) : '' ?>" required>
+                                        <button type="button" id="toggleConfirmPass" class="botao btn btn-link">Mostrar
+                                            Senha</button>
                                     </div>
                                 </div>
                             </div>
-                            <button name="salvar" type="submit" class="btn btn-primary"><i class="fa-solid fa-check"></i> Salvar</button>
-                            <a href="listagemVeterinario.php" class="btn btn-warning"><i class="fa-solid fa-rotate-left"></i> Voltar</a>
+                            <button name="salvar" type="submit" class="btn btn-primary"><i class="fa-solid fa-check"></i>
+                                Salvar</button>
+                            <a href="listagemAtendente.php" class="btn btn-warning"><i class="fa-solid fa-rotate-left"></i>
+                                Voltar</a>
                     </div>
+                </form><br>
+            <script>
+                //Mostrar Senha
+                const senhaInput = document.querySelector("#senha");
+                const togglePassButton = document.querySelector("#togglePass");
+                togglePassButton.addEventListener('click', togglePass);
 
-                    </form><br>
+                function togglePass() {
+                    if (senhaInput.type == "password") {
+                        senhaInput.type = "text";
+                        togglePassButton.textContent = "Esconder Senha";
+                    } else {
+                        senhaInput.type = "password";
+                        togglePassButton.textContent = "Mostrar Senha";
+                    }
+                }
 
-                    <script>
-                        function validarLetras(input) {
-                            // Substituir qualquer caractere que não seja uma letra por vazio
-                            input.value = input.value.replace(/[^a-zA-Z\sàáâãäåçèéêëìíîïòóôõöùúûü-]/g, '');
-                        }
-                    </script>
+                //Mostrar Confirmar Senha
+                const confirmarSenhaInput = document.querySelector("#confirmarSenha");
+                const toggleConfirmPassButton = document.querySelector("#toggleConfirmPass");
+                toggleConfirmPassButton.addEventListener('click', toggleConfirmPass);
 
+                function toggleConfirmPass() {
+                    if (confirmarSenhaInput.type == "password") {
+                        confirmarSenhaInput.type = "text";
+                        toggleConfirmPassButton.textContent = "Esconder Senha";
+                    } else {
+                        confirmarSenhaInput.type = "password";
+                        toggleConfirmPassButton.textContent = "Mostrar Senha";
+                    }
+                }
 
-                    <!-- Requisitar a Conexão -->
-                    <?php
+                function validarTelefone() {
+                    var telefoneInput = document.getElementById("telefone");
+                    var telefone = telefoneInput.value;
 
-                    function validaCPF($cpf)
-                    {
+                    // Expressão regular para validar o formato do telefone
+                    var regex = /^\(\d{2}\) \d{4,5}-\d{4}$/;
 
-                        // Extrai somente os números
-                        $cpf = preg_replace('/[^0-9]/is', '', $cpf);
-
-                        // Verifica se foi informado todos os digitos corretamente
-                        if (strlen($cpf) != 11) {
-                            return false;
-                        }
-
-                        // Verifica se foi informada uma sequência de digitos repetidos. Ex: 111.111.111-11
-                        if (preg_match('/(\d)\1{10}/', $cpf)) {
-                            return false;
-                        }
-
-                        // Faz o calculo para validar o CPF
-                        for ($t = 9; $t < 11; $t++) {
-                            for ($d = 0, $c = 0; $c < $t; $c++) {
-                                $d += $cpf[$c] * (($t + 1) - $c);
-                            }
-                            $d = ((10 * $d) % 11) % 10;
-                            if ($cpf[$c] != $d) {
-                                return false;
-                            }
-                        }
-                        return true;
+                    if (!regex.test(telefone)) {
+                        alert("Por favor, insira um número de telefone válido no formato (11) 1234-5678 ou (11) 12345-6789.");
+                        telefoneInput.focus();
+                        return false;
                     }
 
-                    if (isset($_POST['salvar'])) {
+                    return true;
+                }
 
-                        //2. Receber os dados para inserir no BD
-                        $nome = $_POST['nomeAtendente'];
-                        $telefone = $_POST['telefone'];
-                        $dataNascimento = $_POST['dataNascimento'];
-                        $email = $_POST['email'];
-                        $senha = $_POST['senha'];
-                        $cpf = $_POST['cpf'];
+                function validarLetras(input) {
+                    // Substituir qualquer caractere que não seja uma letra por vazio
+                    input.value = input.value.replace(/[^a-zA-Z\sàáâãäåçèéêëìíîïòóôõöùúûü-]/g, '');
+                }
+            </script>
 
-                        $mensagem = ""; // Inicializa a variável $mensagem
 
-                        if (!validaCPF($cpf)) {
-                            // CPF inválido, mostrar mensagem de erro
-                            $mensagem = "CPF inválido. Por favor, insira um CPF válido.";
-                        } else if (strtotime($dataNascimento) > time()) {
-                            // Data de nascimento é no futuro, mostrar mensagem de erro
-                            $mensagem = "Data de nascimento não pode ser no futuro";
-                        } else {
+            <!-- Requisitar a Conexão -->
+            <?php
 
-                            //3. Preparar a SQL
-                            $sql = "insert into atendente (nome, telefone, dataNascimento, email, senha, cpf, statusAtendente) values ('$nome', '$telefone', '$dataNascimento', '$email', '$senha', '$cpf', 'Ativo')";
+            function validaCPF($cpf)
+            {
 
-                            //4. Executar a SQL
-                            $resultado = mysqli_query($conexao, $sql);
+                // Extrai somente os números
+                $cpf = preg_replace('/[^0-9]/is', '', $cpf);
 
-                            //5. Verificar o resultado da inserção
-                            if ($resultado) {
-                                // Inserção bem-sucedida
-                                $mensagem = "Inserido com Sucesso";
-                            } else {
-                                // Erro na inserção
-                                $mensagem = "Erro ao inserir no banco de dados: " . mysqli_error($conexao);
-                            }
-                        }
+                // Verifica se foi informado todos os digitos corretamente
+                if (strlen($cpf) != 11) {
+                    return false;
+                }
 
-                    ?>
-                        <?php
-                        // Exibir a mensagem
-                        if ($mensagem) { ?>
-                            <div class="alert <?= strpos($mensagem, 'Sucesso') !== false ? 'alert-success' : 'alert-danger' ?> mb-2" role="alert">
-                                <i class="fa-solid <?= strpos($mensagem, 'Sucesso') !== false ? 'fa-check' : 'fa-x' ?>" style="color: <?= strpos($mensagem, 'Sucesso') !== false ? '#12972c' : '#b70b0b' ?>;"></i>
-                                <?= $mensagem ?>
-                            </div>
-                    <?php }
+                // Verifica se foi informada uma sequência de digitos repetidos. Ex: 111.111.111-11
+                if (preg_match('/(\d)\1{10}/', $cpf)) {
+                    return false;
+                }
+
+                // Faz o calculo para validar o CPF
+                for ($t = 9; $t < 11; $t++) {
+                    for ($d = 0, $c = 0; $c < $t; $c++) {
+                        $d += $cpf[$c] * (($t + 1) - $c);
                     }
-                    require_once("footer.php");
-                    ?>
+                    $d = ((10 * $d) % 11) % 10;
+                    if ($cpf[$c] != $d) {
+                        return false;
+                    }
+                }
+                return true;
+            }
 
-                    <!-- Bootstrap core JavaScript-->
-                    <script src="vendor/jquery/jquery.min.js"></script>
-                    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+            if (isset($_POST['salvar'])) {
 
-                    <!-- Core plugin JavaScript-->
-                    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+                //2. Receber os dados para inserir no BD
+                $nome = $_POST['nomeAtendente'];
+                $telefone = $_POST['telefone'];
+                $dataNascimento = $_POST['dataNascimento'];
+                $email = $_POST['email'];
+                $senha = $_POST['senha'];
+                $confirmarSenha = $_POST['confirmarSenha'];
+                $cpf = $_POST['cpf'];
+                $sexo = $_POST['sexo'];
 
-                    <!-- Custom scripts for all pages-->
-                    <script src="js/sb-admin-2.min.js"></script>
+                $mensagem = ""; // Inicializa a variável $mensagem
+
+                // Verificar se o e-mail já está cadastrado em qualquer uma das tabelas
+                $check_query = "SELECT * FROM admin WHERE email='$email'
+                                    UNION
+                                    SELECT * FROM veterinario WHERE email='$email'
+                                    UNION
+                                    SELECT * FROM atendente WHERE email='$email'";
+
+                $check_result = $conexao->query($check_query);
+
+                // Calcular a idade
+                $dataAtual = new DateTime();
+                $DN = new DateTime($dataNascimento);
+                $idade = $dataAtual->diff($DN)->y;
+
+                if ($check_result->num_rows > 0) {
+                    // E-mail já cadastrado
+                    $mensagem = "E-mail já cadastrado";
+                }
+                // Verificar se a idade é pelo menos 18 anos
+                else if ($idade < 18) {
+                    $mensagem = "O veterinário precisa ter pelo menos 18 anos";
+                } else if ($confirmarSenha != $senha) {
+                    $mensagem = "As senhas não coincidem, tente novamente";
+                } else if (!validaCPF($cpf)) {
+                    // CPF inválido, mostrar mensagem de erro
+                    $mensagem = "CPF inválido. Por favor, insira um CPF válido.";
+                } else if (strtotime($dataNascimento) > time()) {
+                    // Data de nascimento é no futuro, mostrar mensagem de erro
+                    $mensagem = "Data de nascimento não pode ser no futuro";
+                } else {
+
+                    //3. Preparar a SQL
+                    $sql = "insert into atendente (nome, telefone, dataNascimento, email, senha, cpf, sexo, statusAtendente) values ('$nome', '$telefone', '$dataNascimento', '$email', '$senha', '$cpf', '$sexo', 'Ativo')";
+
+                    //4. Executar a SQL
+                    $resultado = mysqli_query($conexao, $sql);
+
+                    //5. Verificar o resultado da inserção
+                    if ($resultado) {
+                        // Inserção bem-sucedida
+                        $mensagem = "Inserido com Sucesso";
+                    } else {
+                        // Erro na inserção
+                        $mensagem = "Erro ao inserir no banco de dados: " . mysqli_error($conexao);
+                    }
+                }
+
+            ?>
+                <?php
+                // Exibir a mensagem
+                if ($mensagem) { ?>
+                    <div class="alert <?= strpos($mensagem, 'Sucesso') !== false ? 'alert-success' : 'alert-danger' ?> mb-2" role="alert">
+                        <i class="fa-solid <?= strpos($mensagem, 'Sucesso') !== false ? 'fa-check' : 'fa-x' ?>" style="color: <?= strpos($mensagem, 'Sucesso') !== false ? '#12972c' : '#b70b0b' ?>;"></i>
+                        <?= $mensagem ?>
+                    </div>
+            <?php }
+            }
+            require_once("footer.php");
+            ?>
+
+            <!-- Bootstrap core JavaScript-->
+            <script src="vendor/jquery/jquery.min.js"></script>
+            <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+            <!-- Core plugin JavaScript-->
+            <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+            <!-- Custom scripts for all pages-->
+            <script src="js/sb-admin-2.min.js"></script>
 
 </body>
 

@@ -174,7 +174,7 @@ $linha = mysqli_fetch_array($resultado);
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">Status</label>
                                         <div class="btn-group" role="group">
-                                            <button type="submit" class="btn btn-danger" name="statusAgenda" value="Inconcluido">Inconcluído</button>
+                                            <button type="submit" class="btn btn-danger" name="statusAgenda" value="Cancelado">Cancelado</button>
                                             <button type="submit" class="btn btn-warning" name="statusAgenda" value="Em Andamento">Em Andamento</button>
                                             <button type="submit" class="btn btn-success" name="statusAgenda" value="Concluído">Concluído</button>
                                         </div>

@@ -201,7 +201,7 @@ date_default_timezone_set('America/Sao_Paulo'); ?>
                         $crmv = $_POST['crmv'];
 
                         // Verificar se o e-mail já está cadastrado em qualquer uma das tabelas
-                        $check_query = "SELECT * FROM adm WHERE email='$email'
+                        $check_query = "SELECT * FROM admin WHERE email='$email'
                         UNION
                         SELECT * FROM veterinario WHERE email='$email'
                         UNION

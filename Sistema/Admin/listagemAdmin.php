@@ -133,9 +133,8 @@ $resultado = mysqli_query($conexao, $sql);
                                 echo "<tr><td>" . $linha["id"] . "</td><td>" . $linha["statusAdmin"] . "</td><td>" . $linha["nome"] . "</td><td>" . $linha["telefone"] . "</td><td>" . $linha["sexo"] . "</td><td>" . $linha["email"] . "</td><td>" . $dataNascimentoFormatada . "</td><td>" . $linha["cpf"] . "</td><td>" . $dataAdmissaoFormatada . "</td><td>" . $dataDemissaoFormatada;
                             ?>
                                 <td>
-                                    <a href="editarAdmin.php?id=<?= $linha['id'] ?>" class="btn btn-warning"><i class="fa-solid fa-pen-to-square" style="color: #000000;"></i></a>
-                                    <a href="listagemAdmin.php?id=<?= $linha['id'] ?>" class="btn btn-danger" onclick="return confirm('Confirma exclusão?')"><i class="fa-solid fa-trash" style="color: #000000;"></i></a>
-                                </td>
+                                    <a href="olharAdmin.php?id=<?= $linha['id'] ?>" class="btn btn-info"><i class="fa-solid fa-eye" style="color: #000000;"></i></a>
+                                    <a href="editarAdmin.php?id=<?= $linha['id'] ?>" class="btn btn-warning"><i class="fa-solid fa-pen-to-square" style="color: #000000;"></i></a>                                    
                                 </tr>
                             <?php } ?>
                     </table>

@@ -63,74 +63,78 @@ $data_atual = date("Y-m-d");
                 <!-- Tabela para a listagem da agenda -->
                 <div class="card mt-3 mb-3">
                     <div class="card-body">
-                        <h2>
-                            <i class="fa-solid fa-calendar-days"></i> Agendamentos <a href="cadastroAgenda.php" class="btn btn-success btn-sn"><i class="fa-solid fa-calendar-days"></i> Novo Agendamento</a> <a href="listagemProcedimento.php" class="btn btn-info btn-sn"><i class="fa-solid fa-notes-medical"></i> Procedimentos</a>
-                        </h2>
+                        <div class="mb-2">
+                            <h2>
+                                <i class="fa-solid fa-calendar-days"></i> Agendamentos <a href="cadastroAgenda.php" class="btn btn-success btn-sn"><i class="fa-solid fa-calendar-days"></i> Novo Agendamento</a> <a href="listagemProcedimento.php" class="btn btn-info btn-sn"><i class="fa-solid fa-notes-medical"></i> Procedimentos</a>
+                            </h2>
+                        </div><br>
                         <form name="filtro" method="POST">
 
                             <div class="row">
-                                <div class="col-2">
-                                    <div class="mb-1">
-                                        <label for="data" class="form-label">Filtrar por Data</label>
-                                        <input name="data" type="date" class="form-control" onchange="this.form.submit()" value="<?= isset($_POST['data']) ? htmlspecialchars($_POST['data']) : '' ?>">
-                                    </div>
+                                <h3>Filtros: </h3>
+                                <div class="col-2"><input name="data" type="date" class="form-control" onchange="this.form.submit()" value="<?= isset($_POST['data']) ? htmlspecialchars($_POST['data']) : '' ?>">
                                 </div>
                                 <div class="col-1">
-                                <label for="data" class="form-label"> </label>
-                                <div class="mb-1 mt-2">
+
                                     <button type="submit" class="btn btn-primary" name="data" value="<?= $data_atual ?>">Hoje</button>
-                                </div>
+
                                 </div>
                                 <div class="col-3">
-                                    <label for="">Filtrar por Cliente/Pet</label>
-                                    <div class="mb-1">
-                                        <select name="cliente_id" class="custom-select" aria-label="Large select example" onchange="this.form.submit()">
-                                            <option value="" selected>Selecionar Cliente</option>
-                                            <?php
-                                            $sql = "select * from cliente order by nome";
-                                            $resultado = mysqli_query($conexao, $sql);
-
-                                            while ($linha = mysqli_fetch_array($resultado)) {
-                                                $idCliente = $linha['id'];
-                                                $nome = $linha['nome'];
-                                                $cpf = $linha['CPF'];
-
-                                                $selecionado = ($_POST['cliente_id'] == $idCliente) ? "selected" : "";
-
-                                                echo "<option value='{$idCliente}' {$selecionado}>{$nome} - {$cpf}</option>";
-                                            }
-                                            ?>
-                                        </select>
-                                    </div>
+                                    <div class="btn-group" role="group">    
+                                        <button type="submit" class="btn btn-danger" name="statusAgenda" value="Cancelado">Cancelado</button>
+                                        <button type="submit" class="btn btn-warning" name="statusAgenda" value="Em Andamento">Em Andamento</button>
+                                        <button type="submit" class="btn btn-success" name="statusAgenda" value="Concluído">Concluído</button>
+                                         </div>
                                 </div>
+                                <div class="col-3">
+                                    <select name="cliente_id" class="custom-select" aria-label="Large select example" onchange="this.form.submit()">
+                                        <option value="" selected>Selecionar Cliente</option>
+                                        <?php
+                                        $sql = "select * from cliente order by nome";
+                                        $resultado = mysqli_query($conexao, $sql);
+
+                                        while ($linha = mysqli_fetch_array($resultado)) {
+                                            $idCliente = $linha['id'];
+                                            $nome = $linha['nome'];
+                                            $cpf = $linha['CPF'];
+
+                                            $selecionado = ($_POST['cliente_id'] == $idCliente) ? "selected" : "";
+
+                                            echo "<option value='{$idCliente}' {$selecionado}>{$nome} - {$cpf}</option>";
+                                        }
+                                        ?>
+                                    </select>
+
+                                </div>
+
                                 <?php
                                 $cliente_id_selecionado = isset($_POST['cliente_id']) ? $_POST['cliente_id'] : '';
                                 ?>
                                 <?php if ($cliente_id_selecionado != '') { ?>
-                                    <div class="col-3">
-                                        <label for=""> </label>
-                                        <div class="mb-1 mt-2">
-                                            <select name="pet_id" class="custom-select" aria-label="Large select example" onchange="this.form.submit()">
-                                                <option value="" selected>Selecionar Pet</option>
-                                                <?php
-                                                $sql = "select pet.id, pet.nome, pet.especie
+                                    <div class="col-2">
+
+
+                                        <select name="pet_id" class="custom-select" aria-label="Large select example" onchange="this.form.submit()">
+                                            <option value="" selected>Selecionar Pet</option>
+                                            <?php
+                                            $sql = "select pet.id, pet.nome, pet.especie
                                               from pet 
                                               where pet.cliente_id = {$_POST['cliente_id']}
                                           order by pet.nome";
-                                                $resultado = mysqli_query($conexao, $sql);
+                                            $resultado = mysqli_query($conexao, $sql);
 
-                                                while ($linha = mysqli_fetch_array($resultado)) {
-                                                    $idPet = $linha['id'];
-                                                    $nome = $linha['nome'];
-                                                    $especie = $linha['especie'];
+                                            while ($linha = mysqli_fetch_array($resultado)) {
+                                                $idPet = $linha['id'];
+                                                $nome = $linha['nome'];
+                                                $especie = $linha['especie'];
 
-                                                    $selecionado = ($_POST['pet_id'] == $idPet) ? "selected" : "";
+                                                $selecionado = ($_POST['pet_id'] == $idPet) ? "selected" : "";
 
-                                                    echo "<option value='{$idPet}' {$selecionado}>{$nome} ({$especie})</option>";
-                                                }
-                                                ?>
-                                            </select>
-                                        </div>
+                                                echo "<option value='{$idPet}' {$selecionado}>{$nome} ({$especie})</option>";
+                                            }
+                                            ?>
+                                        </select>
+
                                     </div>
                                 <?php } ?>
                             </div>
@@ -146,6 +150,7 @@ $data_atual = date("Y-m-d");
 
                         $cliente_id = isset($_POST['cliente_id']) ? mysqli_real_escape_string($conexao, $_POST['cliente_id']) : null;
                         $pet_id = isset($_POST['pet_id']) ? mysqli_real_escape_string($conexao, $_POST['pet_id']) : null;
+                        $statusAgenda = isset($_POST['statusAgenda']) ? mysqli_real_escape_string($conexao, $_POST['statusAgenda']) : null;
 
                         // Adiciona a condição WHERE apenas se a data estiver definida
                         $whereClause = "WHERE 1"; // Sempre verdadeiro
@@ -158,6 +163,9 @@ $data_atual = date("Y-m-d");
                             if (isset($pet_id) && ($pet_id != '')) {
                                 $whereClause .= " AND p.id = '$pet_id'";
                             }
+                        }
+                        if (isset($statusAgenda) && ($statusAgenda != '')) {
+                            $whereClause .= " AND a.statusAgenda = '$statusAgenda'";
                         }
 
 

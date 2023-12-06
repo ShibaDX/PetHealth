@@ -121,7 +121,7 @@ $linha = mysqli_fetch_array($resultado);
                             </div>
                             <button name="salvar" type="submit" class="btn btn-primary"><i class="fa-solid fa-check"></i>
                                 Salvar</button>
-                            <a href="listagemAtendente.php" class="btn btn-warning"><i class="fa-solid fa-rotate-left"></i>
+                            <a href="listagemAdmin.php" class="btn btn-warning"><i class="fa-solid fa-rotate-left"></i>
                                 Voltar</a>
                     </div>
                 </div>
@@ -173,10 +173,10 @@ $linha = mysqli_fetch_array($resultado);
                 if (!empty($dataDemissao) || $dataDemissao != null) {
 
                     // Atualizar o registro do veterinário no banco de dados
-                    $sql = "UPDATE atendente SET nome = '$nome', telefone = '$telefone', sexo = '$sexo', dataNascimento = '$dataNascimento', email = '$email', senha = '$senha' , statusAtendente = 'Inativo', cpf = '$cpf', dataDemissao = '$dataDemissao' WHERE id = $id";
+                    $sql = "UPDATE admin SET nome = '$nome', telefone = '$telefone', sexo = '$sexo', dataNascimento = '$dataNascimento', email = '$email', senha = '$senha' , statusAdmin = 'Inativo', cpf = '$cpf', dataDemissao = '$dataDemissao' WHERE id = $id";
                 } else {
                     //3. Preparar a SQL
-                    $sql = "UPDATE atendente SET nome = '$nome', telefone = '$telefone', sexo = '$sexo', dataNascimento = '$dataNascimento', email = '$email', senha = '$senha' , statusAtendente = 'Ativo', cpf = '$cpf', dataDemissao = '$dataDemissao' WHERE id = $id";
+                    $sql = "UPDATE admin SET nome = '$nome', telefone = '$telefone', sexo = '$sexo', dataNascimento = '$dataNascimento', email = '$email', senha = '$senha' , statusAdmin = 'Ativo', cpf = '$cpf', dataDemissao = '$dataDemissao' WHERE id = $id";
                 }
                 //4. Executar a SQL
                 mysqli_query($conexao, $sql);
