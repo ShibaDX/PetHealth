@@ -96,7 +96,7 @@ $linha = mysqli_fetch_array($resultado);
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-6">
+                                <div class="col-4">
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">Endereço</label>
                                         <input disabled id="endereco" name="endereco" type="text" class="form-control" value="<?= $linha['endereco'] ?>"><br>
@@ -108,14 +108,14 @@ $linha = mysqli_fetch_array($resultado);
                                         <input disabled name="numero" type="text" class="form-control" value="<?= $linha['numero'] ?>"><br>
                                     </div>
                                 </div>
-                                <div class="col-2">
+                                <div class="col-3">
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">Data de Nascimento</label>
                                         <input disabled name="dataNascimento" type="date" class="form-control" value="<?= $linha['dataNascimento'] ?>"><br>
                                     </div>
                                 </div>
-                                <div class="col-2">
-                                    <div class="mb-1">
+                                <div class="col-3">
+                                <div class="mb-1">
                                         <label for="sexo" class="form-label">Sexo</label>
                                         <select disabled id="sexo" name="sexo" class="form-control">
                                             <option value="M" <?php echo ($linha['sexo'] == 'M') ? 'selected' : ''; ?>>Masculino</option>
@@ -126,11 +126,16 @@ $linha = mysqli_fetch_array($resultado);
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-6">
+
+                                <div class="col-3">
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">CPF</label>
                                         <input disabled name="cpf" type="text" class="form-control" value="<?= $linha['CPF'] ?>"><br>
                                     </div>
+                                </div>
+                                <div class="col-3">
+                                    <label class="form-label">Data de Cadastro</label>
+                                    <input type="date" class="form-control" value="<?= $linha['dataCadastro'] ?>" disabled>
                                 </div>
                                 <div class="col-6">
                                     <div class="mb-1">

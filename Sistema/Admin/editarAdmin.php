@@ -194,14 +194,14 @@ $linha = mysqli_fetch_array($resultado);
                 $nome = $_POST['nome'];
                 $telefone = $_POST['telefone'];
                 $dataNascimento = $_POST['dataNascimento'];
-                $email = $_POST['email'];
+                $email = mysqli_real_escape_string($conexao, $_POST['email']);
                 $senha = $_POST['senha'];
-                $cpf = $_POST['cpf'];
+                $cpf = mysqli_real_escape_string($conexao, $_POST['cpf']);
                 $sexo = $_POST['sexo'];
                 $dataDemissao = isset($_POST['limparDataDemissao']) && $_POST['limparDataDemissao'] == 1 ? null : $_POST['dataDemissao'];
 
                 // Verificar se o e-mail já está cadastrado em qualquer uma das tabelas
-                $check_query = "SELECT * FROM admin WHERE email='$email'
+                $check_query = "SELECT * FROM admin WHERE email='$email' AND id = '$id'
                                         UNION
                                         SELECT * FROM veterinario WHERE email='$email'
                                         UNION
@@ -217,23 +217,19 @@ $linha = mysqli_fetch_array($resultado);
                 if ($check_result->num_rows > 0) {
                     // E-mail já cadastrado
                     $mensagem = "E-mail já cadastrado";
-                }
-                else if (!validaCPF($cpf)) {
+                } else if (!validaCPF($cpf)) {
                     // CPF inválido, mostrar mensagem de erro
                     $mensagem = "CPF inválido. Por favor, insira um CPF válido.";
                 }
                 // Verificar se a idade é pelo menos 18 anos
                 else if ($idade < 18) {
                     $mensagem = "O Admin precisa ter pelo menos 18 anos";
-                } 
-                else if ($confirmarSenha != $senha) {
+                } else if ($confirmarSenha != $senha) {
                     $mensagem = "As senhas não coincidem, tente novamente";
-                } 
-                else if (strtotime($dataNascimento) > time()) {
+                } else if (strtotime($dataNascimento) > time()) {
                     // Data de nascimento é no futuro, mostrar mensagem de erro
                     $mensagem = "Data de nascimento não pode ser no futuro";
-                } 
-                else {
+                } else {
 
                     // Verificar se a data de demissão foi fornecida
                     if (!empty($dataDemissao) || $dataDemissao != null) {
@@ -250,16 +246,17 @@ $linha = mysqli_fetch_array($resultado);
                     //5. Mostrar mensagem ao usuário
                     $mensagem = "Alterado com sucesso";
                 }
-            }
+
             ?>
 
-            <!-- Mostrar mensagem ao usuário -->
-            <?php if (isset($mensagem)) { ?>
-                <div class="alert alert-success mb-2" role="alert">
-                    <i class="fa-solid fa-check" style="color: #12972c;"></i>
-                    <?= $mensagem ?>
-                </div>
+                <!-- Mostrar mensagem ao usuário -->
+                <?php if ($mensagem) { ?>
+                    <div class="alert <?= strpos($mensagem, 'Sucesso') !== false ? 'alert-success' : 'alert-danger' ?> mb-2" role="alert">
+                        <i class="fa-solid <?= strpos($mensagem, 'Sucesso') !== false ? 'fa-check' : 'fa-x' ?>" style="color: <?= strpos($mensagem, 'Sucesso') !== false ? '#12972c' : '#b70b0b' ?>;"></i>
+                        <?= $mensagem ?>
+                    </div>
             <?php }
+            }
             require_once("footer.php");
             ?>
 

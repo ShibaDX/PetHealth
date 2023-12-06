@@ -47,7 +47,7 @@ date_default_timezone_set('America/Sao_Paulo');
                 <div class="container">
                     <h1 class="mb-2"><i class="fa-regular fa-user"></i> Cadastro de Cliente</h1>
                     <p class="h6">Os campos marcados com * são obrigatórios</p> <br>
-                    <form method="post" onsubmit="return validarFormulario()" onsubmit="return validarTelefone();">
+                    <form method="post" onsubmit="return validarTelefone();">
                         <div class="row">
                             <div class="col">
                                 <div class="mb-1">
@@ -65,37 +65,37 @@ date_default_timezone_set('America/Sao_Paulo');
                         <div class="row">
                             <div class="col-2">
                                 <div class="mb-1">
-                                    <label for="cep" class="active" class="form-label">CEP*</label>
-                                    <input type="tel" placeholder="Informe o Cep" class="form-control" id="cep" name="cep" autofocus>
+                                    <label for="cep" class="active" class="form-label">CEP</label>
+                                    <input type="tel" class="form-control" id="cep" name="cep" autofocus value="<?= isset($_POST['cep']) ? htmlspecialchars($_POST['cep']) : '' ?>">
                                 </div>
                             </div>
                             <div class="col-4">
                                 <div class="mb-1">
                                     <label for="cidade" class="form-label">Cidade*</label>
-                                    <input id="cidade" name="cidade" type="text" class="form-control" required><br>
+                                    <input id="cidade" name="cidade" type="text" class="form-control" required value="<?= isset($_POST['cidade']) ? htmlspecialchars($_POST['cidade']) : '' ?>"><br>
                                 </div>
                             </div>
                             <div class="col-1">
                                 <div class="mb-1">
                                     <label for="uf" class="form-label" class="active">UF*</label>
-                                    <input type="text" placeholder="UF" class="form-control" name="uf" id="uf" required>
+                                    <input type="text" placeholder="UF" class="form-control" oninput="validarLetras(this)" name="uf" id="uf" required value="<?= isset($_POST['uf']) ? htmlspecialchars($_POST['uf']) : '' ?>">
                                 </div>
                             </div>
                             <div class="col-5">
-                                <div class="mb-1">
-                                    <label for="bairro" class="active" class="form-label">Bairro*</label>
-                                    <input type="text" placeholder="Informe o Bairro" class="form-control" name="bairro" id="bairro" required>
-                                </div>
+                                <label for="endereco" class="form-label">Endereço*</label>
+                                <input id="endereco" name="endereco" type="text" class="form-control" required value="<?= isset($_POST['endereco']) ? htmlspecialchars($_POST['endereco']) : '' ?>"><br>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col-6">
-                                <label for="endereco" class="form-label">Endereço*</label>
-                                <input id="endereco" name="endereco" type="text" class="form-control" required><br>
+                                <div class="mb-1">
+                                    <label for="bairro" class="active" class="form-label">Bairro*</label>
+                                    <input type="text" class="form-control" name="bairro" id="bairro" required value="<?= isset($_POST['bairro']) ? htmlspecialchars($_POST['bairro']) : '' ?>">
+                                </div>
                             </div>
                             <div class="col-2">
                                 <label for="nr_end" class="active" class="form-label">Número*</label>
-                                <input type="text" placeholder="Informe o número do endereço" class="form-control" name="nr_end" id="nr_end" required>
+                                <input type="number" class="form-control" name="numero" id="numero" required value="<?= isset($_POST['numero']) ? htmlspecialchars($_POST['numero']) : '' ?>">
                             </div>
                             <div class="col-2">
                                 <div class="mb-1">
@@ -215,6 +215,10 @@ date_default_timezone_set('America/Sao_Paulo');
 
                 $mensagem = ""; // Inicializa a variável $mensagem
 
+                // Verifique se já existe um cliente com o mesmo CPF
+                $sql = "SELECT * FROM cliente WHERE CPF = '$cpf'"; 
+                $resultado = mysqli_query($conexao, $sql);
+
                 // Calcular a idade
                 $dataAtual = new DateTime();
                 $DN = new DateTime($dataNascimento);
@@ -228,9 +232,18 @@ date_default_timezone_set('America/Sao_Paulo');
                 } else if (strtotime($dataNascimento) > time()) {
                     // Data de nascimento é no futuro, mostrar mensagem de erro
                     $mensagem = "Data de nascimento não pode ser no futuro";
-                } else {
+                } else if (!is_numeric($numero) || $numero <= 0 || strlen($numero) > 4) {
+                    // Verifique se o número da casa é um valor numérico, maior que zero e possui até 4 dígitos
+                    $mensagem = "Por favor, insira um número de casa válido (até 4 dígitos).";
+                    // Pode redirecionar de volta ao formulário ou realizar outras ações necessárias
+                } else if (mysqli_num_rows($resultado) > 0) {
+                    // Já existe um cliente com esse CPF, exiba uma mensagem de erro ou redirecione
+                    $mensagem = "Já existe um cliente cadastrado com esse CPF.";
+                    // Pode redirecionar de volta ao formulário ou realizar outras ações necessárias
+                }
+                 else {
                     //3. Preparar a SQL
-                    $sql = "insert into cliente (status, nome, telefone, endereco, numero, cep, cidade, uf, sexo, dataNascimento, CPF, email) values ('Ativo', '$nome', '$telefone', '$endereco', '$numero', '$cep', '$cidade', '$uf', '$sexo', '$dataNascimento', '$cpf', '$email')";
+                    $sql = "insert into cliente (statusCliente, nome, telefone, endereco, numero, cep, cidade, uf, sexo, dataNascimento, CPF, email) values ('Ativo', '$nome', '$telefone', '$endereco', '$numero', '$cep', '$cidade', '$uf', '$sexo', '$dataNascimento', '$cpf', '$email')";
 
                     //4. Executar a SQL
                     $resultado = mysqli_query($conexao, $sql);

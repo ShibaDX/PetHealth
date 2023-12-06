@@ -70,86 +70,75 @@ $resultado = mysqli_query($conexao, $sql);
                         <h2><i class="fa-regular fa-user"></i> Listagem de Clientes <a href="cadastroCliente.php" class="btn btn-info btn-sn"><i class="fa-solid fa-plus" style="color: #ffffff;"></i> Novo Cliente</a></h2>
                     </div>
                 </div>
-                <table class="table table-striped table-hover" style="overflow: scroll; max-width: 100%;">
-                    <thead>
-                        <tr>
-                            <th scope="col">ID</th>
-                            <th scope="col">Status</th>
-                            <th scope="col">Nome</th>
-                            <th scope="col">Telefone</th>
-                            <th scope="col">Cidade</th>
-                            <th scope="col">UF</th>
-                            <th scope="col">Data de Nascimento</th>
-                            <th scope="col">Sexo</th>
-                            <th scope="col">CPF</th>
-                            <th scope="col">Email</th>
-                            <th scope="col">Data de Cadastro</th>
-                            <th scope="col">Ação</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <?php while ($linha = mysqli_fetch_array($resultado)) {
-                            $dataNascimentoFormatada = date("d/m/Y", strtotime($linha["dataNascimento"]));
-                            $dataCadastroFormatada = date("d/m/Y", strtotime($linha["dataCadastro"])); ?>
-
+                <div class="table-responsive">
+                    <table class="table table-striped table-hover" style="overflow: auto; max-width: 100%;">
+                        <thead>
                             <tr>
-                                <th scope="row">
-                                    <?= $linha['id'] ?>
-                                </th>
-                                <td>
-                                    <?= $linha['statusCliente'] ?>
-                                </td>
-                                <td>
-                                    <?= $linha['nome'] ?>
-                                </td>
-                                <td>
-                                    <?= $linha['telefone'] ?>
-                                </td>
-                                <td>
-                                    <?= $linha['cidade'] ?>
-                                </td>
-                                <td>
-                                    <?= $linha['UF'] ?>
-                                </td>
-                                <td>
-                                    <?= $dataNascimentoFormatada ?>
-                                </td>
-                                <td>
-                                    <?= $linha['sexo'] ?>
-                                </td>
-                                <td>
-                                    <?= $linha['CPF'] ?>
-                                </td>
-                                <td>
-                                    <?= $linha['email'] ?>
-                                </td>
-                                <td>
-                                    <?= $dataCadastroFormatada ?>
-                                </td>
-                                <td>
-                                    <a href="olharCliente.php?id=<?= $linha['id'] ?>" class="btn btn-info"><i class="fa-solid fa-eye" style="color: #000000;"></i></a>
-                                    <a href="editarCliente.php?id=<?= $linha['id'] ?>" class="btn btn-warning"><i class="fa-solid fa-pen-to-square" style="color: #000000;"></i></a>
-                                </td>
+                                <th scope="col">Status</th>
+                                <th scope="col">Nome</th>
+                                <th scope="col">Telefone</th>
+                                <th scope="col">Cidade</th>
+                                <th scope="col">UF</th>
+                                <th scope="col">Data de Nascimento</th>
+                                <th scope="col">Sexo</th>
+                                <th scope="col">CPF</th>
+                                <th scope="col">Email</th>
+                                <th scope="col">Ação</th>
                             </tr>
-                        <?php } ?>
-                </table>
+                        </thead>
+                        <tbody>
+                            <?php while ($linha = mysqli_fetch_array($resultado)) {
+                                $dataNascimentoFormatada = date("d/m/Y", strtotime($linha["dataNascimento"]));
+                                $dataCadastroFormatada = date("d/m/Y", strtotime($linha["dataCadastro"])); ?>
 
+                                <tr>
+                                    <td>
+                                    <?= $linha['statusCliente'] ?>
+                                    </td>
+                                    <td>
+                                        <?= $linha['nome'] ?>
+                                    </td>
+                                    <td>
+                                        <?= $linha['telefone'] ?>
+                                    </td>
+                                    <td>
+                                        <?= $linha['cidade'] ?>
+                                    </td>
+                                    <td>
+                                        <?= $linha['UF'] ?>
+                                    </td>
+                                    <td>
+                                        <?= $dataNascimentoFormatada ?>
+                                    </td>
+                                    <td>
+                                        <?= $linha['sexo'] ?>
+                                    </td>
+                                    <td>
+                                        <?= $linha['CPF'] ?>
+                                    </td>
+                                    <td>
+                                        <?= $linha['email'] ?>
+                                    </td>
+                                    <td>
+                                        <a href="olharCliente.php?id=<?= $linha['id'] ?>" class="btn btn-info"><i class="fa-solid fa-eye" style="color: #000000;"></i></a>
+                                        <a href="editarCliente.php?id=<?= $linha['id'] ?>" class="btn btn-warning"><i class="fa-solid fa-pen-to-square" style="color: #000000;"></i></a>
+                                    </td>
+                                </tr>
+                            <?php } ?>
+                    </table>
+                </div>
             </div>
             <!-- End of Main Content -->
 
-            <?php require_once("footer.php"); ?>
+
 
         </div>
-
+        <?php require_once("footer.php"); ?>
         <!-- End of Content Wrapper -->
     </div>
 
     <!-- End of Page Wrapper -->
 
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
 
     <!-- Logout Modal-->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

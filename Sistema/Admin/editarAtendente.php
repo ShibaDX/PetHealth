@@ -61,7 +61,7 @@ $linha = mysqli_fetch_array($resultado);
                                 <div class="col-6">
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">Nome</label>
-                                        <input name="nome" type="text" oninput="validarLetras(this)" class="form-control" value="<?= $linha['nome'] ?>"><br>
+                                        <input name="nome" type="text" oninput="validarLetras(this)" class="form-control" value="<?= isset($_POST['nome']) ? htmlspecialchars($_POST['nome']) : $linha['nome'] ?>"><br>
                                     </div>
                                 </div>
                                 <div class="col-6">
@@ -75,19 +75,19 @@ $linha = mysqli_fetch_array($resultado);
                                 <div class="col-4">
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">Telefone</label>
-                                        <input name="telefone" type="text" maxlength="15" class="form-control" onkeyup="handlePhone(event)" value="<?= $linha['telefone'] ?>"><br>
+                                        <input name="telefone" type="text" maxlength="15" class="form-control" onkeyup="handlePhone(event)" value="<?= isset($_POST['telefone']) ? htmlspecialchars($_POST['telefone']) : $linha['telefone'] ?>"><br>
                                     </div>
                                 </div>
                                 <div class="col-4">
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">Data de Nascimento</label>
-                                        <input name="dataNascimento" type="date" class="form-control" value="<?= $linha['dataNascimento'] ?>"><br>
+                                        <input name="dataNascimento" type="date" class="form-control" value="<?= isset($_POST['dataNascimento']) ? htmlspecialchars($_POST['dataNascimento']) : $linha['dataNascimento'] ?>"><br>
                                     </div>
                                 </div>
                                 <div class="col-4">
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">CPF</label>
-                                        <input name="cpf" type="text" class="form-control" maxlength="15" value="<?= $linha['cpf'] ?>" oninput="applyCpfMask(this)"><br>
+                                        <input name="cpf" type="text" class="form-control" maxlength="15" value="<?= isset($_POST['cpf']) ? htmlspecialchars($_POST['cpf']) : $linha['cpf'] ?>" oninput="applyCpfMask(this)"><br>
                                     </div>
                                 </div>
                             </div>
@@ -103,7 +103,7 @@ $linha = mysqli_fetch_array($resultado);
                                 <div class="col-4">
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">Senha</label>
-                                        <input name="senha" id="senha" type="password" class="form-control" value="<?= $linha['senha'] ?>">
+                                        <input name="senha" id="senha" type="password" class="form-control" value="<?= isset($_POST['senha']) ? htmlspecialchars($_POST['senha']) : $linha['senha'] ?>">
                                         <button type="button" id="togglePass" class="botao btn btn-link">Mostrar Senha</button>
                                     </div>
                                 </div>
@@ -111,7 +111,7 @@ $linha = mysqli_fetch_array($resultado);
                                     <div class="mb-1">
                                         <div class="mb-1">
                                             <label for="formGroupExampleInput" class="form-label">Data de Demissão</label>
-                                            <input name="dataDemissao" id="dataDemissao" type="date" class="form-control" value="<?= $linha['dataDemissao'] ?>">
+                                            <input name="dataDemissao" id="dataDemissao" type="date" class="form-control" value="<?= isset($_POST['dataDemissao']) ? htmlspecialchars($_POST['dataDemissao']) : $linha['dataDemissao'] ?>">
                                             <button type="button" class="btn" onclick="limpar()">Limpar</button>
                                             <!-- Adicione um campo oculto para enviar um valor especial quando o botão "Limpar" for clicado -->
                                             <input type="hidden" name="limparDataDemissao" id="limparDataDemissao" value="0">
@@ -154,6 +154,36 @@ $linha = mysqli_fetch_array($resultado);
                     </script>
 
                     <?php
+
+                    function validaCPF($cpf)
+                    {
+
+                        // Extrai somente os números
+                        $cpf = preg_replace('/[^0-9]/is', '', $cpf);
+
+                        // Verifica se foi informado todos os digitos corretamente
+                        if (strlen($cpf) != 11) {
+                            return false;
+                        }
+
+                        // Verifica se foi informada uma sequência de digitos repetidos. Ex: 111.111.111-11
+                        if (preg_match('/(\d)\1{10}/', $cpf)) {
+                            return false;
+                        }
+
+                        // Faz o calculo para validar o CPF
+                        for ($t = 9; $t < 11; $t++) {
+                            for ($d = 0, $c = 0; $c < $t; $c++) {
+                                $d += $cpf[$c] * (($t + 1) - $c);
+                            }
+                            $d = ((10 * $d) % 11) % 10;
+                            if ($cpf[$c] != $d) {
+                                return false;
+                            }
+                        }
+                        return true;
+                    }
+
                     if (isset($_POST['salvar'])) {
 
                         //2. Receber os dados para inserir no BD
@@ -161,20 +191,20 @@ $linha = mysqli_fetch_array($resultado);
                         $nome = $_POST['nome'];
                         $telefone = $_POST['telefone'];
                         $dataNascimento = $_POST['dataNascimento'];
-                        $email = $_POST['email'];
+                        $email = mysqli_real_escape_string($conexao, $_POST['email']);
                         $senha = $_POST['senha'];
-                        $cpf = $_POST['cpf'];
+                        $cpf = mysqli_real_escape_string($conexao, $_POST['cpf']);
                         $sexo = $_POST['sexo'];
                         $dataDemissao = isset($_POST['limparDataDemissao']) && $_POST['limparDataDemissao'] == 1 ? null : $_POST['dataDemissao'];
 
                         $mensagem = ""; // Inicializa a variável $mensagem
 
                         // Verificar se o e-mail já está cadastrado nas tabelas admin, veterinario e atendente
-                        $check_query = "SELECT * FROM admin WHERE email='$email' AND id != '$id'
+                        $check_query = "SELECT * FROM atendente WHERE email='$email' AND id != '$id'
                         UNION
                         SELECT * FROM veterinario WHERE email='$email'
                         UNION
-                        SELECT * FROM atendente WHERE email='$email'";
+                        SELECT * FROM admin WHERE email='$email'";
 
                         $check_result = $conexao->query($check_query);
 
@@ -191,9 +221,7 @@ $linha = mysqli_fetch_array($resultado);
                         }
                         // Verificar se a idade é pelo menos 18 anos
                         else if ($idade < 18) {
-                            $mensagem = "O veterinário precisa ter pelo menos 18 anos";
-                        } else if ($confirmarSenha != $senha) {
-                            $mensagem = "As senhas não coincidem, tente novamente";
+                            $mensagem = "O atendente precisa ter pelo menos 18 anos";
                         } else if (!validaCPF($cpf)) {
                             // CPF inválido, mostrar mensagem de erro
                             $mensagem = "CPF inválido. Por favor, insira um CPF válido.";
@@ -215,7 +243,7 @@ $linha = mysqli_fetch_array($resultado);
                             mysqli_query($conexao, $sql);
 
                             //5. Mostrar mensagem ao usuário
-                            $mensagem = "Alterado com sucesso";
+                            $mensagem = "Alterado com Sucesso";
                         }
 
                     ?>

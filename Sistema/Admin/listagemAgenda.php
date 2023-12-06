@@ -69,22 +69,15 @@ $data_atual = date("Y-m-d");
                             </h2>
                         </div><br>
                         <form name="filtro" method="POST">
-
+                        <h4 class="h4">Filtros: </h4>
                             <div class="row">
-                                <h3>Filtros: </h3>
-                                <div class="col-2"><input name="data" type="date" class="form-control" onchange="this.form.submit()" value="<?= isset($_POST['data']) ? htmlspecialchars($_POST['data']) : '' ?>">
+
+                                <div class="col-2"><input name="data" type="date" class="form-control" value="<?= isset($_POST['data']) ? htmlspecialchars($_POST['data']) : '' ?>">
                                 </div>
                                 <div class="col-1">
 
                                     <button type="submit" class="btn btn-primary" name="data" value="<?= $data_atual ?>">Hoje</button>
 
-                                </div>
-                                <div class="col-3">
-                                    <div class="btn-group" role="group">    
-                                        <button type="submit" class="btn btn-danger" name="statusAgenda" value="Cancelado">Cancelado</button>
-                                        <button type="submit" class="btn btn-warning" name="statusAgenda" value="Em Andamento">Em Andamento</button>
-                                        <button type="submit" class="btn btn-success" name="statusAgenda" value="Concluído">Concluído</button>
-                                         </div>
                                 </div>
                                 <div class="col-3">
                                     <select name="cliente_id" class="custom-select" aria-label="Large select example" onchange="this.form.submit()">
@@ -137,6 +130,15 @@ $data_atual = date("Y-m-d");
 
                                     </div>
                                 <?php } ?>
+                            </div>
+                            <div class="row mt-4">
+                            <div class="col-6">
+                                        <div class="btn-group" role="group">    
+                                            <button type="submit" class="btn btn-danger" name="statusAgenda" value="Cancelado">Cancelado</button>
+                                            <button type="submit" class="btn btn-warning" name="statusAgenda" value="Em Andamento">Em Andamento</button>
+                                            <button type="submit" class="btn btn-success" name="statusAgenda" value="Concluído">Concluído</button>
+                                            </div>
+                                </div>
                             </div>
                         </form>
                         <?php
@@ -236,11 +238,6 @@ $data_atual = date("Y-m-d");
 
         <!-- End of Content Wrapper -->
     </div>
-
-    <!-- Scroll to Top Button-->
-    <a class="scroll-to-top rounded" href="#page-top">
-        <i class="fas fa-angle-up"></i>
-    </a>
 
     <!-- Logout Modal-->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

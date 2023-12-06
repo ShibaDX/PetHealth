@@ -164,36 +164,71 @@ $linha = mysqli_fetch_array($resultado);
                 $nome = $_POST['nome'];
                 $telefone = $_POST['telefone'];
                 $dataNascimento = $_POST['dataNascimento'];
-                $email = $_POST['email'];
+                $email = mysqli_real_escape_string($conexao, $_POST['email']);
                 $senha = $_POST['senha'];
-                $crmv = $_POST['crmv'];
+                $crmv = mysqli_real_escape_string($conexao, $_POST['crmv']);
                 $sexo = $_POST['sexo'];
                 $dataDemissao = isset($_POST['limparDataDemissao']) && $_POST['limparDataDemissao'] == 1 ? null : $_POST['dataDemissao'];
 
-                // Verificar se a data de demissão foi fornecida
-                if (!empty($dataDemissao) || $dataDemissao != null) {
+                // Verificar se o e-mail já está cadastrado em qualquer uma das tabelas
+                $check_query = "SELECT * FROM veterinario WHERE email='$email' AND id != '$id'
+                        UNION
+                        SELECT * FROM admin WHERE email='$email'
+                        UNION
+                        SELECT * FROM atendente WHERE email='$email'";
 
-                    // Atualizar o registro do veterinário no banco de dados
-                    $sql = "UPDATE veterinario SET nome = '$nome', telefone = '$telefone', sexo = '$sexo', dataNascimento = '$dataNascimento', email = '$email', senha = '$senha' , statusVet = 'Inativo', CRMV = '$crmv', dataDemissao = '$dataDemissao' where id = $id";
-                } else {
-                    //3. Preparar a SQL
-                    $sql = "update veterinario set nome = '$nome', telefone = '$telefone', sexo = '$sexo', dataNascimento = '$dataNascimento', email = '$email', senha = '$senha' , statusVet = 'Ativo', CRMV = '$crmv', dataDemissao = '$dataDemissao' where id = $id";
+                $check_result = $conexao->query($check_query);
+
+                //Verifica se há mais de um CRMV
+                $sql = "SELECT * FROM veterinario WHERE CRMV = '$crmv' AND id != '$id'";
+                $resultado = mysqli_query($conexao, $sql);
+
+                // Calcular a idade
+                $dataAtual = new DateTime();
+                $DN = new DateTime($dataNascimento);
+                $idade = $dataAtual->diff($DN)->y;
+
+                if ($check_result->num_rows > 0) {
+                    // E-mail já cadastrado
+                    $mensagem = "E-mail já cadastrado";
                 }
-                //4. Executar a SQL
-                mysqli_query($conexao, $sql);
+                // Verificar se a idade é pelo menos 18 anos
+                else if ($idade < 18) {
+                    $mensagem = "O veterinário precisa ter pelo menos 18 anos";
+                } else if (strtotime($dataNascimento) > time()) {
+                    // Data de nascimento é no futuro, mostrar mensagem de erro
+                    $mensagem = "Data de nascimento não pode ser no futuro";
+                } else if (mysqli_num_rows($resultado) > 0) {
+                    // Já existe um veterinário com esse CRMV, exiba uma mensagem de erro ou redirecione
+                    $mensagem = "Já existe um veterinário cadastrado com esse CRMV.";
+                    // Pode redirecionar de volta ao formulário ou realizar outras ações necessárias
+                } else {
 
-                //5. Mostrar mensagem ao usuário
-                $mensagem = "Alterado com sucesso";
-            }
+                    // Verificar se a data de demissão foi fornecida
+                    if (!empty($dataDemissao) || $dataDemissao != null) {
+
+                        // Atualizar o registro do veterinário no banco de dados
+                        $sql = "UPDATE veterinario SET nome = '$nome', telefone = '$telefone', sexo = '$sexo', dataNascimento = '$dataNascimento', email = '$email', senha = '$senha' , statusVet = 'Inativo', CRMV = '$crmv', dataDemissao = '$dataDemissao' WHERE id = $id";
+                    } else {
+                        //3. Preparar a SQL
+                        $sql = "UPDATE veterinario SET nome = '$nome', telefone = '$telefone', sexo = '$sexo', dataNascimento = '$dataNascimento', email = '$email', senha = '$senha' , statusVet = 'Ativo', CRMV = '$crmv', dataDemissao = '$dataDemissao' WHERE id = $id";
+                    }
+                    //4. Executar a SQL
+                    mysqli_query($conexao, $sql);
+
+                    //5. Mostrar mensagem ao usuário
+                    $mensagem = "Alterado com sucesso";
+                }
             ?>
 
-            <!-- Mostrar mensagem ao usuário -->
-            <?php if (isset($mensagem)) { ?>
-                <div class="alert alert-success mb-2" role="alert">
-                    <i class="fa-solid fa-check" style="color: #12972c;"></i>
-                    <?= $mensagem ?>
-                </div>
+                <!-- Mostrar mensagem ao usuário -->
+                <?php if ($mensagem) { ?>
+                    <div class="alert <?= strpos($mensagem, 'Sucesso') !== false ? 'alert-success' : 'alert-danger' ?> mb-2" role="alert">
+                        <i class="fa-solid <?= strpos($mensagem, 'Sucesso') !== false ? 'fa-check' : 'fa-x' ?>" style="color: <?= strpos($mensagem, 'Sucesso') !== false ? '#12972c' : '#b70b0b' ?>;"></i>
+                        <?= $mensagem ?>
+                    </div>
             <?php }
+            }
             require_once("footer.php");
             ?>
 

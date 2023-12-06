@@ -48,7 +48,7 @@ require_once("conexao.php"); ?>
                     <div class="container">
                         <h1 class="mb-4"><i class="fa-solid fa-calendar-days"></i> Agendamento</h1>
                         <form method="post">
-                            <div class="container text-center">
+                            <div class="container">
                                 <div class="row">
                                     <div class="col">
                                         <div class="mb-1">
@@ -56,7 +56,9 @@ require_once("conexao.php"); ?>
                                             <select name="cliente_id" class="custom-select" aria-label="Large select example" onchange="this.form.submit()">
                                                 <option value="">Selecione</option>
                                                 <?php
-                                                $sql = "select * from cliente order by nome";
+                                                $sql = "SELECT * FROM cliente
+                                                WHERE statusCliente = 'Ativo'
+                                                ORDER BY nome";
                                                 $resultado = mysqli_query($conexao, $sql);
 
                                                 while ($linha = mysqli_fetch_array($resultado)) {
@@ -153,7 +155,9 @@ require_once("conexao.php"); ?>
                                             <label for="veterinario_id" class="form-label">Veterinário</label>
                                             <select name="veterinario_id" class="custom-select ">
                                                 <?php
-                                                $sql = "select * from veterinario order by nome";
+                                                $sql = "SELECT * FROM veterinario
+                                                WHERE statusVet = 'Ativo'
+                                                ORDER BY nome";
                                                 $resultado = mysqli_query($conexao, $sql);
 
                                                 while ($linha = mysqli_fetch_array($resultado)) {

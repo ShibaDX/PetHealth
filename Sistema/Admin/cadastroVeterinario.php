@@ -195,6 +195,7 @@ date_default_timezone_set('America/Sao_Paulo'); ?>
                         $nome = $_POST['nomeVet'];
                         $telefone = $_POST['telefone'];
                         $dataNascimento = $_POST['dataNascimento'];
+                        $sexo = $_POST['sexo'];
                         $email = $_POST['email'];
                         $senha = $_POST['senha'];
                         $confirmarSenha = $_POST['confirmarSenha'];
@@ -208,6 +209,10 @@ date_default_timezone_set('America/Sao_Paulo'); ?>
                         SELECT * FROM atendente WHERE email='$email'";
 
                         $check_result = $conexao->query($check_query);
+
+                        //Verifica se há mais de um CRMV
+                        $sql = "SELECT * FROM veterinario WHERE CRMV = '$crmv'"; 
+                        $resultado = mysqli_query($conexao, $sql);
 
                         // Calcular a idade
                         $dataAtual = new DateTime();
@@ -226,9 +231,14 @@ date_default_timezone_set('America/Sao_Paulo'); ?>
                         } else if (strtotime($dataNascimento) > time()) {
                             // Data de nascimento é no futuro, mostrar mensagem de erro
                             $mensagem = "Data de nascimento não pode ser no futuro";
-                        } else {
+                        } else if (mysqli_num_rows($resultado) > 0) {
+                            // Já existe um veterinário com esse CRMV, exiba uma mensagem de erro ou redirecione
+                            $mensagem = "Já existe um veterinário cadastrado com esse CRMV.";
+                            // Pode redirecionar de volta ao formulário ou realizar outras ações necessárias
+                        }
+                         else {
                             //3. Preparar a SQL
-                            $sql = "insert into veterinario (statusVet, nome, telefone, dataNascimento, email, senha, CRMV) values ('Ativo', '$nome', '$telefone', '$dataNascimento', '$email', '$senha', '$crmv')";
+                            $sql = "INSERT INTO veterinario (statusVet, nome, telefone, dataNascimento, email, senha, CRMV, sexo) VALUES ('Ativo', '$nome', '$telefone', '$dataNascimento', '$email', '$senha', '$crmv', '$sexo')";
 
                             //4. Executar a SQL
                             $resultado = mysqli_query($conexao, $sql);

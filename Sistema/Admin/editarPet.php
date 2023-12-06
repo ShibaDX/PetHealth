@@ -245,14 +245,15 @@ $linha = mysqli_fetch_array($resultado);
 
                         //5. Mostrar mensagem ao usuário
                         $mensagem = "Alterado com sucesso";
-                    }
-                    //Mostrar mensagem ao usuário
-                    if (isset($mensagem)) { ?>
-                        <div class="alert alert-success mb-2" role="alert">
-                            <i class="fa-solid fa-check" style="color: #12972c;"></i>
-                            <?= $mensagem ?>
-                        </div>
+
+                        //Mostrar mensagem ao usuário
+                        if ($mensagem) { ?>
+                            <div class="alert <?= strpos($mensagem, 'Sucesso') !== false ? 'alert-success' : 'alert-danger' ?> mb-2" role="alert">
+                                <i class="fa-solid <?= strpos($mensagem, 'Sucesso') !== false ? 'fa-check' : 'fa-x' ?>" style="color: <?= strpos($mensagem, 'Sucesso') !== false ? '#12972c' : '#b70b0b' ?>;"></i>
+                                <?= $mensagem ?>
+                            </div>
                     <?php }
+                    }
                     require_once("footer.php");
                     ?>
 

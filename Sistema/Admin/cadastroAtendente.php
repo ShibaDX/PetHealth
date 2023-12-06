@@ -120,176 +120,183 @@ date_default_timezone_set('America/Sao_Paulo'); ?>
                             <a href="listagemAtendente.php" class="btn btn-warning"><i class="fa-solid fa-rotate-left"></i>
                                 Voltar</a>
                     </div>
-                </form><br>
-            <script>
-                //Mostrar Senha
-                const senhaInput = document.querySelector("#senha");
-                const togglePassButton = document.querySelector("#togglePass");
-                togglePassButton.addEventListener('click', togglePass);
+                    </form><br>
+                    <script>
+                        //Mostrar Senha
+                        const senhaInput = document.querySelector("#senha");
+                        const togglePassButton = document.querySelector("#togglePass");
+                        togglePassButton.addEventListener('click', togglePass);
 
-                function togglePass() {
-                    if (senhaInput.type == "password") {
-                        senhaInput.type = "text";
-                        togglePassButton.textContent = "Esconder Senha";
-                    } else {
-                        senhaInput.type = "password";
-                        togglePassButton.textContent = "Mostrar Senha";
+                        function togglePass() {
+                            if (senhaInput.type == "password") {
+                                senhaInput.type = "text";
+                                togglePassButton.textContent = "Esconder Senha";
+                            } else {
+                                senhaInput.type = "password";
+                                togglePassButton.textContent = "Mostrar Senha";
+                            }
+                        }
+
+                        //Mostrar Confirmar Senha
+                        const confirmarSenhaInput = document.querySelector("#confirmarSenha");
+                        const toggleConfirmPassButton = document.querySelector("#toggleConfirmPass");
+                        toggleConfirmPassButton.addEventListener('click', toggleConfirmPass);
+
+                        function toggleConfirmPass() {
+                            if (confirmarSenhaInput.type == "password") {
+                                confirmarSenhaInput.type = "text";
+                                toggleConfirmPassButton.textContent = "Esconder Senha";
+                            } else {
+                                confirmarSenhaInput.type = "password";
+                                toggleConfirmPassButton.textContent = "Mostrar Senha";
+                            }
+                        }
+
+                        function validarTelefone() {
+                            var telefoneInput = document.getElementById("telefone");
+                            var telefone = telefoneInput.value;
+
+                            // Expressão regular para validar o formato do telefone
+                            var regex = /^\(\d{2}\) \d{4,5}-\d{4}$/;
+
+                            if (!regex.test(telefone)) {
+                                alert("Por favor, insira um número de telefone válido no formato (11) 1234-5678 ou (11) 12345-6789.");
+                                telefoneInput.focus();
+                                return false;
+                            }
+
+                            return true;
+                        }
+
+                        function validarLetras(input) {
+                            // Substituir qualquer caractere que não seja uma letra por vazio
+                            input.value = input.value.replace(/[^a-zA-Z\sàáâãäåçèéêëìíîïòóôõöùúûü-]/g, '');
+                        }
+                    </script>
+
+
+                    <!-- Requisitar a Conexão -->
+                    <?php
+
+                    function validaCPF($cpf)
+                    {
+
+                        // Extrai somente os números
+                        $cpf = preg_replace('/[^0-9]/is', '', $cpf);
+
+                        // Verifica se foi informado todos os digitos corretamente
+                        if (strlen($cpf) != 11) {
+                            return false;
+                        }
+
+                        // Verifica se foi informada uma sequência de digitos repetidos. Ex: 111.111.111-11
+                        if (preg_match('/(\d)\1{10}/', $cpf)) {
+                            return false;
+                        }
+
+                        // Faz o calculo para validar o CPF
+                        for ($t = 9; $t < 11; $t++) {
+                            for ($d = 0, $c = 0; $c < $t; $c++) {
+                                $d += $cpf[$c] * (($t + 1) - $c);
+                            }
+                            $d = ((10 * $d) % 11) % 10;
+                            if ($cpf[$c] != $d) {
+                                return false;
+                            }
+                        }
+                        return true;
                     }
-                }
 
-                //Mostrar Confirmar Senha
-                const confirmarSenhaInput = document.querySelector("#confirmarSenha");
-                const toggleConfirmPassButton = document.querySelector("#toggleConfirmPass");
-                toggleConfirmPassButton.addEventListener('click', toggleConfirmPass);
+                    if (isset($_POST['salvar'])) {
 
-                function toggleConfirmPass() {
-                    if (confirmarSenhaInput.type == "password") {
-                        confirmarSenhaInput.type = "text";
-                        toggleConfirmPassButton.textContent = "Esconder Senha";
-                    } else {
-                        confirmarSenhaInput.type = "password";
-                        toggleConfirmPassButton.textContent = "Mostrar Senha";
-                    }
-                }
+                        //2. Receber os dados para inserir no BD
+                        $nome = $_POST['nomeAtendente'];
+                        $telefone = $_POST['telefone'];
+                        $dataNascimento = $_POST['dataNascimento'];
+                        $email = $_POST['email'];
+                        $senha = $_POST['senha'];
+                        $confirmarSenha = $_POST['confirmarSenha'];
+                        $cpf = $_POST['cpf'];
+                        $sexo = $_POST['sexo'];
 
-                function validarTelefone() {
-                    var telefoneInput = document.getElementById("telefone");
-                    var telefone = telefoneInput.value;
+                        $mensagem = ""; // Inicializa a variável $mensagem
 
-                    // Expressão regular para validar o formato do telefone
-                    var regex = /^\(\d{2}\) \d{4,5}-\d{4}$/;
-
-                    if (!regex.test(telefone)) {
-                        alert("Por favor, insira um número de telefone válido no formato (11) 1234-5678 ou (11) 12345-6789.");
-                        telefoneInput.focus();
-                        return false;
-                    }
-
-                    return true;
-                }
-
-                function validarLetras(input) {
-                    // Substituir qualquer caractere que não seja uma letra por vazio
-                    input.value = input.value.replace(/[^a-zA-Z\sàáâãäåçèéêëìíîïòóôõöùúûü-]/g, '');
-                }
-            </script>
-
-
-            <!-- Requisitar a Conexão -->
-            <?php
-
-            function validaCPF($cpf)
-            {
-
-                // Extrai somente os números
-                $cpf = preg_replace('/[^0-9]/is', '', $cpf);
-
-                // Verifica se foi informado todos os digitos corretamente
-                if (strlen($cpf) != 11) {
-                    return false;
-                }
-
-                // Verifica se foi informada uma sequência de digitos repetidos. Ex: 111.111.111-11
-                if (preg_match('/(\d)\1{10}/', $cpf)) {
-                    return false;
-                }
-
-                // Faz o calculo para validar o CPF
-                for ($t = 9; $t < 11; $t++) {
-                    for ($d = 0, $c = 0; $c < $t; $c++) {
-                        $d += $cpf[$c] * (($t + 1) - $c);
-                    }
-                    $d = ((10 * $d) % 11) % 10;
-                    if ($cpf[$c] != $d) {
-                        return false;
-                    }
-                }
-                return true;
-            }
-
-            if (isset($_POST['salvar'])) {
-
-                //2. Receber os dados para inserir no BD
-                $nome = $_POST['nomeAtendente'];
-                $telefone = $_POST['telefone'];
-                $dataNascimento = $_POST['dataNascimento'];
-                $email = $_POST['email'];
-                $senha = $_POST['senha'];
-                $confirmarSenha = $_POST['confirmarSenha'];
-                $cpf = $_POST['cpf'];
-                $sexo = $_POST['sexo'];
-
-                $mensagem = ""; // Inicializa a variável $mensagem
-
-                // Verificar se o e-mail já está cadastrado em qualquer uma das tabelas
-                $check_query = "SELECT * FROM admin WHERE email='$email'
+                        // Verificar se o e-mail já está cadastrado em qualquer uma das tabelas
+                        $check_query = "SELECT * FROM admin WHERE email='$email'
                                     UNION
                                     SELECT * FROM veterinario WHERE email='$email'
                                     UNION
                                     SELECT * FROM atendente WHERE email='$email'";
 
-                $check_result = $conexao->query($check_query);
+                        $check_result = $conexao->query($check_query);
 
-                // Calcular a idade
-                $dataAtual = new DateTime();
-                $DN = new DateTime($dataNascimento);
-                $idade = $dataAtual->diff($DN)->y;
+                        // Crie um objeto DateTime com a data de nascimento
+                        $dataNascimentoObj = DateTime::createFromFormat('Y-m-d', $dataNascimento);
 
-                if ($check_result->num_rows > 0) {
-                    // E-mail já cadastrado
-                    $mensagem = "E-mail já cadastrado";
-                }
-                // Verificar se a idade é pelo menos 18 anos
-                else if ($idade < 18) {
-                    $mensagem = "O veterinário precisa ter pelo menos 18 anos";
-                } else if ($confirmarSenha != $senha) {
-                    $mensagem = "As senhas não coincidem, tente novamente";
-                } else if (!validaCPF($cpf)) {
-                    // CPF inválido, mostrar mensagem de erro
-                    $mensagem = "CPF inválido. Por favor, insira um CPF válido.";
-                } else if (strtotime($dataNascimento) > time()) {
-                    // Data de nascimento é no futuro, mostrar mensagem de erro
-                    $mensagem = "Data de nascimento não pode ser no futuro";
-                } else {
+                        // Obtenha a data atual como um objeto DateTime com o fuso horário de Brasília
+                        $dataAtualObj = new DateTime('now', new DateTimeZone('America/Sao_Paulo'));
 
-                    //3. Preparar a SQL
-                    $sql = "insert into atendente (nome, telefone, dataNascimento, email, senha, cpf, sexo, statusAtendente) values ('$nome', '$telefone', '$dataNascimento', '$email', '$senha', '$cpf', '$sexo', 'Ativo')";
 
-                    //4. Executar a SQL
-                    $resultado = mysqli_query($conexao, $sql);
+                        // Calcular a idade
+                        $dataAtual = new DateTime();
+                        $DN = new DateTime($dataNascimento);
+                        $idade = $dataAtual->diff($DN)->y;
 
-                    //5. Verificar o resultado da inserção
-                    if ($resultado) {
-                        // Inserção bem-sucedida
-                        $mensagem = "Inserido com Sucesso";
-                    } else {
-                        // Erro na inserção
-                        $mensagem = "Erro ao inserir no banco de dados: " . mysqli_error($conexao);
+                        if ($check_result->num_rows > 0) {
+                            // E-mail já cadastrado
+                            $mensagem = "E-mail já cadastrado";
+                        }
+                        // Verificar se a idade é pelo menos 18 anos
+                        else if ($idade < 18) {
+                            $mensagem = "O veterinário precisa ter pelo menos 18 anos";
+                        } else if ($confirmarSenha != $senha) {
+                            $mensagem = "As senhas não coincidem, tente novamente";
+                        } else if (!validaCPF($cpf)) {
+                            // CPF inválido, mostrar mensagem de erro
+                            $mensagem = "CPF inválido. Por favor, insira um CPF válido.";
+                        } else if ($dataNascimentoObj > $dataAtualObj) {
+                            // Data de nascimento é no futuro, mostrar mensagem de erro
+                            $mensagem = "Data de nascimento não pode ser no futuro";
+                        } else {
+
+                            //3. Preparar a SQL
+                            $sql = "insert into atendente (nome, telefone, dataNascimento, email, senha, cpf, sexo, statusAtendente) values ('$nome', '$telefone', '$dataNascimento', '$email', '$senha', '$cpf', '$sexo', 'Ativo')";
+
+                            //4. Executar a SQL
+                            $resultado = mysqli_query($conexao, $sql);
+
+                            //5. Verificar o resultado da inserção
+                            if ($resultado) {
+                                // Inserção bem-sucedida
+                                $mensagem = "Inserido com Sucesso";
+                            } else {
+                                // Erro na inserção
+                                $mensagem = "Erro ao inserir no banco de dados: " . mysqli_error($conexao);
+                            }
+                        }
+
+                    ?>
+                        <?php
+                        // Exibir a mensagem
+                        if ($mensagem) { ?>
+                            <div class="alert <?= strpos($mensagem, 'Sucesso') !== false ? 'alert-success' : 'alert-danger' ?> mb-2" role="alert">
+                                <i class="fa-solid <?= strpos($mensagem, 'Sucesso') !== false ? 'fa-check' : 'fa-x' ?>" style="color: <?= strpos($mensagem, 'Sucesso') !== false ? '#12972c' : '#b70b0b' ?>;"></i>
+                                <?= $mensagem ?>
+                            </div>
+                    <?php }
                     }
-                }
+                    require_once("footer.php");
+                    ?>
 
-            ?>
-                <?php
-                // Exibir a mensagem
-                if ($mensagem) { ?>
-                    <div class="alert <?= strpos($mensagem, 'Sucesso') !== false ? 'alert-success' : 'alert-danger' ?> mb-2" role="alert">
-                        <i class="fa-solid <?= strpos($mensagem, 'Sucesso') !== false ? 'fa-check' : 'fa-x' ?>" style="color: <?= strpos($mensagem, 'Sucesso') !== false ? '#12972c' : '#b70b0b' ?>;"></i>
-                        <?= $mensagem ?>
-                    </div>
-            <?php }
-            }
-            require_once("footer.php");
-            ?>
+                    <!-- Bootstrap core JavaScript-->
+                    <script src="vendor/jquery/jquery.min.js"></script>
+                    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-            <!-- Bootstrap core JavaScript-->
-            <script src="vendor/jquery/jquery.min.js"></script>
-            <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+                    <!-- Core plugin JavaScript-->
+                    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
 
-            <!-- Core plugin JavaScript-->
-            <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
-            <!-- Custom scripts for all pages-->
-            <script src="js/sb-admin-2.min.js"></script>
+                    <!-- Custom scripts for all pages-->
+                    <script src="js/sb-admin-2.min.js"></script>
 
 </body>
 
