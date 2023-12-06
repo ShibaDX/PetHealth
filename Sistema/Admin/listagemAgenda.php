@@ -62,21 +62,7 @@ $resultado = mysqli_query($conexao, $sql);
             <!-- Main Content -->
             <div id="content">
 
-                <?php require_once("topbarAdmin.php"); 
-
-                
-                // Obter a data atual
-                /**$data_atual = date("Y-m-d");
-                $sql = "SELECT a.id, a.data, a.hora, p.nome as petNome, v.nome as vetNome, pr.nome as procNome, c.nome as clienteNome, pr.valor as procValor FROM agenda a 
-                                    INNER JOIN pet p on a.pet_id= p.id
-                                    inner JOIN veterinario v on a.veterinario_id = v.id
-                                    INNER join procedimento pr on a.procedimento_id = pr.id
-                                    INNER JOIN cliente c ON p.cliente_id = c.id
-                                    WHERE data = '$data_atual'
-                                    ORDER BY hora";
-
-                $resultado = mysqli_query($conexao, $sql);*/
-                ?> 
+                <?php require_once("topbarAdmin.php"); ?> 
 
                 <!-- Bloco de mensagem -->
                 <?php if (isset($mensagem)) { ?>

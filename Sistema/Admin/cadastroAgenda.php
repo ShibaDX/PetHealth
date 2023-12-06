@@ -214,7 +214,6 @@ require_once("conexao.php"); ?>
                             //5. Mostrar mensagem ao usuário
                             $mensagem = "Inserido com Sucesso";
                         }
-                    }
 
                     // Exibir a mensagem
                     if ($mensagem) { ?>
@@ -223,6 +222,8 @@ require_once("conexao.php"); ?>
                             <?= $mensagem ?>
                         </div>
                     <?php }
+                    }
+
 
                     require_once("footer.php");
                     ?>

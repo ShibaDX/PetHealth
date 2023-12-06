@@ -36,17 +36,18 @@ $resultado = mysqli_query($conexao, $sql);
 
     <style>
         /* Defina a altura e a largura desejadas para o contêiner */
-        .tabela-container {
-            overflow-x: scroll;
-            /* Adiciona rolagem horizontal se necessário */
-            overflow-y: scroll;
-            /* Adiciona rolagem vertical se necessário */
+        .tabela-scroll {
+            max-height: 300px;
+            /* Defina a altura máxima desejada */
+            overflow-y: auto;
+            /* Adiciona barra de rolagem vertical conforme necessário */
         }
 
-        /* Defina um estilo para a tabela */
-        table {
-            width: 100%;
-            border-collapse: collapse;
+        .tabela-scroll table {
+            max-width: 100%;
+            /* Defina a largura máxima desejada */
+            overflow-x: auto;
+            /* Adiciona barra de rolagem horizontal conforme necessário */
         }
 
         .item {
@@ -74,7 +75,7 @@ $resultado = mysqli_query($conexao, $sql);
                 <?php require_once("topbarAdmin.php"); ?>
 
                 <div class="container">
-                    <img src="img/petbanner3.png" class="img-fluid mb-3" alt="..."><br><br>
+                    <img src="img/petbanner.png" class="img-fluid mb-3" alt="..."><br><br>
                     <h4>Agendamentos de Hoje</h4>
                     <div class="row">
 
@@ -83,7 +84,7 @@ $resultado = mysqli_query($conexao, $sql);
                             if ($resultado->num_rows > 0) {
                                 // Exibir os dados em uma tabela
                             ?>
-                                <table class="table table-striped table-hover tabela-container" id="listaAgenda">
+                                <table class="table table-striped table-hover tabela-scroll" id="listaAgenda">
                                     <tr>
                                         <th>Hora</th>
                                         <th>Status</th>
@@ -121,13 +122,13 @@ $resultado = mysqli_query($conexao, $sql);
                         </div>
                         <div class="col-4">
                             <div class="item">
-                            <a href="cadastroAgenda.php" class="btn btn-success btn-lg btn-block"><i class="fa-solid fa-calendar-days"></i> Novo Agendamento</a>
-                            </div>
-                            <div class="item" >
-                            <a href="cadastroCliente.php" type="button" class="btn btn-primary btn-lg btn-block"><i class="fa-solid fa-user"></i> Novo Cliente</a>
+                                <a href="cadastroAgenda.php" class="btn btn-success btn-lg btn-block"><i class="fa-solid fa-calendar-days"></i> Novo Agendamento</a>
                             </div>
                             <div class="item">
-                            <a href="cadastroPet.php" type="button" class="btn btn-info btn-lg btn-block"><i class="fa-solid fa-dog"></i> Novo Pet</a>
+                                <a href="cadastroCliente.php" type="button" class="btn btn-primary btn-lg btn-block"><i class="fa-solid fa-user"></i> Novo Cliente</a>
+                            </div>
+                            <div class="item">
+                                <a href="cadastroPet.php" type="button" class="btn btn-info btn-lg btn-block"><i class="fa-solid fa-dog"></i> Novo Pet</a>
                             </div>
                         </div>
                     </div>

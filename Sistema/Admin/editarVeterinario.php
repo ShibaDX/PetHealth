@@ -2,7 +2,7 @@
 //1. Conectar no BD (IP, usuario, senha, nome do banco)
 require_once("verificaAutenticacao.php");
 require_once("conexao.php");
-
+date_default_timezone_set('America/Sao_Paulo');
 //Busca o usuário selecionado pelo usuarioListar.php
 $sql = "select * from veterinario where id = " . $_GET['id'];
 $resultado = mysqli_query($conexao, $sql);

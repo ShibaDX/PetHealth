@@ -2,6 +2,7 @@
 //1. Conectar no BD (IP, usuario, senha, nome do banco)
 require_once("verificaAutenticacao.php");
 require_once("conexao.php");
+date_default_timezone_set('America/Sao_Paulo');
 if (isset($_POST['salvar'])) {
 
     //2. Receber os dados para inserir no BD

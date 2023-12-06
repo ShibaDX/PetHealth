@@ -1,6 +1,7 @@
 <!-- Requisita a conexão e a verificação de autenticação -->
 <?php require_once("verificaAutenticacao.php");
-require_once("conexao.php"); ?>
+require_once("conexao.php"); 
+date_default_timezone_set('America/Sao_Paulo'); ?>
 <!DOCTYPE html>
 <html lang="pt-br">
 
