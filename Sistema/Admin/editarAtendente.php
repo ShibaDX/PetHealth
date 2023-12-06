@@ -67,7 +67,7 @@ $linha = mysqli_fetch_array($resultado);
                                 <div class="col-6">
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">Email</label>
-                                        <input name="email" type="email" class="form-control" value="<?= $linha['email'] ?>"><br>
+                                        <input name="email" type="email" class="form-control" value="<?= isset($_POST['email']) ? htmlspecialchars($_POST['email']) : $linha['email'] ?>"><br>
                                     </div>
                                 </div>
                             </div>
@@ -124,87 +124,122 @@ $linha = mysqli_fetch_array($resultado);
                             <a href="listagemAtendente.php" class="btn btn-warning"><i class="fa-solid fa-rotate-left"></i>
                                 Voltar</a>
                     </div>
-                </div>
-                </form><br>
-            </div>
+                    </form><br>
 
-            <script>
-                function limpar() {
-                    document.getElementById("dataDemissao").value = null;
-                    // Defina o valor do campo oculto como 1 quando o botão "Limpar" for clicado
-                    document.getElementById("limparDataDemissao").value = 1;
-                }
+                    <script>
+                        function limpar() {
+                            document.getElementById("dataDemissao").value = null;
+                            // Defina o valor do campo oculto como 1 quando o botão "Limpar" for clicado
+                            document.getElementById("limparDataDemissao").value = 1;
+                        }
 
-                const senhaInput = document.querySelector("#senha");
-                const togglePassButton = document.querySelector("#togglePass");
-                togglePassButton.addEventListener('click', togglePass);
+                        const senhaInput = document.querySelector("#senha");
+                        const togglePassButton = document.querySelector("#togglePass");
+                        togglePassButton.addEventListener('click', togglePass);
 
-                function togglePass() {
-                    if (senhaInput.type == "password") {
-                        senhaInput.type = "text";
-                        togglePassButton.textContent = "Esconder Senha";
-                    } else {
-                        senhaInput.type = "password";
-                        togglePassButton.textContent = "Mostrar Senha";
-                    }
-                }
+                        function togglePass() {
+                            if (senhaInput.type == "password") {
+                                senhaInput.type = "text";
+                                togglePassButton.textContent = "Esconder Senha";
+                            } else {
+                                senhaInput.type = "password";
+                                togglePassButton.textContent = "Mostrar Senha";
+                            }
+                        }
 
-                function validarLetras(input) {
+                        function validarLetras(input) {
                             // Substituir qualquer caractere que não seja uma letra por vazio
                             input.value = input.value.replace(/[^a-zA-Z\sàáâãäåçèéêëìíîïòóôõöùúûü-]/g, '');
                         }
-            </script>
+                    </script>
 
-            <?php
-            if (isset($_POST['salvar'])) {
+                    <?php
+                    if (isset($_POST['salvar'])) {
 
-                //2. Receber os dados para inserir no BD
-                $id = $_POST['id'];
-                $nome = $_POST['nome'];
-                $telefone = $_POST['telefone'];
-                $dataNascimento = $_POST['dataNascimento'];
-                $email = $_POST['email'];
-                $senha = $_POST['senha'];
-                $cpf = $_POST['cpf'];
-                $sexo = $_POST['sexo'];
-                $dataDemissao = isset($_POST['limparDataDemissao']) && $_POST['limparDataDemissao'] == 1 ? null : $_POST['dataDemissao'];
+                        //2. Receber os dados para inserir no BD
+                        $id = $_POST['id'];
+                        $nome = $_POST['nome'];
+                        $telefone = $_POST['telefone'];
+                        $dataNascimento = $_POST['dataNascimento'];
+                        $email = $_POST['email'];
+                        $senha = $_POST['senha'];
+                        $cpf = $_POST['cpf'];
+                        $sexo = $_POST['sexo'];
+                        $dataDemissao = isset($_POST['limparDataDemissao']) && $_POST['limparDataDemissao'] == 1 ? null : $_POST['dataDemissao'];
 
-                // Verificar se a data de demissão foi fornecida
-                if (!empty($dataDemissao) || $dataDemissao != null) {
+                        $mensagem = ""; // Inicializa a variável $mensagem
 
-                    // Atualizar o registro do veterinário no banco de dados
-                    $sql = "UPDATE atendente SET nome = '$nome', telefone = '$telefone', sexo = '$sexo', dataNascimento = '$dataNascimento', email = '$email', senha = '$senha' , statusAtendente = 'Inativo', cpf = '$cpf', dataDemissao = '$dataDemissao' WHERE id = $id";
-                } else {
-                    //3. Preparar a SQL
-                    $sql = "UPDATE atendente SET nome = '$nome', telefone = '$telefone', sexo = '$sexo', dataNascimento = '$dataNascimento', email = '$email', senha = '$senha' , statusAtendente = 'Ativo', cpf = '$cpf', dataDemissao = '$dataDemissao' WHERE id = $id";
-                }
-                //4. Executar a SQL
-                mysqli_query($conexao, $sql);
+                        // Verificar se o e-mail já está cadastrado nas tabelas admin, veterinario e atendente
+                        $check_query = "SELECT * FROM admin WHERE email='$email' AND id != '$id'
+                        UNION
+                        SELECT * FROM veterinario WHERE email='$email'
+                        UNION
+                        SELECT * FROM atendente WHERE email='$email'";
 
-                //5. Mostrar mensagem ao usuário
-                $mensagem = "Alterado com sucesso";
-            }
-            ?>
+                        $check_result = $conexao->query($check_query);
 
-            <!-- Mostrar mensagem ao usuário -->
-            <?php if (isset($mensagem)) { ?>
-                <div class="alert alert-success mb-2" role="alert">
-                    <i class="fa-solid fa-check" style="color: #12972c;"></i>
-                    <?= $mensagem ?>
-                </div>
-            <?php }
-            require_once("footer.php");
-            ?>
 
-            <!-- Bootstrap core JavaScript-->
-            <script src="vendor/jquery/jquery.min.js"></script>
-            <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-            <!-- Core plugin JavaScript-->
-            <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+                        // Calcular a idade
+                        $dataAtual = new DateTime();
+                        $DN = new DateTime($dataNascimento);
+                        $idade = $dataAtual->diff($DN)->y;
 
-            <!-- Custom scripts for all pages-->
-            <script src="js/sb-admin-2.min.js"></script>
+                        if ($check_result->num_rows > 0) {
+                            // E-mail já cadastrado
+                            $mensagem = "E-mail já cadastrado";
+                        }
+                        // Verificar se a idade é pelo menos 18 anos
+                        else if ($idade < 18) {
+                            $mensagem = "O veterinário precisa ter pelo menos 18 anos";
+                        } else if ($confirmarSenha != $senha) {
+                            $mensagem = "As senhas não coincidem, tente novamente";
+                        } else if (!validaCPF($cpf)) {
+                            // CPF inválido, mostrar mensagem de erro
+                            $mensagem = "CPF inválido. Por favor, insira um CPF válido.";
+                        } else if (strtotime($dataNascimento) > time()) {
+                            // Data de nascimento é no futuro, mostrar mensagem de erro
+                            $mensagem = "Data de nascimento não pode ser no futuro";
+                        } else {
+
+                            // Verificar se a data de demissão foi fornecida
+                            if (!empty($dataDemissao) || $dataDemissao != null) {
+
+                                // Atualizar o registro do veterinário no banco de dados
+                                $sql = "UPDATE atendente SET nome = '$nome', telefone = '$telefone', sexo = '$sexo', dataNascimento = '$dataNascimento', email = '$email', senha = '$senha' , statusAtendente = 'Inativo', cpf = '$cpf', dataDemissao = '$dataDemissao' WHERE id = $id";
+                            } else {
+                                //3. Preparar a SQL
+                                $sql = "UPDATE atendente SET nome = '$nome', telefone = '$telefone', sexo = '$sexo', dataNascimento = '$dataNascimento', email = '$email', senha = '$senha' , statusAtendente = 'Ativo', cpf = '$cpf', dataDemissao = '$dataDemissao' WHERE id = $id";
+                            }
+                            //4. Executar a SQL
+                            mysqli_query($conexao, $sql);
+
+                            //5. Mostrar mensagem ao usuário
+                            $mensagem = "Alterado com sucesso";
+                        }
+
+                    ?>
+
+                        <!-- Mostrar mensagem ao usuário -->
+                        <?php if ($mensagem) { ?>
+                            <div class="alert <?= strpos($mensagem, 'Sucesso') !== false ? 'alert-success' : 'alert-danger' ?> mb-2" role="alert">
+                                <i class="fa-solid <?= strpos($mensagem, 'Sucesso') !== false ? 'fa-check' : 'fa-x' ?>" style="color: <?= strpos($mensagem, 'Sucesso') !== false ? '#12972c' : '#b70b0b' ?>;"></i>
+                                <?= $mensagem ?>
+                            </div>
+                    <?php }
+                    }
+                    require_once("footer.php");
+                    ?>
+
+                    <!-- Bootstrap core JavaScript-->
+                    <script src="vendor/jquery/jquery.min.js"></script>
+                    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+                    <!-- Core plugin JavaScript-->
+                    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+                    <!-- Custom scripts for all pages-->
+                    <script src="js/sb-admin-2.min.js"></script>
 
 </body>
 
