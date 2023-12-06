@@ -202,8 +202,9 @@ $linha = mysqli_fetch_array($resultado);
 
                     <!-- Custom scripts for all pages-->
                     <script src="js/sb-admin-2.min.js"></script>
+                    
                     <script src="https://code.jquery.com/jquery-3.0.0.min.js" type="text/javascript"></script>
-            <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.maskedinput/1.4.1/jquery.maskedinput.js" type="text/javascript"></script>
+                    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.maskedinput/1.4.1/jquery.maskedinput.js" type="text/javascript"></script>
                     <script type="text/javascript">
                         $(document).ready(function() {
 

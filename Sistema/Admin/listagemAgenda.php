@@ -67,26 +67,33 @@ $data_atual = date("Y-m-d");
                             <i class="fa-solid fa-calendar-days"></i> Agendamentos <a href="cadastroAgenda.php" class="btn btn-success btn-sn"><i class="fa-solid fa-calendar-days"></i> Novo Agendamento</a> <a href="listagemProcedimento.php" class="btn btn-info btn-sn"><i class="fa-solid fa-notes-medical"></i> Procedimentos</a>
                         </h2>
                         <form name="filtro" method="POST">
-                            <label for="formGroupExampleInput" class="form-label">Filtrar por Data</label>
+
                             <div class="row">
                                 <div class="col-2">
-                                    <input name="data" type="date" class="form-control" onchange="this.form.submit()" value="<?= isset($_POST['data']) ? htmlspecialchars($_POST['data']) : '' ?>">
+                                    <div class="mb-1">
+                                        <label for="data" class="form-label">Filtrar por Data</label>
+                                        <input name="data" type="date" class="form-control" onchange="this.form.submit()" value="<?= isset($_POST['data']) ? htmlspecialchars($_POST['data']) : '' ?>">
+                                    </div>
                                 </div>
-                                <div class="col-2">
+                                <div class="col-1">
+                                <label for="data" class="form-label"> </label>
+                                <div class="mb-1 mt-2">
                                     <button type="submit" class="btn btn-primary" name="data" value="<?= $data_atual ?>">Hoje</button>
                                 </div>
+                                </div>
                                 <div class="col-3">
+                                    <label for="">Filtrar por Cliente/Pet</label>
                                     <div class="mb-1">
                                         <select name="cliente_id" class="custom-select" aria-label="Large select example" onchange="this.form.submit()">
-                                            <option value="" selected>Selecione</option>
+                                            <option value="" selected>Selecionar Cliente</option>
                                             <?php
                                             $sql = "select * from cliente order by nome";
                                             $resultado = mysqli_query($conexao, $sql);
 
-                                            while ($linha1 = mysqli_fetch_array($resultado)) {
-                                                $idCliente = $linha1['id'];
-                                                $nome = $linha1['nome'];
-                                                $cpf = $linha1['CPF'];
+                                            while ($linha = mysqli_fetch_array($resultado)) {
+                                                $idCliente = $linha['id'];
+                                                $nome = $linha['nome'];
+                                                $cpf = $linha['CPF'];
 
                                                 $selecionado = ($_POST['cliente_id'] == $idCliente) ? "selected" : "";
 
@@ -96,62 +103,65 @@ $data_atual = date("Y-m-d");
                                         </select>
                                     </div>
                                 </div>
-                                <?php if ($_POST['cliente_id'] != '') { ?>
-                                <div class="col-3">
-                                    <div class="mb-1">
-                                        <select name="pet_id" class="custom-select" aria-label="Large select example" onchange="this.form.submit()">
-                                            <option value="" selected>Selecione</option>
-                                            <?php
-                                            $sql = "select pet.id, pet.nome
+                                <?php
+                                $cliente_id_selecionado = isset($_POST['cliente_id']) ? $_POST['cliente_id'] : '';
+                                ?>
+                                <?php if ($cliente_id_selecionado != '') { ?>
+                                    <div class="col-3">
+                                        <label for=""> </label>
+                                        <div class="mb-1 mt-2">
+                                            <select name="pet_id" class="custom-select" aria-label="Large select example" onchange="this.form.submit()">
+                                                <option value="" selected>Selecionar Pet</option>
+                                                <?php
+                                                $sql = "select pet.id, pet.nome, pet.especie
                                               from pet 
                                               where pet.cliente_id = {$_POST['cliente_id']}
                                           order by pet.nome";
-                                            $resultado = mysqli_query($conexao, $sql);
+                                                $resultado = mysqli_query($conexao, $sql);
 
-                                            while ($linha = mysqli_fetch_array($resultado)) {
-                                                $idPet = $linha['id'];
-                                                $nome = $linha['nome'];
+                                                while ($linha = mysqli_fetch_array($resultado)) {
+                                                    $idPet = $linha['id'];
+                                                    $nome = $linha['nome'];
+                                                    $especie = $linha['especie'];
 
-                                                $selecionado = ($_POST['pet_id'] == $idPet) ? "selected" : "";
+                                                    $selecionado = ($_POST['pet_id'] == $idPet) ? "selected" : "";
 
-                                                echo "<option value='{$idPet}' {$selecionado}>{$nome}</option>";
-                                            }
-                                            ?>
-                                        </select>
+                                                    echo "<option value='{$idPet}' {$selecionado}>{$nome} ({$especie})</option>";
+                                                }
+                                                ?>
+                                            </select>
+                                        </div>
                                     </div>
-                                </div>
                                 <?php } ?>
                             </div>
                         </form>
                         <?php
                         // Verifica se foi feita uma requisição POST
                         //if (isset($_POST['filtro'])) {
-                            if (isset($_POST['data'])) {
-                                $dataFiltrada = mysqli_real_escape_string($conexao, $_POST['data']);
-                            } else {
-                                $dataFiltrada =  $data_atual;
+                        if (isset($_POST['data'])) {
+                            $dataFiltrada = mysqli_real_escape_string($conexao, $_POST['data']);
+                        } else {
+                            $dataFiltrada =  $data_atual;
+                        }
+
+                        $cliente_id = isset($_POST['cliente_id']) ? mysqli_real_escape_string($conexao, $_POST['cliente_id']) : null;
+                        $pet_id = isset($_POST['pet_id']) ? mysqli_real_escape_string($conexao, $_POST['pet_id']) : null;
+
+                        // Adiciona a condição WHERE apenas se a data estiver definida
+                        $whereClause = "WHERE 1"; // Sempre verdadeiro
+
+                        if (isset($dataFiltrada) && ($dataFiltrada != '')) {
+                            $whereClause .= " AND a.data = '$dataFiltrada'";
+                        } else if (isset($cliente_id) && ($cliente_id != '')) {
+                            $whereClause .= " AND c.id = '$cliente_id'";
+
+                            if (isset($pet_id) && ($pet_id != '')) {
+                                $whereClause .= " AND p.id = '$pet_id'";
                             }
-
-                            $cliente_id = isset($_POST['cliente_id']) ? mysqli_real_escape_string($conexao, $_POST['cliente_id']) : null;
-                            $pet_id = isset($_POST['pet_id']) ? mysqli_real_escape_string($conexao, $_POST['pet_id']) : null;
-
-                            // Adiciona a condição WHERE apenas se a data estiver definida
-                            $whereClause = "WHERE 1"; // Sempre verdadeiro
-
-                            if (isset($dataFiltrada) && ($dataFiltrada != '')) {
-                                $whereClause .= " AND a.data = '$dataFiltrada'";
-                            } 
-
-                            else if (isset($cliente_id) && ($cliente_id != '')) {
-                                $whereClause .= " AND c.id = '$cliente_id'";
-
-                                if (isset($pet_id) && ($pet_id != '')) {
-                                    $whereClause .= " AND p.id = '$pet_id'";
-                                }
-                            } 
+                        }
 
 
-                            $sql = "SELECT a.id, a.data, a.hora, a.statusAgenda, p.nome as petNome, v.nome as vetNome, pr.nome as procNome, c.nome as clienteNome, pr.valor as procValor 
+                        $sql = "SELECT a.id, a.data, a.hora, a.statusAgenda, p.nome as petNome, v.nome as vetNome, pr.nome as procNome, c.nome as clienteNome, pr.valor as procValor 
                             FROM agenda a 
                             LEFT JOIN pet p ON a.pet_id = p.id
                             LEFT JOIN veterinario v ON a.veterinario_id = v.id
@@ -159,7 +169,7 @@ $data_atual = date("Y-m-d");
                             LEFT JOIN cliente c ON p.cliente_id = c.id
                             $whereClause
                             ORDER BY a.data, a.hora"; // Alterado a ordenação para data e hora
-                            $resultado = mysqli_query($conexao, $sql);
+                        $resultado = mysqli_query($conexao, $sql);
                         //}
                         ?>
                     </div>
