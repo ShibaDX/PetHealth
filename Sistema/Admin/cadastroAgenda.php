@@ -1,7 +1,9 @@
 <!-- Requisita a verificação de autenticação -->
 <?php
 require_once("verificaAutenticacao.php");
-require_once("conexao.php"); ?>
+require_once("conexao.php");
+date_default_timezone_set('America/Sao_Paulo');
+$dataAtual = date("Y-m-d"); ?>
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -21,7 +23,8 @@ require_once("conexao.php"); ?>
     <script src="https://kit.fontawesome.com/0215a38eba.js" crossorigin="anonymous"></script>
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
-
+    <link rel="shortcut icon" href="img/favicon1.png" type="image/x-icon" />
+    <!--Paw icon by <a target="_blank" href="https://icons8.com">Icons8</a> -->
 
 </head>
 
@@ -79,10 +82,10 @@ require_once("conexao.php"); ?>
                                             <label for="pet_id" class="form-label">Pet</label>
                                             <select name="pet_id" class="custom-select" aria-label="Large select example">
                                                 <?php
-                                                $sql = "select pet.id, pet.nome
-                                              from pet 
-                                              where pet.cliente_id = {$_POST['cliente_id']}
-                                          order by pet.nome";
+                                                $sql = "SELECT pet.id, pet.nome
+                                                FROM pet 
+                                                WHERE pet.cliente_id = {$_POST['cliente_id']} AND statusPet = 'Ativo'
+                                                ORDER BY pet.nome";
                                                 $resultado = mysqli_query($conexao, $sql);
 
                                                 while ($linha = mysqli_fetch_array($resultado)) {
@@ -202,8 +205,12 @@ require_once("conexao.php"); ?>
                         $consulta_disponibilidade = "SELECT * FROM agenda WHERE data = '$data' AND hora = '$hora' AND (pet_id = '$pet_id' OR veterinario_id = '$veterinario_id') ";
                         $resultado_disponibilidade = mysqli_query($conexao, $consulta_disponibilidade);
 
-
-                        if (mysqli_num_rows($resultado_disponibilidade) > 0) {
+                        // Verifique se a data do agendamento é posterior à data atual
+                        if (strtotime($data) < strtotime($dataAtual)) {
+                            // A data do agendamento é no passado, exiba uma mensagem de erro ou tome outras medidas necessárias
+                            $mensagem = "A data do agendamento deve ser no futuro.";
+                        }
+                        else if (mysqli_num_rows($resultado_disponibilidade) > 0) {
                             // Já existe uma consulta agendada nessas condições, exibir mensagem de erro
                             $mensagem = "Desculpe, o horário não está disponível. Por favor, escolha outro horário.";
                         } else {
@@ -217,12 +224,12 @@ require_once("conexao.php"); ?>
                             $mensagem = "Inserido com Sucesso";
                         }
 
-                    // Exibir a mensagem
-                    if ($mensagem) { ?>
-                        <div class="alert <?= strpos($mensagem, 'Sucesso') !== false ? 'alert-success' : 'alert-danger' ?> mb-2" role="alert">
-                            <i class="fa-solid <?= strpos($mensagem, 'Sucesso') !== false ? 'fa-check' : 'fa-x' ?>" style="color: <?= strpos($mensagem, 'Sucesso') !== false ? '#12972c' : '#b70b0b' ?>;"></i>
-                            <?= $mensagem ?>
-                        </div>
+                        // Exibir a mensagem
+                        if ($mensagem) { ?>
+                            <div class="alert <?= strpos($mensagem, 'Sucesso') !== false ? 'alert-success' : 'alert-danger' ?> mb-2" role="alert">
+                                <i class="fa-solid <?= strpos($mensagem, 'Sucesso') !== false ? 'fa-check' : 'fa-x' ?>" style="color: <?= strpos($mensagem, 'Sucesso') !== false ? '#12972c' : '#b70b0b' ?>;"></i>
+                                <?= $mensagem ?>
+                            </div>
                     <?php }
                     }
 

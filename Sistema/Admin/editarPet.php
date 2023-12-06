@@ -27,6 +27,8 @@ $linha = mysqli_fetch_array($resultado);
     <script src="https://kit.fontawesome.com/0215a38eba.js" crossorigin="anonymous"></script>
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
+    <link rel="shortcut icon" href="img/favicon1.png" type="image/x-icon" />
+    <!--Paw icon by <a target="_blank" href="https://icons8.com">Icons8</a> -->
 
 </head>
 
@@ -244,7 +246,7 @@ $linha = mysqli_fetch_array($resultado);
                         mysqli_query($conexao, $sql);
 
                         //5. Mostrar mensagem ao usuário
-                        $mensagem = "Alterado com sucesso";
+                        $mensagem = "Alterado com Sucesso";
 
                         //Mostrar mensagem ao usuário
                         if ($mensagem) { ?>

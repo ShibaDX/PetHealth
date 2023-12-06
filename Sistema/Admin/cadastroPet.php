@@ -21,6 +21,8 @@ date_default_timezone_set('America/Sao_Paulo'); ?>
     <script src="https://kit.fontawesome.com/0215a38eba.js" crossorigin="anonymous"></script>
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
+    <link rel="shortcut icon" href="img/favicon1.png" type="image/x-icon" />
+    <!--Paw icon by <a target="_blank" href="https://icons8.com">Icons8</a> -->
 
 </head>
 
@@ -224,7 +226,7 @@ date_default_timezone_set('America/Sao_Paulo'); ?>
 
 
                         //3. Preparar a SQL
-                        $sql = "insert into pet (nome, anoNascimento, sexo, cor, obs, cliente_id, raca_id, especie) values ('$nome', '$anoNascimento', '$sexo', '$cor', '$obs', '$cliente_id', '$raca_id', '$especie')";
+                        $sql = "insert into pet (statusPet, nome, anoNascimento, sexo, cor, obs, cliente_id, raca_id, especie) values ('Ativo', '$nome', '$anoNascimento', '$sexo', '$cor', '$obs', '$cliente_id', '$raca_id', '$especie')";
                         // ... restante do código ...
 
                         //4. Executar a SQL

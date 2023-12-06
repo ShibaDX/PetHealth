@@ -35,6 +35,8 @@ $data_atual = date("Y-m-d");
     <script src="https://kit.fontawesome.com/0215a38eba.js" crossorigin="anonymous"></script>
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
+    <link rel="shortcut icon" href="img/favicon1.png" type="image/x-icon" />
+    <!--Paw icon by <a target="_blank" href="https://icons8.com">Icons8</a> -->
 
 </head>
 
@@ -238,6 +240,7 @@ $data_atual = date("Y-m-d");
 
         <!-- End of Content Wrapper -->
     </div>
+
 
     <!-- Logout Modal-->
     <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">

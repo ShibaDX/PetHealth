@@ -9,11 +9,6 @@ if (isset($_GET['id'])) {
     $mensagem = "Exclusão realizada com sucesso.";
 }
 
-// Preparar a SQL
-//$sql = "select * from agenda";
-
-
-
 // Consulta SQL para obter as consultas marcadas para o dia atual
 $sql = "SELECT * FROM agenda";
 $resultado = mysqli_query($conexao, $sql);
@@ -38,6 +33,8 @@ $resultado = mysqli_query($conexao, $sql);
     <script src="https://kit.fontawesome.com/0215a38eba.js" crossorigin="anonymous"></script>
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
+    <link rel="shortcut icon" href="img/favicon1.png" type="image/x-icon" />
+    <!--Paw icon by <a target="_blank" href="https://icons8.com">Icons8</a> -->
 
 </head>
 
