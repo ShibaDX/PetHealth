@@ -126,10 +126,9 @@ $linha = mysqli_fetch_array($resultado);
                                 Salvar</button>
                             <a href="listagemVeterinario.php" class="btn btn-warning"><i class="fa-solid fa-rotate-left"></i>
                                 Voltar</a>
-                    </div>
-                </div>
+                    
                 </form><br>
-            </div>
+                </div>
 
             <script>
                 function validarLetras(input) {
