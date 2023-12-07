@@ -236,6 +236,8 @@ date_default_timezone_set('America/Sao_Paulo');
                 } else if (strtotime($dataNascimento) > time()) {
                     // Data de nascimento é no futuro, mostrar mensagem de erro
                     $mensagem = "Data de nascimento não pode ser no futuro";
+                } else if (strlen($nome) < 3) {
+                    $mensagem = "O nome deve ter no mínimo 3 caracteres.";
                 } else if (!is_numeric($numero) || $numero <= 0 || strlen($numero) > 4) {
                     // Verifique se o número da casa é um valor numérico, maior que zero e possui até 4 dígitos
                     $mensagem = "Por favor, insira um número de casa válido (até 4 dígitos).";
@@ -244,8 +246,7 @@ date_default_timezone_set('America/Sao_Paulo');
                     // Já existe um cliente com esse CPF, exiba uma mensagem de erro ou redirecione
                     $mensagem = "Já existe um cliente cadastrado com esse CPF.";
                     // Pode redirecionar de volta ao formulário ou realizar outras ações necessárias
-                }
-                 else {
+                } else {
                     //3. Preparar a SQL
                     $sql = "insert into cliente (statusCliente, nome, telefone, endereco, numero, cep, cidade, uf, sexo, dataNascimento, CPF, email, bairro) values ('Ativo', '$nome', '$telefone', '$endereco', '$numero', '$cep', '$cidade', '$uf', '$sexo', '$dataNascimento', '$cpf', '$email', '$bairro')";
 

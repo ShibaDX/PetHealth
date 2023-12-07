@@ -121,15 +121,15 @@ $linha = mysqli_fetch_array($resultado);
                                         </div>
                                     </div>
                                 </div>
-                            </div>
+                            
                             <button name="salvar" type="submit" class="btn btn-primary"><i class="fa-solid fa-check"></i>
                                 Salvar</button>
                             <a href="listagemAdmin.php" class="btn btn-warning"><i class="fa-solid fa-rotate-left"></i>
                                 Voltar</a>
                     </div>
-                </div>
+                    </div>
                 </form><br>
-            </div>
+               
 
             <script>
                 function limpar() {
@@ -237,7 +237,10 @@ $linha = mysqli_fetch_array($resultado);
                 if ($check_result->num_rows > 0) {
                     // E-mail já cadastrado
                     $mensagem = "E-mail já cadastrado";
-                } else if (!validaCPF($cpf)) {
+                } else if (strlen($nome) < 3) {
+                    $mensagem = "O nome deve ter no mínimo 3 caracteres.";
+                }
+                 else if (!validaCPF($cpf)) {
                     // CPF inválido, mostrar mensagem de erro
                     $mensagem = "CPF inválido. Por favor, insira um CPF válido.";
                 }
@@ -282,6 +285,7 @@ $linha = mysqli_fetch_array($resultado);
             }
             require_once("footer.php");
             ?>
+            
 
             <!-- Bootstrap core JavaScript-->
             <script src="vendor/jquery/jquery.min.js"></script>

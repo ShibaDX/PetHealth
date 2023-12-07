@@ -225,7 +225,10 @@ $linha = mysqli_fetch_array($resultado);
                         // Verificar se a idade é pelo menos 18 anos
                         else if ($idade < 18) {
                             $mensagem = "O atendente precisa ter pelo menos 18 anos";
-                        } else if (!validaCPF($cpf)) {
+                        } else if (strlen($nome) < 3) {
+                            $mensagem = "O nome deve ter no mínimo 3 caracteres.";
+                        }
+                         else if (!validaCPF($cpf)) {
                             // CPF inválido, mostrar mensagem de erro
                             $mensagem = "CPF inválido. Por favor, insira um CPF válido.";
                         } else if (strtotime($dataNascimento) > time()) {

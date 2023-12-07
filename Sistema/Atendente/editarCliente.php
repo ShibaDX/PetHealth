@@ -259,9 +259,6 @@ $linha = mysqli_fetch_array($resultado);
 
                         $mensagem = ""; // Inicializa a variável $mensagem
 
-
-
-
                         // Verifique se já existe um cliente com o mesmo CPF
                         $sql = "SELECT * FROM cliente WHERE CPF = '$cpf' AND id != '$id'";
                         $resultado = mysqli_query($conexao, $sql);
@@ -274,7 +271,10 @@ $linha = mysqli_fetch_array($resultado);
 
                         if ($idade < 18) {
                             $mensagem = "O cliente precisa ter pelo menos 18 anos";
-                        } else if (!validaCPF($cpf)) {
+                        } else if (strlen($nome) < 3) {
+                            $mensagem = "O nome deve ter no mínimo 3 caracteres.";
+                        }
+                         else if (!validaCPF($cpf)) {
                             // CPF inválido, mostrar mensagem de erro
                             $mensagem = "CPF inválido. Por favor, insira um CPF válido.";
                         } else if (strtotime($dataNascimento) > time()) {

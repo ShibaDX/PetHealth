@@ -212,7 +212,10 @@ $linha = mysqli_fetch_array($resultado);
                 // Verificar se a idade é pelo menos 18 anos
                 else if ($idade < 18) {
                     $mensagem = "O veterinário precisa ter pelo menos 18 anos";
-                } else if (strtotime($dataNascimento) > time()) {
+                } else if (strlen($nome) < 3) {
+                    $mensagem = "O nome deve ter no mínimo 3 caracteres.";
+                }
+                 else if (strtotime($dataNascimento) > time()) {
                     // Data de nascimento é no futuro, mostrar mensagem de erro
                     $mensagem = "Data de nascimento não pode ser no futuro";
                 } else if (mysqli_num_rows($resultado) > 0) {

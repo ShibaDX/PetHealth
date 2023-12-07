@@ -57,7 +57,7 @@ date_default_timezone_set('America/Sao_Paulo'); ?>
                                 <div class="col-6">
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">Nome*</label>
-                                        <input name="nomeAdmin" type="text" class="form-control" oninput="validarLetras(this)" value="<?= isset($_POST['nomeAdmin']) ? htmlspecialchars($_POST['nomeAdmin']) : '' ?>" required><br>
+                                        <input name="nomeAdmin" type="text" minlength="3" class="form-control" oninput="validarLetras(this)" value="<?= isset($_POST['nomeAdmin']) ? htmlspecialchars($_POST['nomeAdmin']) : '' ?>" required><br>
                                     </div>
                                 </div>
                                 <div class="col-6">
@@ -183,6 +183,7 @@ date_default_timezone_set('America/Sao_Paulo'); ?>
                         $nome = $_POST['nomeAdmin'];
                         $telefone = $_POST['telefone'];
                         $dataNascimento = $_POST['dataNascimento'];
+                        $sexo = $_POST['sexo'];
                         $email = $_POST['email'];
                         $senha = $_POST['senha'];
                         $confirmarSenha = $_POST['confirmarSenha'];
@@ -214,6 +215,8 @@ date_default_timezone_set('America/Sao_Paulo'); ?>
                         } else if (!validaCPF($cpf)) {
                             // CPF inválido, mostrar mensagem de erro
                             $mensagem = "CPF inválido. Por favor, insira um CPF válido.";
+                        } else if (strlen($nome) < 3) {
+                            $mensagem = "O nome deve ter no mínimo 3 caracteres.";
                         }
                         // Verificar se a idade é pelo menos 18 anos
                         else if ($idade < 18) {
@@ -225,13 +228,13 @@ date_default_timezone_set('America/Sao_Paulo'); ?>
                             $mensagem = "Data de nascimento não pode ser no futuro";
                         } else if (mysqli_num_rows($resultado) > 0) {
                             // Já existe um cliente com esse CPF, exiba uma mensagem de erro ou redirecione
-                            $mensagem = "Já existe um cliente cadastrado com esse CPF.";
+                            $mensagem = "Já existe um admin cadastrado com esse CPF.";
                             // Pode redirecionar de volta ao formulário ou realizar outras ações necessárias
                         }
                          else {
 
                             //3. Preparar a SQL
-                            $sql = "insert into admin (nome, telefone, dataNascimento, email, senha, cpf, statusAdmin) values ('$nome', '$telefone', '$dataNascimento', '$email', '$senha', '$cpf', 'Ativo')";
+                            $sql = "insert into admin (nome, telefone, dataNascimento, email, senha, cpf, statusAdmin, sexo) values ('$nome', '$telefone', '$dataNascimento', '$email', '$senha', '$cpf', 'Ativo', '$sexo')";
 
                             //4. Executar a SQL
                             $resultado = mysqli_query($conexao, $sql);

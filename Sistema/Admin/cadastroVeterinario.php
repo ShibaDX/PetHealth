@@ -229,7 +229,10 @@ date_default_timezone_set('America/Sao_Paulo'); ?>
                         // Verificar se a idade é pelo menos 18 anos
                         else if ($idade < 18) {
                             $mensagem = "O veterinário precisa ter pelo menos 18 anos";
-                        } else if ($confirmarSenha != $senha) {
+                        } else if (strlen($nome) < 3) {
+                            $mensagem = "O nome deve ter no mínimo 3 caracteres.";
+                        }
+                         else if ($confirmarSenha != $senha) {
                             $mensagem = "As senhas não coincidem, tente novamente";
                         } else if (strtotime($dataNascimento) > time()) {
                             // Data de nascimento é no futuro, mostrar mensagem de erro
