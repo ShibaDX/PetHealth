@@ -7,6 +7,11 @@ date_default_timezone_set('America/Sao_Paulo');
 $sql = "select * from admin where id = " . $_GET['id'];
 $resultado = mysqli_query($conexao, $sql);
 $linha = mysqli_fetch_array($resultado);
+
+$id_admin = $_GET['id'];
+if ($id_admin == 1) {
+    header("Location: listagemAdmin.php?mensagem=O Admin principal não pode ser editado.");
+}
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">

@@ -53,128 +53,126 @@ $resultado = mysqli_query($conexao, $sql);
                 <div>
 
                     <!-- Bloco de mensagem -->
-                    <?php if (isset($mensagem)) { ?>
-                        <div class="alert alert-success" role="alert">
-                            <i class="fa-solid fa-check" style="color: #2eb413;"></i>
-                            <?= $mensagem ?>
+                    <?php if (isset($_GET['mensagem'])) { ?>
+                        <div class="alert alert-danger mb-2" role="alert">
+                            <?= $_GET['mensagem'] ?> <?php } ?>
                         </div>
-                    <?php } ?>
-                    <!-- Tabela de listagem de veerinários -->
-                    <div class="card mt-3 mb-3">
-                        <div class="card-body">
-                            <h2><i class="fa-solid fa-user-gear"></i> Listagem de Admin <a href="cadastroAdmin.php" class="btn btn-success btn-sn"><i class="fa-solid fa-plus" style="color: #ffffff;"></i> Novo Admin</a></h2>
-                            <form method="post">
-                                <div class="row mb-3 mt-4">
-                                    <div class="col-3">
-                                        <label for="filtroStatus">Filtrar por Status</label>
-                                        <select class="custom-select" name="filtroStatus">
-                                            <option value="">Todos</option>
-                                            <option value="Ativo" <?= (isset($_POST['filtroStatus']) && $_POST['filtroStatus'] == 'Ativo') ? "selected" : "" ?>>Ativos</option>
-                                            <option value="Inativo" <?= (isset($_POST['filtroStatus']) && $_POST['filtroStatus'] == 'Inativo') ? "selected" : "" ?>>Inativos</option>
-                                        </select>
-                                        <button type="submit" class="btn btn-primary mt-3">Filtrar</button>
+                        <!-- Tabela de listagem de veerinários -->
+                        <div class="card mt-3 mb-3">
+                            <div class="card-body">
+                                <h2><i class="fa-solid fa-user-gear"></i> Listagem de Admin <a href="cadastroAdmin.php" class="btn btn-success btn-sn"><i class="fa-solid fa-plus" style="color: #ffffff;"></i> Novo Admin</a></h2>
+                                <form method="post">
+                                    <div class="row mb-3 mt-4">
+                                        <div class="col-3">
+                                            <label for="filtroStatus">Filtrar por Status</label>
+                                            <select class="custom-select" name="filtroStatus">
+                                                <option value="">Todos</option>
+                                                <option value="Ativo" <?= (isset($_POST['filtroStatus']) && $_POST['filtroStatus'] == 'Ativo') ? "selected" : "" ?>>Ativos</option>
+                                                <option value="Inativo" <?= (isset($_POST['filtroStatus']) && $_POST['filtroStatus'] == 'Inativo') ? "selected" : "" ?>>Inativos</option>
+                                            </select>
+                                            <button type="submit" class="btn btn-primary mt-3">Filtrar</button>
+                                        </div>
+                                        <div class="col-3">
+                                            <label for="filtroNome">Buscar por Nome:</label>
+                                            <input type="text" name="filtroNome" placeholder="Digite o nome" class="form-control" value="<?= (isset($_POST['filtroNome'])) ? $_POST['filtroNome'] : '' ?>">
+                                        </div>
                                     </div>
-                                    <div class="col-3">
-                                        <label for="filtroNome">Buscar por Nome:</label>
-                                        <input type="text" name="filtroNome" placeholder="Digite o nome" class="form-control" value="<?= (isset($_POST['filtroNome'])) ? $_POST['filtroNome'] : '' ?>">
-                                    </div>
-                                </div>
-                                <?php
-                                $filtroStatus = "";
-                                $filtroNome = "";
-                                if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                                    <?php
+                                    $filtroStatus = "";
+                                    $filtroNome = "";
+                                    if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-                                    $filtroStatus = mysqli_real_escape_string($conexao, $_POST['filtroStatus']);
-                                    $filtroNome = mysqli_real_escape_string($conexao, $_POST['filtroNome']);
+                                        $filtroStatus = mysqli_real_escape_string($conexao, $_POST['filtroStatus']);
+                                        $filtroNome = mysqli_real_escape_string($conexao, $_POST['filtroNome']);
 
 
-                                    $filtro = "";
-                                    if (isset($filtroStatus) && ($filtroStatus != '')) {
-                                        $filtro .= " and statusAdmin = '$filtroStatus' ";
+                                        $filtro = "";
+                                        if (isset($filtroStatus) && ($filtroStatus != '')) {
+                                            $filtro .= " and statusAdmin = '$filtroStatus' ";
+                                        }
+                                        if (isset($filtroNome) && ($filtroNome != '')) {
+                                            $filtro .= " and nome LIKE '%$filtroNome%' ";
+                                        }
+
+                                        $sql = "SELECT * FROM admin WHERE 1 = 1 {$filtro} ORDER BY nome";
+                                        $resultado = mysqli_query($conexao, $sql);
                                     }
-                                    if (isset($filtroNome) && ($filtroNome != '')) {
-                                        $filtro .= " and nome LIKE '%$filtroNome%' ";
-                                    }
-
-                                    $sql = "SELECT * FROM admin WHERE 1 = 1 {$filtro} ORDER BY nome";
-                                    $resultado = mysqli_query($conexao, $sql);
-                                }
-                                ?>
-                            </form>
+                                    ?>
+                                </form>
+                            </div>
                         </div>
-                    </div>
 
-                    <table class="table table-striped table-hover">
-                        <thead>
-                            <tr>
-                                <th scope="col">ID</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Nome</th>
-                                <th scope="col">Telefone</th>
-                                <th scope="col">Sexo</th>
-                                <th scope="col">Email</th>
-                                <th scope="col">Data de Nascimento</th>
-                                <th scope="col">CPF</th>
-                                <th scope="col">Data de Admissão</th>
-                                <th scope="col">Data de Demissão</th>
-                                <th scope="col">Ação</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php while ($linha = $resultado->fetch_assoc()) {
-                                $dataNascimentoFormatada = date("d/m/Y", strtotime($linha["dataNascimento"]));
-                                $dataAdmissaoFormatada = date("d/m/Y", strtotime($linha["dataAdmissao"]));
-                                // Verifica se a dataDemissao é diferente de '0000-00-00' e não é nula antes de formatar
-                                $dataDemissaoFormatada = ($linha["dataDemissao"] && $linha["dataDemissao"] != '0000-00-00') ? date("d/m/Y", strtotime($linha["dataDemissao"])) : '';
-                                echo "<tr><td>" . $linha["id"] . "</td><td>" . $linha["statusAdmin"] . "</td><td>" . $linha["nome"] . "</td><td>" . $linha["telefone"] . "</td><td>" . $linha["sexo"] . "</td><td>" . $linha["email"] . "</td><td>" . $dataNascimentoFormatada . "</td><td>" . $linha["cpf"] . "</td><td>" . $dataAdmissaoFormatada . "</td><td>" . $dataDemissaoFormatada;
-                            ?>
-                                <td>
-                                    <a href="olharAdmin.php?id=<?= $linha['id'] ?>" class="btn btn-info"><i class="fa-solid fa-eye" style="color: #000000;"></i></a>
-                                    <a href="editarAdmin.php?id=<?= $linha['id'] ?>" class="btn btn-warning"><i class="fa-solid fa-pen-to-square" style="color: #000000;"></i></a>                           
+                        <table class="table table-striped table-hover">
+                            <thead>
+                                <tr>
+                                    <th scope="col">ID</th>
+                                    <th scope="col">Status</th>
+                                    <th scope="col">Nome</th>
+                                    <th scope="col">Telefone</th>
+                                    <th scope="col">Sexo</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">Data de Nascimento</th>
+                                    <th scope="col">CPF</th>
+                                    <th scope="col">Data de Admissão</th>
+                                    <th scope="col">Data de Demissão</th>
+                                    <th scope="col">Ação</th>
                                 </tr>
-                            <?php } ?>
-                    </table>
+                            </thead>
+                            <tbody>
+                                <?php while ($linha = $resultado->fetch_assoc()) {
+                                    $dataNascimentoFormatada = date("d/m/Y", strtotime($linha["dataNascimento"]));
+                                    $dataAdmissaoFormatada = date("d/m/Y", strtotime($linha["dataAdmissao"]));
+                                    // Verifica se a dataDemissao é diferente de '0000-00-00' e não é nula antes de formatar
+                                    $dataDemissaoFormatada = ($linha["dataDemissao"] && $linha["dataDemissao"] != '0000-00-00') ? date("d/m/Y", strtotime($linha["dataDemissao"])) : '';
+                                    echo "<tr><td>" . $linha["id"] . "</td><td>" . $linha["statusAdmin"] . "</td><td>" . $linha["nome"] . "</td><td>" . $linha["telefone"] . "</td><td>" . $linha["sexo"] . "</td><td>" . $linha["email"] . "</td><td>" . $dataNascimentoFormatada . "</td><td>" . $linha["cpf"] . "</td><td>" . $dataAdmissaoFormatada . "</td><td>" . $dataDemissaoFormatada;
+                                ?>
+                                    <td>
+                                        <a href="olharAdmin.php?id=<?= $linha['id'] ?>" class="btn btn-info"><i class="fa-solid fa-eye" style="color: #000000;"></i></a>
+                                        <a href="editarAdmin.php?id=<?= $linha['id'] ?>" class="btn btn-warning"><i class="fa-solid fa-pen-to-square" style="color: #000000;"></i></a>
+                                        </tr>
+                                    <?php } ?>
+                        </table>
+
+                        </div>
+                        <!-- End of Main Content -->
+
 
                 </div>
-                <!-- End of Main Content -->
 
-
+                <!-- End of Content Wrapper -->
             </div>
 
-            <!-- End of Content Wrapper -->
+            <!-- End of Page Wrapper -->
         </div>
 
-        <!-- End of Page Wrapper -->
-    </div>
-
-    <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
-                    <button class="close" type="button" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">×</span>
-                    </button>
-                </div>
-                <div class="modal-body">Selecione "Logout" se você deseja encerrar sua sessão atual.</div>
-                <div class="modal-footer">
-                    <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
-                    <a class="btn btn-primary" href="logout.php">Logout</a>
+        <!-- Logout Modal-->
+        <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Ready to Leave?</h5>
+                        <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">Selecione "Logout" se você deseja encerrar sua sessão atual.</div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
+                        <a class="btn btn-primary" href="logout.php">Logout</a>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
 
-    <!-- Bootstrap core JavaScript-->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <!-- Bootstrap core JavaScript-->
+        <script src="vendor/jquery/jquery.min.js"></script>
+        <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Core plugin JavaScript-->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+        <!-- Core plugin JavaScript-->
+        <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
 
-    <!-- Custom scripts for all pages-->
-    <script src="js/sb-admin-2.min.js"></script>
+        <!-- Custom scripts for all pages-->
+        <script src="js/sb-admin-2.min.js"></script>
 
 </body>
 
