@@ -74,7 +74,7 @@ $data_atual = date("Y-m-d");
                                     </div>
                                 </div>
                                 <div class="col-1">
-                                    <label class="form-label">a</label>
+                                    <label class="form-label" style="visibility: hidden">aadsadasdasd</label>
                                     <button type="submit" class="btn btn-primary" name="data" value="<?= $data_atual ?>">Hoje</button>
 
                                 </div>
@@ -106,7 +106,7 @@ $data_atual = date("Y-m-d");
                                 <?php if ($cliente_id_selecionado != '') { ?>
                                     <div class="col-2">
 
-                                        <label class="form-label">A</label>
+                                        <label class="form-label" style="visibility: hidden">addadadaadadadda</label>
                                         <select name="pet_id" class="custom-select" aria-label="Large select example" onchange="this.form.submit()">
                                             <option value="" selected>Selecionar Pet</option>
                                             <?php
@@ -133,6 +133,7 @@ $data_atual = date("Y-m-d");
                             </div>
                             <div class="row mt-4">
                                 <div class="col-6">
+                                    <label class="form-label mr-3">Filtrar por Status</label>
                                     <div class="btn-group" role="group">
                                         <button type="submit" class="btn btn-danger" name="statusAgenda" value="Cancelado">Cancelado</button>
                                         <button type="submit" class="btn btn-warning" name="statusAgenda" value="Em Andamento">Em Andamento</button>
