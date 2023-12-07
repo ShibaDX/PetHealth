@@ -211,6 +211,11 @@ $linha = mysqli_fetch_array($resultado);
 
                         $check_result = $conexao->query($check_query);
 
+                        // Converte a data de demissão para um objeto DateTime
+                        $dataDemissaoObj = new DateTime($dataDemissao);
+
+                        // Obtém o ano da data de demissão
+                        $anoDemissao = $dataDemissaoObj->format('Y');
 
 
                         // Calcular a idade
@@ -227,14 +232,16 @@ $linha = mysqli_fetch_array($resultado);
                             $mensagem = "O atendente precisa ter pelo menos 18 anos";
                         } else if (strlen($nome) < 3) {
                             $mensagem = "O nome deve ter no mínimo 3 caracteres.";
-                        }
-                         else if (!validaCPF($cpf)) {
+                        } else if (!validaCPF($cpf)) {
                             // CPF inválido, mostrar mensagem de erro
                             $mensagem = "CPF inválido. Por favor, insira um CPF válido.";
                         } else if (strtotime($dataNascimento) > time()) {
                             // Data de nascimento é no futuro, mostrar mensagem de erro
                             $mensagem = "Data de nascimento não pode ser no futuro";
-                        } else {
+                        } else if ($anoDemissao < 2020) {
+                            $mensagem = "A data de demissão deve ser até o ano de 2020.";
+                        }
+                         else {
 
                             // Verificar se a data de demissão foi fornecida
                             if (!empty($dataDemissao) || $dataDemissao != null) {

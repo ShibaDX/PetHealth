@@ -156,21 +156,22 @@ $linha = mysqli_fetch_array($resultado);
                         togglePassButton.textContent = "Mostrar Senha";
                     }
                 }
+
                 function validarTelefone() {
-                            var telefoneInput = document.getElementById("telefone");
-                            var telefone = telefoneInput.value;
+                    var telefoneInput = document.getElementById("telefone");
+                    var telefone = telefoneInput.value;
 
-                            // Expressão regular para validar o formato do telefone
-                            var regex = /^\(\d{2}\) \d{4,5}-\d{4}$/;
+                    // Expressão regular para validar o formato do telefone
+                    var regex = /^\(\d{2}\) \d{4,5}-\d{4}$/;
 
-                            if (!regex.test(telefone)) {
-                                alert("Por favor, insira um número de telefone válido no formato (11) 1234-5678 ou (11) 12345-6789.");
-                                telefoneInput.focus();
-                                return false;
-                            }
+                    if (!regex.test(telefone)) {
+                        alert("Por favor, insira um número de telefone válido no formato (11) 1234-5678 ou (11) 12345-6789.");
+                        telefoneInput.focus();
+                        return false;
+                    }
 
-                            return true;
-                        }
+                    return true;
+                }
             </script>
 
             <?php
@@ -200,6 +201,13 @@ $linha = mysqli_fetch_array($resultado);
                 $sql = "SELECT * FROM veterinario WHERE CRMV = '$crmv' AND id != '$id'";
                 $resultado = mysqli_query($conexao, $sql);
 
+                // Converte a data de demissão para um objeto DateTime
+                $dataDemissaoObj = new DateTime($dataDemissao);
+
+                // Obtém o ano da data de demissão
+                $anoDemissao = $dataDemissaoObj->format('Y');
+
+
                 // Calcular a idade
                 $dataAtual = new DateTime();
                 $DN = new DateTime($dataNascimento);
@@ -214,15 +222,17 @@ $linha = mysqli_fetch_array($resultado);
                     $mensagem = "O veterinário precisa ter pelo menos 18 anos";
                 } else if (strlen($nome) < 3) {
                     $mensagem = "O nome deve ter no mínimo 3 caracteres.";
-                }
-                 else if (strtotime($dataNascimento) > time()) {
+                } else if (strtotime($dataNascimento) > time()) {
                     // Data de nascimento é no futuro, mostrar mensagem de erro
                     $mensagem = "Data de nascimento não pode ser no futuro";
                 } else if (mysqli_num_rows($resultado) > 0) {
                     // Já existe um veterinário com esse CRMV, exiba uma mensagem de erro ou redirecione
                     $mensagem = "Já existe um veterinário cadastrado com esse CRMV.";
                     // Pode redirecionar de volta ao formulário ou realizar outras ações necessárias
-                } else {
+                } else if ($anoDemissao < 2020) {
+                    $mensagem = "A data de demissão deve ser até o ano de 2020.";
+                }
+                 else {
 
                     // Verificar se a data de demissão foi fornecida
                     if (!empty($dataDemissao) || $dataDemissao != null) {

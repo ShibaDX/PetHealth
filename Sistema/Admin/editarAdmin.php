@@ -121,181 +121,190 @@ $linha = mysqli_fetch_array($resultado);
                                         </div>
                                     </div>
                                 </div>
-                            
-                            <button name="salvar" type="submit" class="btn btn-primary"><i class="fa-solid fa-check"></i>
-                                Salvar</button>
-                            <a href="listagemAdmin.php" class="btn btn-warning"><i class="fa-solid fa-rotate-left"></i>
-                                Voltar</a>
+
+                                <button name="salvar" type="submit" class="btn btn-primary"><i class="fa-solid fa-check"></i>
+                                    Salvar</button>
+                                <a href="listagemAdmin.php" class="btn btn-warning"><i class="fa-solid fa-rotate-left"></i>
+                                    Voltar</a>
+                            </div>
                     </div>
-                    </div>
-                </form><br>
-               
+                    </form><br>
 
-            <script>
-                function limpar() {
-                    document.getElementById("dataDemissao").value = null;
-                    // Defina o valor do campo oculto como 1 quando o botão "Limpar" for clicado
-                    document.getElementById("limparDataDemissao").value = 1;
-                }
 
-                const senhaInput = document.querySelector("#senha");
-                const togglePassButton = document.querySelector("#togglePass");
-                togglePassButton.addEventListener('click', togglePass);
+                    <script>
+                        function limpar() {
+                            document.getElementById("dataDemissao").value = null;
+                            // Defina o valor do campo oculto como 1 quando o botão "Limpar" for clicado
+                            document.getElementById("limparDataDemissao").value = 1;
+                        }
 
-                function togglePass() {
-                    if (senhaInput.type == "password") {
-                        senhaInput.type = "text";
-                        togglePassButton.textContent = "Esconder Senha";
-                    } else {
-                        senhaInput.type = "password";
-                        togglePassButton.textContent = "Mostrar Senha";
+                        const senhaInput = document.querySelector("#senha");
+                        const togglePassButton = document.querySelector("#togglePass");
+                        togglePassButton.addEventListener('click', togglePass);
+
+                        function togglePass() {
+                            if (senhaInput.type == "password") {
+                                senhaInput.type = "text";
+                                togglePassButton.textContent = "Esconder Senha";
+                            } else {
+                                senhaInput.type = "password";
+                                togglePassButton.textContent = "Mostrar Senha";
+                            }
+                        }
+
+                        function validarLetras(input) {
+                            // Substituir qualquer caractere que não seja uma letra por vazio
+                            input.value = input.value.replace(/[^a-zA-Z\sàáâãäåçèéêëìíîïòóôõöùúûü-]/g, '');
+                        }
+
+                        function validarTelefone() {
+                            var telefoneInput = document.getElementById("telefone");
+                            var telefone = telefoneInput.value;
+
+                            // Expressão regular para validar o formato do telefone
+                            var regex = /^\(\d{2}\) \d{4,5}-\d{4}$/;
+
+                            if (!regex.test(telefone)) {
+                                alert("Por favor, insira um número de telefone válido no formato (11) 1234-5678 ou (11) 12345-6789.");
+                                telefoneInput.focus();
+                                return false;
+                            }
+                        }
+                    </script>
+
+                    <?php
+
+                    function validaCPF($cpf)
+                    {
+
+                        // Extrai somente os números
+                        $cpf = preg_replace('/[^0-9]/is', '', $cpf);
+
+                        // Verifica se foi informado todos os digitos corretamente
+                        if (strlen($cpf) != 11) {
+                            return false;
+                        }
+
+                        // Verifica se foi informada uma sequência de digitos repetidos. Ex: 111.111.111-11
+                        if (preg_match('/(\d)\1{10}/', $cpf)) {
+                            return false;
+                        }
+
+                        // Faz o calculo para validar o CPF
+                        for ($t = 9; $t < 11; $t++) {
+                            for ($d = 0, $c = 0; $c < $t; $c++) {
+                                $d += $cpf[$c] * (($t + 1) - $c);
+                            }
+                            $d = ((10 * $d) % 11) % 10;
+                            if ($cpf[$c] != $d) {
+                                return false;
+                            }
+                        }
+                        return true;
                     }
-                }
-
-                function validarLetras(input) {
-                    // Substituir qualquer caractere que não seja uma letra por vazio
-                    input.value = input.value.replace(/[^a-zA-Z\sàáâãäåçèéêëìíîïòóôõöùúûü-]/g, '');
-                }
-                function validarTelefone() {
-                    var telefoneInput = document.getElementById("telefone");
-                    var telefone = telefoneInput.value;
-
-                    // Expressão regular para validar o formato do telefone
-                    var regex = /^\(\d{2}\) \d{4,5}-\d{4}$/;
-
-                    if (!regex.test(telefone)) {
-                        alert("Por favor, insira um número de telefone válido no formato (11) 1234-5678 ou (11) 12345-6789.");
-                        telefoneInput.focus();
-                        return false;
-                    }
-                }
-            </script>
-
-            <?php
-
-            function validaCPF($cpf)
-            {
-
-                // Extrai somente os números
-                $cpf = preg_replace('/[^0-9]/is', '', $cpf);
-
-                // Verifica se foi informado todos os digitos corretamente
-                if (strlen($cpf) != 11) {
-                    return false;
-                }
-
-                // Verifica se foi informada uma sequência de digitos repetidos. Ex: 111.111.111-11
-                if (preg_match('/(\d)\1{10}/', $cpf)) {
-                    return false;
-                }
-
-                // Faz o calculo para validar o CPF
-                for ($t = 9; $t < 11; $t++) {
-                    for ($d = 0, $c = 0; $c < $t; $c++) {
-                        $d += $cpf[$c] * (($t + 1) - $c);
-                    }
-                    $d = ((10 * $d) % 11) % 10;
-                    if ($cpf[$c] != $d) {
-                        return false;
-                    }
-                }
-                return true;
-            }
 
 
-            if (isset($_POST['salvar'])) {
+                    if (isset($_POST['salvar'])) {
 
-                //2. Receber os dados para inserir no BD
-                $id = $_POST['id'];
-                $nome = $_POST['nome'];
-                $telefone = $_POST['telefone'];
-                $dataNascimento = $_POST['dataNascimento'];
-                $email = mysqli_real_escape_string($conexao, $_POST['email']);
-                $senha = $_POST['senha'];
-                $cpf = mysqli_real_escape_string($conexao, $_POST['cpf']);
-                $sexo = $_POST['sexo'];
-                $dataDemissao = isset($_POST['limparDataDemissao']) && $_POST['limparDataDemissao'] == 1 ? null : $_POST['dataDemissao'];
+                        //2. Receber os dados para inserir no BD
+                        $id = $_POST['id'];
+                        $nome = $_POST['nome'];
+                        $telefone = $_POST['telefone'];
+                        $dataNascimento = $_POST['dataNascimento'];
+                        $email = mysqli_real_escape_string($conexao, $_POST['email']);
+                        $senha = $_POST['senha'];
+                        $cpf = mysqli_real_escape_string($conexao, $_POST['cpf']);
+                        $sexo = $_POST['sexo'];
+                        $dataDemissao = isset($_POST['limparDataDemissao']) && $_POST['limparDataDemissao'] == 1 ? null : $_POST['dataDemissao'];
 
-                // Verificar se o e-mail já está cadastrado em qualquer uma das tabelas
-                $check_query = "SELECT * FROM admin WHERE email='$email' AND id != '$id'
+                        // Verificar se o e-mail já está cadastrado em qualquer uma das tabelas
+                        $check_query = "SELECT * FROM admin WHERE email='$email' AND id != '$id'
                                         UNION
                                         SELECT * FROM veterinario WHERE email='$email'
                                         UNION
                                         SELECT * FROM atendente WHERE email='$email'";
 
-                $check_result = $conexao->query($check_query);
+                        $check_result = $conexao->query($check_query);
 
-                // Calcular a idade
-                $dataAtual = new DateTime();
-                $DN = new DateTime($dataNascimento);
-                $idade = $dataAtual->diff($DN)->y;
+                        // Calcular a idade
+                        $dataAtual = new DateTime();
+                        $DN = new DateTime($dataNascimento);
+                        $idade = $dataAtual->diff($DN)->y;
 
-                // Verifique se já existe um cliente com o mesmo CPF
-                $sql = "SELECT * FROM admin WHERE CPF = '$cpf' AND id != '$id'"; 
-                $resultado = mysqli_query($conexao, $sql);
+                        // Converte a data de demissão para um objeto DateTime
+                        $dataDemissaoObj = new DateTime($dataDemissao);
 
-                if ($check_result->num_rows > 0) {
-                    // E-mail já cadastrado
-                    $mensagem = "E-mail já cadastrado";
-                } else if (strlen($nome) < 3) {
-                    $mensagem = "O nome deve ter no mínimo 3 caracteres.";
-                }
-                 else if (!validaCPF($cpf)) {
-                    // CPF inválido, mostrar mensagem de erro
-                    $mensagem = "CPF inválido. Por favor, insira um CPF válido.";
-                }
-                // Verificar se a idade é pelo menos 18 anos
-                else if ($idade < 18) {
-                    $mensagem = "O Admin precisa ter pelo menos 18 anos";
-                } else if (strtotime($dataNascimento) > time()) {
-                    // Data de nascimento é no futuro, mostrar mensagem de erro
-                    $mensagem = "Data de nascimento não pode ser no futuro";
-                } else if (mysqli_num_rows($resultado) > 0) {
-                    // Já existe um cliente com esse CPF, exiba uma mensagem de erro ou redirecione
-                    $mensagem = "Já existe um cliente cadastrado com esse CPF.";
-                    // Pode redirecionar de volta ao formulário ou realizar outras ações necessárias
-                }
-                 else {
+                        // Obtém o ano da data de demissão
+                        $anoDemissao = $dataDemissaoObj->format('Y');
 
-                    // Verificar se a data de demissão foi fornecida
-                    if (!empty($dataDemissao) || $dataDemissao != null) {
 
-                        // Atualizar o registro do veterinário no banco de dados
-                        $sql = "UPDATE admin SET nome = '$nome', telefone = '$telefone', sexo = '$sexo', dataNascimento = '$dataNascimento', email = '$email', senha = '$senha' , statusAdmin = 'Inativo', cpf = '$cpf', dataDemissao = '$dataDemissao' WHERE id = $id";
-                    } else {
-                        //3. Preparar a SQL
-                        $sql = "UPDATE admin SET nome = '$nome', telefone = '$telefone', sexo = '$sexo', dataNascimento = '$dataNascimento', email = '$email', senha = '$senha' , statusAdmin = 'Ativo', cpf = '$cpf', dataDemissao = '$dataDemissao' WHERE id = $id";
+                        // Verifique se já existe um cliente com o mesmo CPF
+                        $sql = "SELECT * FROM admin WHERE CPF = '$cpf' AND id != '$id'";
+                        $resultado = mysqli_query($conexao, $sql);
+
+                        if ($check_result->num_rows > 0) {
+                            // E-mail já cadastrado
+                            $mensagem = "E-mail já cadastrado";
+                        } else if (strlen($nome) < 3) {
+                            $mensagem = "O nome deve ter no mínimo 3 caracteres.";
+                        } else if (!validaCPF($cpf)) {
+                            // CPF inválido, mostrar mensagem de erro
+                            $mensagem = "CPF inválido. Por favor, insira um CPF válido.";
+                        }
+                        // Verificar se a idade é pelo menos 18 anos
+                        else if ($idade < 18) {
+                            $mensagem = "O Admin precisa ter pelo menos 18 anos";
+                        } else if (strtotime($dataNascimento) > time()) {
+                            // Data de nascimento é no futuro, mostrar mensagem de erro
+                            $mensagem = "Data de nascimento não pode ser no futuro";
+                        } else if (mysqli_num_rows($resultado) > 0) {
+                            // Já existe um cliente com esse CPF, exiba uma mensagem de erro ou redirecione
+                            $mensagem = "Já existe um cliente cadastrado com esse CPF.";
+                            // Pode redirecionar de volta ao formulário ou realizar outras ações necessárias
+                        } else if ($anoDemissao < 2020) {
+                            $mensagem = "A data de demissão deve ser até o ano de 2020.";
+                        }
+                         else {
+
+                            // Verificar se a data de demissão foi fornecida
+                            if (!empty($dataDemissao) || $dataDemissao != null) {
+
+                                // Atualizar o registro do veterinário no banco de dados
+                                $sql = "UPDATE admin SET nome = '$nome', telefone = '$telefone', sexo = '$sexo', dataNascimento = '$dataNascimento', email = '$email', senha = '$senha' , statusAdmin = 'Inativo', cpf = '$cpf', dataDemissao = '$dataDemissao' WHERE id = $id";
+                            } else {
+                                //3. Preparar a SQL
+                                $sql = "UPDATE admin SET nome = '$nome', telefone = '$telefone', sexo = '$sexo', dataNascimento = '$dataNascimento', email = '$email', senha = '$senha' , statusAdmin = 'Ativo', cpf = '$cpf', dataDemissao = '$dataDemissao' WHERE id = $id";
+                            }
+                            //4. Executar a SQL
+                            mysqli_query($conexao, $sql);
+
+                            //5. Mostrar mensagem ao usuário
+                            $mensagem = "Alterado com Sucesso";
+                        }
+
+                    ?>
+
+                        <!-- Mostrar mensagem ao usuário -->
+                        <?php if ($mensagem) { ?>
+                            <div class="alert <?= strpos($mensagem, 'Sucesso') !== false ? 'alert-success' : 'alert-danger' ?> mb-2" role="alert">
+                                <i class="fa-solid <?= strpos($mensagem, 'Sucesso') !== false ? 'fa-check' : 'fa-x' ?>" style="color: <?= strpos($mensagem, 'Sucesso') !== false ? '#12972c' : '#b70b0b' ?>;"></i>
+                                <?= $mensagem ?>
+                            </div>
+                    <?php }
                     }
-                    //4. Executar a SQL
-                    mysqli_query($conexao, $sql);
+                    require_once("footer.php");
+                    ?>
 
-                    //5. Mostrar mensagem ao usuário
-                    $mensagem = "Alterado com Sucesso";
-                }
 
-            ?>
+                    <!-- Bootstrap core JavaScript-->
+                    <script src="vendor/jquery/jquery.min.js"></script>
+                    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-                <!-- Mostrar mensagem ao usuário -->
-                <?php if ($mensagem) { ?>
-                    <div class="alert <?= strpos($mensagem, 'Sucesso') !== false ? 'alert-success' : 'alert-danger' ?> mb-2" role="alert">
-                        <i class="fa-solid <?= strpos($mensagem, 'Sucesso') !== false ? 'fa-check' : 'fa-x' ?>" style="color: <?= strpos($mensagem, 'Sucesso') !== false ? '#12972c' : '#b70b0b' ?>;"></i>
-                        <?= $mensagem ?>
-                    </div>
-            <?php }
-            }
-            require_once("footer.php");
-            ?>
-            
+                    <!-- Core plugin JavaScript-->
+                    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
 
-            <!-- Bootstrap core JavaScript-->
-            <script src="vendor/jquery/jquery.min.js"></script>
-            <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-
-            <!-- Core plugin JavaScript-->
-            <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
-
-            <!-- Custom scripts for all pages-->
-            <script src="js/sb-admin-2.min.js"></script>
+                    <!-- Custom scripts for all pages-->
+                    <script src="js/sb-admin-2.min.js"></script>
 
 </body>
 
