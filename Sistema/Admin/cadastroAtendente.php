@@ -90,7 +90,7 @@ date_default_timezone_set('America/Sao_Paulo'); ?>
                             <div class="row">
                                 <div class="col-4">
                                     <label for="sexo" class="form-label">Sexo*</label>
-                                    <select id="sexo" name="sexo" class="form-control" >
+                                    <select id="sexo" name="sexo" class="form-control">
                                         <?php
                                         $opcoes = ["M" => "Masculino", "F" => "Feminino", "O" => "Outro"];
 
@@ -244,6 +244,13 @@ date_default_timezone_set('America/Sao_Paulo'); ?>
                         $DN = new DateTime($dataNascimento);
                         $idade = $dataAtual->diff($DN)->y;
 
+                        // Converte a data de nascimento para um objeto DateTime
+                        $dataNascimentoObj = new DateTime($dataNascimento);
+
+                        // Obtém o ano da data de nascimento
+                        $anoNascimento = $dataNascimentoObj->format('Y');
+
+
                         if ($check_result->num_rows > 0) {
                             // E-mail já cadastrado
                             $mensagem = "E-mail já cadastrado";
@@ -253,10 +260,12 @@ date_default_timezone_set('America/Sao_Paulo'); ?>
                             $mensagem = "O atendente precisa ter pelo menos 18 anos";
                         } else if (strlen($nome) < 3) {
                             $mensagem = "O nome deve ter no mínimo 3 caracteres.";
-                        }
-                         else if ($confirmarSenha != $senha) {
+                        } else if ($confirmarSenha != $senha) {
                             $mensagem = "As senhas não coincidem, tente novamente";
-                        } else if (!validaCPF($cpf)) {
+                        } else if ($anoNascimento < 1900) {
+                            $mensagem = "A data de nascimento não pode ser antes do ano de 1900.";
+                        } 
+                         else if (!validaCPF($cpf)) {
                             // CPF inválido, mostrar mensagem de erro
                             $mensagem = "CPF inválido. Por favor, insira um CPF válido.";
                         } else if (strtotime($dataNascimento) > time()) {

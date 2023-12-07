@@ -25,7 +25,7 @@ date_default_timezone_set('America/Sao_Paulo'); ?>
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
     <link rel="shortcut icon" href="img/favicon1.png" type="image/x-icon" />
-        <!-- Paw icon by <a target="_blank" href="https://icons8.com">Icons8</a> -->
+    <!-- Paw icon by <a target="_blank" href="https://icons8.com">Icons8</a> -->
 
 </head>
 
@@ -125,19 +125,19 @@ date_default_timezone_set('America/Sao_Paulo'); ?>
                     </form><br>
 
                     <script>
-                function validarTelefone() {
-                    var telefoneInput = document.getElementById("telefone");
-                    var telefone = telefoneInput.value;
+                        function validarTelefone() {
+                            var telefoneInput = document.getElementById("telefone");
+                            var telefone = telefoneInput.value;
 
-                    // Expressão regular para validar o formato do telefone
-                    var regex = /^\(\d{2}\) \d{4,5}-\d{4}$/;
+                            // Expressão regular para validar o formato do telefone
+                            var regex = /^\(\d{2}\) \d{4,5}-\d{4}$/;
 
-                    if (!regex.test(telefone)) {
-                        alert("Por favor, insira um número de telefone válido no formato (11) 1234-5678 ou (11) 12345-6789.");
-                        telefoneInput.focus();
-                        return false;
-                    }
-                }
+                            if (!regex.test(telefone)) {
+                                alert("Por favor, insira um número de telefone válido no formato (11) 1234-5678 ou (11) 12345-6789.");
+                                telefoneInput.focus();
+                                return false;
+                            }
+                        }
 
                         function validarLetras(input) {
                             // Substituir qualquer caractere que não seja uma letra por vazio
@@ -205,9 +205,16 @@ date_default_timezone_set('America/Sao_Paulo'); ?>
                         $DN = new DateTime($dataNascimento);
                         $idade = $dataAtual->diff($DN)->y;
 
-                // Verifique se já existe um cliente com o mesmo CPF
-                $sql = "SELECT * FROM admin WHERE CPF = '$cpf'"; 
-                $resultado = mysqli_query($conexao, $sql);
+                        // Converte a data de nascimento para um objeto DateTime
+                        $dataNascimentoObj = new DateTime($dataNascimento);
+
+                        // Obtém o ano da data de nascimento
+                        $anoNascimento = $dataNascimentoObj->format('Y');
+
+
+                        // Verifique se já existe um cliente com o mesmo CPF
+                        $sql = "SELECT * FROM admin WHERE CPF = '$cpf'";
+                        $resultado = mysqli_query($conexao, $sql);
 
                         if ($check_result->num_rows > 0) {
                             // E-mail já cadastrado
@@ -221,7 +228,10 @@ date_default_timezone_set('America/Sao_Paulo'); ?>
                         // Verificar se a idade é pelo menos 18 anos
                         else if ($idade < 18) {
                             $mensagem = "O Admin precisa ter pelo menos 18 anos";
-                        } else if ($confirmarSenha != $senha) {
+                        } else if ($anoNascimento < 1900) {
+                            $mensagem = "A data de nascimento não pode ser antes do ano de 1900.";
+                        } 
+                         else if ($confirmarSenha != $senha) {
                             $mensagem = "As senhas não coincidem, tente novamente";
                         } else if (strtotime($dataNascimento) > time()) {
                             // Data de nascimento é no futuro, mostrar mensagem de erro
@@ -230,8 +240,7 @@ date_default_timezone_set('America/Sao_Paulo'); ?>
                             // Já existe um cliente com esse CPF, exiba uma mensagem de erro ou redirecione
                             $mensagem = "Já existe um admin cadastrado com esse CPF.";
                             // Pode redirecionar de volta ao formulário ou realizar outras ações necessárias
-                        }
-                         else {
+                        } else {
 
                             //3. Preparar a SQL
                             $sql = "insert into admin (nome, telefone, dataNascimento, email, senha, cpf, statusAdmin, sexo) values ('$nome', '$telefone', '$dataNascimento', '$email', '$senha', '$cpf', 'Ativo', '$sexo')";

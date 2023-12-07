@@ -223,6 +223,13 @@ date_default_timezone_set('America/Sao_Paulo');
                 $resultado = mysqli_query($conexao, $sql);
 
 
+                // Converte a data de nascimento para um objeto DateTime
+                $dataNascimentoObj = new DateTime($dataNascimento);
+
+                // Obtém o ano da data de nascimento
+                $anoNascimento = $dataNascimentoObj->format('Y');
+
+
                 // Calcular a idade
                 $dataAtual = new DateTime();
                 $DN = new DateTime($dataNascimento);
@@ -236,6 +243,8 @@ date_default_timezone_set('America/Sao_Paulo');
                 } else if (strtotime($dataNascimento) > time()) {
                     // Data de nascimento é no futuro, mostrar mensagem de erro
                     $mensagem = "Data de nascimento não pode ser no futuro";
+                } else if ($anoNascimento < 1900) {
+                    $mensagem = "A data de nascimento não pode ser antes do ano de 1900.";
                 } else if (strlen($nome) < 3) {
                     $mensagem = "O nome deve ter no mínimo 3 caracteres.";
                 } else if (!is_numeric($numero) || $numero <= 0 || strlen($numero) > 4) {

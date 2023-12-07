@@ -267,6 +267,13 @@ $linha = mysqli_fetch_array($resultado);
                         $resultado = mysqli_query($conexao, $sql);
                         //die($sql);
 
+// Converte a data de nascimento para um objeto DateTime
+$dataNascimentoObj = new DateTime($dataNascimento);
+
+// Obtém o ano da data de nascimento
+$anoNascimento = $dataNascimentoObj->format('Y');
+
+
                         // Calcular a idade
                         $dataAtual = new DateTime();
                         $DN = new DateTime($dataNascimento);
@@ -283,7 +290,10 @@ $linha = mysqli_fetch_array($resultado);
                         } else if (strtotime($dataNascimento) > time()) {
                             // Data de nascimento é no futuro, mostrar mensagem de erro
                             $mensagem = "Data de nascimento não pode ser no futuro";
-                        } else if (!is_numeric($numero) || $numero <= 0 || strlen($numero) > 4) {
+                        } else if ($anoNascimento < 1900) {
+                            $mensagem = "A data de nascimento não pode ser antes do ano de 1900.";
+                        } 
+                         else if (!is_numeric($numero) || $numero <= 0 || strlen($numero) > 4) {
                             // Verifique se o número da casa é um valor numérico, maior que zero e possui até 4 dígitos
                             $mensagem = "Por favor, insira um número de casa válido (até 4 dígitos).";
                             // Pode redirecionar de volta ao formulário ou realizar outras ações necessárias

@@ -212,6 +212,13 @@ $linha = mysqli_fetch_array($resultado);
                 $DN = new DateTime($dataNascimento);
                 $idade = $dataAtual->diff($DN)->y;
 
+// Converte a data de nascimento para um objeto DateTime
+$dataNascimentoObj = new DateTime($dataNascimento);
+
+// Obtém o ano da data de nascimento
+$anoNascimento = $dataNascimentoObj->format('Y');
+
+
                 if ($check_result->num_rows > 0) {
                     // E-mail já cadastrado
                     $mensagem = "E-mail já cadastrado";
@@ -224,7 +231,10 @@ $linha = mysqli_fetch_array($resultado);
                 } else if (strtotime($dataNascimento) > time()) {
                     // Data de nascimento é no futuro, mostrar mensagem de erro
                     $mensagem = "Data de nascimento não pode ser no futuro";
-                } else if (mysqli_num_rows($resultado) > 0) {
+                } else if ($anoNascimento < 1900) {
+                    $mensagem = "A data de nascimento não pode ser antes do ano de 1900.";
+                } 
+                 else if (mysqli_num_rows($resultado) > 0) {
                     // Já existe um veterinário com esse CRMV, exiba uma mensagem de erro ou redirecione
                     $mensagem = "Já existe um veterinário cadastrado com esse CRMV.";
                     // Pode redirecionar de volta ao formulário ou realizar outras ações necessárias

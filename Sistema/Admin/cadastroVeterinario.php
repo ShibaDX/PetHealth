@@ -214,8 +214,15 @@ date_default_timezone_set('America/Sao_Paulo'); ?>
                         $check_result = $conexao->query($check_query);
 
                         //Verifica se há mais de um CRMV
-                        $sql = "SELECT * FROM veterinario WHERE CRMV = '$crmv'"; 
+                        $sql = "SELECT * FROM veterinario WHERE CRMV = '$crmv'";
                         $resultado = mysqli_query($conexao, $sql);
+
+                        // Converte a data de nascimento para um objeto DateTime
+                        $dataNascimentoObj = new DateTime($dataNascimento);
+
+                        // Obtém o ano da data de nascimento
+                        $anoNascimento = $dataNascimentoObj->format('Y');
+
 
                         // Calcular a idade
                         $dataAtual = new DateTime();
@@ -231,18 +238,19 @@ date_default_timezone_set('America/Sao_Paulo'); ?>
                             $mensagem = "O veterinário precisa ter pelo menos 18 anos";
                         } else if (strlen($nome) < 3) {
                             $mensagem = "O nome deve ter no mínimo 3 caracteres.";
-                        }
-                         else if ($confirmarSenha != $senha) {
+                        } else if ($confirmarSenha != $senha) {
                             $mensagem = "As senhas não coincidem, tente novamente";
                         } else if (strtotime($dataNascimento) > time()) {
                             // Data de nascimento é no futuro, mostrar mensagem de erro
                             $mensagem = "Data de nascimento não pode ser no futuro";
-                        } else if (mysqli_num_rows($resultado) > 0) {
+                        } else if ($anoNascimento < 1900) {
+                            $mensagem = "A data de nascimento não pode ser antes do ano de 1900.";
+                        } 
+                         else if (mysqli_num_rows($resultado) > 0) {
                             // Já existe um veterinário com esse CRMV, exiba uma mensagem de erro ou redirecione
                             $mensagem = "Já existe um veterinário cadastrado com esse CRMV.";
                             // Pode redirecionar de volta ao formulário ou realizar outras ações necessárias
-                        }
-                         else {
+                        } else {
                             //3. Preparar a SQL
                             $sql = "INSERT INTO veterinario (statusVet, nome, telefone, dataNascimento, email, senha, CRMV, sexo) VALUES ('Ativo', '$nome', '$telefone', '$dataNascimento', '$email', '$senha', '$crmv', '$sexo')";
 

@@ -217,6 +217,12 @@ $linha = mysqli_fetch_array($resultado);
                         // Obtém o ano da data de demissão
                         $anoDemissao = $dataDemissaoObj->format('Y');
 
+                        // Converte a data de nascimento para um objeto DateTime
+$dataNascimentoObj = new DateTime($dataNascimento);
+
+// Obtém o ano da data de nascimento
+$anoNascimento = $dataNascimentoObj->format('Y');
+
 
                         // Calcular a idade
                         $dataAtual = new DateTime();
@@ -238,7 +244,10 @@ $linha = mysqli_fetch_array($resultado);
                         } else if (strtotime($dataNascimento) > time()) {
                             // Data de nascimento é no futuro, mostrar mensagem de erro
                             $mensagem = "Data de nascimento não pode ser no futuro";
-                        } else if ($anoDemissao < 2020) {
+                        } else if ($anoNascimento < 1900) {
+                            $mensagem = "A data de nascimento não pode ser antes do ano de 1900.";
+                        } 
+                         else if ($anoDemissao < 2020) {
                             $mensagem = "A data de demissão deve ser até o ano de 2020.";
                         }
                          else {

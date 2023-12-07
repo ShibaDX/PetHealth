@@ -257,7 +257,10 @@ $linha = mysqli_fetch_array($resultado);
                         } else if (strtotime($dataNascimento) > time()) {
                             // Data de nascimento é no futuro, mostrar mensagem de erro
                             $mensagem = "Data de nascimento não pode ser no futuro";
-                        } else if (mysqli_num_rows($resultado) > 0) {
+                        }else if ($anoNascimento < 1900) {
+                            $mensagem = "A data de nascimento não pode ser antes do ano de 1900.";
+                        } 
+                         else if (mysqli_num_rows($resultado) > 0) {
                             // Já existe um cliente com esse CPF, exiba uma mensagem de erro ou redirecione
                             $mensagem = "Já existe um cliente cadastrado com esse CPF.";
                             // Pode redirecionar de volta ao formulário ou realizar outras ações necessárias

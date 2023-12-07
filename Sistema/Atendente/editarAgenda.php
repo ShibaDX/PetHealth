@@ -60,7 +60,7 @@ $linha = mysqli_fetch_array($resultado);
                             <div class="row">
                                 <div class="col-6">
                                     <div class="mb-1">
-                                        <label for="formGroupExampleInput" class="form-label">Cliente*</label>
+                                        <label for="formGroupExampleInput" class="form-label">Cliente</label>
                                         <select class="custom-select" aria-label="Disabled select example" disabled>
                                             <?php
                                             $pet_id = $linha['pet_id'];
@@ -86,7 +86,7 @@ $linha = mysqli_fetch_array($resultado);
                                 </div>
                                 <div class="col-6">
                                     <div class="mb-1">
-                                        <label for="formGroupExampleInput" class="form-label">Pet*</label>
+                                        <label for="formGroupExampleInput" class="form-label">Pet</label>
                                         <select class="custom-select" aria-label="Disabled select example" disabled>
                                             <?php echo "<option>{$nome_pet}</option>"; ?>
                                         </select>
