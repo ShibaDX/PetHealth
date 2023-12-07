@@ -1,0 +1,11 @@
+Admin:
+e-mail: admin@adm.com
+senha: 1234
+
+Atendente:
+e-mail: paulo.cesar@email.com
+senha: paulo123
+
+Veterinário:
+e-mail: joao.santos@email.com
+senha: joao123
