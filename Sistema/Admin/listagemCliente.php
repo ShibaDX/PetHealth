@@ -2,12 +2,6 @@
 <?php
 require_once("verificaAutenticacao.php");
 require_once("conexao.php");
-//Exclusão
-if (isset($_GET['id'])) {
-    $sql = "delete from cliente where id = " . $_GET['id'];
-    mysqli_query($conexao, $sql);
-    $mensagem = "Exclusão realizada com sucesso.";
-}
 
 // preparar a SQL
 $sql = "select * from cliente";
@@ -70,12 +64,51 @@ $resultado = mysqli_query($conexao, $sql);
                 <div class="card mt-3 mb-3">
                     <div class="card-body">
                         <h2><i class="fa-regular fa-user"></i> Listagem de Clientes <a href="cadastroCliente.php" class="btn btn-info btn-sn"><i class="fa-solid fa-plus" style="color: #ffffff;"></i> Novo Cliente</a></h2>
+                        <form method="post">
+                                <div class="row mb-3 mt-4">
+                                    <div class="col-3">
+                                        <label for="filtroStatus">Filtrar por Status</label>
+                                        <select class="custom-select" name="filtroStatus">
+                                            <option value="">Todos</option>
+                                            <option value="Ativo" <?= (isset($_POST['filtroStatus']) && $_POST['filtroStatus'] == 'Ativo') ? "selected" : "" ?>>Ativos</option>
+                                            <option value="Inativo" <?= (isset($_POST['filtroStatus']) && $_POST['filtroStatus'] == 'Inativo') ? "selected" : "" ?>>Inativos</option>
+                                        </select>
+                                        <button type="submit" class="btn btn-primary mt-3">Filtrar</button>
+                                    </div>
+                                    <div class="col-3">
+                                        <label for="filtroNome">Buscar por Nome:</label>
+                                        <input type="text" name="filtroNome" placeholder="Digite o nome" class="form-control" value="<?= (isset($_POST['filtroNome'])) ? $_POST['filtroNome'] : '' ?>">
+                                    </div>
+                                </div>
+                                <?php
+                                $filtroStatus = "";
+                                $filtroNome = "";
+                                if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+                                    $filtroStatus = mysqli_real_escape_string($conexao, $_POST['filtroStatus']);
+                                    $filtroNome = mysqli_real_escape_string($conexao, $_POST['filtroNome']);
+
+
+                                    $filtro = "";
+                                    if (isset($filtroStatus) && ($filtroStatus != '')) {
+                                        $filtro .= " and statusCliente = '$filtroStatus' ";
+                                    }
+                                    if (isset($filtroNome) && ($filtroNome != '')) {
+                                        $filtro .= " and nome LIKE '%$filtroNome%' ";
+                                    }
+
+                                    $sql = "SELECT * FROM cliente WHERE 1 = 1 {$filtro} ORDER BY nome";
+                                    $resultado = mysqli_query($conexao, $sql);
+                                }
+                                ?>
+                            </form>
                     </div>
                 </div>
                 <div class="table-responsive">
                     <table class="table table-striped table-hover" style="overflow: auto; max-width: 100%;">
                         <thead>
                             <tr>
+                                <th scope="col">ID</th>
                                 <th scope="col">Status</th>
                                 <th scope="col">Nome</th>
                                 <th scope="col">Telefone</th>
@@ -95,7 +128,10 @@ $resultado = mysqli_query($conexao, $sql);
 
                                 <tr>
                                     <td>
-                                    <?= $linha['statusCliente'] ?>
+                                        <?= $linha['id'] ?>
+                                    </td>
+                                    <td>
+                                        <?= $linha['statusCliente'] ?>
                                     </td>
                                     <td>
                                         <?= $linha['nome'] ?>
@@ -152,7 +188,7 @@ $resultado = mysqli_query($conexao, $sql);
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-body">Selecione "Logout" se você deseja encerrar sua sessão atual.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
                     <a class="btn btn-primary" href=" logout.php">Logout</a>

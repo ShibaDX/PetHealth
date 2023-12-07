@@ -97,7 +97,7 @@ $linha = mysqli_fetch_array($resultado);
                                 <div class="col-3">
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">Data*</label>
-                                        <input name="data" type="date" class="form-control" value="<?= $linha['data'] ?>" required><br>
+                                        <input name="data" type="date" class="form-control" value="<?= isset($_POST['data']) ? htmlspecialchars($_POST['data']) : $linha['data'] ?>" required><br>
                                     </div>
                                 </div>
                                 <div class="col-3">
@@ -168,7 +168,7 @@ $linha = mysqli_fetch_array($resultado);
                                 <div class="col-6">
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">OBS</label>
-                                        <textarea name="obs" type="text" class="form-control"><?= $linha['obs'] ?></textarea> <br>
+                                        <textarea name="obs" type="text" class="form-control"><?= isset($_POST['obs']) ? htmlspecialchars($_POST['obs']) : $linha['obs'] ?></textarea> <br>
                                     </div>
                                 </div>
                             </div>
@@ -186,7 +186,7 @@ $linha = mysqli_fetch_array($resultado);
                                 <div class="col">
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">Resultado</label>
-                                        <textarea name="resultado" id="campoResultado" class="form-control"><?= $linha['resultado'] ?></textarea>
+                                        <textarea name="resultado" id="campoResultado" class="form-control"><?= isset($_POST['resultado']) ? htmlspecialchars($_POST['resultado']) : $linha['resultado'] ?></textarea>
                                     </div>
                                 </div>
                             </div>

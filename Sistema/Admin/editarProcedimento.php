@@ -61,13 +61,13 @@ $linha = mysqli_fetch_array($resultado);
                                 <div class="col">
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" id="nomeProcedimento" class="form-label">Nome*</label>
-                                        <input name="nomeProc" type="text" id="nomeProcedimento" class="form-control" oninput="validarLetras(this)" value="<?= $linha['nome'] ?>" required><br>
+                                        <input name="nomeProc" type="text" id="nomeProcedimento" class="form-control" oninput="validarLetras(this)" value="<?= isset($_POST['nome']) ? htmlspecialchars($_POST['nome']) : $linha['nome'] ?>" required><br>
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="mb-1">
                                         <label for="valorProcedimento" class="form-label">Valor do Procedimento* (R$):</label>
-                                        <input type="text" id="valorProcedimento" name="valorProc" class="form-control" value="<?= $linha['valor'] ?>" required>
+                                        <input type="text" id="valorProcedimento" name="valorProc" class="form-control" value="<?= isset($_POST['valor']) ? htmlspecialchars($_POST['valor']) : $linha['valor'] ?>" required>
                                     </div>
                                 </div>
                             </div>

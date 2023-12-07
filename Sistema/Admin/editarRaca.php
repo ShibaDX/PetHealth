@@ -58,7 +58,7 @@ $linha = mysqli_fetch_array($resultado); ?>
                                 <div class="col">
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">Nome*</label>
-                                        <input id="nomeRaca" name="nomeRaca" type="text" oninput="validarLetras(this)" class="form-control" value="<?= $linha['nome'] ?>" required> <br>
+                                        <input id="nomeRaca" name="nomeRaca" type="text" oninput="validarLetras(this)" class="form-control" value="<?= isset($_POST['nome']) ? htmlspecialchars($_POST['nome']) : $linha['nome'] ?>" required> <br>
                                     </div>
                                 </div>
                                 <div class="col">

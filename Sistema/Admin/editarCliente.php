@@ -63,13 +63,13 @@ $linha = mysqli_fetch_array($resultado);
                                 <div class="col">
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">Nome*</label>
-                                        <input name="nome" type="text" oninput="validarLetras(this)" class="form-control" value="<?= $linha['nome'] ?>" required><br>
+                                        <input name="nome" type="text" oninput="validarLetras(this)" class="form-control" value="<?= isset($_POST['nome']) ? htmlspecialchars($_POST['nome']) : $linha['nome'] ?>" required><br>
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">Telefone*</label>
-                                        <input name="telefone" id="telefone" type="text" maxlength="15" class="form-control" value="<?= $linha['telefone'] ?>" onkeyup="handlePhone(event)" required><br>
+                                        <input name="telefone" id="telefone" type="text" maxlength="15" class="form-control" value="<?= isset($_POST['telefone']) ? htmlspecialchars($_POST['telefone']) : $linha['telefone'] ?>" onkeyup="handlePhone(event)" required><br>
                                     </div>
                                 </div>
                             </div>
@@ -77,25 +77,25 @@ $linha = mysqli_fetch_array($resultado);
                                 <div class="col-2">
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">CEP</label>
-                                        <input name="cep" id="cep" type="text" class="form-control" value="<?= $linha['cep'] ?>"><br>
+                                        <input name="cep" id="cep" type="text" class="form-control" value="<?= isset($_POST['cep']) ? htmlspecialchars($_POST['cep']) : $linha['cep'] ?>"><br>
                                     </div>
                                 </div>
                                 <div class="col-4">
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">Cidade*</label>
-                                        <input id="cidade" name="cidade" type="text" class="form-control" value="<?= $linha['cidade'] ?>" required><br>
+                                        <input id="cidade" name="cidade" type="text" class="form-control" value="<?= isset($_POST['cidade']) ? htmlspecialchars($_POST['cidade']) : $linha['cidade'] ?>" required><br>
                                     </div>
                                 </div>
                                 <div class="col-1">
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">UF*</label>
-                                        <input id="uf" name="uf" type="text" class="form-control" value="<?= $linha['UF'] ?>" required><br>
+                                        <input id="uf" name="uf" type="text" class="form-control" value="<?= isset($_POST['uf']) ? htmlspecialchars($_POST['uf']) : $linha['UF'] ?>" required><br>
                                     </div>
                                 </div>
                                 <div class="col-5">
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">Bairro*</label>
-                                        <input id="bairro" name="bairro" type="text" class="form-control" value="<?= $linha['bairro'] ?>" required><br>
+                                        <input id="bairro" name="bairro" type="text" class="form-control" value="<?= isset($_POST['bairro']) ? htmlspecialchars($_POST['bairro']) : $linha['bairro'] ?>" required><br>
                                     </div>
                                 </div>
                             </div>
@@ -103,19 +103,19 @@ $linha = mysqli_fetch_array($resultado);
                                 <div class="col-6">
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">Endereço*</label>
-                                        <input id="endereco" name="endereco" type="text" class="form-control" value="<?= $linha['endereco'] ?>" required><br>
+                                        <input id="endereco" name="endereco" type="text" class="form-control" value="<?= isset($_POST['endereco']) ? htmlspecialchars($_POST['endereco']) : $linha['endereco'] ?>" required><br>
                                     </div>
                                 </div>
                                 <div class="col-3">
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">Número*</label>
-                                        <input name="numero" type="number" class="form-control" value="<?= $linha['numero'] ?>" required><br>
+                                        <input name="numero" type="number" class="form-control" value="<?= isset($_POST['numero']) ? htmlspecialchars($_POST['numero']) : $linha['numero'] ?>" required><br>
                                     </div>
                                 </div>
                                 <div class="col-3">
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">Data de Nascimento*</label>
-                                        <input name="dataNascimento" type="date" class="form-control" value="<?= $linha['dataNascimento'] ?>" required><br>
+                                        <input name="dataNascimento" type="date" class="form-control" value="<?= isset($_POST['dataNascimento']) ? htmlspecialchars($_POST['dataNascimento']) : $linha['dataNascimento'] ?>" required><br>
                                     </div>
                                 </div>
                             </div>
@@ -133,13 +133,13 @@ $linha = mysqli_fetch_array($resultado);
                                 <div class="col-4">
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">CPF*</label>
-                                        <input name="cpf" type="text" maxlength="14" class="form-control" oninput="applyCpfMask(this)" value="<?= $linha['CPF'] ?>" required><br>
+                                        <input name="cpf" type="text" maxlength="14" class="form-control" oninput="applyCpfMask(this)" value="<?= isset($_POST['cpf']) ? htmlspecialchars($_POST['cpf']) : $linha['CPF'] ?>" required><br>
                                     </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">Email</label>
-                                        <input name="email" type="email" class="form-control" value="<?= $linha['email'] ?>"><br>
+                                        <input name="email" type="email" class="form-control" value="<?= isset($_POST['email']) ? htmlspecialchars($_POST['email']) : $linha['email'] ?>"><br>
                                     </div>
                                 </div>
                             </div>

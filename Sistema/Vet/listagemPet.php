@@ -2,12 +2,6 @@
 <?php
 require_once("verificaAutenticacao.php");
 require_once("conexao.php");
-//Exclusão
-if (isset($_GET['id'])) {
-    $sql = "delete from pet where id = " . $_GET['id'];
-    mysqli_query($conexao, $sql);
-    $mensagem = "Exclusão realizada com sucesso.";
-}
 
 // preparar a SQL
 $sql = "select * from pet";
@@ -116,9 +110,6 @@ $resultado = mysqli_query($conexao, $sql);
                                     <td>
                                         <a href="editarPet.php?id=<?= $linha['id'] ?>" class="btn btn-warning"><i
                                                 class="fa-solid fa-pen-to-square" style="color: #000000;"></i></a>
-                                        <a href="listagemPet.php?id=<?= $linha['id'] ?>" class="btn btn-danger"
-                                            onclick="return confirm('Confirma exclusão?')"><i class="fa-solid fa-trash"
-                                                style="color: #000000;"></i></a>
                                     </td>
                                 </tr>
                             <?php } ?>
@@ -153,7 +144,7 @@ $resultado = mysqli_query($conexao, $sql);
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-body">Selecione "Logout" se você deseja encerrar sua sessão atual.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
                     <a class="btn btn-primary" href=" logout.php">Logout</a>

@@ -64,13 +64,13 @@ $linha = mysqli_fetch_array($resultado);
                                 <div class="col-6">
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">Nome*</label>
-                                        <input name="nome" type="text" oninput="validarLetras(this)" class="form-control" value="<?= $linha['nome'] ?>" required><br>
+                                        <input name="nome" type="text" oninput="validarLetras(this)" class="form-control" value="<?= isset($_POST['nome']) ? htmlspecialchars($_POST['nome']) : $linha['nome'] ?>" required><br>
                                     </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">Email*</label>
-                                        <input name="email" type="email" class="form-control" value="<?= $linha['email'] ?>" required><br>
+                                        <input name="email" type="email" class="form-control" value="<?= isset($_POST['email']) ? htmlspecialchars($_POST['email']) : $linha['email'] ?>" required><br>
                                     </div>
                                 </div>
                             </div>
@@ -78,19 +78,19 @@ $linha = mysqli_fetch_array($resultado);
                                 <div class="col-4">
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">Telefone*</label>
-                                        <input name="telefone" type="text" id="telefone" maxlength="15" class="form-control" onkeyup="handlePhone(event)" value="<?= $linha['telefone'] ?>" required><br>
+                                        <input name="telefone" type="text" id="telefone" maxlength="15" class="form-control" onkeyup="handlePhone(event)" value="<?= isset($_POST['telefone']) ? htmlspecialchars($_POST['telefone']) : $linha['telefone'] ?>" required><br>
                                     </div>
                                 </div>
                                 <div class="col-4">
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">Data de Nascimento*</label>
-                                        <input name="dataNascimento" type="date" class="form-control" value="<?= $linha['dataNascimento'] ?>" required><br>
+                                        <input name="dataNascimento" type="date" class="form-control" value="<?= isset($_POST['dataNascimento']) ? htmlspecialchars($_POST['dataNascimento']) : $linha['dataNascimento'] ?>" required><br>
                                     </div>
                                 </div>
                                 <div class="col-4">
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">CPF*</label>
-                                        <input name="cpf" type="text" class="form-control" maxlength="15" value="<?= $linha['cpf'] ?>" oninput="applyCpfMask(this)" required><br>
+                                        <input name="cpf" type="text" class="form-control" maxlength="15" value="<?= isset($_POST['cpf']) ? htmlspecialchars($_POST['cpf']) : $linha['CPF'] ?>" oninput="applyCpfMask(this)" required><br>
                                     </div>
                                 </div>
                             </div>
@@ -106,7 +106,7 @@ $linha = mysqli_fetch_array($resultado);
                                 <div class="col-4">
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">Senha*</label>
-                                        <input name="senha" id="senha" type="password" class="form-control" value="<?= $linha['senha'] ?>" required>
+                                        <input name="senha" id="senha" type="password" class="form-control" value="<?= isset($_POST['senha']) ? htmlspecialchars($_POST['senha']) : $linha['senha'] ?>" required>
                                         <button type="button" id="togglePass" class="botao btn btn-link">Mostrar Senha</button>
                                     </div>
                                 </div>
@@ -114,7 +114,7 @@ $linha = mysqli_fetch_array($resultado);
                                     <div class="mb-1">
                                         <div class="mb-1">
                                             <label for="formGroupExampleInput" class="form-label">Data de Demissão</label>
-                                            <input name="dataDemissao" id="dataDemissao" type="date" class="form-control" value="<?= $linha['dataDemissao'] ?>">
+                                            <input name="dataDemissao" id="dataDemissao" type="date" class="form-control" value="<?= isset($_POST['dataDemissao']) ? htmlspecialchars($_POST['dataDemissao']) : $linha['dataDemissao'] ?>">
                                             <button type="button" class="btn" onclick="limpar()">Limpar</button>
                                             <!-- Adicione um campo oculto para enviar um valor especial quando o botão "Limpar" for clicado -->
                                             <input type="hidden" name="limparDataDemissao" id="limparDataDemissao" value="0">

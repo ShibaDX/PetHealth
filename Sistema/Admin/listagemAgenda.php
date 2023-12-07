@@ -4,12 +4,6 @@ require_once("verificaAutenticacao.php");
 require_once("conexao.php");
 date_default_timezone_set('America/Sao_Paulo');
 
-//Exclusão
-if (isset($_GET['id'])) {
-    $sql = "delete from agenda where id = " . $_GET['id'];
-    mysqli_query($conexao, $sql);
-    $mensagem = "Exclusão realizada com sucesso.";
-}
 $sql = "SELECT * FROM agenda";
 $resultado = mysqli_query($conexao, $sql);
 
@@ -192,6 +186,7 @@ $data_atual = date("Y-m-d");
                     ?>
                         <table class="table table-striped table-hover" id="listaAgenda">
                             <tr>
+                            <th scope="col">ID</th>
                                 <th>Data</th>
                                 <th>Hora</th>
                                 <th>Status</th>
@@ -205,7 +200,7 @@ $data_atual = date("Y-m-d");
                             <?php
                             while ($row = $resultado->fetch_assoc()) {
                                 $dataFormatada = date("d/m/Y", strtotime($row["data"]));
-                                echo "<tr><td>" . $dataFormatada . "</td><td>" . $row["hora"] . "</td><td>" . $row["statusAgenda"];
+                                echo "<tr><td>" . $row["id"] . "</td><td>" . $dataFormatada . "</td><td>" . $row["hora"] . "</td><td>" . $row["statusAgenda"];
 
                                 // Verifique se os índices existem antes de acessá-los
                                 $petNome = isset($row["petNome"]) ? $row["petNome"] : "";

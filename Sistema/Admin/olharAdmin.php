@@ -56,7 +56,7 @@ $linha = mysqli_fetch_array($resultado);
 
                     <!-- Page Heading -->
                     <div class="container">
-                        <h1 class="mb-4"><i class="fa-solid fa-user-gear"></i> Visualizar Administrador</h1>
+                        <h1 class="mb-4"><i class="fa-solid fa-eye"></i> Visualizar Administrador</h1>
                         <form method="post">
                             <input type="hidden" name="id" value="<?= $linha['id'] ?>">
                             <div class="row">

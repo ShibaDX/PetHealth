@@ -68,31 +68,33 @@ $resultado = mysqli_query($conexao, $sql);
                             <a href="cadastroProcedimento.php" class="btn btn-info btn-sn"><i class="fa-solid fa-notes-medical"></i> Novo Procedimento</a>
                             </h2>
                             <form method="post">
-                            <h5>Filtrar por status </h5>
-                                <div class="btn-group" role="group">
-
-                                    <button type="submit" class="btn btn-secondary" name="filtro" value="">Todos</button>
-                                    <button type="submit" class="btn btn-success" name="filtro" value="Ativo">Ativos</button>
-                                    <button type="submit" class="btn btn-danger" name="filtro" value="Inativo">Inativos</button>
+                                <div class="row mb-3 mt-4">
+                                    <div class="col-3">
+                                        <label for="filtroStatus">Filtrar por Status</label>
+                                        <select class="custom-select" name="filtroStatus">
+                                            <option value="">Todos</option>
+                                            <option value="Ativo" <?= (isset($_POST['filtroStatus']) && $_POST['filtroStatus'] == 'Ativo') ? "selected" : "" ?>>Ativos</option>
+                                            <option value="Inativo" <?= (isset($_POST['filtroStatus']) && $_POST['filtroStatus'] == 'Inativo') ? "selected" : "" ?>>Inativos</option>
+                                        </select>
+                                        <button type="submit" class="btn btn-primary mt-3">Filtrar</button>
+                                    </div>
                                 </div>
-                            </form>
-                            <?php
-                            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                                <?php
+                                $filtroStatus = "";
+                                if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-                                $filtro = mysqli_real_escape_string($conexao, $_POST['filtro']);
+                                    $filtroStatus = mysqli_real_escape_string($conexao, $_POST['filtroStatus']);
 
-                                if ($filtro === "") {
-                                    $sql = "SELECT * FROM procedimento
-                                    ORDER BY id";
-                                } else {
-                                    // Adicione a condição WHERE para filtrar os dados pela data
-                                    $sql = "SELECT * FROM procedimento
-                                    WHERE statusProcedimento = '$filtro'
-                                    ORDER BY id";
+                                    $filtro = "";
+                                    if (isset($filtroStatus) && ($filtroStatus != '')) {
+                                        $filtro .= " and statusProcedimento = '$filtroStatus' ";
+                                    }
+
+                                    $sql = "SELECT * FROM procedimento WHERE 1 = 1 {$filtro} ORDER BY id";
+                                    $resultado = mysqli_query($conexao, $sql);
                                 }
-                                $resultado = mysqli_query($conexao, $sql);
-                            }
-                            ?>
+                                ?>
+                            </form>
                         </div>
                         </div>
                     <table class="table table-striped table-hover">
@@ -152,7 +154,7 @@ $resultado = mysqli_query($conexao, $sql);
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-body">Selecione "Logout" se você deseja encerrar sua sessão atual.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
                     <a class="btn btn-primary" href=" logout.php">Logout</a>

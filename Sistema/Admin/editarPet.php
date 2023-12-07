@@ -61,7 +61,7 @@ $linha = mysqli_fetch_array($resultado);
                                 <div class="col-6">
                                     <div class="mb-1">
                                         <label for="nomePet" class="form-label">Nome*</label>
-                                        <input id="nomePet" name="nomePet" oninput="validarLetras(this)" type="text" class="form-control" value="<?= $linha['nome'] ?>" required><br>
+                                        <input id="nomePet" name="nomePet" oninput="validarLetras(this)" type="text" class="form-control" value="<?= isset($_POST['nome']) ? htmlspecialchars($_POST['nome']) : $linha['nome'] ?>" required><br>
                                     </div>
                                 </div>
                                 <div class="col-3">
@@ -82,7 +82,7 @@ $linha = mysqli_fetch_array($resultado);
                                 <div class="col-3">
                                     <div class="mb-1">
                                         <label for="anoNascimento" class="form-label">Ano de Nascimento*</label>
-                                        <input id="anoNascimento" name="anoNascimento" min="1900" max="<?php echo date('Y'); ?>" type="number" class="form-control" value="<?= $linha['anoNascimento'] ?>" required><br>
+                                        <input id="anoNascimento" name="anoNascimento" min="1900" max="<?php echo date('Y'); ?>" type="number" class="form-control" value="<?= isset($_POST['anoNascimento']) ? htmlspecialchars($_POST['anoNascimento']) : $linha['anoNascimento'] ?>" required><br>
                                     </div>
                                 </div>
                             </div>
@@ -120,7 +120,7 @@ $linha = mysqli_fetch_array($resultado);
                                 <div class="col-4">
                                     <div class="mb-1">
                                         <label for="cor" class="form-label">Cor*</label>
-                                        <input id="cor" name="cor" type="text" pattern="[^0-9]*" class="form-control" value="<?= $linha['cor'] ?>" required><br>
+                                        <input id="cor" name="cor" type="text" pattern="[^0-9]*" class="form-control" value="<?= isset($_POST['cor']) ? htmlspecialchars($_POST['cor']) : $linha['cor'] ?>" required><br>
                                     </div>
                                 </div>
                                 <div class="col-2">
@@ -163,7 +163,7 @@ $linha = mysqli_fetch_array($resultado);
                                 <div class="col">
                                     <div class="mb-1">
                                         <label for="obs" class="form-label">OBS</label>
-                                        <textarea id="obs" name="obs" type="text" class="form-control"><?= isset($linha['obs']) ? $linha['obs'] : '' ?></textarea><br>
+                                        <textarea id="obs" name="obs" type="text" class="form-control"><?= isset($_POST['obs']) ? htmlspecialchars($_POST['obs']) : $linha['obs'] ?></textarea><br>
                                     </div>
                                 </div>
                             </div>

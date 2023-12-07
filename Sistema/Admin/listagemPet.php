@@ -2,13 +2,6 @@
 <?php
 require_once("verificaAutenticacao.php");
 require_once("conexao.php");
-//Exclusão
-if (isset($_GET['id'])) {
-    $sql = "delete from pet where id = " . $_GET['id'];
-    mysqli_query($conexao, $sql);
-    $mensagem = "Exclusão realizada com sucesso.";
-}
-
 
 // preparar a SQL
 $sql = "SELECT p.id, p.statusPet, p.nome, p.especie, p.anoNascimento, p.sexo, p.cor, c.nome as clienteNome, r.nome as racaNome FROM pet p 
@@ -78,6 +71,7 @@ $resultado = mysqli_query($conexao, $sql);
                         <form method="post">
                             <div class="row mb-3 mt-4">
                                 <div class="col-3">
+                                <label class="form-label">Filtrar por Dono</label>
                                     <select name="cliente_id" class="custom-select" aria-label="Large select example" onchange="this.form.submit()">
                                         <option value="">Selecione</option>
                                         <?php
@@ -128,6 +122,7 @@ $resultado = mysqli_query($conexao, $sql);
                 ?>
                     <table class="table table-striped table-hover" id="listaAgenda">
                         <tr>
+                            <th scope="col">ID</th>
                             <th>Status</th>
                             <th>Nome</th>
                             <th>Proprietário do Pet</th>
@@ -145,7 +140,7 @@ $resultado = mysqli_query($conexao, $sql);
                             $clienteNome = isset($row["clienteNome"]) ? $row["clienteNome"] : "";
                             $racaNome = isset($row["racaNome"]) ? $row["racaNome"] : "";
 
-                            echo "<tr><td>" . $row["statusPet"] . "</td><td>" . $row["nome"] . "</td><td>" . $clienteNome . "</td><td>" . $row["anoNascimento"] . "</td><td>" . $row["sexo"] . "</td><td>" . $racaNome . "</td><td>" . $row["especie"] . "</td><td>" . $row["cor"] . "</td>";
+                            echo "<tr><td>" . $row["id"] . "</td><td>" . $row["statusPet"] . "</td><td>" . $row["nome"] . "</td><td>" . $clienteNome . "</td><td>" . $row["anoNascimento"] . "</td><td>" . $row["sexo"] . "</td><td>" . $racaNome . "</td><td>" . $row["especie"] . "</td><td>" . $row["cor"] . "</td>";
                         ?>
                             <td>
                                 <a href="olharPet.php?id=<?= $row['id'] ?>" class="btn btn-info"><i class="fa-solid fa-eye" style="color: #000000;"></i></a>
@@ -184,7 +179,7 @@ $resultado = mysqli_query($conexao, $sql);
                         <span aria-hidden="true">×</span>
                     </button>
                 </div>
-                <div class="modal-body">Select "Logout" below if you are ready to end your current session.</div>
+                <div class="modal-body">Selecione "Logout" se você deseja encerrar sua sessão atual.</div>
                 <div class="modal-footer">
                     <button class="btn btn-secondary" type="button" data-dismiss="modal">Cancel</button>
                     <a class="btn btn-primary" href=" logout.php">Logout</a>
