@@ -24,9 +24,7 @@ $resultado = mysqli_query($conexao, $sql);
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
     <script src="https://kit.fontawesome.com/0215a38eba.js" crossorigin="anonymous"></script>
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
@@ -54,98 +52,99 @@ $resultado = mysqli_query($conexao, $sql);
 
                 <!-- Page Heading -->
 
-                    <!-- Bloco de mensagem -->
-                    <?php if (isset($mensagem)) { ?>
-                        <div class="alert alert-success" role="alert">
-                            <i class="fa-solid fa-check" style="color: #2eb413;"></i>
-                            <?= $mensagem ?>
-                        </div>
-                    <?php } ?>
-                    <!-- Tabela de listagem de pets -->
-                    <div class="card mt-3 mb-3">
-                        <div class="card-body">
-                            <h2><i class="fa-solid fa-notes-medical"></i> Listagem de Procedimentos 
+                <!-- Bloco de mensagem -->
+                <?php if (isset($mensagem)) { ?>
+                    <div class="alert alert-success" role="alert">
+                        <i class="fa-solid fa-check" style="color: #2eb413;"></i>
+                        <?= $mensagem ?>
+                    </div>
+                <?php } ?>
+                <!-- Tabela de listagem de pets -->
+                <div class="card mt-3 mb-3">
+                    <div class="card-body">
+                        <h2><i class="fa-solid fa-notes-medical"></i> Listagem de Procedimentos
                             <a href="cadastroProcedimento.php" class="btn btn-info btn-sn"><i class="fa-solid fa-notes-medical"></i> Novo Procedimento</a>
-                            </h2>
-                            <form method="post">
-                                <div class="row mb-3 mt-4">
-                                    <div class="col-3">
-                                        <label for="filtroStatus">Filtrar por Status</label>
-                                        <select class="custom-select" name="filtroStatus">
-                                            <option value="">Todos</option>
-                                            <option value="Ativo" <?= (isset($_POST['filtroStatus']) && $_POST['filtroStatus'] == 'Ativo') ? "selected" : "" ?>>Ativos</option>
-                                            <option value="Inativo" <?= (isset($_POST['filtroStatus']) && $_POST['filtroStatus'] == 'Inativo') ? "selected" : "" ?>>Inativos</option>
-                                        </select>
-                                        <button type="submit" class="btn btn-primary mt-3">Filtrar</button>
-                                    </div>
+                        </h2>
+                        <form method="post">
+                            <div class="row mb-3 mt-4">
+                                <div class="col-3">
+                                    <label for="filtroStatus">Filtrar por Status</label>
+                                    <select class="custom-select" name="filtroStatus">
+                                        <option value="">Todos</option>
+                                        <option value="Ativo" <?= (isset($_POST['filtroStatus']) && $_POST['filtroStatus'] == 'Ativo') ? "selected" : "" ?>>Ativos</option>
+                                        <option value="Inativo" <?= (isset($_POST['filtroStatus']) && $_POST['filtroStatus'] == 'Inativo') ? "selected" : "" ?>>Inativos</option>
+                                    </select>
+                                    <button type="submit" class="btn btn-primary mt-3">Filtrar</button>
                                 </div>
-                                <?php
-                                $filtroStatus = "";
-                                if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                            </div>
+                            <?php
+                            $filtroStatus = "";
+                            if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-                                    $filtroStatus = mysqli_real_escape_string($conexao, $_POST['filtroStatus']);
+                                $filtroStatus = mysqli_real_escape_string($conexao, $_POST['filtroStatus']);
 
-                                    $filtro = "";
-                                    if (isset($filtroStatus) && ($filtroStatus != '')) {
-                                        $filtro .= " and statusProcedimento = '$filtroStatus' ";
-                                    }
-
-                                    $sql = "SELECT * FROM procedimento WHERE 1 = 1 {$filtro} ORDER BY id";
-                                    $resultado = mysqli_query($conexao, $sql);
+                                $filtro = "";
+                                if (isset($filtroStatus) && ($filtroStatus != '')) {
+                                    $filtro .= " and statusProcedimento = '$filtroStatus' ";
                                 }
-                                ?>
-                            </form>
-                        </div>
-                        </div>
-                    <table class="table table-striped table-hover">
-                        <thead>
-                            <tr>
-                                <th scope="col">ID</th>
-                                <th scope="col">Status</th>
-                                <th scope="col">Nome</th>
-                                <th scope="col">Valor</th>
-                                <th scope="col">Ação</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php while ($linha = mysqli_fetch_array($resultado)) { ?>
-                                <tr>
-                                    <th scope="row">
-                                        <?= $linha['id'] ?>
-                                    </th>
-                                    <td>
-                                        <?= $linha['statusProcedimento'] ?>
-                                    </td>
-                                    <td>
-                                        <?= $linha['nome'] ?>
-                                    </td>
-                                    <td>
-                                        <?= $linha['valor'] ?>
-                                    </td>
-                                    <td>
-                                        <a href="editarProcedimento.php?id=<?= $linha['id'] ?>" class="btn btn-warning"><i
-                                                class="fa-solid fa-pen-to-square" style="color: #000000;"></i></a>
-                                    </td>
-                                </tr>
-                            <?php } ?>
 
-                            </table>
-                            
+                                $sql = "SELECT * FROM procedimento WHERE 1 = 1 {$filtro} ORDER BY id";
+                                $resultado = mysqli_query($conexao, $sql);
+                            }
+                            ?>
+                        </form>
+                    </div>
                 </div>
-                <!-- End of Main Content -->
-                <?php require_once("footer.php"); ?>
+                <?php
+                if ($resultado->num_rows > 0) {
+                    // Exibir os dados em uma tabela
+                ?>
+                    <table class="table table-striped table-hover" id="listaAgenda">
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th>Status</th>
+                            <th>Nome</th>
+                            <th>Valor</th>
+                            <th>Ação</th>
+                        </tr>
+                        <?php
+                        while ($row = $resultado->fetch_assoc()) {
+                            // Verifique se os índices existem antes de acessá-los
+                            $valorProcedimento = isset($row["valor"]) ? number_format($row["valor"], 2, ',', '.') : "";
+                            echo "<tr><td>" . $row["id"] . "</td><td>" . $row["statusProcedimento"] . "</td><td>" . $row["nome"] . "</td><td>R$" . $valorProcedimento . "</td>";
+
+
+                        ?>
+                            <td>
+                                <a href="editarProcedimento.php?id=<?= $row['id'] ?>" class="btn btn-warning"><i class="fa-solid fa-pen-to-square" style="color: #000000;"></i></a>
+                            </td>
+                            </tr>
+                        <?php
+                        }
+                        ?>
+                    </table>
+                    <br>
+                <?php
+                } else {
+                    echo "Nenhum resultado encontrado.";
+                }
+                ?>
+
 
             </div>
+            <!-- End of Main Content -->
+            <?php require_once("footer.php"); ?>
 
-            <!-- End of Content Wrapper -->
         </div>
 
-        <!-- End of Page Wrapper -->
+        <!-- End of Content Wrapper -->
+    </div>
+
+    <!-- End of Page Wrapper -->
     </div>
 
     <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -160,17 +159,17 @@ $resultado = mysqli_query($conexao, $sql);
                     <a class="btn btn-primary" href=" logout.php">Logout</a>
                 </div>
             </div>
-    </div>
+        </div>
 
-    <!-- Bootstrap core JavaScript-->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <!-- Bootstrap core JavaScript-->
+        <script src="vendor/jquery/jquery.min.js"></script>
+        <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Core plugin JavaScript-->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+        <!-- Core plugin JavaScript-->
+        <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
 
-    <!-- Custom scripts for all pages-->
-    <script src="js/sb-admin-2.min.js"></script>
+        <!-- Custom scripts for all pages-->
+        <script src="js/sb-admin-2.min.js"></script>
 
 </body>
 
