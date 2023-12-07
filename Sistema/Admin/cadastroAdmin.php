@@ -51,17 +51,18 @@ date_default_timezone_set('America/Sao_Paulo'); ?>
                     <!-- Cadastrar Médico Veterinário -->
                     <div class="container">
                         <h1 class="mb-4"><i class="fa-solid fa-user-pen"></i> Cadastro de Admin</h1>
-                        <form method="post">
+                        <p class="h6">Os campos marcados com * são obrigatórios</p> <br>
+                        <form method="post" onsubmit="return validarTelefone();">
                             <div class="row">
                                 <div class="col-6">
                                     <div class="mb-1">
-                                        <label for="formGroupExampleInput" class="form-label">Nome</label>
+                                        <label for="formGroupExampleInput" class="form-label">Nome*</label>
                                         <input name="nomeAdmin" type="text" class="form-control" oninput="validarLetras(this)" value="<?= isset($_POST['nomeAdmin']) ? htmlspecialchars($_POST['nomeAdmin']) : '' ?>" required><br>
                                     </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="mb-1">
-                                        <label for="email" class="form-label">Email</label>
+                                        <label for="email" class="form-label">Email*</label>
                                         <input name="email" id="email" type="email" class="form-control" value="<?= isset($_POST['email']) ? htmlspecialchars($_POST['email']) : '' ?>" required><br>
                                     </div>
                                 </div>
@@ -69,19 +70,19 @@ date_default_timezone_set('America/Sao_Paulo'); ?>
                             <div class="row">
                                 <div class="col-4">
                                     <div class="mb-1">
-                                        <label for="formGroupExampleInput" class="form-label">Telefone</label>
+                                        <label for="formGroupExampleInput" class="form-label">Telefone*</label>
                                         <input name="telefone" type="text" id="telefone" maxlength="15" class="form-control" value="<?= isset($_POST['telefone']) ? htmlspecialchars($_POST['telefone']) : '' ?>" onkeyup="handlePhone(event)" required><br>
                                     </div>
                                 </div>
                                 <div class="col-4">
                                     <div class="mb-1">
-                                        <label for="" class="form-label">Data de Nascimento</label>
+                                        <label for="" class="form-label">Data de Nascimento*</label>
                                         <input name="dataNascimento" type="date" class="form-control" value="<?= isset($_POST['dataNascimento']) ? htmlspecialchars($_POST['dataNascimento']) : '' ?>" required><br>
                                     </div>
                                 </div>
                                 <div class="col-4">
                                     <div class="mb-1">
-                                        <label for="cpf" class="form-label">CPF</label>
+                                        <label for="cpf" class="form-label">CPF*</label>
                                         <input name="cpf" id="cpf" type="text" maxlength="14" class="form-control" value="<?= isset($_POST['cpf']) ? htmlspecialchars($_POST['cpf']) : '' ?>" oninput="applyCpfMask(this)" required><br>
                                     </div>
                                 </div>
@@ -102,7 +103,7 @@ date_default_timezone_set('America/Sao_Paulo'); ?>
                                 </div>
                                 <div class="col-4">
                                     <div class="mb-1">
-                                        <label for="senha" class="form-label">Senha</label>
+                                        <label for="senha" class="form-label">Senha*</label>
                                         <input name="senha" id="senha" type="password" class="form-control" value="<?= isset($_POST['senha']) ? htmlspecialchars($_POST['senha']) : '' ?>" required>
                                         <button type="button" id="togglePass" class="botao btn btn-link">Mostrar
                                             Senha</button>
@@ -110,7 +111,7 @@ date_default_timezone_set('America/Sao_Paulo'); ?>
                                 </div>
                                 <div class="col-4">
                                     <div class="mb-1">
-                                        <label for="confirmarSenha" class="form-label">Confirmar Senha</label>
+                                        <label for="confirmarSenha" class="form-label">Confirmar Senha*</label>
                                         <input name="confirmarSenha" id="confirmarSenha" type="password" class="form-control" value="<?= isset($_POST['confirmarSenha']) ? htmlspecialchars($_POST['confirmarSenha']) : '' ?>" required>
                                         <button type="button" id="toggleConfirmPass" class="botao btn btn-link">Mostrar
                                             Senha</button>
@@ -124,6 +125,20 @@ date_default_timezone_set('America/Sao_Paulo'); ?>
                     </form><br>
 
                     <script>
+                function validarTelefone() {
+                    var telefoneInput = document.getElementById("telefone");
+                    var telefone = telefoneInput.value;
+
+                    // Expressão regular para validar o formato do telefone
+                    var regex = /^\(\d{2}\) \d{4,5}-\d{4}$/;
+
+                    if (!regex.test(telefone)) {
+                        alert("Por favor, insira um número de telefone válido no formato (11) 1234-5678 ou (11) 12345-6789.");
+                        telefoneInput.focus();
+                        return false;
+                    }
+                }
+
                         function validarLetras(input) {
                             // Substituir qualquer caractere que não seja uma letra por vazio
                             input.value = input.value.replace(/[^a-zA-Z\sàáâãäåçèéêëìíîïòóôõöùúûü-]/g, '');
@@ -189,6 +204,9 @@ date_default_timezone_set('America/Sao_Paulo'); ?>
                         $DN = new DateTime($dataNascimento);
                         $idade = $dataAtual->diff($DN)->y;
 
+                // Verifique se já existe um cliente com o mesmo CPF
+                $sql = "SELECT * FROM admin WHERE CPF = '$cpf'"; 
+                $resultado = mysqli_query($conexao, $sql);
 
                         if ($check_result->num_rows > 0) {
                             // E-mail já cadastrado
@@ -205,7 +223,12 @@ date_default_timezone_set('America/Sao_Paulo'); ?>
                         } else if (strtotime($dataNascimento) > time()) {
                             // Data de nascimento é no futuro, mostrar mensagem de erro
                             $mensagem = "Data de nascimento não pode ser no futuro";
-                        } else {
+                        } else if (mysqli_num_rows($resultado) > 0) {
+                            // Já existe um cliente com esse CPF, exiba uma mensagem de erro ou redirecione
+                            $mensagem = "Já existe um cliente cadastrado com esse CPF.";
+                            // Pode redirecionar de volta ao formulário ou realizar outras ações necessárias
+                        }
+                         else {
 
                             //3. Preparar a SQL
                             $sql = "insert into admin (nome, telefone, dataNascimento, email, senha, cpf, statusAdmin) values ('$nome', '$telefone', '$dataNascimento', '$email', '$senha', '$cpf', 'Ativo')";

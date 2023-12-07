@@ -47,17 +47,18 @@ require_once("verificaAutenticacao.php"); ?>
                     <!-- Cadastrar Procedimento -->
                     <div class="container">
                         <h1 class="mb-4"><i class="fa-solid fa-notes-medical"></i> Cadastro de Procedimento</h1>
+                        <p class="h6">Os campos marcados com * são obrigatórios</p> <br>
                         <form method="post">
                             <div class="row">
                                 <div class="col">
                                     <div class="mb-1">
-                                        <label for="formGroupExampleInput" id="nomeProcedimento" class="form-label">Nome</label>
+                                        <label for="formGroupExampleInput" id="nomeProcedimento" class="form-label">Nome*</label>
                                         <input name="nomeProc" type="text" id="nomeProcedimento" oninput="validarLetras(this)" class="form-control" required><br>
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="mb-1">
-                                        <label for="valorProcedimento" class="form-label">Valor do Procedimento (R$):</label>
+                                        <label for="valorProcedimento" class="form-label">Valor do Procedimento* (R$):</label>
                                         <input type="text" id="valorProcedimento" name="valorProc" class="form-control" required>
                                     </div>
                                 </div>

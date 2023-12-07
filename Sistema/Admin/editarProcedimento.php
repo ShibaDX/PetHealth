@@ -19,7 +19,7 @@ $linha = mysqli_fetch_array($resultado);
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Cadastro de Procedimento</title>
+    <title>Editar Procedimento</title>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -54,18 +54,19 @@ $linha = mysqli_fetch_array($resultado);
                     <!-- Cadastrar Procedimento -->
                     <div class="container">
                         <h1 class="mb-4"><i class="fa-solid fa-notes-medical"></i> Edição de Procedimento</h1>
+                        <p class="h6">Os campos marcados com * são obrigatórios</p> <br>
                         <form method="post">
                             <input type="hidden" name="id" value="<?= $linha['id'] ?>">
                             <div class="row">
                                 <div class="col">
                                     <div class="mb-1">
-                                        <label for="formGroupExampleInput" id="nomeProcedimento" class="form-label">Nome</label>
+                                        <label for="formGroupExampleInput" id="nomeProcedimento" class="form-label">Nome*</label>
                                         <input name="nomeProc" type="text" id="nomeProcedimento" class="form-control" oninput="validarLetras(this)" value="<?= $linha['nome'] ?>" required><br>
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="mb-1">
-                                        <label for="valorProcedimento" class="form-label">Valor do Procedimento (R$):</label>
+                                        <label for="valorProcedimento" class="form-label">Valor do Procedimento* (R$):</label>
                                         <input type="text" id="valorProcedimento" name="valorProc" class="form-control" value="<?= $linha['valor'] ?>" required>
                                     </div>
                                 </div>

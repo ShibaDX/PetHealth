@@ -54,12 +54,13 @@ $linha = mysqli_fetch_array($resultado);
                     <!-- Editar a Agenda -->
                     <div class="container">
                         <h1 class="mb-4"><i class="fa-solid fa-calendar-days"></i> Editar Agenda</h1>
+                        <p class="h6">Os campos marcados com * são obrigatórios</p> <br>
                         <form method="post">
                             <input type="hidden" name="id" value="<?= $linha['id'] ?>">
                             <div class="row">
                                 <div class="col-6">
                                     <div class="mb-1">
-                                        <label for="formGroupExampleInput" class="form-label">Cliente</label>
+                                        <label for="formGroupExampleInput" class="form-label">Cliente*</label>
                                         <select class="custom-select" aria-label="Disabled select example" disabled>
                                             <?php
                                             $pet_id = $linha['pet_id'];
@@ -85,7 +86,7 @@ $linha = mysqli_fetch_array($resultado);
                                 </div>
                                 <div class="col-6">
                                     <div class="mb-1">
-                                        <label for="formGroupExampleInput" class="form-label">Pet</label>
+                                        <label for="formGroupExampleInput" class="form-label">Pet*</label>
                                         <select class="custom-select" aria-label="Disabled select example" disabled>
                                             <?php echo "<option>{$nome_pet}</option>"; ?>
                                         </select>
@@ -95,14 +96,14 @@ $linha = mysqli_fetch_array($resultado);
                             <div class="row">
                                 <div class="col-3">
                                     <div class="mb-1">
-                                        <label for="formGroupExampleInput" class="form-label">Data</label>
+                                        <label for="formGroupExampleInput" class="form-label">Data*</label>
                                         <input name="data" type="date" class="form-control" value="<?= $linha['data'] ?>" required><br>
                                     </div>
                                 </div>
                                 <div class="col-3">
                                     <div class="mb-1">
-                                        <label for="formGroupExampleInput" class="form-label">Hora</label>
-                                        <select name="hora" class="custom-select">
+                                        <label for="formGroupExampleInput" class="form-label">Hora*</label>
+                                        <select name="hora" class="custom-select" required>
                                             <option value="08:00" <?php echo ($linha['hora'] == '08:00') ? 'selected' : ''; ?>>08:00</option>
                                             <option value="08:30" <?php echo ($linha['hora'] == '08:30') ? 'selected' : ''; ?>>08:30</option>
                                             <option value="09:00" <?php echo ($linha['hora'] == '09:00') ? 'selected' : ''; ?>>09:00</option>
@@ -124,8 +125,8 @@ $linha = mysqli_fetch_array($resultado);
                                 </div>
                                 <div class="col-6">
                                     <div class="mb-1">
-                                        <label for="procedimento_id" class="form-label">Procedimento</label>
-                                        <select name="procedimento_id" class="custom-select ">
+                                        <label for="procedimento_id" class="form-label">Procedimento*</label>
+                                        <select name="procedimento_id" class="custom-select " required>
                                             <?php
                                             $sql = "SELECT * FROM procedimento WHERE statusProcedimento = 'Ativo' ORDER BY nome";
                                             $resultado = mysqli_query($conexao, $sql);
@@ -146,8 +147,8 @@ $linha = mysqli_fetch_array($resultado);
                             <div class="row">
                                 <div class="col-6">
                                     <div class="mb-1">
-                                        <label for="veterinario_id" class="form-label">Veterinário</label>
-                                        <select name="veterinario_id" class="custom-select ">
+                                        <label for="veterinario_id" class="form-label">Veterinário*</label>
+                                        <select name="veterinario_id" class="custom-select" required>
                                             <?php
                                             $sql = "select * from veterinario order by nome";
                                             $resultado = mysqli_query($conexao, $sql);
@@ -167,14 +168,14 @@ $linha = mysqli_fetch_array($resultado);
                                 <div class="col-6">
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">OBS</label>
-                                        <textarea name="obs" type="text" class="form-control" value="<?= $linha['obs'] ?>"></textarea> <br>
+                                        <textarea name="obs" type="text" class="form-control"><?= $linha['obs'] ?></textarea> <br>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-6">
+                                <div class="col">
                                     <div class="mb-1">
-                                        <label for="formGroupExampleInput" class="form-label">Status</label>
+                                        <label for="formGroupExampleInput" class="form-label">Status</label><br>
                                         <div class="btn-group" role="group">
                                             <button type="submit" class="btn btn-danger" name="statusAgenda" value="Cancelado">Cancelado</button>
                                             <button type="submit" class="btn btn-warning" name="statusAgenda" value="Em Andamento">Em Andamento</button>
@@ -182,7 +183,7 @@ $linha = mysqli_fetch_array($resultado);
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-6">
+                                <div class="col">
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">Resultado</label>
                                         <textarea name="resultado" id="campoResultado" class="form-control"><?= $linha['resultado'] ?></textarea>

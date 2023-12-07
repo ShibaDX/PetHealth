@@ -53,7 +53,8 @@ $linha = mysqli_fetch_array($resultado);
                     <!-- Page Heading -->
                     <!-- Editar o Pet -->
                     <div class="container">
-                        <h1 class="mb-4"><i class="fa-solid fa-dog"></i> Editar Pet</h1>
+                        <h1 class="mb-3"><i class="fa-solid fa-dog"></i> Editar Pet</h1>
+                        <p class="h6">Os campos marcados com * são obrigatórios</p> <br>
                         <form method="post">
                             <input type="hidden" name="id" value="<?= $linha['id'] ?>">
                             <div class="row">
@@ -63,7 +64,7 @@ $linha = mysqli_fetch_array($resultado);
                                         <input id="nomePet" name="nomePet" oninput="validarLetras(this)" type="text" class="form-control" value="<?= $linha['nome'] ?>" required><br>
                                     </div>
                                 </div>
-                                <div class="col-4">
+                                <div class="col-3">
                                     <div class="mb-1">
                                         <label for="especie" class="form-label">Espécie*</label>
                                         <select id="especie" name="especie" class="form-control" onchange="atualizarRacas(this.value)" required>
@@ -78,7 +79,7 @@ $linha = mysqli_fetch_array($resultado);
                                         </select> <br>
                                     </div>
                                 </div>
-                                <div class="col-2">
+                                <div class="col-3">
                                     <div class="mb-1">
                                         <label for="anoNascimento" class="form-label">Ano de Nascimento*</label>
                                         <input id="anoNascimento" name="anoNascimento" min="1900" max="<?php echo date('Y'); ?>" type="number" class="form-control" value="<?= $linha['anoNascimento'] ?>" required><br>
@@ -157,7 +158,7 @@ $linha = mysqli_fetch_array($resultado);
                                             ?>
                                         </select>
 
-                                    </div> <br>
+                                    </div>
                                 </div>
                                 <div class="col">
                                     <div class="mb-1">
@@ -166,108 +167,141 @@ $linha = mysqli_fetch_array($resultado);
                                     </div>
                                 </div>
                             </div>
+                            <div class="row mb-4">
+                                <div class="col">
+                                    <div class="mb-1 ">
+                                        <label for="formGroupExampleInput" class="form-label">Status</label><br>
+                                        <div class="btn-group" role="group">
+                                            <button type="submit" class="btn btn-success" name="status" value="Ativo">Ativo</button>
+                                            <button type="submit" class="btn btn-danger" name="status" value="Inativo">Inativo</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <button name="salvar" type="submit" class="btn btn-primary"><i class="fa-solid fa-check"></i> Salvar</button>
                             <a href="listagemPet.php" class="btn btn-warning"><i class="fa-solid fa-rotate-left"></i> Voltar</a>
-                    </div>
+                    
                     </form><br>
-
-                    <script>
-                        function validarLetras(input) {
-                            // Substituir qualquer caractere que não seja uma letra por vazio
-                            input.value = input.value.replace(/[^a-zA-Z\sàáâãäåçèéêëìíîïòóôõöùúûü-]/g, '');
-                        }
-
-                        var xhr; // Declarar xhr no escopo global
-
-                        // Função para atualizar dinamicamente as opções do campo de seleção de raças
-                        function atualizarRacas() {
-                            var especieSelecionada = document.getElementById("especie").value;
-                            var racaSelecionada = document.getElementById("raca_id").value; // Salvar a raça selecionada
-
-                            xhr = new XMLHttpRequest();
-                            xhr.onreadystatechange = function() {
-                                if (xhr.readyState === 4) {
-                                    console.log(xhr.responseText); // Exibir a resposta JSON no console
-
-                                    if (xhr.status === 200) {
-                                        var racas = JSON.parse(xhr.responseText);
-
-                                        console.log(racas); // Exibir as raças no console
-
-                                        // Limpar opções existentes
-                                        var selectRaca = document.getElementById("raca_id");
-                                        selectRaca.innerHTML = "";
-
-                                        // Adicionar opções
-                                        for (var i = 0; i < racas.length; i++) {
-                                            var option = document.createElement("option");
-                                            option.value = racas[i].id; // Configurar o valor como o id da raça
-                                            option.text = racas[i].nome;
-                                            // Verificar se a raça é a mesma que estava selecionada antes
-                                            option.selected = (racaSelecionada === racas[i].id.toString());
-                                            selectRaca.appendChild(option);
-                                        }
-                                    } else {
-                                        console.error("Erro na requisição AJAX:", xhr.status);
-                                    }
-                                }
-                            };
-
-                            var url = "obter_racas.php?especie=" + encodeURIComponent(especieSelecionada);
-                            xhr.open("GET", url, true);
-                            xhr.send();
-                        }
-
-                        // Adicione um evento onchange ao campo de seleção de espécie
-                        document.getElementById("especie").addEventListener("change", atualizarRacas);
-
-                        // Chamada inicial para garantir que as raças sejam carregadas corretamente
-                        atualizarRacas();
-                    </script>
-
-
-                    <?php if (isset($_POST['salvar'])) {
-
-                        //2. Receber os dados para inserir no BD
-                        $id = $_POST['id'];
-                        $nome = $_POST['nomePet'];
-                        $especie = $_POST['especie'];
-                        $raca_id = $_POST['raca_id'];
-                        $anoNascimento = $_POST['anoNascimento'];
-                        $sexo = $_POST['sexo'];
-                        $cor = $_POST['cor'];
-                        $obs = $_POST['obs'];
-                        $cliente_id = $_POST['cliente_id'];
-
-                        //3. Preparar a SQL
-                        $sql = "update pet set nome = '$nome', anoNascimento = '$anoNascimento', sexo = '$sexo', cor = '$cor', obs = '$obs', cliente_id = '$cliente_id', especie = '$especie', raca_id = '$raca_id' where id = $id";
-
-                        //4. Executar a SQL
-                        mysqli_query($conexao, $sql);
-
-                        //5. Mostrar mensagem ao usuário
-                        $mensagem = "Alterado com Sucesso";
-
-                        //Mostrar mensagem ao usuário
-                        if ($mensagem) { ?>
-                            <div class="alert <?= strpos($mensagem, 'Sucesso') !== false ? 'alert-success' : 'alert-danger' ?> mb-2" role="alert">
-                                <i class="fa-solid <?= strpos($mensagem, 'Sucesso') !== false ? 'fa-check' : 'fa-x' ?>" style="color: <?= strpos($mensagem, 'Sucesso') !== false ? '#12972c' : '#b70b0b' ?>;"></i>
-                                <?= $mensagem ?>
-                            </div>
-                    <?php }
+                </div>
+                <script>
+                    function validarLetras(input) {
+                        // Substituir qualquer caractere que não seja uma letra por vazio
+                        input.value = input.value.replace(/[^a-zA-Z\sàáâãäåçèéêëìíîïòóôõöùúûü-]/g, '');
                     }
-                    require_once("footer.php");
-                    ?>
 
-                    <!-- Bootstrap core JavaScript-->
-                    <script src="vendor/jquery/jquery.min.js"></script>
-                    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+                    var xhr; // Declarar xhr no escopo global
 
-                    <!-- Core plugin JavaScript-->
-                    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+                    // Função para atualizar dinamicamente as opções do campo de seleção de raças
+                    function atualizarRacas() {
+                        var especieSelecionada = document.getElementById("especie").value;
+                        var racaSelecionada = document.getElementById("raca_id").value; // Salvar a raça selecionada
 
-                    <!-- Custom scripts for all pages-->
-                    <script src="js/sb-admin-2.min.js"></script>
+                        xhr = new XMLHttpRequest();
+                        xhr.onreadystatechange = function() {
+                            if (xhr.readyState === 4) {
+                                console.log(xhr.responseText); // Exibir a resposta JSON no console
+
+                                if (xhr.status === 200) {
+                                    var racas = JSON.parse(xhr.responseText);
+
+                                    console.log(racas); // Exibir as raças no console
+
+                                    // Limpar opções existentes
+                                    var selectRaca = document.getElementById("raca_id");
+                                    selectRaca.innerHTML = "";
+
+                                    // Adicionar opções
+                                    for (var i = 0; i < racas.length; i++) {
+                                        var option = document.createElement("option");
+                                        option.value = racas[i].id; // Configurar o valor como o id da raça
+                                        option.text = racas[i].nome;
+                                        // Verificar se a raça é a mesma que estava selecionada antes
+                                        option.selected = (racaSelecionada === racas[i].id.toString());
+                                        selectRaca.appendChild(option);
+                                    }
+                                } else {
+                                    console.error("Erro na requisição AJAX:", xhr.status);
+                                }
+                            }
+                        };
+
+                        var url = "obter_racas.php?especie=" + encodeURIComponent(especieSelecionada);
+                        xhr.open("GET", url, true);
+                        xhr.send();
+                    }
+
+                    // Adicione um evento onchange ao campo de seleção de espécie
+                    document.getElementById("especie").addEventListener("change", atualizarRacas);
+
+                    // Chamada inicial para garantir que as raças sejam carregadas corretamente
+                    atualizarRacas();
+                </script>
+
+
+                <?php
+                if (isset($_POST['status'])) {
+
+                    $id = $_POST['id'];
+                    $status = $_POST['status'];
+
+                    //Preparar o SQL
+                    $sql = "UPDATE pet SET statusPet = '$status' WHERE id = '$id'";
+
+                    //Executar a SQL
+                    mysqli_query($conexao, $sql);
+
+                    //Mostrar mensagem ao usuário
+                    $mensagem = "Alterado com Sucesso";
+                    if ($mensagem) { ?>
+                        <div class="alert <?= strpos($mensagem, 'Sucesso') !== false ? 'alert-success' : 'alert-danger' ?> mb-2" role="alert">
+                            <i class="fa-solid <?= strpos($mensagem, 'Sucesso') !== false ? 'fa-check' : 'fa-x' ?>" style="color: <?= strpos($mensagem, 'Sucesso') !== false ? '#12972c' : '#b70b0b' ?>;"></i>
+                            <?= $mensagem ?>
+                        </div>
+                    <?php }
+                }
+
+                if (isset($_POST['salvar'])) {
+
+                    //2. Receber os dados para inserir no BD
+                    $id = $_POST['id'];
+                    $nome = $_POST['nomePet'];
+                    $especie = $_POST['especie'];
+                    $raca_id = $_POST['raca_id'];
+                    $anoNascimento = $_POST['anoNascimento'];
+                    $sexo = $_POST['sexo'];
+                    $cor = $_POST['cor'];
+                    $obs = $_POST['obs'];
+                    $cliente_id = $_POST['cliente_id'];
+
+                    //3. Preparar a SQL
+                    $sql = "update pet set nome = '$nome', anoNascimento = '$anoNascimento', sexo = '$sexo', cor = '$cor', obs = '$obs', cliente_id = '$cliente_id', especie = '$especie', raca_id = '$raca_id' where id = $id";
+
+                    //4. Executar a SQL
+                    mysqli_query($conexao, $sql);
+
+                    //5. Mostrar mensagem ao usuário
+                    $mensagem = "Alterado com Sucesso";
+
+                    //Mostrar mensagem ao usuário
+                    if ($mensagem) { ?>
+                        <div class="alert <?= strpos($mensagem, 'Sucesso') !== false ? 'alert-success' : 'alert-danger' ?> mb-2" role="alert">
+                            <i class="fa-solid <?= strpos($mensagem, 'Sucesso') !== false ? 'fa-check' : 'fa-x' ?>" style="color: <?= strpos($mensagem, 'Sucesso') !== false ? '#12972c' : '#b70b0b' ?>;"></i>
+                            <?= $mensagem ?>
+                        </div>
+                <?php }
+                }
+                require_once("footer.php");
+                ?>
+
+                <!-- Bootstrap core JavaScript-->
+                <script src="vendor/jquery/jquery.min.js"></script>
+                <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+                <!-- Core plugin JavaScript-->
+                <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+
+                <!-- Custom scripts for all pages-->
+                <script src="js/sb-admin-2.min.js"></script>
 
 </body>
 

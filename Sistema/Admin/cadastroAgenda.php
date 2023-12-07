@@ -50,12 +50,13 @@ $dataAtual = date("Y-m-d"); ?>
                     <!-- Cadastro da Agenda -->
                     <div class="container">
                         <h1 class="mb-4"><i class="fa-solid fa-calendar-days"></i> Agendamento</h1>
+                        <p class="h6">Os campos marcados com * são obrigatórios</p> <br>
                         <form method="post">
                             <div class="container">
                                 <div class="row">
                                     <div class="col">
                                         <div class="mb-1">
-                                            <label for="cliente_id" class="form-label">Cliente</label>
+                                            <label for="cliente_id" class="form-label">Cliente*</label>
                                             <select name="cliente_id" class="custom-select" aria-label="Large select example" onchange="this.form.submit()">
                                                 <option value="">Selecione</option>
                                                 <?php
@@ -79,8 +80,8 @@ $dataAtual = date("Y-m-d"); ?>
                                     </div>
                                     <div class="col">
                                         <div class="mb-1">
-                                            <label for="pet_id" class="form-label">Pet</label>
-                                            <select name="pet_id" class="custom-select" aria-label="Large select example">
+                                            <label for="pet_id" class="form-label">Pet*</label>
+                                            <select name="pet_id" class="custom-select" aria-label="Large select example" required>
                                                 <?php
                                                 $sql = "SELECT pet.id, pet.nome
                                                 FROM pet 
@@ -104,14 +105,14 @@ $dataAtual = date("Y-m-d"); ?>
                                 <div class="row">
                                     <div class="col-3">
                                         <div class="mb-1">
-                                            <label for="formGroupExampleInput" class="form-label">Data</label>
+                                            <label for="formGroupExampleInput" class="form-label">Data*</label>
                                             <input name="data" type="date" class="form-control" value="<?= isset($_POST['data']) ? htmlspecialchars($_POST['data']) : '' ?>" required><br>
                                         </div>
                                     </div>
                                     <div class="col-3">
                                         <div class="mb-1">
-                                            <label for="formGroupExampleInput" class="form-label">Hora</label>
-                                            <select name="hora" class="custom-select">
+                                            <label for="formGroupExampleInput" class="form-label">Hora*</label>
+                                            <select name="hora" class="custom-select" required>
                                                 <option value="08:00">08:00</option>
                                                 <option value="08:30">08:30</option>
                                                 <option value="09:00">09:00</option>
@@ -133,7 +134,7 @@ $dataAtual = date("Y-m-d"); ?>
                                     </div>
                                     <div class="col-6">
                                         <div class="mb-1">
-                                            <label for="procedimento_id" class="form-label">Procedimento</label>
+                                            <label for="procedimento_id" class="form-label">Procedimento*</label>
                                             <select name="procedimento_id" class="custom-select ">
                                                 <?php
                                                 $sql = "SELECT * FROM procedimento WHERE statusProcedimento = 'Ativo' ORDER BY nome";
@@ -155,7 +156,7 @@ $dataAtual = date("Y-m-d"); ?>
                                 <div class="row">
                                     <div class="col-6">
                                         <div class="mb-1">
-                                            <label for="veterinario_id" class="form-label">Veterinário</label>
+                                            <label for="veterinario_id" class="form-label">Veterinário*</label>
                                             <select name="veterinario_id" class="custom-select ">
                                                 <?php
                                                 $sql = "SELECT * FROM veterinario
@@ -178,7 +179,7 @@ $dataAtual = date("Y-m-d"); ?>
                                     <div class="col-6">
                                         <div class="mb-1">
                                             <label for="formGroupExampleInput" class="form-label">OBS</label>
-                                            <textarea name="obs" type="text" class="form-control" value="<?= isset($_POST['obs']) ? htmlspecialchars($_POST['obs']) : '' ?>"></textarea> <br>
+                                            <textarea name="obs" type="text" class="form-control"><?= isset($_POST['obs']) ? htmlspecialchars($_POST['obs']) : '' ?></textarea> <br>
                                         </div>
                                     </div>
                                 </div>

@@ -218,8 +218,9 @@ date_default_timezone_set('America/Sao_Paulo');
                 $mensagem = ""; // Inicializa a variável $mensagem
 
                 // Verifique se já existe um cliente com o mesmo CPF
-                $sql = "SELECT * FROM cliente WHERE CPF = '$cpf'"; 
+                $sql = "SELECT * FROM cliente WHERE CPF = '$cpf'";
                 $resultado = mysqli_query($conexao, $sql);
+
 
                 // Calcular a idade
                 $dataAtual = new DateTime();

@@ -51,46 +51,46 @@ date_default_timezone_set('America/Sao_Paulo'); ?>
                     <!-- Cadastrar Médico Veterinário -->
                     <div class="container">
                         <h1 class="mb-4"><i class="fa-solid fa-user-pen"></i> Cadastro de Atendente</h1>
-                        <form method="post">
-                            <input type="hidden" name="id" value="<?= $linha['id'] ?>">
+                        <p class="h6">Os campos marcados com * são obrigatórios</p> <br>
+                        <form method="post" onsubmit="return validarTelefone();">
                             <div class="row">
                                 <div class="col-6">
                                     <div class="mb-1">
-                                        <label for="formGroupExampleInput" class="form-label">Nome</label>
-                                        <input name="nomeAtendente" type="text" oninput="validarLetras(this)" class="form-control" oninput="validarLetras(this)" value="<?= isset($_POST['nomeAtendente']) ? htmlspecialchars($_POST['nomeAtendente']) : '' ?>"><br>
+                                        <label for="formGroupExampleInput" class="form-label">Nome*</label>
+                                        <input name="nomeAtendente" type="text" oninput="validarLetras(this)" class="form-control" oninput="validarLetras(this)" value="<?= isset($_POST['nomeAtendente']) ? htmlspecialchars($_POST['nomeAtendente']) : '' ?>" required><br>
                                     </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="mb-1">
-                                        <label for="formGroupExampleInput" class="form-label">Email</label>
-                                        <input name="email" type="email" class="form-control" value="<?= isset($_POST['email']) ? htmlspecialchars($_POST['email']) : '' ?>"><br>
+                                        <label for="formGroupExampleInput" class="form-label">Email*</label>
+                                        <input name="email" type="email" class="form-control" value="<?= isset($_POST['email']) ? htmlspecialchars($_POST['email']) : '' ?>" required><br>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-4">
                                     <div class="mb-1">
-                                        <label for="formGroupExampleInput" class="form-label">Telefone</label>
-                                        <input name="telefone" type="text" maxlength="15" id="telefone" class="form-control" onkeyup="handlePhone(event)" value="<?= isset($_POST['telefone']) ? htmlspecialchars($_POST['telefone']) : '' ?>"><br>
+                                        <label for="formGroupExampleInput" class="form-label">Telefone*</label>
+                                        <input name="telefone" type="text" maxlength="15" id="telefone" class="form-control" onkeyup="handlePhone(event)" value="<?= isset($_POST['telefone']) ? htmlspecialchars($_POST['telefone']) : '' ?>" required><br>
                                     </div>
                                 </div>
                                 <div class="col-4">
                                     <div class="mb-1">
-                                        <label for="formGroupExampleInput" class="form-label">Data de Nascimento</label>
-                                        <input name="dataNascimento" type="date" class="form-control" value="<?= isset($_POST['dataNascimento']) ? htmlspecialchars($_POST['dataNascimento']) : '' ?>"><br>
+                                        <label for="formGroupExampleInput" class="form-label">Data de Nascimento*</label>
+                                        <input name="dataNascimento" type="date" class="form-control" value="<?= isset($_POST['dataNascimento']) ? htmlspecialchars($_POST['dataNascimento']) : '' ?>" required><br>
                                     </div>
                                 </div>
                                 <div class="col-4">
                                     <div class="mb-1">
-                                        <label for="formGroupExampleInput" class="form-label">CPF</label>
-                                        <input name="cpf" type="text" class="form-control" maxlength="15" value="<?= isset($_POST['cpf']) ? htmlspecialchars($_POST['cpf']) : '' ?>" oninput="applyCpfMask(this)"><br>
+                                        <label for="formGroupExampleInput" class="form-label">CPF*</label>
+                                        <input name="cpf" type="text" class="form-control" maxlength="15" value="<?= isset($_POST['cpf']) ? htmlspecialchars($_POST['cpf']) : '' ?>" oninput="applyCpfMask(this)" required><br>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-4">
-                                    <label for="sexo" class="form-label">Sexo</label>
-                                    <select id="sexo" name="sexo" class="form-control">
+                                    <label for="sexo" class="form-label">Sexo*</label>
+                                    <select id="sexo" name="sexo" class="form-control" >
                                         <?php
                                         $opcoes = ["M" => "Masculino", "F" => "Feminino", "O" => "Outro"];
 
@@ -103,14 +103,14 @@ date_default_timezone_set('America/Sao_Paulo'); ?>
                                 </div>
                                 <div class="col-4">
                                     <div class="mb-1">
-                                        <label for="formGroupExampleInput" class="form-label">Senha</label>
-                                        <input name="senha" id="senha" type="password" class="form-control" value="<?= isset($_POST['senha']) ? htmlspecialchars($_POST['senha']) : '' ?>">
+                                        <label for="formGroupExampleInput" class="form-label">Senha*</label>
+                                        <input name="senha" id="senha" type="password" class="form-control" value="<?= isset($_POST['senha']) ? htmlspecialchars($_POST['senha']) : '' ?>" required>
                                         <button type="button" id="togglePass" class="botao btn btn-link">Mostrar Senha</button>
                                     </div>
                                 </div>
                                 <div class="col-4">
                                     <div class="mb-1">
-                                        <label for="confirmarSenha" class="form-label">Confirmar Senha</label>
+                                        <label for="confirmarSenha" class="form-label">Confirmar Senha*</label>
                                         <input name="confirmarSenha" id="confirmarSenha" type="password" class="form-control" value="<?= isset($_POST['confirmarSenha']) ? htmlspecialchars($_POST['confirmarSenha']) : '' ?>" required>
                                         <button type="button" id="toggleConfirmPass" class="botao btn btn-link">Mostrar
                                             Senha</button>
@@ -250,13 +250,13 @@ date_default_timezone_set('America/Sao_Paulo'); ?>
                         }
                         // Verificar se a idade é pelo menos 18 anos
                         else if ($idade < 18) {
-                            $mensagem = "O veterinário precisa ter pelo menos 18 anos";
+                            $mensagem = "O atendente precisa ter pelo menos 18 anos";
                         } else if ($confirmarSenha != $senha) {
                             $mensagem = "As senhas não coincidem, tente novamente";
                         } else if (!validaCPF($cpf)) {
                             // CPF inválido, mostrar mensagem de erro
                             $mensagem = "CPF inválido. Por favor, insira um CPF válido.";
-                        } else if ($dataNascimentoObj > $dataAtualObj) {
+                        } else if (strtotime($dataNascimento) > time()) {
                             // Data de nascimento é no futuro, mostrar mensagem de erro
                             $mensagem = "Data de nascimento não pode ser no futuro";
                         } else {

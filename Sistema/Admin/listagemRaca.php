@@ -26,9 +26,7 @@ $resultado = mysqli_query($conexao, $sql);
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Lista de Raças
-
-    </title>
+    <title>Lista de Raças</title>
 
     <!-- Custom fonts for this template-->
     <link href="https://cdn.jsdelivr.net/npm/simple-datatables@latest/dist/style.css" rel="stylesheet" type="text/css">

@@ -51,18 +51,19 @@ $linha = mysqli_fetch_array($resultado); ?>
                     <!-- Cadastrar Raça -->
                     <div class="container">
                         <h1 class="mb-4"><i class="fa-solid fa-paw"></i> Cadastro de Raça</h1>
+                        <p class="h6">Os campos marcados com * são obrigatórios</p> <br>
                         <form method="post">
                             <input type="hidden" name="id" value="<?= $linha['id'] ?>">
                             <div class="row">
                                 <div class="col">
                                     <div class="mb-1">
-                                        <label for="formGroupExampleInput" class="form-label">Nome</label>
+                                        <label for="formGroupExampleInput" class="form-label">Nome*</label>
                                         <input id="nomeRaca" name="nomeRaca" type="text" oninput="validarLetras(this)" class="form-control" value="<?= $linha['nome'] ?>" required> <br>
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="mb-1">
-                                        <label for="especie" class="form-label">Espécie</label>
+                                        <label for="especie" class="form-label">Espécie*</label>
                                         <select id="especie" name="especie" class="form-control" required>
                                             <option value="Cachorro" <?php echo ($linha['especie'] == 'Cachorro') ? 'selected' : ''; ?>>Cachorro</option>
                                             <option value="Gato" <?php echo ($linha['especie'] == 'Gato') ? 'selected' : ''; ?>>Gato</option>
@@ -80,12 +81,6 @@ $linha = mysqli_fetch_array($resultado); ?>
                                             <button type="submit" class="btn btn-success" name="status" value="Ativo">Ativo</button>
                                             <button type="submit" class="btn btn-danger" name="status" value="Inativo">Inativo</button>
                                         </div>
-                                    </div>
-                                </div>
-                                <div class="col-6">
-                                    <div class="mb-1">
-                                        <label for="formGroupExampleInput" class="form-label">Descrição</label>
-                                        <textarea name="descricao" type="text" class="form-control"><?= $linha['descricao'] ?></textarea><br>
                                     </div>
                                 </div>
                             </div><br>
@@ -129,11 +124,10 @@ $linha = mysqli_fetch_array($resultado); ?>
                         //2. Receber os dados para inserir no BD
                         $id = $_POST['id'];
                         $nomeRaca = $_POST['nomeRaca'];
-                        $descricao = $_POST['descricao'];
                         $especie = $_POST['especie'];
 
                         //3. Preparar a SQL
-                        $sql = "UPDATE raca SET nome = '$nomeRaca', especie = '$especie', descricao = '$descricao' WHERE id = $id";
+                        $sql = "UPDATE raca SET nome = '$nomeRaca', especie = '$especie' WHERE id = $id";
 
                         //4. Executar a SQL
                         mysqli_query($conexao, $sql);

@@ -26,9 +26,7 @@ $resultado = mysqli_query($conexao, $sql);
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Lista de Pets
-        
-    </title>
+    <title>Lista de Pets</title>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">

@@ -2,12 +2,6 @@
 <?php
 require_once("verificaAutenticacao.php");
 require_once("conexao.php");
-//Exclusão
-if (isset($_GET['id'])) {
-    $sql = "delete from procedimento where id = " . $_GET['id'];
-    mysqli_query($conexao, $sql);
-    $mensagem = "Exclusão realizada com sucesso.";
-}
 
 // preparar a SQL
 $sql = "select * from procedimento";
@@ -129,9 +123,6 @@ $resultado = mysqli_query($conexao, $sql);
                                     <td>
                                         <a href="editarProcedimento.php?id=<?= $linha['id'] ?>" class="btn btn-warning"><i
                                                 class="fa-solid fa-pen-to-square" style="color: #000000;"></i></a>
-                                        <a href="listagemProcedimento.php?id=<?= $linha['id'] ?>" class="btn btn-danger"
-                                            onclick="return confirm('Confirma exclusão?')"><i class="fa-solid fa-trash"
-                                                style="color: #000000;"></i></a>
                                     </td>
                                 </tr>
                             <?php } ?>

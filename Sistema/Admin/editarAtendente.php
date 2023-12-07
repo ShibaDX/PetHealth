@@ -19,7 +19,7 @@ $linha = mysqli_fetch_array($resultado);
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Editar Veterinário</title>
+    <title>Editar Atendente</title>
 
     <!-- Custom fonts for this template-->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
@@ -56,46 +56,47 @@ $linha = mysqli_fetch_array($resultado);
 
                     <!-- Page Heading -->
                     <div class="container">
-                        <h1 class="mb-4"><i class="fa-solid fa-calendar-days"></i> Editar Atendente</h1>
-                        <form method="post">
+                        <h1 class="mb-4"><i class="fa-solid fa-user-pen"></i> Editar Atendente</h1>
+                        <p class="h6">Os campos marcados com * são obrigatórios</p> <br>
+                        <form method="post" onsubmit="return validarTelefone();">
                             <input type="hidden" name="id" value="<?= $linha['id'] ?>">
                             <div class="row">
                                 <div class="col-6">
                                     <div class="mb-1">
-                                        <label for="formGroupExampleInput" class="form-label">Nome</label>
-                                        <input name="nome" type="text" oninput="validarLetras(this)" class="form-control" value="<?= isset($_POST['nome']) ? htmlspecialchars($_POST['nome']) : $linha['nome'] ?>"><br>
+                                        <label for="formGroupExampleInput" class="form-label">Nome*</label>
+                                        <input name="nome" type="text" oninput="validarLetras(this)" class="form-control" value="<?= isset($_POST['nome']) ? htmlspecialchars($_POST['nome']) : $linha['nome'] ?>" required><br>
                                     </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="mb-1">
-                                        <label for="formGroupExampleInput" class="form-label">Email</label>
-                                        <input name="email" type="email" class="form-control" value="<?= isset($_POST['email']) ? htmlspecialchars($_POST['email']) : $linha['email'] ?>"><br>
+                                        <label for="formGroupExampleInput" class="form-label">Email*</label>
+                                        <input name="email" type="email" class="form-control" value="<?= isset($_POST['email']) ? htmlspecialchars($_POST['email']) : $linha['email'] ?>" required><br>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-4">
                                     <div class="mb-1">
-                                        <label for="formGroupExampleInput" class="form-label">Telefone</label>
-                                        <input name="telefone" type="text" maxlength="15" class="form-control" onkeyup="handlePhone(event)" value="<?= isset($_POST['telefone']) ? htmlspecialchars($_POST['telefone']) : $linha['telefone'] ?>"><br>
+                                        <label for="formGroupExampleInput" class="form-label">Telefone*</label>
+                                        <input name="telefone" type="text" id="telefone" maxlength="15" class="form-control" onkeyup="handlePhone(event)" value="<?= isset($_POST['telefone']) ? htmlspecialchars($_POST['telefone']) : $linha['telefone'] ?>" required><br>
                                     </div>
                                 </div>
                                 <div class="col-4">
                                     <div class="mb-1">
-                                        <label for="formGroupExampleInput" class="form-label">Data de Nascimento</label>
-                                        <input name="dataNascimento" type="date" class="form-control" value="<?= isset($_POST['dataNascimento']) ? htmlspecialchars($_POST['dataNascimento']) : $linha['dataNascimento'] ?>"><br>
+                                        <label for="formGroupExampleInput" class="form-label">Data de Nascimento*</label>
+                                        <input name="dataNascimento" type="date" class="form-control" value="<?= isset($_POST['dataNascimento']) ? htmlspecialchars($_POST['dataNascimento']) : $linha['dataNascimento'] ?>" required><br>
                                     </div>
                                 </div>
                                 <div class="col-4">
                                     <div class="mb-1">
-                                        <label for="formGroupExampleInput" class="form-label">CPF</label>
-                                        <input name="cpf" type="text" class="form-control" maxlength="15" value="<?= isset($_POST['cpf']) ? htmlspecialchars($_POST['cpf']) : $linha['cpf'] ?>" oninput="applyCpfMask(this)"><br>
+                                        <label for="formGroupExampleInput" class="form-label">CPF*</label>
+                                        <input name="cpf" type="text" class="form-control" maxlength="15" value="<?= isset($_POST['cpf']) ? htmlspecialchars($_POST['cpf']) : $linha['cpf'] ?>" oninput="applyCpfMask(this)" required><br>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-4">
-                                    <label for="sexo" class="form-label">Sexo</label>
+                                    <label for="sexo" class="form-label">Sexo*</label>
                                     <select id="sexo" name="sexo" class="form-control">
                                         <option value="M" <?php echo ($linha['sexo'] == 'M') ? 'selected' : ''; ?>>Masculino</option>
                                         <option value="F" <?php echo ($linha['sexo'] == 'F') ? 'selected' : ''; ?>>Feminino</option>
@@ -104,8 +105,8 @@ $linha = mysqli_fetch_array($resultado);
                                 </div>
                                 <div class="col-4">
                                     <div class="mb-1">
-                                        <label for="formGroupExampleInput" class="form-label">Senha</label>
-                                        <input name="senha" id="senha" type="password" class="form-control" value="<?= isset($_POST['senha']) ? htmlspecialchars($_POST['senha']) : $linha['senha'] ?>">
+                                        <label for="formGroupExampleInput" class="form-label">Senha*</label>
+                                        <input name="senha" id="senha" type="password" class="form-control" value="<?= isset($_POST['senha']) ? htmlspecialchars($_POST['senha']) : $linha['senha'] ?>" required>
                                         <button type="button" id="togglePass" class="botao btn btn-link">Mostrar Senha</button>
                                     </div>
                                 </div>

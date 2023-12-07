@@ -12,7 +12,7 @@ require_once("conexao.php"); ?>
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Tela do Atendente</title>
+    <title>Página Principal</title>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">

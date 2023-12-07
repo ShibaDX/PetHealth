@@ -60,17 +60,18 @@ date_default_timezone_set('America/Sao_Paulo'); ?>
                     <!-- Cadastrar Médico Veterinário -->
                     <div class="container">
                         <h1 class="mb-4"><i class="fa-solid fa-user-doctor"></i> Cadastro de Veterinário</h1>
+                        <p class="h6">Os campos marcados com * são obrigatórios</p> <br>
                         <form method="post" onsubmit="return validarTelefone();">
                             <div class="row">
                                 <div class="col-6">
                                     <div class="mb-1">
-                                        <label for="formGroupExampleInput" class="form-label">Nome</label>
+                                        <label for="formGroupExampleInput" class="form-label">Nome*</label>
                                         <input name="nomeVet" type="text" class="form-control" oninput="validarLetras(this)" value="<?= isset($_POST['nomeVet']) ? htmlspecialchars($_POST['nomeVet']) : '' ?>" required><br>
                                     </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="mb-1">
-                                        <label for="email" class="form-label">Email</label>
+                                        <label for="email" class="form-label">Email*</label>
                                         <input name="email" id="email" type="email" class="form-control" value="<?= isset($_POST['email']) ? htmlspecialchars($_POST['email']) : '' ?>" required><br>
                                     </div>
                                 </div>
@@ -78,19 +79,19 @@ date_default_timezone_set('America/Sao_Paulo'); ?>
                             <div class="row">
                                 <div class="col-4">
                                     <div class="mb-1">
-                                        <label for="formGroupExampleInput" class="form-label">Telefone</label>
+                                        <label for="formGroupExampleInput" class="form-label">Telefone*</label>
                                         <input name="telefone" type="text" id="telefone" maxlength="15" class="form-control" value="<?= isset($_POST['telefone']) ? htmlspecialchars($_POST['telefone']) : '' ?>" onkeyup="handlePhone(event)" required><br>
                                     </div>
                                 </div>
                                 <div class="col-4">
                                     <div class="mb-1">
-                                        <label for="" class="form-label">Data de Nascimento</label>
+                                        <label for="" class="form-label">Data de Nascimento*</label>
                                         <input name="dataNascimento" type="date" class="form-control" value="<?= isset($_POST['dataNascimento']) ? htmlspecialchars($_POST['dataNascimento']) : '' ?>" required><br>
                                     </div>
                                 </div>
                                 <div class="col-4">
                                     <div class="mb-1">
-                                        <label for="crmv" class="form-label">CRMV</label>
+                                        <label for="crmv" class="form-label">CRMV*</label>
                                         <input name="crmv" id="crmv" type="text" class="form-control" value="<?= isset($_POST['crmv']) ? htmlspecialchars($_POST['crmv']) : '' ?>" required><br>
                                     </div>
                                 </div>
@@ -111,7 +112,7 @@ date_default_timezone_set('America/Sao_Paulo'); ?>
                                 </div>
                                 <div class="col-4">
                                     <div class="mb-1">
-                                        <label for="senha" class="form-label">Senha</label>
+                                        <label for="senha" class="form-label">Senha*</label>
                                         <input name="senha" id="senha" type="password" class="form-control" value="<?= isset($_POST['senha']) ? htmlspecialchars($_POST['senha']) : '' ?>" required>
                                         <button type="button" id="togglePass" class="botao btn btn-link">Mostrar
                                             Senha</button>
@@ -119,7 +120,7 @@ date_default_timezone_set('America/Sao_Paulo'); ?>
                                 </div>
                                 <div class="col-4">
                                     <div class="mb-1">
-                                        <label for="confirmarSenha" class="form-label">Confirmar Senha</label>
+                                        <label for="confirmarSenha" class="form-label">Confirmar Senha*</label>
                                         <input name="confirmarSenha" id="confirmarSenha" type="password" class="form-control" value="<?= isset($_POST['confirmarSenha']) ? htmlspecialchars($_POST['confirmarSenha']) : '' ?>" required>
                                         <button type="button" id="toggleConfirmPass" class="botao btn btn-link">Mostrar
                                             Senha</button>

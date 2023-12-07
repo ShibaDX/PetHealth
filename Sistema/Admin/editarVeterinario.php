@@ -56,19 +56,20 @@ $linha = mysqli_fetch_array($resultado);
                     <!-- Page Heading -->
                     <!-- Editar Médico Veterinário -->
                     <div class="container">
-                        <h1 class="mb-4"><i class="fa-solid fa-calendar-days"></i> Editar Veterinário</h1>
-                        <form method="post">
+                        <h1 class="mb-4"><i class="fa-solid fa-user-doctor"></i> Editar Veterinário</h1>
+                        <p class="h6">Os campos marcados com * são obrigatórios</p> <br>
+                        <form method="post" onsubmit="return validarTelefone();">
                             <input type="hidden" name="id" value="<?= $linha['id'] ?>">
                             <div class="row">
                                 <div class="col-6">
                                     <div class="mb-1">
-                                        <label for="formGroupExampleInput" class="form-label">Nome</label>
+                                        <label for="formGroupExampleInput" class="form-label">Nome*</label>
                                         <input name="nome" type="text" class="form-control" oninput="validarLetras(this)" value="<?= $linha['nome'] ?>" required><br>
                                     </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="mb-1">
-                                        <label for="formGroupExampleInput" class="form-label">Email</label>
+                                        <label for="formGroupExampleInput" class="form-label">Email*</label>
                                         <input name="email" type="email" class="form-control" value="<?= $linha['email'] ?>" required><br>
                                     </div>
                                 </div>
@@ -76,26 +77,26 @@ $linha = mysqli_fetch_array($resultado);
                             <div class="row">
                                 <div class="col-4">
                                     <div class="mb-1">
-                                        <label for="formGroupExampleInput" class="form-label">Telefone</label>
-                                        <input name="telefone" type="text" maxlength="15" class="form-control" onkeyup="handlePhone(event)" value="<?= $linha['telefone'] ?>" required><br>
+                                        <label for="formGroupExampleInput" class="form-label">Telefone*</label>
+                                        <input name="telefone" id="telefone" type="text" maxlength="15" class="form-control" onkeyup="handlePhone(event)" value="<?= $linha['telefone'] ?>" required><br>
                                     </div>
                                 </div>
                                 <div class="col-4">
                                     <div class="mb-1">
-                                        <label for="formGroupExampleInput" class="form-label">Data de Nascimento</label>
+                                        <label for="formGroupExampleInput" class="form-label">Data de Nascimento*</label>
                                         <input name="dataNascimento" type="date" class="form-control" value="<?= $linha['dataNascimento'] ?>" required><br>
                                     </div>
                                 </div>
                                 <div class="col-4">
                                     <div class="mb-1">
-                                        <label for="formGroupExampleInput" class="form-label">CRMV</label>
+                                        <label for="formGroupExampleInput" class="form-label">CRMV*</label>
                                         <input name="crmv" type="text" class="form-control" value="<?= $linha['CRMV'] ?>" required><br>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-4">
-                                    <label for="sexo" class="form-label">Sexo</label>
+                                    <label for="sexo" class="form-label">Sexo*</label>
                                     <select id="sexo" name="sexo" class="form-control">
                                         <option value="M" <?php echo ($linha['sexo'] == 'M') ? 'selected' : ''; ?>>Masculino</option>
                                         <option value="F" <?php echo ($linha['sexo'] == 'F') ? 'selected' : ''; ?>>Feminino</option>
@@ -104,7 +105,7 @@ $linha = mysqli_fetch_array($resultado);
                                 </div>
                                 <div class="col-4">
                                     <div class="mb-1">
-                                        <label for="formGroupExampleInput" class="form-label">Senha</label>
+                                        <label for="formGroupExampleInput" class="form-label">Senha*</label>
                                         <input name="senha" id="senha" type="password" class="form-control" value="<?= $linha['senha'] ?>" required>
                                         <button type="button" id="togglePass" class="botao btn btn-link">Mostrar Senha</button>
                                     </div>
@@ -155,6 +156,21 @@ $linha = mysqli_fetch_array($resultado);
                         togglePassButton.textContent = "Mostrar Senha";
                     }
                 }
+                function validarTelefone() {
+                            var telefoneInput = document.getElementById("telefone");
+                            var telefone = telefoneInput.value;
+
+                            // Expressão regular para validar o formato do telefone
+                            var regex = /^\(\d{2}\) \d{4,5}-\d{4}$/;
+
+                            if (!regex.test(telefone)) {
+                                alert("Por favor, insira um número de telefone válido no formato (11) 1234-5678 ou (11) 12345-6789.");
+                                telefoneInput.focus();
+                                return false;
+                            }
+
+                            return true;
+                        }
             </script>
 
             <?php
@@ -218,7 +234,7 @@ $linha = mysqli_fetch_array($resultado);
                     mysqli_query($conexao, $sql);
 
                     //5. Mostrar mensagem ao usuário
-                    $mensagem = "Alterado com sucesso";
+                    $mensagem = "Alterado com Sucesso";
                 }
             ?>
 

@@ -55,19 +55,20 @@ $linha = mysqli_fetch_array($resultado);
                     <!-- Page Heading -->
                     <!-- Editar Cliente -->
                     <div class="container">
-                        <h1 class="mb-4"><i class="fa-solid fa-calendar-days"></i> Editar Cliente</h1>
+                        <h1 class="mb-4"><i class="fa-solid fa-user"></i> Editar Cliente</h1>
+                        <p class="h6">Os campos marcados com * são obrigatórios</p> <br>
                         <form method="post" onsubmit="return validarTelefone();">
                             <input type="hidden" name="id" value="<?= $linha['id'] ?>">
                             <div class="row">
                                 <div class="col">
                                     <div class="mb-1">
-                                        <label for="formGroupExampleInput" class="form-label">Nome</label>
+                                        <label for="formGroupExampleInput" class="form-label">Nome*</label>
                                         <input name="nome" type="text" oninput="validarLetras(this)" class="form-control" value="<?= $linha['nome'] ?>" required><br>
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="mb-1">
-                                        <label for="formGroupExampleInput" class="form-label">Telefone</label>
+                                        <label for="formGroupExampleInput" class="form-label">Telefone*</label>
                                         <input name="telefone" id="telefone" type="text" maxlength="15" class="form-control" value="<?= $linha['telefone'] ?>" onkeyup="handlePhone(event)" required><br>
                                     </div>
                                 </div>
@@ -81,19 +82,19 @@ $linha = mysqli_fetch_array($resultado);
                                 </div>
                                 <div class="col-4">
                                     <div class="mb-1">
-                                        <label for="formGroupExampleInput" class="form-label">Cidade</label>
+                                        <label for="formGroupExampleInput" class="form-label">Cidade*</label>
                                         <input id="cidade" name="cidade" type="text" class="form-control" value="<?= $linha['cidade'] ?>" required><br>
                                     </div>
                                 </div>
                                 <div class="col-1">
                                     <div class="mb-1">
-                                        <label for="formGroupExampleInput" class="form-label">UF</label>
+                                        <label for="formGroupExampleInput" class="form-label">UF*</label>
                                         <input id="uf" name="uf" type="text" class="form-control" value="<?= $linha['UF'] ?>" required><br>
                                     </div>
                                 </div>
                                 <div class="col-5">
                                     <div class="mb-1">
-                                        <label for="formGroupExampleInput" class="form-label">Bairro</label>
+                                        <label for="formGroupExampleInput" class="form-label">Bairro*</label>
                                         <input id="bairro" name="bairro" type="text" class="form-control" value="<?= $linha['bairro'] ?>" required><br>
                                     </div>
                                 </div>
@@ -101,19 +102,19 @@ $linha = mysqli_fetch_array($resultado);
                             <div class="row">
                                 <div class="col-6">
                                     <div class="mb-1">
-                                        <label for="formGroupExampleInput" class="form-label">Endereço</label>
+                                        <label for="formGroupExampleInput" class="form-label">Endereço*</label>
                                         <input id="endereco" name="endereco" type="text" class="form-control" value="<?= $linha['endereco'] ?>" required><br>
                                     </div>
                                 </div>
                                 <div class="col-3">
                                     <div class="mb-1">
-                                        <label for="formGroupExampleInput" class="form-label">Número</label>
-                                        <input name="numero" type="text" class="form-control" value="<?= $linha['numero'] ?>" required><br>
+                                        <label for="formGroupExampleInput" class="form-label">Número*</label>
+                                        <input name="numero" type="number" class="form-control" value="<?= $linha['numero'] ?>" required><br>
                                     </div>
                                 </div>
                                 <div class="col-3">
                                     <div class="mb-1">
-                                        <label for="formGroupExampleInput" class="form-label">Data de Nascimento</label>
+                                        <label for="formGroupExampleInput" class="form-label">Data de Nascimento*</label>
                                         <input name="dataNascimento" type="date" class="form-control" value="<?= $linha['dataNascimento'] ?>" required><br>
                                     </div>
                                 </div>
@@ -121,7 +122,7 @@ $linha = mysqli_fetch_array($resultado);
                             <div class="row">
                                 <div class="col-2">
                                     <div class="mb-1">
-                                        <label for="sexo" class="form-label">Sexo</label>
+                                        <label for="sexo" class="form-label">Sexo*</label>
                                         <select id="sexo" name="sexo" class="form-control">
                                             <option value="M" <?php echo ($linha['sexo'] == 'M') ? 'selected' : ''; ?>>Masculino</option>
                                             <option value="F" <?php echo ($linha['sexo'] == 'F') ? 'selected' : ''; ?>>Feminino</option>
@@ -131,7 +132,7 @@ $linha = mysqli_fetch_array($resultado);
                                 </div>
                                 <div class="col-4">
                                     <div class="mb-1">
-                                        <label for="formGroupExampleInput" class="form-label">CPF</label>
+                                        <label for="formGroupExampleInput" class="form-label">CPF*</label>
                                         <input name="cpf" type="text" maxlength="14" class="form-control" oninput="applyCpfMask(this)" value="<?= $linha['CPF'] ?>" required><br>
                                     </div>
                                 </div>
@@ -186,6 +187,8 @@ $linha = mysqli_fetch_array($resultado);
                     </script>
 
                     <?php
+
+                    
 
                     function validaCPF($cpf)
                     {

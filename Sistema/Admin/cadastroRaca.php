@@ -47,17 +47,18 @@ require_once("conexao.php"); ?>
                     <!-- Cadastrar Raça -->
                     <div class="container">
                         <h1 class="mb-4"><i class="fa-solid fa-paw"></i> Cadastro de Raça</h1>
+                        <p class="h6">Os campos marcados com * são obrigatórios</p> <br>
                         <form method="post">
                             <div class="row">
                                 <div class="col">
                                     <div class="mb-1">
-                                        <label for="formGroupExampleInput" class="form-label">Nome</label>
+                                        <label for="formGroupExampleInput" class="form-label">Nome*</label>
                                         <input id="nomeRaca" name="nomeRaca" type="text" class="form-control" oninput="validarLetras(this)" required> <br>
                                     </div>
                                 </div>
                                 <div class="col">
                                     <div class="mb-1">
-                                        <label for="especie" class="form-label">Espécie</label>
+                                        <label for="especie" class="form-label">Espécie*</label>
                                         <select id="especie" name="especie" class="form-control" required>
                                             <option value="Cachorro">Cachorro</option>
                                             <option value="Gato">Gato</option>
@@ -68,8 +69,6 @@ require_once("conexao.php"); ?>
                                 </div>
                             </div>
                             <div class="mb-1">
-                                <label for="formGroupExampleInput" class="form-label">Descrição</label>
-                                <textarea name="descricao" type="text" class="form-control"> </textarea><br>
                                 <button name="salvar" type="submit" class="btn btn-primary"><i class="fa-solid fa-check"></i> Salvar</button>
                                 <a href="listagemRaca.php" class="btn btn-warning"><i class="fa-solid fa-rotate-left"></i> Voltar</a>
                             </div>
@@ -88,11 +87,10 @@ require_once("conexao.php"); ?>
 
                         //2. Receber os dados para inserir no BD
                         $nomeRaca = $_POST['nomeRaca'];
-                        $descricao = $_POST['descricao'];
                         $especie = $_POST['especie'];
 
                         //3. Preparar a SQL
-                        $sql = "insert into raca (statusRaca, nome, descricao, especie) values ('$nomeRaca', '$descricao', '$especie')";
+                        $sql = "insert into raca (statusRaca, nome, especie) values ('Ativo', '$nomeRaca', '$especie')";
 
                         //4. Executar a SQL
                         mysqli_query($conexao, $sql);

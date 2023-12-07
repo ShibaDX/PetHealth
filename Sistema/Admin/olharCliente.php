@@ -20,7 +20,7 @@ $linha = mysqli_fetch_array($resultado);
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Editar Cliente</title>
+    <title>Visualizar Cliente</title>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
