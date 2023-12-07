@@ -131,7 +131,7 @@ date_default_timezone_set('America/Sao_Paulo'); ?>
                                 <div class="col">
                                     <div class="mb-1">
                                         <label for="obs" class="form-label">OBS</label>
-                                        <textarea id="obs" name="obs" type="text" class="form-control" value="<?= isset($_POST['obs']) ? htmlspecialchars($_POST['obs']) : '' ?>"></textarea><br>
+                                        <textarea id="obs" name="obs" type="text" class="form-control"<?= isset($_POST['obs']) ? htmlspecialchars($_POST['obs']) : '' ?></textarea><br>
                                     </div>
                                 </div>
                             </div>

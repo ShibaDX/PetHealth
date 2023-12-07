@@ -206,6 +206,7 @@ date_default_timezone_set('America/Sao_Paulo');
                 $nome = $_POST['nome'];
                 $telefone = $_POST['telefone'];
                 $endereco = $_POST['endereco'];
+                $bairro = $_POST['bairro'];
                 $cep = $_POST['cep'];
                 $numero = $_POST['numero'];
                 $cidade = $_POST['cidade'];
@@ -246,7 +247,7 @@ date_default_timezone_set('America/Sao_Paulo');
                 }
                  else {
                     //3. Preparar a SQL
-                    $sql = "insert into cliente (statusCliente, nome, telefone, endereco, numero, cep, cidade, uf, sexo, dataNascimento, CPF, email) values ('Ativo', '$nome', '$telefone', '$endereco', '$numero', '$cep', '$cidade', '$uf', '$sexo', '$dataNascimento', '$cpf', '$email')";
+                    $sql = "insert into cliente (statusCliente, nome, telefone, endereco, numero, cep, cidade, uf, sexo, dataNascimento, CPF, email, bairro) values ('Ativo', '$nome', '$telefone', '$endereco', '$numero', '$cep', '$cidade', '$uf', '$sexo', '$dataNascimento', '$cpf', '$email', '$bairro')";
 
                     //4. Executar a SQL
                     $resultado = mysqli_query($conexao, $sql);
