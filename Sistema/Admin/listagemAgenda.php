@@ -65,17 +65,21 @@ $data_atual = date("Y-m-d");
                             </h2>
                         </div><br>
                         <form name="filtro" method="POST">
-                        <h4 class="h4">Filtros: </h4>
                             <div class="row">
 
-                                <div class="col-2"><input name="data" type="date" class="form-control" value="<?= isset($_POST['data']) ? htmlspecialchars($_POST['data']) : '' ?>">
+                                <div class="col-2">
+                                    <div>
+                                    <label class="form-label">Filtrar por Data</label>
+                                    <input name="data" type="date" class="form-control" value="<?= isset($_POST['data']) ? htmlspecialchars($_POST['data']) : '' ?>">
+                                    </div>
                                 </div>
                                 <div class="col-1">
-
+                                    <label class="form-label">a</label>
                                     <button type="submit" class="btn btn-primary" name="data" value="<?= $data_atual ?>">Hoje</button>
 
                                 </div>
                                 <div class="col-3">
+                                    <label class="form-label">Filtrar por Pet</label>
                                     <select name="cliente_id" class="custom-select" aria-label="Large select example" onchange="this.form.submit()">
                                         <option value="" selected>Selecionar Cliente</option>
                                         <?php
@@ -102,7 +106,7 @@ $data_atual = date("Y-m-d");
                                 <?php if ($cliente_id_selecionado != '') { ?>
                                     <div class="col-2">
 
-
+                                        <label class="form-label">A</label>
                                         <select name="pet_id" class="custom-select" aria-label="Large select example" onchange="this.form.submit()">
                                             <option value="" selected>Selecionar Pet</option>
                                             <?php
@@ -128,12 +132,12 @@ $data_atual = date("Y-m-d");
                                 <?php } ?>
                             </div>
                             <div class="row mt-4">
-                            <div class="col-6">
-                                        <div class="btn-group" role="group">    
-                                            <button type="submit" class="btn btn-danger" name="statusAgenda" value="Cancelado">Cancelado</button>
-                                            <button type="submit" class="btn btn-warning" name="statusAgenda" value="Em Andamento">Em Andamento</button>
-                                            <button type="submit" class="btn btn-success" name="statusAgenda" value="Concluído">Concluído</button>
-                                            </div>
+                                <div class="col-6">
+                                    <div class="btn-group" role="group">
+                                        <button type="submit" class="btn btn-danger" name="statusAgenda" value="Cancelado">Cancelado</button>
+                                        <button type="submit" class="btn btn-warning" name="statusAgenda" value="Em Andamento">Em Andamento</button>
+                                        <button type="submit" class="btn btn-success" name="statusAgenda" value="Concluído">Concluído</button>
+                                    </div>
                                 </div>
                             </div>
                         </form>
@@ -155,7 +159,8 @@ $data_atual = date("Y-m-d");
 
                         if (isset($dataFiltrada) && ($dataFiltrada != '')) {
                             $whereClause .= " AND a.data = '$dataFiltrada'";
-                        } if (isset($cliente_id) && ($cliente_id != '')) {
+                        }
+                        if (isset($cliente_id) && ($cliente_id != '')) {
                             $whereClause .= " AND c.id = '$cliente_id'";
 
                             if (isset($pet_id) && ($pet_id != '')) {
@@ -186,7 +191,7 @@ $data_atual = date("Y-m-d");
                     ?>
                         <table class="table table-striped table-hover" id="listaAgenda">
                             <tr>
-                            <th scope="col">ID</th>
+                                <th scope="col">ID</th>
                                 <th>Data</th>
                                 <th>Hora</th>
                                 <th>Status</th>
