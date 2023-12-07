@@ -70,7 +70,7 @@ $data_atual = date("Y-m-d");
                                 <div class="col-2">
                                     <div>
                                     <label class="form-label">Filtrar por Data</label>
-                                    <input name="data" type="date" class="form-control" value="<?= isset($_POST['data']) ? htmlspecialchars($_POST['data']) : '' ?>">
+                                    <input name="data" type="date" class="form-control" value="<?= isset($_POST['data']) ? htmlspecialchars($_POST['data']) : '' ?>" onchange="this.form.submit()">
                                     </div>
                                 </div>
                                 <div class="col-1">
