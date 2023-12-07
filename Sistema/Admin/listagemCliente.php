@@ -49,17 +49,6 @@ $resultado = mysqli_query($conexao, $sql);
 
                 <?php require_once("topbarAdmin.php"); ?>
 
-
-
-                <!-- Page Heading -->
-
-                <!-- Bloco de mensagem -->
-                <?php if (isset($mensagem)) { ?>
-                    <div class="alert alert-success" role="alert">
-                        <i class="fa-solid fa-check" style="color: #2eb413;"></i>
-                        <?= $mensagem ?>
-                    </div>
-                <?php } ?>
                 <!-- Tabela de listagem de cliente -->
                 <div class="card mt-3 mb-3">
                     <div class="card-body">

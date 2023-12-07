@@ -2,33 +2,10 @@
 //1. Conectar no BD (IP, usuario, senha, nome do banco)
 require_once("verificaAutenticacao.php");
 require_once("conexao.php");
-date_default_timezone_set('America/Sao_Paulo');
 //Busca o usuário selecionado pelo usuarioListar.php
 $sql = "select * from agenda where id = " . $_GET['id'];
 $resultado = mysqli_query($conexao, $sql);
 $linha = mysqli_fetch_array($resultado);
-
-$veterinario_id_logado = $_SESSION['id'];
-$id_agendamento_editado = $_GET['id'];
-
-// Consulta o banco de dados para obter o ID do veterinário responsável por este agendamento
-$query_agendamento = "SELECT veterinario_id FROM agenda WHERE id = $id_agendamento_editado";
-$result_agendamento = mysqli_query($conexao, $query_agendamento);
-
-if ($result_agendamento) {
-    $agendamento_data = mysqli_fetch_assoc($result_agendamento);
-
-    // Verifica se o veterinário logado é o responsável pelo agendamento
-    if ($veterinario_id_logado != $agendamento_data['veterinario_id']) {
-        // Redireciona para a página de acesso negado com uma mensagem
-        header("Location: listagemAgenda.php?mensagem=Você não tem permissão para editar este agendamento.");
-        exit();
-    }
-} else {
-    // Tratamento para erro na consulta ao banco de dados
-    echo "Erro na consulta ao banco de dados.";
-    exit();
-}
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -41,7 +18,7 @@ if ($result_agendamento) {
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Editar Agenda</title>
+    <title>Visualizar Agenda</title>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -75,14 +52,14 @@ if ($result_agendamento) {
                     <!-- Page Heading -->
                     <!-- Editar a Agenda -->
                     <div class="container">
-                        <h1 class="mb-4"><i class="fa-solid fa-calendar-days"></i> Editar Agenda</h1>
+                        <h1 class="mb-4"><i class="fa-solid fa-eye"></i> Visualizar Agenda</h1>
                         <form method="post">
                             <input type="hidden" name="id" value="<?= $linha['id'] ?>">
                             <div class="row">
                                 <div class="col-6">
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">Cliente</label>
-                                        <select class="custom-select" aria-label="Disabled select example" disabled>
+                                        <select disabled class="custom-select" aria-label="Disabled select example" disabled>
                                             <?php
                                             $pet_id = $linha['pet_id'];
                                             $sql = "SELECT pet.*, cliente.nome AS nome_cliente 
@@ -118,13 +95,13 @@ if ($result_agendamento) {
                                 <div class="col-3">
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">Data</label>
-                                        <input name="data" type="date" class="form-control" value="<?= isset($_POST['data']) ? htmlspecialchars($_POST['data']) : $linha['data'] ?>" required><br>
+                                        <input disabled name="data" type="date" class="form-control" value="<?= $linha['data'] ?>" disabled><br>
                                     </div>
                                 </div>
                                 <div class="col-3">
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">Hora</label>
-                                        <select name="hora" class="custom-select">
+                                        <select disabled name="hora" class="custom-select" disabled>
                                             <option value="08:00" <?php echo ($linha['hora'] == '08:00') ? 'selected' : ''; ?>>08:00</option>
                                             <option value="08:30" <?php echo ($linha['hora'] == '08:30') ? 'selected' : ''; ?>>08:30</option>
                                             <option value="09:00" <?php echo ($linha['hora'] == '09:00') ? 'selected' : ''; ?>>09:00</option>
@@ -147,7 +124,7 @@ if ($result_agendamento) {
                                 <div class="col-6">
                                     <div class="mb-1">
                                         <label for="procedimento_id" class="form-label">Procedimento</label>
-                                        <select name="procedimento_id" class="custom-select ">
+                                        <select disabled name="procedimento_id" class="custom-select " disabled>
                                             <?php
                                             $sql = "SELECT * FROM procedimento WHERE statusProcedimento = 'Ativo' ORDER BY nome";
                                             $resultado = mysqli_query($conexao, $sql);
@@ -168,111 +145,51 @@ if ($result_agendamento) {
                             <div class="row">
                                 <div class="col-6">
                                     <div class="mb-1">
-                                        <label for="veterinario_id" class="form-label">Veterinário</label>
-                                        <select name="veterinario_id" class="custom-select ">
-                                            <?php
-                                            $sql = "select * from veterinario order by nome";
-                                            $resultado = mysqli_query($conexao, $sql);
-
-                                            while ($linhaVT = mysqli_fetch_array($resultado)) {
-                                                $idVet = $linhaVT['id'];
-                                                $nome = $linhaVT['nome'];
-
-                                                $selecionado = ($linha['veterinario_id'] == $idVet) ? "selected" : "";
-
-                                                echo "<option value='{$idVet}' {$selecionado}>{$nome}</option>";
-                                            }
-                                            ?>
-                                        </select>
+                                        <label disabled for="formGroupExampleInput" class="form-label">OBS</label>
+                                        <textarea name="obs" type="text" class="form-control" disabled><?= $linha['obs'] ?></textarea> <br>
                                     </div>
                                 </div>
+
                                 <div class="col-6">
                                     <div class="mb-1">
-                                        <label for="formGroupExampleInput" class="form-label">OBS</label>
-                                        <textarea name="obs" type="text" class="form-control"><?= isset($_POST['obs']) ? htmlspecialchars($_POST['obs']) : $linha['obs'] ?></textarea> <br>
+                                        <label for="formGroupExampleInput" class="form-label">Resultado</label>
+                                        <textarea disabled name="resultado" id="campoResultado" class="form-control" disabled><?= $linha['resultado'] ?></textarea>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-6">
-                                    <div class="mb-1">
-                                        <label for="formGroupExampleInput" class="form-label">Status</label>
-                                        <div class="btn-group" role="group">
-                                            <button type="submit" class="btn btn-danger" name="statusAgenda" value="Cancelado">Cancelado</button>
-                                            <button type="submit" class="btn btn-warning" name="statusAgenda" value="Em Andamento">Em Andamento</button>
-                                            <button type="submit" class="btn btn-success" name="statusAgenda" value="Concluído">Concluído</button>
-                                        </div>
-                                    </div>
+                                    <label for="veterinario_id" class="form-label">Veterinário</label>
+                                    <select disabled name="veterinario_id" class="custom-select " disabled>
+                                        <?php
+                                        $sql = "select * from veterinario order by nome";
+                                        $resultado = mysqli_query($conexao, $sql);
+
+                                        while ($linhaVT = mysqli_fetch_array($resultado)) {
+                                            $idVet = $linhaVT['id'];
+                                            $nome = $linhaVT['nome'];
+
+                                            $selecionado = ($linha['veterinario_id'] == $idVet) ? "selected" : "";
+
+                                            echo "<option value='{$idVet}' {$selecionado}>{$nome}</option>";
+                                        }
+                                        ?>
+                                    </select>
                                 </div>
                                 <div class="col-6">
-                                    <div class="mb-1">
-                                        <label for="formGroupExampleInput" class="form-label">Resultado</label>
-                                        <textarea name="resultado" id="campoResultado" class="form-control"><?= isset($_POST['resultado']) ? htmlspecialchars($_POST['resultado']) : $linha['resultado'] ?></textarea>
+                                <div class="mb-1">
+                                        <label for="formGroupExampleInput" class="form-label"> Status</label>
+                                        <textarea disabled class="form-control" disabled><?= $linha['statusAgenda'] ?></textarea>
                                     </div>
                                 </div>
                             </div>
-                            <br>
-                            <button name="salvar" type="submit" class="btn btn-primary"><i class="fa-solid fa-check"></i> Salvar</button>
-                            <a href="listagemAgenda.php" class="btn btn-warning"><i class="fa-solid fa-rotate-left"></i> Voltar</a>
-
                     </div>
+                    <br>
+                    <center><a href="listagemAgenda.php" class="btn btn-warning"><i class="fa-solid fa-rotate-left"></i>Voltar</a></center>
+
                     </form><br>
-
                     <?php
-                    if (isset($_POST['statusAgenda'])) {
-                        $id = $_POST['id'];
-                        $status = $_POST['statusAgenda'];
-                        //Preparar o SQL
-                        $sql = "UPDATE agenda SET statusAgenda = '$status' WHERE id = '$id'";
-                        //Exec0utar a SQL
-                        mysqli_query($conexao, $sql);
-                        //Mostrar mensagem ao usuário
-                        $mensagem = "Alterado com Sucesso";
-                        if ($mensagem) { ?>
-                            <div class="alert <?= strpos($mensagem, 'Sucesso') !== false ? 'alert-success' : 'alert-danger' ?> mb-2" role="alert">
-                                <i class="fa-solid <?= strpos($mensagem, 'Sucesso') !== false ? 'fa-check' : 'fa-x' ?>" style="color: <?= strpos($mensagem, 'Sucesso') !== false ? '#12972c' : '#b70b0b' ?>;"></i>
-                                <?= $mensagem ?>
-                            </div>
-                        <?php }
-                    }
-                    if (isset($_POST['salvar'])) {
-
-                        //Receber os dados para inserir no BD
-                        $id = $_POST['id'];
-                        $data = $_POST['data'];
-                        $hora = $_POST['hora'];
-                        $procedimento_id = $_POST['procedimento_id'];
-                        $veterinario_id = $_POST['veterinario_id'];
-                        $resultado = $_POST['resultado'];
-                        $obs = $_POST['obs'];
-
-                        //Verificar se há outra consulta no mesmo horário
-                        $consulta_disponibilidade = "SELECT * FROM agenda WHERE data = '$data' AND hora = '$hora' AND (veterinario_id = '$veterinario_id' OR pet_id = '$pet_id') AND id != '$id' ";
-                        $resultado_disponibilidade = mysqli_query($conexao, $consulta_disponibilidade);
-
-                        if (mysqli_num_rows($resultado_disponibilidade) > 0) {
-                            // Já existe uma consulta agendada nessas condições, exibir mensagem de erro
-                            $mensagem = "Desculpe, o horário não está disponível. Por favor, escolha outro horário.";
-                        } else {
-                            //3. Preparar a SQL
-                            $sql = "update agenda set data = '$data', hora = '$hora', obs = '$obs', resultado = '$resultado', procedimento_id = '$procedimento_id', veterinario_id = '$veterinario_id' where id = '$id'";
-                            //4. Executar a SQL
-                            mysqli_query($conexao, $sql);
-                        ?> <script>
-                                atualizarConteudo();
-                            </script> <?php
-                                        //5. Mostrar mensagem ao usuário
-                                        $mensagem = "Alterado com Sucesso";
-                                    }
-                                    //Mostrar mensagem ao usuário
-                                    if ($mensagem) { ?>
-                            <div class="alert <?= strpos($mensagem, 'Sucesso') !== false ? 'alert-success' : 'alert-danger' ?> mb-2" role="alert">
-                                <i class="fa-solid <?= strpos($mensagem, 'Sucesso') !== false ? 'fa-check' : 'fa-x' ?>" style="color: <?= strpos($mensagem, 'Sucesso') !== false ? '#12972c' : '#b70b0b' ?>;"></i>
-                                <?= $mensagem ?>
-                            </div>
-                    <?php }
-                                }
-                                require_once("footer.php");
+                    require_once("footer.php");
                     ?>
 
                     <!-- Bootstrap core JavaScript-->

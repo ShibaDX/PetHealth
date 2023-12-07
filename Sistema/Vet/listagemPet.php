@@ -21,14 +21,12 @@ $resultado = mysqli_query($conexao, $sql);
     <meta name="author" content="">
 
     <title>Lista de Pets
-        
+
     </title>
 
     <!-- Custom fonts for this template-->
     <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
     <script src="https://kit.fontawesome.com/0215a38eba.js" crossorigin="anonymous"></script>
     <!-- Custom styles for this template-->
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
@@ -52,80 +50,105 @@ $resultado = mysqli_query($conexao, $sql);
 
                 <?php require_once("topbarVet.php"); ?>
 
+                <!-- Tabela de listagem de pets -->
+                <div class="card mt-3 mb-3">
+                    <div class="card-body">
+                        <h2><i class="fa-solid fa-dog"></i> Listagem de Pets </h2>
+                        <form method="post">
+                            <div class="row mb-3 mt-4">
+                                <div class="col-3">
+                                <label class="form-label">Filtrar por Dono</label>
+                                    <select name="cliente_id" class="custom-select" aria-label="Large select example" onchange="this.form.submit()">
+                                        <option value="">Selecione</option>
+                                        <?php
+                                        $sql = "select * from cliente order by nome";
+                                        $resultado = mysqli_query($conexao, $sql);
 
+                                        while ($linha = mysqli_fetch_array($resultado)) {
+                                            $id = $linha['id'];
+                                            $nome = $linha['nome'];
+                                            $cpf = $linha['CPF'];
 
-                <!-- Page Heading -->
+                                            $selecionado = ($_POST['cliente_id'] == $id) ? "selected" : "";
 
-                    <!-- Bloco de mensagem -->
-                    <?php if (isset($mensagem)) { ?>
-                        <div class="alert alert-success" role="alert">
-                            <i class="fa-solid fa-check" style="color: #2eb413;"></i>
-                            <?= $mensagem ?>
-                        </div>
-                    <?php } ?>
-                    <!-- Tabela de listagem de pets -->
-                    <div class="card mt-3 mb-3">
-                        <div class="card-body">
-                            <h2><i class="fa-solid fa-dog"></i> Listagem de Pets <a
-                                        href="cadastroPet.php" class="btn btn-info btn-sn"><i class="fa-solid fa-plus"
-                                        style="color: #ffffff;"></i> Novo Pet</a>
-                                        <a href="cadastroRaca.php" class="btn btn-success btn-sn"><i class="fa-solid fa-plus"
-                                        style="color: #ffffff;"></i> Nova Raça</a>
-                                    </h2>
-                        </div>
-                        </div>
-                    <table class="table table-striped table-hover">
-                        <thead>
-                            <tr>
-                                <th scope="col">ID</th>
-                                <th scope="col">Nome</th>
-                                <th scope="col">Ano de Nascimento</th>
-                                <th scope="col">Sexo</th>
-                                <th scope="col">Cor</th>
-                                <th scope="col">Obs</th>
-                                <th scope="col">Ação</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php while ($linha = mysqli_fetch_array($resultado)) { ?>
-                                <tr>
-                                    <th scope="row">
-                                        <?= $linha['id'] ?>
-                                    </th>
-                                    <td>
-                                        <?= $linha['nome'] ?>
-                                    </td>
-                                    <td>
-                                        <?= $linha['anoNascimento'] ?>
-                                    </td>
-                                    <td>
-                                        <?= $linha['sexo'] ?>
-                                    </td>
-                                    <td>
-                                        <?= $linha['cor'] ?>
-                                    </td>
-                                    <td>
-                                        <?= $linha['obs'] ?>
-                                    </td>
-                                    <td>
-                                        <a href="editarPet.php?id=<?= $linha['id'] ?>" class="btn btn-warning"><i
-                                                class="fa-solid fa-pen-to-square" style="color: #000000;"></i></a>
-                                    </td>
-                                </tr>
-                            <?php } ?>
+                                            echo "<option value='{$id}' {$selecionado}>{$nome} - {$cpf}</option>";
+                                        }
+                                        ?>
+                                    </select>
+                                </div>
+                            </div>
+                        </form>
 
-                            </table>
-                            
+                        <?php
+                        $filtro_cliente_id = "";
+                        if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['cliente_id'])) {
+                            $filtro_cliente_id = mysqli_real_escape_string($conexao, $_POST['cliente_id']);
+                        }
+
+                        // preparar a SQL
+                        $sql = "SELECT p.id, p.statusPet, p.nome, p.especie, p.anoNascimento, p.sexo, p.cor, c.nome as clienteNome, r.nome as racaNome 
+                        FROM pet p 
+                        INNER JOIN cliente c ON p.cliente_id = c.id
+                        INNER JOIN raca r ON p.raca_id = r.id";
+
+                        if (!empty($filtro_cliente_id)) {
+                            $sql .= " WHERE cliente_id = '$filtro_cliente_id'";
+                        }
+
+                        $sql .= " ORDER BY nome";
+
+                        // executar a SQL
+                        $resultado = mysqli_query($conexao, $sql);
+                        ?>
+                    </div>
                 </div>
-                <!-- End of Main Content -->
-                <?php require_once("footer.php"); ?>
+                <?php
+                if ($resultado->num_rows > 0) {
+                    // Exibir os dados em uma tabela
+                ?>
+                    <table class="table table-striped table-hover" id="listaAgenda">
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th>Status</th>
+                            <th>Nome</th>
+                            <th>Proprietário do Pet</th>
+                            <th>Ano Nascimento</th>
+                            <th>Sexo</th>
+                            <th>Raça</th>
+                            <th>Espécie</th>
+                            <th>Cor</th>
+                            <th>Ação</th>
+                        </tr>
+                        <?php
+                        while ($row = $resultado->fetch_assoc()) {
+
+                            // Verifique se os índices existem antes de acessá-los
+                            $clienteNome = isset($row["clienteNome"]) ? $row["clienteNome"] : "";
+                            $racaNome = isset($row["racaNome"]) ? $row["racaNome"] : "";
+
+                            echo "<tr><td>" . $row["id"] . "</td><td>" . $row["statusPet"] . "</td><td>" . $row["nome"] . "</td><td>" . $clienteNome . "</td><td>" . $row["anoNascimento"] . "</td><td>" . $row["sexo"] . "</td><td>" . $racaNome . "</td><td>" . $row["especie"] . "</td><td>" . $row["cor"] . "</td>";
+                        ?>
+                            <td>
+                                <a href="olharPet.php?id=<?= $row['id'] ?>" class="btn btn-info"><i class="fa-solid fa-eye" style="color: #000000;"></i></a>
+                            </td>
+                            </tr>
+                        <?php
+                        }
+                    }
+                        ?>
+                    </table>
+                    <br>
 
             </div>
+            <!-- End of Main Content -->
+            <?php require_once("footer.php");  ?>
 
-            <!-- End of Content Wrapper -->
         </div>
 
-        <!-- End of Page Wrapper -->
+        <!-- End of Content Wrapper -->
+    </div>
+
+    <!-- End of Page Wrapper -->
     </div>
 
     <!-- Scroll to Top Button-->
@@ -134,8 +157,7 @@ $resultado = mysqli_query($conexao, $sql);
     </a>
 
     <!-- Logout Modal-->
-    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-        aria-hidden="true">
+    <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -150,17 +172,17 @@ $resultado = mysqli_query($conexao, $sql);
                     <a class="btn btn-primary" href=" logout.php">Logout</a>
                 </div>
             </div>
-    </div>
+        </div>
 
-    <!-- Bootstrap core JavaScript-->
-    <script src="vendor/jquery/jquery.min.js"></script>
-    <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <!-- Bootstrap core JavaScript-->
+        <script src="vendor/jquery/jquery.min.js"></script>
+        <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
 
-    <!-- Core plugin JavaScript-->
-    <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+        <!-- Core plugin JavaScript-->
+        <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
 
-    <!-- Custom scripts for all pages-->
-    <script src="js/sb-admin-2.min.js"></script>
+        <!-- Custom scripts for all pages-->
+        <script src="js/sb-admin-2.min.js"></script>
 
 </body>
 

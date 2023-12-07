@@ -1,6 +1,9 @@
+<!-- Requisita a verificação de autenticação -->
 <?php
 require_once("verificaAutenticacao.php");
-require_once("conexao.php"); ?>
+require_once("conexao.php");
+date_default_timezone_set('America/Sao_Paulo');
+$dataAtual = date("Y-m-d"); ?>
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -22,7 +25,6 @@ require_once("conexao.php"); ?>
     <link href="css/sb-admin-2.min.css" rel="stylesheet">
     <link rel="shortcut icon" href="img/favicon1.png" type="image/x-icon" />
     <!--Paw icon by <a target="_blank" href="https://icons8.com">Icons8</a> -->
-
 
 </head>
 
@@ -48,42 +50,43 @@ require_once("conexao.php"); ?>
                     <!-- Cadastro da Agenda -->
                     <div class="container">
                         <h1 class="mb-4"><i class="fa-solid fa-calendar-days"></i> Agendamento</h1>
+                        <p class="h6">Os campos marcados com * são obrigatórios</p> <br>
                         <form method="post">
-                            <div class="container text-center">
+                            <div class="container">
                                 <div class="row">
                                     <div class="col">
                                         <div class="mb-1">
-                                            <label for="cliente_id" class="form-label">Cliente</label>
+                                            <label for="cliente_id" class="form-label">Cliente*</label>
                                             <select name="cliente_id" class="custom-select" aria-label="Large select example" onchange="this.form.submit()">
                                                 <option value="">Selecione</option>
                                                 <?php
-                                                $sql = "select * from cliente order by nome";
+                                                $sql = "SELECT * FROM cliente
+                                                WHERE statusCliente = 'Ativo'
+                                                ORDER BY nome";
                                                 $resultado = mysqli_query($conexao, $sql);
 
                                                 while ($linha = mysqli_fetch_array($resultado)) {
                                                     $id = $linha['id'];
                                                     $nome = $linha['nome'];
+                                                    $cpf = $linha['CPF'];
 
                                                     $selecionado = ($_POST['cliente_id'] == $id) ? "selected" : "";
 
-                                                    echo "<option value='{$id}' {$selecionado}>{$nome}</option>";
+                                                    echo "<option value='{$id}' {$selecionado}>{$nome} - {$cpf}</option>";
                                                 }
                                                 ?>
                                             </select>
                                         </div>
                                     </div>
                                     <div class="col">
-
-
                                         <div class="mb-1">
-                                            <label for="pet_id" class="form-label">Pet</label>
-                                            <select name="pet_id" class="custom-select" aria-label="Large select example">
-                                                <option value="">Selecione</option>
+                                            <label for="pet_id" class="form-label">Pet*</label>
+                                            <select name="pet_id" class="custom-select" aria-label="Large select example" required>
                                                 <?php
-                                                $sql = "select pet.id, pet.nome
-                                              from pet 
-                                              where pet.cliente_id = {$_POST['cliente_id']}
-                                          order by pet.nome";
+                                                $sql = "SELECT pet.id, pet.nome
+                                                FROM pet 
+                                                WHERE pet.cliente_id = {$_POST['cliente_id']} AND statusPet = 'Ativo'
+                                                ORDER BY pet.nome";
                                                 $resultado = mysqli_query($conexao, $sql);
 
                                                 while ($linha = mysqli_fetch_array($resultado)) {
@@ -102,15 +105,14 @@ require_once("conexao.php"); ?>
                                 <div class="row">
                                     <div class="col-3">
                                         <div class="mb-1">
-                                            <label for="formGroupExampleInput" class="form-label">Data</label>
-                                            <input name="data" type="date" class="form-control" value="<?= isset($_POST['data']) ? htmlspecialchars($_POST['data']) : '' ?>"><br>
+                                            <label for="formGroupExampleInput" class="form-label">Data*</label>
+                                            <input name="data" type="date" class="form-control" value="<?= isset($_POST['data']) ? htmlspecialchars($_POST['data']) : '' ?>" required><br>
                                         </div>
                                     </div>
                                     <div class="col-3">
                                         <div class="mb-1">
-                                            <label for="formGroupExampleInput" class="form-label">Hora</label>
-                                            <select name="hora" class="custom-select">
-                                                <option value="">Selecione</option>
+                                            <label for="formGroupExampleInput" class="form-label">Hora*</label>
+                                            <select name="hora" class="custom-select" required>
                                                 <option value="08:00">08:00</option>
                                                 <option value="08:30">08:30</option>
                                                 <option value="09:00">09:00</option>
@@ -132,11 +134,10 @@ require_once("conexao.php"); ?>
                                     </div>
                                     <div class="col-6">
                                         <div class="mb-1">
-                                            <label for="procedimento_id" class="form-label">Procedimento</label>
+                                            <label for="procedimento_id" class="form-label">Procedimento*</label>
                                             <select name="procedimento_id" class="custom-select ">
-                                                <option value="">Selecione</option>
                                                 <?php
-                                                $sql = "select * from procedimento order by nome";
+                                                $sql = "SELECT * FROM procedimento WHERE statusProcedimento = 'Ativo' ORDER BY nome";
                                                 $resultado = mysqli_query($conexao, $sql);
 
                                                 while ($linha = mysqli_fetch_array($resultado)) {
@@ -155,11 +156,12 @@ require_once("conexao.php"); ?>
                                 <div class="row">
                                     <div class="col-6">
                                         <div class="mb-1">
-                                            <label for="veterinario_id" class="form-label">Veterinário</label>
+                                            <label for="veterinario_id" class="form-label">Veterinário*</label>
                                             <select name="veterinario_id" class="custom-select ">
-                                                <option value="">Selecione</option>
                                                 <?php
-                                                $sql = "select * from veterinario order by nome";
+                                                $sql = "SELECT * FROM veterinario
+                                                WHERE statusVet = 'Ativo'
+                                                ORDER BY nome";
                                                 $resultado = mysqli_query($conexao, $sql);
 
                                                 while ($linha = mysqli_fetch_array($resultado)) {
@@ -177,7 +179,7 @@ require_once("conexao.php"); ?>
                                     <div class="col-6">
                                         <div class="mb-1">
                                             <label for="formGroupExampleInput" class="form-label">OBS</label>
-                                            <textarea name="obs" type="text" class="form-control" value="<?= isset($_POST['obs']) ? htmlspecialchars($_POST['obs']) : '' ?>"></textarea> <br>
+                                            <textarea name="obs" type="text" class="form-control"><?= isset($_POST['obs']) ? htmlspecialchars($_POST['obs']) : '' ?></textarea> <br>
                                         </div>
                                     </div>
                                 </div>
@@ -204,13 +206,17 @@ require_once("conexao.php"); ?>
                         $consulta_disponibilidade = "SELECT * FROM agenda WHERE data = '$data' AND hora = '$hora' AND (pet_id = '$pet_id' OR veterinario_id = '$veterinario_id') ";
                         $resultado_disponibilidade = mysqli_query($conexao, $consulta_disponibilidade);
 
-
-                        if (mysqli_num_rows($resultado_disponibilidade) > 0) {
+                        // Verifique se a data do agendamento é posterior à data atual
+                        if (strtotime($data) < strtotime($dataAtual)) {
+                            // A data do agendamento é no passado, exiba uma mensagem de erro ou tome outras medidas necessárias
+                            $mensagem = "A data do agendamento deve ser no futuro.";
+                        }
+                        else if (mysqli_num_rows($resultado_disponibilidade) > 0) {
                             // Já existe uma consulta agendada nessas condições, exibir mensagem de erro
                             $mensagem = "Desculpe, o horário não está disponível. Por favor, escolha outro horário.";
                         } else {
                             //3. Preparar a SQL
-                            $sql = "insert into agenda (data, hora, obs, pet_id, procedimento_id, veterinario_id) values ('$data', '$hora', '$obs', '$pet_id', '$procedimento_id', '$veterinario_id')";
+                            $sql = "insert into agenda (statusAgenda, data, hora, obs, pet_id, procedimento_id, veterinario_id) values ('Em andamento', '$data', '$hora', '$obs', '$pet_id', '$procedimento_id', '$veterinario_id')";
 
                             //4. Executar a SQL
                             mysqli_query($conexao, $sql);
@@ -218,23 +224,18 @@ require_once("conexao.php"); ?>
                             //5. Mostrar mensagem ao usuário
                             $mensagem = "Inserido com Sucesso";
                         }
-                    }
-                    ?>
-                    <?php if (isset($mensagem)) {
-                        if (mysqli_num_rows($resultado_disponibilidade) > 0) { ?>
-                            <div class="alert alert-danger mb-2" role="alert">
-                                <i class="fa-solid fa-x" style="color: #b70b0b;"></i>
-                                <?= $mensagem ?>
-                            </div> <?php
-                                } else {
-                                    ?>
-                            <div class="alert alert-success mb-2" role="alert">
-                                <i class="fa-solid fa-check" style="color: #12972c;"></i>
+
+                        // Exibir a mensagem
+                        if ($mensagem) { ?>
+                            <div class="alert <?= strpos($mensagem, 'Sucesso') !== false ? 'alert-success' : 'alert-danger' ?> mb-2" role="alert">
+                                <i class="fa-solid <?= strpos($mensagem, 'Sucesso') !== false ? 'fa-check' : 'fa-x' ?>" style="color: <?= strpos($mensagem, 'Sucesso') !== false ? '#12972c' : '#b70b0b' ?>;"></i>
                                 <?= $mensagem ?>
                             </div>
                     <?php }
-                            }
-                            require_once("footer.php");
+                    }
+
+
+                    require_once("footer.php");
                     ?>
 
                     <!-- Bootstrap core JavaScript-->

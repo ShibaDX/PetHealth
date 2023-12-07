@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 06/12/2023 às 00:20
+-- Tempo de geração: 07/12/2023 às 04:54
 -- Versão do servidor: 10.4.28-MariaDB
 -- Versão do PHP: 8.2.4
 
@@ -74,9 +74,14 @@ CREATE TABLE `agenda` (
 
 INSERT INTO `agenda` (`id`, `statusAgenda`, `data`, `hora`, `obs`, `resultado`, `pet_id`, `veterinario_id`, `procedimento_id`) VALUES
 (1, 'Concluído', '2023-12-02', '09:30', '', 'asdas', 2, 4, 14),
-(2, 'Em Andamento', '2023-12-13', '15:30', '', NULL, 7, 1, 12),
-(3, 'Em Andamento', '2023-12-06', '16:00', '', NULL, 1, 2, 3),
-(4, 'Inconcluido', '2023-12-02', '09:00', '', NULL, 7, 4, 14);
+(3, 'Em Andamento', '2023-12-06', '16:00', '', '', 1, 2, 10),
+(4, 'Cancelado', '2023-12-02', '09:00', '', NULL, 7, 4, 14),
+(7, 'Em andamento', '2023-12-05', '08:00', '', NULL, 7, 2, 8),
+(8, 'Em andamento', '2023-12-06', '17:30', '', NULL, 7, 2, 8),
+(9, 'Em andamento', '2023-12-07', '16:30', '', NULL, 7, 2, 8),
+(10, 'Em andamento', '2023-12-07', '14:00', '', NULL, 5, 2, 8),
+(11, 'Em andamento', '2023-12-08', '08:00', '', NULL, 5, 2, 8),
+(12, 'Em andamento', '2023-12-08', '11:00', '', NULL, 5, 2, 8);
 
 -- --------------------------------------------------------
 
@@ -103,7 +108,8 @@ CREATE TABLE `atendente` (
 --
 
 INSERT INTO `atendente` (`id`, `statusAtendente`, `nome`, `telefone`, `email`, `sexo`, `dataNascimento`, `dataAdmissao`, `senha`, `cpf`, `dataDemissao`) VALUES
-(1, 'Ativo', 'Paulo', '(44) 99718-3800', 'ae@gmail.com', 'M', '2023-11-08', '2023-11-30', '1234567', '012.456.798-98', '0000-00-00');
+(1, 'Ativo', 'Paulo César', '(44) 99718-3800', 'paulo.cesar@email.com', 'M', '2023-11-08', '2023-11-30', 'paulo123', '012.456.798-98', '0000-00-00'),
+(2, 'Ativo', 'Pedro Souza', '(44) 99718-3800', 'pedro.souza@email.com', 'M', '2000-06-11', '2023-12-06', 'pedro123', '987.654.321-00', NULL);
 
 -- --------------------------------------------------------
 
@@ -117,6 +123,7 @@ CREATE TABLE `cliente` (
   `nome` varchar(200) NOT NULL,
   `telefone` varchar(20) NOT NULL,
   `endereco` varchar(200) NOT NULL,
+  `bairro` varchar(50) NOT NULL,
   `cep` varchar(15) NOT NULL,
   `numero` int(6) NOT NULL,
   `cidade` varchar(100) NOT NULL,
@@ -132,12 +139,12 @@ CREATE TABLE `cliente` (
 -- Despejando dados para a tabela `cliente`
 --
 
-INSERT INTO `cliente` (`id`, `statusCliente`, `nome`, `telefone`, `endereco`, `cep`, `numero`, `cidade`, `UF`, `sexo`, `dataNascimento`, `CPF`, `email`, `dataCadastro`) VALUES
-(2, 'Ativo', 'Ana Silva Oliveira', '(11) 98765-4321', 'Rua das Flores', '87025-789', 123, 'São Paulo', 'SP', 'F', '1980-05-11', '123.456.789-00', 'ana.silva@email.com', '2023-09-15'),
-(3, 'Ativo', 'Marcos Santos Pereira', '(21) 99999-8888', 'Avenida Principal', '46782-531', 456, 'Rio de Janeiro', 'RJ', 'M', '1982-08-20', '987.654.321-00', 'marcos.santos@email.com', '2023-09-15'),
-(4, 'Ativo', 'Camila Alves Souza', '(31) 5555-1234', 'Rua das Palmeiras', '75436-658', 789, 'Belo Horizonte', 'MG', 'F', '1985-11-15', '456.789.123-00', 'camila.alves@email.com', '2023-09-15'),
-(5, 'Ativo', 'Luiz Costa Lima', '(41) 7777-5555', 'Travessa das Pedras', '85647-896', 321, 'Curitiba', 'PR', 'M', '1977-04-03', '234.567.890-00', 'luiz.lima@email.com', '2023-09-15'),
-(6, 'Ativo', 'Marina Gonçalves Ribeiro', '(51) 3333-2222', 'Rua das Árvores', '46325-865', 987, 'Porto Alegre', 'RS', 'F', '1990-02-25', '345.678.901-00', 'marina.ribeiro@email.com', '2023-09-15');
+INSERT INTO `cliente` (`id`, `statusCliente`, `nome`, `telefone`, `endereco`, `bairro`, `cep`, `numero`, `cidade`, `UF`, `sexo`, `dataNascimento`, `CPF`, `email`, `dataCadastro`) VALUES
+(2, 'Ativo', 'Ana Silva Oliveira', '(12) 41241-2412', 'Rua das Flores', 'Centro', '87025-789', 1234, 'São Paulo', 'SP', 'F', '1980-05-11', '458.413.254-46', 'ana.silva@email.com', '2023-09-15'),
+(3, 'Ativo', 'Marcos Santos Pereira', '(21) 99999-8888', 'Avenida Principal', 'Centro', '46782-531', 456, 'Rio de Janeiro', 'RJ', 'M', '1982-08-20', '987.654.321-00', 'marcos.santos@email.com', '2023-09-15'),
+(4, 'Ativo', 'Camila Alves Souza', '(31) 5555-1234', 'Rua das Palmeiras', 'Centro', '75436-658', 789, 'Belo Horizonte', 'MG', 'F', '1985-11-15', '456.789.123-00', 'camila.alves@email.com', '2023-09-15'),
+(5, 'Ativo', 'Luiz Costa Lima', '(41) 7777-5555', 'Travessa das Pedras', 'Centro', '85647-896', 321, 'Curitiba', 'PR', 'M', '1977-04-03', '234.567.890-00', 'luiz.lima@email.com', '2023-09-15'),
+(6, 'Ativo', 'Marina Gonçalves Ribeiro', '(51) 3333-2222', 'Rua das Árvores', 'Centro', '46325-865', 987, 'Porto Alegre', 'RS', 'F', '1990-02-25', '345.678.901-00', 'marina.ribeiro@email.com', '2023-09-15');
 
 -- --------------------------------------------------------
 
@@ -164,11 +171,11 @@ CREATE TABLE `pet` (
 
 INSERT INTO `pet` (`id`, `statusPet`, `nome`, `especie`, `anoNascimento`, `sexo`, `cor`, `obs`, `cliente_id`, `raca_id`) VALUES
 (1, 'Ativo', 'Juan', 'Cachorro', 2019, 'Macho', 'Caramelo', '', 5, 2),
-(2, 'Ativo', 'Bella', 'Gato', 2018, 'Fêmea', 'Marrom e branco', '', 2, 30),
+(2, 'Ativo', 'Bella', 'Cachorro', 2018, 'Fêmea', 'Marrom', '', 2, 18),
 (3, 'Ativo', 'Max', 'Cachorro', 2016, 'Macho', 'Preto', '', 3, 10),
 (4, 'Ativo', 'Luna', 'Gato', 2019, 'Fêmea', 'Cinza e rajado', '', 4, 11),
 (5, 'Ativo', 'Rocky', 'Cachorro', 2015, 'Macho', 'Dourado', '', 6, 14),
-(6, 'Ativo', 'Sophie', 'Gato', 2020, 'Fêmea', 'Creme', '', 6, 5),
+(6, 'Ativo', 'Sophie', 'Cachorro', 2020, 'Fêmea', 'Creme', '', 6, 5),
 (7, 'Ativo', 'Mel', 'Gato', 2018, 'Fêmea', 'Caramelo', '', 5, 6);
 
 -- --------------------------------------------------------
@@ -214,7 +221,6 @@ CREATE TABLE `raca` (
   `id` int(11) NOT NULL,
   `statusRaca` varchar(15) NOT NULL,
   `nome` varchar(100) NOT NULL,
-  `descricao` varchar(100) DEFAULT NULL,
   `especie` varchar(15) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
@@ -222,39 +228,39 @@ CREATE TABLE `raca` (
 -- Despejando dados para a tabela `raca`
 --
 
-INSERT INTO `raca` (`id`, `statusRaca`, `nome`, `descricao`, `especie`) VALUES
-(1, 'Ativo', 'Labrador Retriever', ' ', 'Cachorro'),
-(2, 'Ativo', 'Pastor Alemão', ' ', 'Cachorro'),
-(3, 'Ativo', 'Golden Retriever', ' ', 'Cachorro'),
-(4, 'Ativo', 'Bulldog Inglês', ' ', 'Cachorro'),
-(5, 'Ativo', 'Beagle', ' ', 'Cachorro'),
-(6, 'Ativo', 'Poodle', ' ', 'Cachorro'),
-(7, 'Ativo', 'Boxer', ' ', 'Cachorro'),
-(8, 'Ativo', 'Dachshund', ' ', 'Cachorro'),
-(9, 'Ativo', 'Chihuahua', ' ', 'Cachorro'),
-(10, 'Ativo', 'Shih Tzu', ' ', 'Cachorro'),
-(11, 'Ativo', 'Pug', ' ', 'Cachorro'),
-(12, 'Ativo', 'Yorkshire Terrier', ' ', 'Cachorro'),
-(13, 'Ativo', 'Rottweiler', ' ', 'Cachorro'),
-(14, 'Ativo', 'Doberman Pinscher', ' ', 'Cachorro'),
-(15, 'Ativo', 'Border Collie', ' ', 'Cachorro'),
-(16, 'Ativo', 'Schnauzer Miniatura', ' ', 'Cachorro'),
-(17, 'Ativo', 'Shetland Sheepdog', ' ', 'Cachorro'),
-(18, 'Ativo', 'Akita', ' ', 'Cachorro'),
-(19, 'Ativo', 'Husky Siberiano', ' ', 'Cachorro'),
-(20, 'Ativo', 'Bulldog Francês', ' ', 'Cachorro'),
-(21, 'Ativo', 'Cocker Spaniel', ' ', 'Cachorro'),
-(22, 'Ativo', 'Mastiff', ' ', 'Cachorro'),
-(23, 'Ativo', 'Dálmata', ' ', 'Cachorro'),
-(24, 'Ativo', 'Shiba Inu', ' ', 'Cachorro'),
-(25, 'Ativo', 'Sem Raça', ' ', 'Cachorro'),
-(26, 'Ativo', 'Siamês', ' ', 'Gato'),
-(27, 'Ativo', 'Persa', ' ', 'Gato'),
-(28, 'Ativo', 'Bengal', ' ', 'Gato'),
-(29, 'Ativo', 'Sphynx', ' ', 'Gato'),
-(30, 'Ativo', 'Birmanês', ' ', 'Gato'),
-(31, 'Ativo', 'Abissínio', ' ', 'Gato'),
-(32, 'Ativo', 'Himalaio', ' ', 'Gato');
+INSERT INTO `raca` (`id`, `statusRaca`, `nome`, `especie`) VALUES
+(1, 'Ativo', 'Labrador Retriever', 'Cachorro'),
+(2, 'Ativo', 'Pastor Alemão', 'Cachorro'),
+(3, 'Ativo', 'Golden Retriever', 'Cachorro'),
+(4, 'Ativo', 'Bulldog Inglês', 'Cachorro'),
+(5, 'Ativo', 'Beagle', 'Cachorro'),
+(6, 'Ativo', 'Poodle', 'Cachorro'),
+(7, 'Ativo', 'Boxer', 'Cachorro'),
+(8, 'Ativo', 'Dachshund', 'Cachorro'),
+(9, 'Ativo', 'Chihuahua', 'Cachorro'),
+(10, 'Ativo', 'Shih Tzu', 'Cachorro'),
+(11, 'Ativo', 'Pug', 'Cachorro'),
+(12, 'Ativo', 'Yorkshire Terrier', 'Cachorro'),
+(13, 'Ativo', 'Rottweiler', 'Cachorro'),
+(14, 'Ativo', 'Doberman Pinscher', 'Cachorro'),
+(15, 'Ativo', 'Border Collie', 'Cachorro'),
+(16, 'Ativo', 'Schnauzer Miniatura', 'Cachorro'),
+(17, 'Ativo', 'Shetland Sheepdog', 'Cachorro'),
+(18, 'Ativo', 'Akita', 'Cachorro'),
+(19, 'Ativo', 'Husky Siberiano', 'Cachorro'),
+(20, 'Ativo', 'Bulldog Francês', 'Cachorro'),
+(21, 'Ativo', 'Cocker Spaniel', 'Cachorro'),
+(22, 'Ativo', 'Mastiff', 'Cachorro'),
+(23, 'Ativo', 'Dálmata', 'Cachorro'),
+(24, 'Ativo', 'Shiba Inu', 'Cachorro'),
+(25, 'Ativo', 'Sem Raça', 'Cachorro'),
+(26, 'Ativo', 'Siamês', 'Gato'),
+(27, 'Ativo', 'Persa', 'Gato'),
+(28, 'Ativo', 'Bengal', 'Gato'),
+(29, 'Ativo', 'Sphynx', 'Gato'),
+(30, 'Ativo', 'Birmanês', 'Gato'),
+(31, 'Ativo', 'Abissínio', 'Gato'),
+(32, 'Ativo', 'Himalaio', 'Gato');
 
 -- --------------------------------------------------------
 
@@ -281,7 +287,7 @@ CREATE TABLE `veterinario` (
 --
 
 INSERT INTO `veterinario` (`id`, `statusVet`, `nome`, `telefone`, `email`, `sexo`, `dataNascimento`, `dataAdmissao`, `senha`, `CRMV`, `dataDemissao`) VALUES
-(1, 'Inativo', 'Paulo', '(44) 99718-3800', 'abcde@gmail.com', 'M', '2023-11-08', '2023-09-15', '1234567', '12456-PR', '2023-12-04'),
+(1, 'Ativo', 'Paulo Henrique', '(11) 98761-3687', 'paulo.henrique@email.com', 'M', '2000-11-08', '2023-09-15', '1234567', '124562-PR', '0000-00-00'),
 (2, 'Ativo', 'João dos Santos', '(65) 99854-3301', 'joao.santos@email.com', 'M', '1990-07-10', '2023-09-15', 'joao123', '67890-RJ', '0000-00-00'),
 (3, 'Ativo', 'Ana Oliveira', ' (31) 5555-1234', 'ana.oliveira@email.com', 'F', '1982-09-25', '2023-09-15', 'ana123', '54321-MG', '0000-00-00'),
 (4, 'Ativo', 'Pedro Pereira', '(41) 7777-5555', 'pedro.pereira@email.com', 'M', '1978-12-05', '2023-09-15', 'pedro123', '98765-PR', NULL);
@@ -358,13 +364,13 @@ ALTER TABLE `admin`
 -- AUTO_INCREMENT de tabela `agenda`
 --
 ALTER TABLE `agenda`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
 
 --
 -- AUTO_INCREMENT de tabela `atendente`
 --
 ALTER TABLE `atendente`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de tabela `cliente`

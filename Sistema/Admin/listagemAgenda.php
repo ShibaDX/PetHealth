@@ -155,7 +155,7 @@ $data_atual = date("Y-m-d");
 
                         if (isset($dataFiltrada) && ($dataFiltrada != '')) {
                             $whereClause .= " AND a.data = '$dataFiltrada'";
-                        } else if (isset($cliente_id) && ($cliente_id != '')) {
+                        } if (isset($cliente_id) && ($cliente_id != '')) {
                             $whereClause .= " AND c.id = '$cliente_id'";
 
                             if (isset($pet_id) && ($pet_id != '')) {

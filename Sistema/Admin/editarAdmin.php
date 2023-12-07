@@ -90,7 +90,7 @@ $linha = mysqli_fetch_array($resultado);
                                 <div class="col-4">
                                     <div class="mb-1">
                                         <label for="formGroupExampleInput" class="form-label">CPF*</label>
-                                        <input name="cpf" type="text" class="form-control" maxlength="15" value="<?= isset($_POST['cpf']) ? htmlspecialchars($_POST['cpf']) : $linha['CPF'] ?>" oninput="applyCpfMask(this)" required><br>
+                                        <input name="cpf" type="text" class="form-control" maxlength="15" value="<?= isset($_POST['cpf']) ? htmlspecialchars($_POST['cpf']) : $linha['cpf'] ?>" oninput="applyCpfMask(this)" required><br>
                                     </div>
                                 </div>
                             </div>
