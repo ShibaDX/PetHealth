@@ -3,7 +3,9 @@
 // Obtenha o ID do veterinário logado a partir da sessão
 session_start();
 require_once("conexao.php");
-require_once("verificaAutenticacao.php"); ?>
+require_once("verificaAutenticacao.php"); 
+date_default_timezone_set('America/Sao_Paulo');
+$dataAtual = date("Y-m-d"); ?>
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -159,7 +161,7 @@ require_once("verificaAutenticacao.php"); ?>
                                     <div class="col">
                                         <div class="mb-1">
                                             <label for="formGroupExampleInput" class="form-label">OBS</label>
-                                            <textarea name="obs" type="text" class="form-control" value="<?= isset($_POST['obs']) ? htmlspecialchars($_POST['obs']) : '' ?>"></textarea> <br>
+                                            <textarea name="obs" type="text" class="form-control"><?= isset($_POST['obs']) ? htmlspecialchars($_POST['obs']) : '' ?></textarea> <br>
                                         </div>
                                     </div>
                                 </div>
@@ -168,15 +170,9 @@ require_once("verificaAutenticacao.php"); ?>
                             </div>
                     </div>
 
-
-
                     </form><br>
                     <!-- Requisitar a Conexão -->
                     <?php
-
-                    $id_veterinario_logado = $_SESSION['id']; // Certifique-se de ajustar isso conforme a estrutura real de sua sessão
-
-
                     if (isset($_POST['salvar'])) {
 
                         //2. Receber os dados para inserir no BD
@@ -185,17 +181,22 @@ require_once("verificaAutenticacao.php"); ?>
                         $obs = $_POST['obs'];
                         $pet_id = $_POST['pet_id'];
                         $procedimento_id = $_POST['procedimento_id'];
+                        $veterinario_id = $_POST['veterinario_id'];
 
-                        $consulta_disponibilidade = "SELECT * FROM agenda WHERE data = '$data' AND hora = '$hora' AND (pet_id = '$pet_id' OR veterinario_id = '$id_veterinario_logado') ";
+                        $consulta_disponibilidade = "SELECT * FROM agenda WHERE data = '$data' AND hora = '$hora' AND (pet_id = '$pet_id' OR veterinario_id = '$veterinario_id') ";
                         $resultado_disponibilidade = mysqli_query($conexao, $consulta_disponibilidade);
 
-
-                        if (mysqli_num_rows($resultado_disponibilidade) > 0) {
+                        // Verifique se a data do agendamento é posterior à data atual
+                        if (strtotime($data) < strtotime($dataAtual)) {
+                            // A data do agendamento é no passado, exiba uma mensagem de erro ou tome outras medidas necessárias
+                            $mensagem = "A data do agendamento deve ser no futuro.";
+                        }
+                        else if (mysqli_num_rows($resultado_disponibilidade) > 0) {
                             // Já existe uma consulta agendada nessas condições, exibir mensagem de erro
                             $mensagem = "Desculpe, o horário não está disponível. Por favor, escolha outro horário.";
                         } else {
                             //3. Preparar a SQL
-                            $sql = "insert into agenda (data, hora, obs, pet_id, procedimento_id, veterinario_id) values ('$data', '$hora', '$obs', '$pet_id', '$procedimento_id', '$id_veterinario_logado')";
+                            $sql = "insert into agenda (statusAgenda, data, hora, obs, pet_id, procedimento_id, veterinario_id) values ('Em andamento', '$data', '$hora', '$obs', '$pet_id', '$procedimento_id', '$veterinario_id')";
 
                             //4. Executar a SQL
                             mysqli_query($conexao, $sql);
@@ -203,22 +204,15 @@ require_once("verificaAutenticacao.php"); ?>
                             //5. Mostrar mensagem ao usuário
                             $mensagem = "Inserido com Sucesso";
                         }
-                    }
-                    ?>
-                    <?php if (isset($mensagem)) {
-                        if (mysqli_num_rows($resultado_disponibilidade) > 0) { ?>
-                            <div class="alert alert-danger mb-2" role="alert">
-                                <i class="fa-solid fa-x" style="color: #b70b0b;"></i>
-                                <?= $mensagem ?>
-                            </div> <?php
-                                } else {
-                                    ?>
-                            <div class="alert alert-success mb-2" role="alert">
-                                <i class="fa-solid fa-check" style="color: #12972c;"></i>
+
+                        // Exibir a mensagem
+                        if ($mensagem) { ?>
+                            <div class="alert <?= strpos($mensagem, 'Sucesso') !== false ? 'alert-success' : 'alert-danger' ?> mb-2" role="alert">
+                                <i class="fa-solid <?= strpos($mensagem, 'Sucesso') !== false ? 'fa-check' : 'fa-x' ?>" style="color: <?= strpos($mensagem, 'Sucesso') !== false ? '#12972c' : '#b70b0b' ?>;"></i>
                                 <?= $mensagem ?>
                             </div>
                     <?php }
-                            }
+                    }
                             require_once("footer.php");
                     ?>
 

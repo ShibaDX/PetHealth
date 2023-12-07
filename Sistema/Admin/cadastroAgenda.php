@@ -191,7 +191,6 @@ $dataAtual = date("Y-m-d"); ?>
 
 
                     </form><br>
-                    <!-- Requisitar a Conexão -->
                     <?php
                     if (isset($_POST['salvar'])) {
 
