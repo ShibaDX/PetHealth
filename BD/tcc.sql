@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 07/12/2023 às 04:54
+-- Tempo de geração: 07/12/2023 às 13:14
 -- Versão do servidor: 10.4.28-MariaDB
 -- Versão do PHP: 8.2.4
 
@@ -260,7 +260,15 @@ INSERT INTO `raca` (`id`, `statusRaca`, `nome`, `especie`) VALUES
 (29, 'Ativo', 'Sphynx', 'Gato'),
 (30, 'Ativo', 'Birmanês', 'Gato'),
 (31, 'Ativo', 'Abissínio', 'Gato'),
-(32, 'Ativo', 'Himalaio', 'Gato');
+(32, 'Ativo', 'Himalaio', 'Gato'),
+(34, 'Ativo', 'Calopsita', 'Ave'),
+(35, 'Ativo', 'Periquito Australiano', 'Ave'),
+(36, 'Ativo', 'Canário Belga', 'Ave'),
+(37, 'Ativo', 'Agapornis Fischeri', 'Ave'),
+(38, 'Ativo', 'Hamster', 'Roedor'),
+(39, 'Ativo', 'Chinchila', 'Roedor'),
+(40, 'Ativo', 'Porquinho-da-índia', 'Roedor'),
+(41, 'Ativo', 'Porco-espinho Africano Anão', 'Roedor');
 
 -- --------------------------------------------------------
 
@@ -394,7 +402,7 @@ ALTER TABLE `procedimento`
 -- AUTO_INCREMENT de tabela `raca`
 --
 ALTER TABLE `raca`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
 
 --
 -- AUTO_INCREMENT de tabela `veterinario`
