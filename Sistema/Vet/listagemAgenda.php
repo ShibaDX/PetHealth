@@ -170,6 +170,8 @@ $data_atual = date("Y-m-d");
                             if (isset($pet_id) && ($pet_id != '')) {
                                 $whereClause .= " AND p.id = '$pet_id'";
                             }
+                        } else {
+                            $whereClause .= "AND a.veterinario_id = '$veterinarioId'";
                         }
                         if (isset($statusAgenda) && ($statusAgenda != '')) {
                             $whereClause .= " AND a.statusAgenda = '$statusAgenda'";

@@ -1,9 +1,41 @@
-<!-- Requisita a verificação de autenticação -->
 <?php
 require_once("verificaAutenticacao.php");
 require_once("conexao.php");
 date_default_timezone_set('America/Sao_Paulo');
-$dataAtual = date("Y-m-d"); ?>
+$dataAtual = date("Y-m-d");
+
+if (isset($_POST['salvar'])) {
+
+    //2. Receber os dados para inserir no BD
+    $data = $_POST['data'];
+    $hora = $_POST['hora'];
+    $obs = $_POST['obs'];
+    $pet_id = $_POST['pet_id'];
+    $procedimento_id = $_POST['procedimento_id'];
+    $veterinario_id = $_POST['veterinario_id'];
+
+    $consulta_disponibilidade = "SELECT * FROM agenda WHERE data = '$data' AND hora = '$hora' AND (pet_id = '$pet_id' OR veterinario_id = '$veterinario_id') ";
+    $resultado_disponibilidade = mysqli_query($conexao, $consulta_disponibilidade);
+
+    // Verifique se a data do agendamento é posterior à data atual
+    if (strtotime($data) < strtotime($dataAtual)) {
+        // A data do agendamento é no passado, exiba uma mensagem de erro ou tome outras medidas necessárias
+        $mensagem = "A data do agendamento deve ser no futuro.";
+    } else if (mysqli_num_rows($resultado_disponibilidade) > 0) {
+        // Já existe uma consulta agendada nessas condições, exibir mensagem de erro
+        $mensagem = "Desculpe, o horário não está disponível. Por favor, escolha outro horário.";
+    } else {
+        //3. Preparar a SQL
+        $sql = "insert into agenda (statusAgenda, data, hora, obs, pet_id, procedimento_id, veterinario_id) values ('Em andamento', '$data', '$hora', '$obs', '$pet_id', '$procedimento_id', '$veterinario_id')";
+
+        //4. Executar a SQL
+        mysqli_query($conexao, $sql);
+
+        //5. Redirecionamento e mensagem ao usuário
+        header("Location: listagemAgenda.php?mensagem=Inserido com Sucesso.");
+        exit();
+    }
+} ?>
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -191,47 +223,16 @@ $dataAtual = date("Y-m-d"); ?>
 
 
                     </form><br>
-                    <?php
-                    if (isset($_POST['salvar'])) {
 
-                        //2. Receber os dados para inserir no BD
-                        $data = $_POST['data'];
-                        $hora = $_POST['hora'];
-                        $obs = $_POST['obs'];
-                        $pet_id = $_POST['pet_id'];
-                        $procedimento_id = $_POST['procedimento_id'];
-                        $veterinario_id = $_POST['veterinario_id'];
 
-                        $consulta_disponibilidade = "SELECT * FROM agenda WHERE data = '$data' AND hora = '$hora' AND (pet_id = '$pet_id' OR veterinario_id = '$veterinario_id') ";
-                        $resultado_disponibilidade = mysqli_query($conexao, $consulta_disponibilidade);
-
-                        // Verifique se a data do agendamento é posterior à data atual
-                        if (strtotime($data) < strtotime($dataAtual)) {
-                            // A data do agendamento é no passado, exiba uma mensagem de erro ou tome outras medidas necessárias
-                            $mensagem = "A data do agendamento deve ser no futuro.";
-                        }
-                        else if (mysqli_num_rows($resultado_disponibilidade) > 0) {
-                            // Já existe uma consulta agendada nessas condições, exibir mensagem de erro
-                            $mensagem = "Desculpe, o horário não está disponível. Por favor, escolha outro horário.";
-                        } else {
-                            //3. Preparar a SQL
-                            $sql = "insert into agenda (statusAgenda, data, hora, obs, pet_id, procedimento_id, veterinario_id) values ('Em andamento', '$data', '$hora', '$obs', '$pet_id', '$procedimento_id', '$veterinario_id')";
-
-                            //4. Executar a SQL
-                            mysqli_query($conexao, $sql);
-
-                            //5. Mostrar mensagem ao usuário
-                            $mensagem = "Inserido com Sucesso";
-                        }
-
-                        // Exibir a mensagem
-                        if ($mensagem) { ?>
-                            <div class="alert <?= strpos($mensagem, 'Sucesso') !== false ? 'alert-success' : 'alert-danger' ?> mb-2" role="alert">
-                                <i class="fa-solid <?= strpos($mensagem, 'Sucesso') !== false ? 'fa-check' : 'fa-x' ?>" style="color: <?= strpos($mensagem, 'Sucesso') !== false ? '#12972c' : '#b70b0b' ?>;"></i>
-                                <?= $mensagem ?>
-                            </div>
+                    // Exibir a mensagem
+                    <?php if (isset($mensagem)) { ?>
+                        <div class="alert <?= strpos($mensagem, 'Sucesso') !== false ? 'alert-success' : 'alert-danger' ?> mb-2" role="alert">
+                            <i class="fa-solid <?= strpos($mensagem, 'Sucesso') !== false ? 'fa-check' : 'fa-x' ?>" style="color: <?= strpos($mensagem, 'Sucesso') !== false ? '#12972c' : '#b70b0b' ?>;"></i>
+                            <?= $mensagem ?>
+                        </div>
                     <?php }
-                    }
+
 
 
                     require_once("footer.php");
