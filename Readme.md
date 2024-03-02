@@ -1,1 +1,1 @@
-Sistema em desenvolvimento para o TC do curso de Informática do IFPR
+Sistema desenvolvido para o TC do curso de Informática do IFPR
